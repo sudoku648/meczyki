@@ -1,0 +1,34 @@
+users_front:
+    controller: App\Controller\User\UserFrontController::front
+    path: /uzytkownicy
+    methods: [ GET ]
+
+user_single:
+    controller: App\Controller\User\UserSingleController
+    path: /uzytkownik/{user_id<\d+>}
+    methods: [ GET ]
+
+user_create:
+    controller: App\Controller\User\UserCreateController
+    path: /uzytkownik/nowy
+    methods: [ GET, POST ]
+
+user_activate:
+    controller: App\Controller\User\UserActivationController::activate
+    path: /uzytkownik/{user_id<\d+>}/aktywuj
+    methods: [ POST ]
+
+user_deactivate:
+    controller: App\Controller\User\UserActivationController::deactivate
+    path: /uzytkownik/{user_id<\d+>}/dezaktywuj
+    methods: [ POST ]
+
+user_edit:
+    controller: App\Controller\User\UserEditController
+    path: /uzytkownik/{user_id<\d+>}/edytuj
+    methods: [ GET, POST ]
+
+user_delete:
+    controller: App\Controller\User\UserDeleteController::delete
+    path: /uzytkownik/{user_id<\d+>}/usun
+    methods: [ POST ]

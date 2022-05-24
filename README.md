@@ -21,11 +21,11 @@ $ yarn build
 
 ## Configuration
 
-### Admin user
+### Super admin user
 
 ```bash
 # Create new user
-$ php bin/console mg:user:create username email@exmple.com password
-# Grant administrator privileges
-$ php bin/console mg:user:admin username
+$ php bin/console app:user:create username password
+# Grant super administrator privileges
+$ php bin/console app:user:sa username
 ```

@@ -6,7 +6,14 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import './styles/app.css';
+import 'bootstrap';
+import '@fortawesome/fontawesome-free/css/all.css';
+import './styles/style.css';
+import './styles/my.css';
+import './styles/bootstrap-dataTables.css';
 
-// start the Stimulus application
-import './bootstrap';
+import 'datatables';
+import './js/layout.js';
+import './js/confirmModal.js';
+import './js/user.js';
+import './js/bootstrap-dataTables.js';

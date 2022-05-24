@@ -1,0 +1,14 @@
+{% extends 'main.html.twig' %}
+
+{% block title %}Edytuj użytkownika{% endblock %}
+
+{% block main_content %}
+    <fieldset class="border p-2 mb-3">
+        <legend class="w-auto">Nazwa użytkownika</legend>
+        {{ include('user/_form_basic.html.twig', {'form': form_basic}) }}
+    </fieldset>
+    <fieldset class="border p-2">
+        <legend class="w-auto">Hasło</legend>
+        {{ include('user/_form_password.html.twig', {'form': form_password}) }}
+    </fieldset>
+{% endblock %}

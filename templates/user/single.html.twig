@@ -1,0 +1,30 @@
+{% extends 'main.html.twig' %}
+
+{% block title %}Użytkownik{% endblock %}
+
+{% block main_content %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Nazwa użytkownika</th>
+                <td>{{ user.username }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\UserVoter::LIST')) %}
+        <a href="{{ path('users_front') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
+    {% endif %}
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\UserVoter::EDIT'), user) %}
+        {{ include('buttons/edit_lg.html.twig', {path: 'user_edit', parameters: {'user_id': user.id}}) }}
+    {% endif %}
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\UserVoter::IMPERSONATE'), user) %}
+        {{ include('user/_buttons/impersonate_lg.html.twig', {path: 'front', parameters: {'_switch_user': user.userIdentifier}}) }}
+    {% endif %}
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\UserVoter::DELETE'), user) %}
+        {{ include('user/_delete_form.html.twig', {btn_size: 'lg'}) }}
+    {% endif %}
+{% endblock %}

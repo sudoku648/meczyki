@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <a class="navbar-brand ps-3" href="{{ path('front') }}">Meczyki</a>
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0 unwrappable" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            {{ knp_menu_render('top', {'template': 'top_menu.html.twig'}) }}
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenav_root">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            {{ knp_menu_render('main', {'template': 'main_menu.html.twig'}) }}
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Zalogowany jako:</div>
+                        {{ app.user.username }}
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        {% set messages = app.flashes(['error', 'warning', 'info', 'success']) %}
+                        {% for label, messages in messages %}
+                            {% if messages is not empty %}
+                                {% for message in messages %}
+                                    {% if label == 'error' %}
+                                        {%- set label = 'danger' %}
+                                    {% endif %}
+                                    <div class="row">
+                                        {{ include('_flash_alert.html.twig', {'message': message, 'label': label}) }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+
+                        <h1 class="my-4">{{ block('title') }}</h1>
+
+                        {% block breadcrumbs %}
+                            {{ wo_render_breadcrumbs({
+                                listClass: 'breadcrumb mb-4',
+                                itemClass: 'breadcrumb-item',
+                                listId: 'breadcrumbs'
+                            }) }}
+                        {% endblock %}
+
+                        {% block main_content %}
+                        {% endblock %}
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Sudoku {{'now'|date('Y')}}</div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </body>
+{% endblock %}

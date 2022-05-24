@@ -1,0 +1,140 @@
+td.buttons {
+    text-align: right;
+    width: 1%;
+    white-space: nowrap;
+}
+label.required:after {
+    content: '*';
+    color: #fc2700;
+}
+span.required {
+    color: #fc2700;
+}
+.icon-add:before,
+.icon-edit:before,
+.icon-show:before,
+.icon-delete:before,
+.icon-cancel:before,
+.icon-save:before,
+.icon-return:before,
+.icon-download:before,
+.icon-info:before,
+.icon-success:before,
+.icon-warning:before,
+.icon-danger:before,
+.icon-user:before,
+.icon-accept:before,
+.icon-reject:before,
+.icon-undo:before,
+.icon-clock:before {
+    font-family: "Font Awesome 5 Free";
+    display: inline-block;
+    padding-right: 3px;
+    font-weight: 900;
+}
+.icon-add:before {
+    content: "\f055";
+}
+.icon-edit:before {
+    content: "\f044";
+}
+.icon-show:before {
+    content: "\f06e";
+}
+.icon-delete:before {
+    content: "\f2ed";
+}
+.icon-cancel:before {
+    content: "\f410";
+}
+.icon-save:before {
+    content: "\f0c7";
+}
+.icon-return:before {
+    content: "\f3e5";
+}
+.icon-download:before {
+    content: "\f56d";
+}
+.icon-info:before {
+    content: "\f05a";
+}
+.icon-success:before {
+    content: "\f058";
+}
+.icon-warning:before {
+    content: "\f071";
+}
+.icon-danger:before {
+    content: "\f06a";
+}
+.icon-user:before {
+    content: "\f007";
+}
+.icon-accept:before {
+    content: "\f46c";
+}
+.icon-reject:before {
+    content: "\f05e";
+}
+.icon-undo:before {
+    content: "\f0e2";
+}
+.icon-clock:before {
+    content: "\f017";
+}
+.sb-sidenav .sb-sidenav-menu .nav .nav-link {
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+}
+fieldset > legend {
+    float: none;
+    padding: inherit;
+}
+.buttons {
+    text-align: right;
+    width: 1%;
+    white-space: nowrap;
+}
+.btn-wrapper {
+    display: inline-block;
+}
+.btn-wrapper .btn[disabled] {
+    pointer-events: none;
+}
+.btn-wrapper.disabled {
+    cursor: not-allowed;
+}
+.dataTable {
+    max-width: 100%;
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: separate;
+}
+.dataTable > tbody > tr > td,
+.dataTable > tbody > tr > th,
+.dataTable > tfoot > tr > td,
+.dataTable > tfoot > tr > th,
+.dataTable > thead > tr > td,
+.dataTable > thead > tr > th {
+    vertical-align: middle;
+    padding: 8px 10px;
+}
+.dataTable > thead > tr > th {
+    vertical-align: bottom;
+    text-align: center;
+    border-bottom: 1px solid #d9d9d9;
+}
+.dataTable > tfoot > tr > th {
+    vertical-align: bottom;
+    text-align: left;
+    border-top: 1px solid #d9d9d9;
+}
+.dataTable th {
+    vertical-align: bottom;
+    text-align: left;
+}
+.dataTable th a {
+    text-decoration: none;
+    color: inherit;
+}

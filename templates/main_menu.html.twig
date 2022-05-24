@@ -1,0 +1,71 @@
+{% extends 'knp_menu_base.html.twig' %}
+
+{% macro attributes(attributes) %}
+{% for name, value in attributes %}
+    {%- if value is not none and value is not same as(false) -%}
+        {{- ' %s="%s"'|format(name, value is same as(true) ? name|e : value|e)|raw -}}
+    {%- endif -%}
+{%- endfor -%}
+{% endmacro %}
+
+{% block compressed_root %}
+{% apply spaceless %}
+{{ block('root') }}
+{% endapply %}
+{% endblock %}
+
+{% block root %}
+{% set listAttributes = item.childrenAttributes %}
+{{ block('list') -}}
+{% endblock %}
+
+{% block list %}
+{% if item.parent is null or not item.hasChildren %}
+    {{ block('children') }}
+{% else %}
+    <div class="collapse" id="collapse_{{ item.name }}" data-bs-parent="#sidenav_{{ item.parent.name }}">
+        <nav class="sb-sidenav-menu-nested nav">
+            {{ block('children') }}
+        </nav>
+    </div>
+{% endif %}
+{% endblock %}
+
+{% block children %}
+{% set currentItem = item %}
+{% for item in currentItem.children %}
+    {{ block('item') }}
+{% endfor %}
+{% set item = currentItem %}
+{% endblock %}
+
+{% block item %}
+{% if item.displayed %}
+    {%- if item.uri is not empty or item.hasChildren %}
+        {{ block('linkElement') }}
+    {%- endif %}
+    {{ block('list') }}
+{% endif %}
+{% endblock %}
+
+{% block linkElement %}
+{% if item.hasChildren %}
+<a class="nav-link collapsed" href="{{ item.uri }}" data-bs-toggle="collapse" data-bs-target="#collapse_{{ item.name }}" aria-expanded="false" aria-controls="collapse_{{ item.name }}">
+{% else %}
+<a class="nav-link" href="{{ item.uri }}">
+{% endif %}
+{% if item.extra('icon') %}
+<div class="sb-nav-link-icon">
+    <i class="{{ item.extra('icon') }}"></i>
+</div>
+{% endif %}
+{{ block('label') }}
+{% if item.hasChildren %}
+<div class="sb-sidenav-collapse-arrow">
+    <i class="fas fa-angle-down"></i>
+</div>
+{% endif %}
+</a>
+{% endblock %}
+
+{% block label %}{% if options.allow_safe_labels and item.getExtra('safe_label', false) %}{{ item.label|raw }}{% else %}{{ item.label }}{% endif %}{% endblock %}
