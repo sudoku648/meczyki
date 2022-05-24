@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Security\Voter\FrontVoter;
+use App\Security\Voter\PersonVoter;
 use App\Security\Voter\UserVoter;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
@@ -43,6 +44,15 @@ final class MenuBuilder
                 [
                     'route' => 'users_front',
                     'label' => 'Użytkownicy',
+                ]
+            );
+        }
+        if ($this->security->isGranted(PersonVoter::LIST)) {
+            $menu->addChild(
+                'people',
+                [
+                    'route' => 'people_front',
+                    'label' => 'Osoby',
                 ]
             );
         }

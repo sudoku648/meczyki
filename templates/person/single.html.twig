@@ -1,0 +1,40 @@
+{% extends 'main.html.twig' %}
+
+{% block title %}Osoba{% endblock %}
+
+{% block main_content %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Imię</th>
+                <td>{{ person.firstName }}</td>
+            </tr>
+            <tr>
+                <th>Nazwisko</th>
+                <td>{{ person.lastName }}</td>
+            </tr>
+            <tr>
+                <th>Telefon</th>
+                <td>
+                    {% if person.mobilePhone %}
+                        <a href="tel:{{ person.mobilePhone }}">{{ person.mobilePhone }}</a>
+                    {% else %}
+                        <em class="text-black-50">brak</em>
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\PersonVoter::LIST')) %}
+        <a href="{{ path('people_front') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
+    {% endif %}
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\PersonVoter::EDIT'), person) %}
+        {{ include('buttons/edit_lg.html.twig', {path: 'person_edit', parameters: {'person_id': person.id}}) }}
+    {% endif %}
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\PersonVoter::DELETE'), person) %}
+        {{ include('person/_delete_form.html.twig', {btn_size: 'lg'}) }}
+    {% endif %}
+{% endblock %}

@@ -33,6 +33,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $isActive = true;
 
+    #[ORM\OneToOne(targetEntity: Person::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Person $person;
+
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[ORM\Column(type: Types::INTEGER)]
@@ -85,6 +89,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function isPerson(): bool
+    {
+        return !\is_null($this->person);
+    }
+
+    public function getPerson(): ?Person
+    {
+        return $this->person;
+    }
+
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -130,6 +144,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function activate(): void
     {
         $this->isActive = true;
+    }
+
+    public function bindWithPerson(Person $person): void
+    {
+        $this->person = $person;
+    }
+
+    public function unbindPerson(): void
+    {
+        $this->person = null;
     }
 
     public function getSalt()

@@ -1,0 +1,7 @@
+{% extends 'main.html.twig' %}
+
+{% block title %}Dodaj obserwatora{% endblock %}
+
+{% block main_content %}
+    {{ include('person/referee_observer/_form.html.twig', {'button_save_label': 'Zapisz', 'button_save_and_continue_label': 'Zapisz i dodaj nowego'}) }}
+{% endblock %}

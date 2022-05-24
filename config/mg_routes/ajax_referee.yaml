@@ -1,0 +1,5 @@
+ajax_fetch_referees:
+    controller: App\Controller\Person\Referee\RefereeAjaxController::fetchReferees
+    defaults: { _format: json }
+    path: /ajax/fetch_referees
+    methods: [ POST ]

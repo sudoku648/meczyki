@@ -1,0 +1,9 @@
+referees_front:
+    controller: App\Controller\Person\Referee\RefereeFrontController::front
+    path: /osoby/sedziowie
+    methods: [ GET ]
+
+referee_create:
+    controller: App\Controller\Person\Referee\RefereeCreateController
+    path: /osoby/sedzia/nowy
+    methods: [ GET, POST ]

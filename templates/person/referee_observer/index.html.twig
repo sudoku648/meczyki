@@ -1,0 +1,25 @@
+{% extends 'main.html.twig' %}
+
+{% block title %}Obserwatorzy{% endblock %}
+
+{% block main_content %}
+    {{ include('person/_types_buttons.html.twig') }}
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\RefereeObserverVoter::CREATE')) %}
+        {{ include('buttons/add.html.twig', {path: 'referee_observer_create', parameters: {}, text: 'Dodaj nowego'}) }}
+    {% endif %}
+
+    <div class="mb-3">
+        <table class="dataTable table table-hover table-responsive" id="referee-observers-list">
+            <thead>
+                <tr>
+                    <th>L.p.</th>
+                    <th class="s">Nazwisko i imię</th>
+                    <th>Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

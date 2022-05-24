@@ -1,0 +1,5 @@
+ajax_fetch_people:
+    controller: App\Controller\Person\PersonAjaxController::fetchPersons
+    defaults: { _format: json }
+    path: /ajax/fetch_people
+    methods: [ POST ]

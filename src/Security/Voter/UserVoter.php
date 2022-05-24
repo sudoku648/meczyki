@@ -10,14 +10,15 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class UserVoter extends Voter
 {
-    const LIST        = 'user_list';
-    const CREATE      = 'user_create';
-    const SHOW        = 'user_show';
-    const EDIT        = 'user_edit';
-    const ACTIVATE    = 'user_activate';
-    const DEACTIVATE  = 'user_deactivate';
-    const DELETE      = 'user_delete';
-    const IMPERSONATE = 'user_impersonate';
+    const LIST             = 'user_list';
+    const CREATE           = 'user_create';
+    const SHOW             = 'user_show';
+    const EDIT             = 'user_edit';
+    const ACTIVATE         = 'user_activate';
+    const DEACTIVATE       = 'user_deactivate';
+    const DELETE           = 'user_delete';
+    const IMPERSONATE      = 'user_impersonate';
+    const BIND_WITH_PERSON = 'user_bind_with_person';
 
     protected function supports(string $attribute, $subject): bool
     {
@@ -32,6 +33,7 @@ class UserVoter extends Voter
                 self::DEACTIVATE,
                 self::DELETE,
                 self::IMPERSONATE,
+                self::BIND_WITH_PERSON,
             ],
             true
         );
@@ -48,14 +50,15 @@ class UserVoter extends Voter
         if (!$user->isSuperAdmin()) return false;
 
         switch ($attribute) {
-            case self::LIST:        return $this->canList();
-            case self::CREATE:      return $this->canCreate();
-            case self::SHOW:        return $this->canSee();
-            case self::EDIT:        return $this->canEdit();
-            case self::ACTIVATE:    return $this->canActivate($subject);
-            case self::DEACTIVATE:  return $this->canDeactivate($subject, $user);
-            case self::DELETE:      return $this->canDelete($subject);
-            case self::IMPERSONATE: return $this->canImpersonate($subject, $user);
+            case self::LIST:             return $this->canList();
+            case self::CREATE:           return $this->canCreate();
+            case self::SHOW:             return $this->canSee();
+            case self::EDIT:             return $this->canEdit();
+            case self::ACTIVATE:         return $this->canActivate($subject);
+            case self::DEACTIVATE:       return $this->canDeactivate($subject, $user);
+            case self::DELETE:           return $this->canDelete($subject);
+            case self::IMPERSONATE:      return $this->canImpersonate($subject, $user);
+            case self::BIND_WITH_PERSON: return $this->canBindWithPerson();
             default: throw new \LogicException();
         }
     }
@@ -82,21 +85,26 @@ class UserVoter extends Voter
 
     private function canActivate(User $userEntity): bool
     {
-        return !$userEntity->isActive();
+        return !$userEntity->isActive;
     }
 
     private function canDeactivate(User $userEntity, User $user): bool
     {
-        return $userEntity->isActive() && $userEntity !== $user;
+        return $userEntity->isActive && $userEntity !== $user;
     }
 
     private function canDelete(User $userEntity): bool
     {
-        return !$userEntity->isActive();
+        return !$userEntity->isActive;
     }
 
     private function canImpersonate(User $userEntity, User $user): bool
     {
-        return $userEntity->isActive() && $userEntity !== $user;
+        return $userEntity->isActive && $userEntity !== $user;
+    }
+
+    private function canBindWithPerson(): bool
+    {
+        return true;
     }
 }

@@ -1,0 +1,9 @@
+delegates_front:
+    controller: App\Controller\Person\Delegate\DelegateFrontController::front
+    path: /osoby/delegaci
+    methods: [ GET ]
+
+delegate_create:
+    controller: App\Controller\Person\Delegate\DelegateCreateController
+    path: /osoby/delegat/nowy
+    methods: [ GET, POST ]

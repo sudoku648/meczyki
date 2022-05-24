@@ -1,0 +1,9 @@
+referee_observers_front:
+    controller: App\Controller\Person\RefereeObserver\RefereeObserverFrontController::front
+    path: /osoby/obserwatorzy
+    methods: [ GET ]
+
+referee_observer_create:
+    controller: App\Controller\Person\RefereeObserver\RefereeObserverCreateController
+    path: /osoby/obserwator/nowy
+    methods: [ GET, POST ]

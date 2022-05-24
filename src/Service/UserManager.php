@@ -4,10 +4,16 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Dto\UserBindWithPersonDto;
 use App\Dto\UserDto;
+use App\Entity\Person;
 use App\Entity\User;
 use App\Event\User\UserActivateEvent;
+use App\Event\User\UserBindWithPersonEvent;
 use App\Event\User\UserDeletedEvent;
+use App\Event\User\UserNotBindWithPersonEvent;
+use App\Event\User\UserNotUnbindWithPersonEvent;
+use App\Event\User\UserUnbindWithPersonEvent;
 use App\Factory\UserFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -101,9 +107,42 @@ class UserManager
         $this->entityManager->flush();
     }
 
+    public function bindWithPerson(User $user, Person $person): void
+    {
+        if ($user->getPerson() === $person) {
+            $this->dispatcher->dispatch(new UserNotBindWithPersonEvent($user));
+            return;
+        }
+
+        $user->bindWithPerson($person);
+
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new UserBindWithPersonEvent($user));
+    }
+
+    public function unbindPerson(User $user): void
+    {
+        if (!$user->getPerson()) {
+            $this->dispatcher->dispatch(new UserNotUnbindWithPersonEvent($user));
+            return;
+        }
+
+        $user->unbindPerson();
+
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new UserUnbindWithPersonEvent($user));
+    }
+
     public function createDto(User $user): UserDto
     {
         return $this->factory->createDto($user);
+    }
+
+    public function createUserBindWithPersonDto(User $user): UserBindWithPersonDto
+    {
+        return $this->factory->createUserBindWithPersonDto($user);
     }
 
     public function logout(): void

@@ -1,0 +1,24 @@
+people_front:
+    controller: App\Controller\Person\PersonFrontController::front
+    path: /osoby
+    methods: [ GET ]
+
+person_single:
+    controller: App\Controller\Person\PersonSingleController
+    path: /osoba/{person_id<\d+>}
+    methods: [ GET ]
+
+person_create:
+    controller: App\Controller\Person\PersonCreateController
+    path: /osoba/nowa
+    methods: [ GET, POST ]
+
+person_edit:
+    controller: App\Controller\Person\PersonEditController
+    path: /osoba/{person_id<\d+>}/edytuj
+    methods: [ GET, POST ]
+
+person_delete:
+    controller: App\Controller\Person\PersonDeleteController::delete
+    path: /osoba/{person_id<\d+>}/usun
+    methods: [ POST ]
