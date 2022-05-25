@@ -1,0 +1,24 @@
+clubs_front:
+    controller: App\Controller\Club\ClubFrontController::front
+    path: /kluby
+    methods: [ GET ]
+
+club_single:
+    controller: App\Controller\Club\ClubSingleController
+    path: /klub/{club_id<\d+>}
+    methods: [ GET ]
+
+club_create:
+    controller: App\Controller\Club\ClubCreateController
+    path: /klub/nowy
+    methods: [ GET, POST ]
+
+club_edit:
+    controller: App\Controller\Club\ClubEditController
+    path: /klub/{club_id<\d+>}/edytuj
+    methods: [ GET, POST ]
+
+club_delete:
+    controller: App\Controller\Club\ClubDeleteController::delete
+    path: /klub/{club_id<\d+>}/usun
+    methods: [ POST ]

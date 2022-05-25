@@ -15,6 +15,7 @@ import './styles/bootstrap-dataTables.css';
 import 'datatables';
 import './js/layout.js';
 import './js/confirmModal.js';
+import './js/club.js';
 import './js/delegate.js';
 import './js/person.js';
 import './js/referee.js';

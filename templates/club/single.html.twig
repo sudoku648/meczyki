@@ -1,0 +1,26 @@
+{% extends 'main.html.twig' %}
+
+{% block title %}{{ club.name }}{% endblock %}
+
+{% block main_content %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Nazwa</th>
+                <td>{{ club.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\ClubVoter::LIST')) %}
+        <a href="{{ path('clubs_front') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
+    {% endif %}
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\ClubVoter::EDIT'), club) %}
+        {{ include('buttons/edit_lg.html.twig', {path: 'club_edit', parameters: {'club_id': club.id}}) }}
+    {% endif %}
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\ClubVoter::DELETE'), club) %}
+        {{ include('club/_delete_form.html.twig', {btn_size: 'lg'}) }}
+    {% endif %}
+{% endblock %}
