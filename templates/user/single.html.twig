@@ -32,8 +32,4 @@
     {% if is_granted(constant('\\App\\Security\\Voter\\UserVoter::IMPERSONATE'), user) %}
         {{ include('user/_buttons/impersonate_lg.html.twig', {path: 'front', parameters: {'_switch_user': user.userIdentifier}}) }}
     {% endif %}
-
-    {% if is_granted(constant('\\App\\Security\\Voter\\UserVoter::DELETE'), user) %}
-        {{ include('user/_delete_form.html.twig', {btn_size: 'lg'}) }}
-    {% endif %}
 {% endblock %}
