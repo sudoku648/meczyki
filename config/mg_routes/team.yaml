@@ -1,0 +1,24 @@
+teams_front:
+    controller: App\Controller\Team\TeamFrontController::front
+    path: /kluby/druzyny
+    methods: [ GET ]
+
+team_single:
+    controller: App\Controller\Team\TeamSingleController
+    path: /klub/{club_id<\d+>}/druzyna/{team_id<\d+>}
+    methods: [ GET ]
+
+team_create:
+    controller: App\Controller\Team\TeamCreateController
+    path: /klub/{club_id<\d+>}/druzyna/nowa
+    methods: [ GET, POST ]
+
+team_edit:
+    controller: App\Controller\Team\TeamEditController
+    path: /klub/{club_id<\d+>}/druzyna/{team_id<\d+>}/edytuj
+    methods: [ GET, POST ]
+
+team_delete:
+    controller: App\Controller\Team\TeamDeleteController::delete
+    path: /klub/{club_id<\d+>}/druzyna/{team_id<\d+>}/usun
+    methods: [ POST ]

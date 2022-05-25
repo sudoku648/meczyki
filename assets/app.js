@@ -21,5 +21,6 @@ import './js/deleteImage.js';
 import './js/person.js';
 import './js/referee.js';
 import './js/refereeObserver.js';
+import './js/team.js';
 import './js/user.js';
 import './js/bootstrap-dataTables.js';

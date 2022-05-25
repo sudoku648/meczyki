@@ -17,6 +17,19 @@
                     {% endif %}
                 </td>
             </tr>
+            <tr>
+                <th>Drużyny</th>
+                <td>
+                    <ul>
+                        {% for team in club.teams %}
+                            <li><a href="{{ path('team_single', {'club_id': club.id, 'team_id': team.id}) }}">{{ team.fullName }}</a></li>
+                        {% endfor %}
+                    </ul>
+                    {% if is_granted(constant('\\App\\Security\\Voter\\TeamVoter::CREATE')) %}
+                        {{ include('buttons/add.html.twig', {path: 'team_create', parameters: {'club_id': club.id}, text: 'Dodaj nową'}) }}
+                    {% endif %}
+                </td>
+            </tr>
         </tbody>
     </table>
 

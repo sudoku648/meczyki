@@ -1,0 +1,30 @@
+{% extends 'main.html.twig' %}
+
+{% block title %}{{ team.fullName }}{% endblock %}
+
+{% block main_content %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Nazwa pełna</th>
+                <td>{{ team.fullName }}</td>
+            </tr>
+            <tr>
+                <th>Nazwa skrócona</th>
+                <td>{{ team.shortName }}</td>
+            </tr>
+            <tr>
+                <th>Klub</th>
+                <td><a href="{{ path('club_single', {'club_id': team.club.id}) }}">{{ team.club.name }}</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\TeamVoter::LIST')) %}
+        <a href="{{ path('teams_front') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
+    {% endif %}
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\TeamVoter::EDIT'), team) %}
+        {{ include('buttons/edit_lg.html.twig', {path: 'team_edit', parameters: {'club_id': team.club.id, 'team_id': team.id}}) }}
+    {% endif %}
+{% endblock %}

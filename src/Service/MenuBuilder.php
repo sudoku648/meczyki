@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Security\Voter\ClubVoter;
 use App\Security\Voter\FrontVoter;
 use App\Security\Voter\PersonVoter;
+use App\Security\Voter\TeamVoter;
 use App\Security\Voter\UserVoter;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
@@ -63,6 +64,15 @@ final class MenuBuilder
                 [
                     'route' => 'clubs_front',
                     'label' => 'Kluby',
+                ]
+            );
+        }
+        if ($this->security->isGranted(TeamVoter::LIST)) {
+            $menu->addChild(
+                'teams',
+                [
+                    'route' => 'teams_front',
+                    'label' => 'Drużyny',
                 ]
             );
         }

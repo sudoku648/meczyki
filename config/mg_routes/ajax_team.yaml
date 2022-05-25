@@ -1,0 +1,5 @@
+ajax_fetch_teams:
+    controller: App\Controller\Team\TeamAjaxController::fetchTeams
+    defaults: { _format: json }
+    path: /ajax/fetch_teams
+    methods: [ POST ]
