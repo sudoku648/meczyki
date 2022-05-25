@@ -85,22 +85,22 @@ class UserVoter extends Voter
 
     private function canActivate(User $userEntity): bool
     {
-        return !$userEntity->isActive;
+        return !$userEntity->isActive();
     }
 
     private function canDeactivate(User $userEntity, User $user): bool
     {
-        return $userEntity->isActive && $userEntity !== $user;
+        return $userEntity->isActive() && $userEntity !== $user;
     }
 
     private function canDelete(User $userEntity): bool
     {
-        return !$userEntity->isActive;
+        return !$userEntity->isActive();
     }
 
     private function canImpersonate(User $userEntity, User $user): bool
     {
-        return $userEntity->isActive && $userEntity !== $user;
+        return $userEntity->isActive() && $userEntity !== $user;
     }
 
     private function canBindWithPerson(): bool
