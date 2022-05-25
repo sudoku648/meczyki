@@ -21,6 +21,10 @@ class Club
     #[ORM\Column(type: Types::STRING, length: 150, unique: true)]
     private string $name = '';
 
+    #[ORM\ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Image $emblem = null;
+
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[ORM\Column(type: Types::INTEGER)]
@@ -41,6 +45,18 @@ class Club
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getEmblem(): ?Image
+    {
+        return $this->emblem;
+    }
+
+    public function setEmblem(?Image $emblem): self
+    {
+        $this->emblem = $emblem;
 
         return $this;
     }

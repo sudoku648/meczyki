@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Security\Voter\ClubVoter;
 use App\Security\Voter\FrontVoter;
 use App\Security\Voter\PersonVoter;
 use App\Security\Voter\UserVoter;
@@ -53,6 +54,15 @@ final class MenuBuilder
                 [
                     'route' => 'people_front',
                     'label' => 'Osoby',
+                ]
+            );
+        }
+        if ($this->security->isGranted(ClubVoter::LIST)) {
+            $menu->addChild(
+                'clubs',
+                [
+                    'route' => 'clubs_front',
+                    'label' => 'Kluby',
                 ]
             );
         }

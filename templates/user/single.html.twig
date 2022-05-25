@@ -9,6 +9,15 @@
                 <th>Nazwa użytkownika</th>
                 <td>{{ user.username }}</td>
             </tr>
+            <tr>
+                <th>Przypięta osoba</th>
+                <td>
+                    {{ user.person ? user.person.fullName : '<em class="text-black-50">brak</em>' }}
+                    {% if is_granted(constant('\\App\\Security\\Voter\\UserVoter::BIND_WITH_PERSON'), user) %}
+                        {{ include('user/_buttons/bind_with_person.html.twig', {path: 'user_bind_with_person', parameters: {'user_id': user.id}}) }}
+                    {% endif %}
+                </td>
+            </tr>
         </tbody>
     </table>
 

@@ -17,6 +17,7 @@ import './js/layout.js';
 import './js/confirmModal.js';
 import './js/club.js';
 import './js/delegate.js';
+import './js/deleteImage.js';
 import './js/person.js';
 import './js/referee.js';
 import './js/refereeObserver.js';

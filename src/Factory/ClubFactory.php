@@ -22,6 +22,7 @@ class ClubFactory implements ContentFactoryInterface
         $dto = new ClubDto();
 
         $dto->name      = $club->getName();
+        $dto->emblem    = $club->getEmblem();
         $dto->createdAt = $club->getCreatedAt();
         $dto->setId($club->getId());
 

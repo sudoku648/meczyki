@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Dto;
 
 use App\Entity\Club;
+use App\Entity\Image;
 use App\Validator\Unique;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -20,6 +21,8 @@ class ClubDto
     #[Assert\NotBlank()]
     #[Assert\Length(min: 2, max: 150)]
     public ?string $name = null;
+
+    public Image|ImageDto|null $emblem = null;
 
     private ?int $id = null;
 

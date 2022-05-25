@@ -13,6 +13,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.10",
         "knplabs/knp-menu-bundle": "^3.2",
+        "league/flysystem-bundle": "^2.2",
         "mhujer/breadcrumbs-bundle": "^1.5",
         "pagerfanta/pagerfanta": "^3.6",
         "phpdocumentor/reflection-docblock": "^5.3",

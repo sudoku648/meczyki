@@ -11,11 +11,12 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class ClubVoter extends Voter
 {
-    const LIST   = 'club_list';
-    const CREATE = 'club_create';
-    const SHOW   = 'club_show';
-    const EDIT   = 'club_edit';
-    const DELETE = 'club_delete';
+    const LIST          = 'club_list';
+    const CREATE        = 'club_create';
+    const SHOW          = 'club_show';
+    const EDIT          = 'club_edit';
+    const DELETE        = 'club_delete';
+    const DELETE_EMBLEM = 'club_delete_emblem';
 
     protected function supports(string $attribute, $subject): bool
     {
@@ -27,6 +28,7 @@ class ClubVoter extends Voter
                 self::SHOW,
                 self::EDIT,
                 self::DELETE,
+                self::DELETE_EMBLEM,
             ],
             true
         );
@@ -41,11 +43,12 @@ class ClubVoter extends Voter
         }
 
         switch ($attribute) {
-            case self::LIST:   return $this->canList($user);
-            case self::CREATE: return $this->canCreate($user);
-            case self::SHOW:   return $this->canSee($user);
-            case self::EDIT:   return $this->canEdit($user);
-            case self::DELETE: return $this->canDelete($user);
+            case self::LIST:          return $this->canList($user);
+            case self::CREATE:        return $this->canCreate($user);
+            case self::SHOW:          return $this->canSee($user);
+            case self::EDIT:          return $this->canEdit($user);
+            case self::DELETE:        return $this->canDelete($user);
+            case self::DELETE_EMBLEM: return $this->canDeleteEmblem($subject, $user);
             default: throw new \LogicException();
         }
     }
@@ -73,5 +76,10 @@ class ClubVoter extends Voter
     private function canDelete(User $user): bool
     {
         return $user->isSuperAdmin();
+    }
+
+    private function canDeleteEmblem(Club $club, User $user): bool
+    {
+        return $club->getEmblem() && $user->isSuperAdmin();
     }
 }

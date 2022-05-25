@@ -16,4 +16,5 @@ return [
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
     Knp\Bundle\MenuBundle\KnpMenuBundle::class => ['all' => true],
     WhiteOctober\BreadcrumbsBundle\WhiteOctoberBreadcrumbsBundle::class => ['all' => true],
+    League\FlysystemBundle\FlysystemBundle::class => ['all' => true],
 ];
