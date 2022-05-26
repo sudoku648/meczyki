@@ -1,0 +1,24 @@
+match_games_front:
+    controller: App\Controller\MatchGame\MatchGameFrontController::front
+    path: /mecze
+    methods: [ GET ]
+
+match_game_single:
+    controller: App\Controller\MatchGame\MatchGameSingleController
+    path: /mecz/{match_game_id<\d+>}
+    methods: [ GET ]
+
+match_game_create:
+    controller: App\Controller\MatchGame\MatchGameCreateController
+    path: /mecz/nowy
+    methods: [ GET, POST ]
+
+match_game_edit:
+    controller: App\Controller\MatchGame\MatchGameEditController
+    path: /mecz/{match_game_id<\d+>}/edytuj
+    methods: [ GET, POST ]
+
+match_game_delete:
+    controller: App\Controller\MatchGame\MatchGameDeleteController::delete
+    path: /mecz/{match_game_id<\d+>}/usun
+    methods: [ POST ]

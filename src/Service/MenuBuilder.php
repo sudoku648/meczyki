@@ -6,6 +6,8 @@ namespace App\Service;
 
 use App\Security\Voter\ClubVoter;
 use App\Security\Voter\FrontVoter;
+use App\Security\Voter\GameTypeVoter;
+use App\Security\Voter\MatchGameVoter;
 use App\Security\Voter\PersonVoter;
 use App\Security\Voter\TeamVoter;
 use App\Security\Voter\UserVoter;
@@ -23,7 +25,7 @@ final class MenuBuilder
         Security $security
     )
     {
-        $this->factory = $factory;
+        $this->factory  = $factory;
         $this->security = $security;
     }
 
@@ -58,6 +60,15 @@ final class MenuBuilder
                 ]
             );
         }
+        if ($this->security->isGranted(GameTypeVoter::LIST)) {
+            $menu->addChild(
+                'gameTypes',
+                [
+                    'route' => 'game_types_front',
+                    'label' => 'Typy rozgrywek',
+                ]
+            );
+        }
         if ($this->security->isGranted(ClubVoter::LIST)) {
             $menu->addChild(
                 'clubs',
@@ -73,6 +84,15 @@ final class MenuBuilder
                 [
                     'route' => 'teams_front',
                     'label' => 'Drużyny',
+                ]
+            );
+        }
+        if ($this->security->isGranted(MatchGameVoter::LIST)) {
+            $menu->addChild(
+                'matchGames',
+                [
+                    'route' => 'match_games_front',
+                    'label' => 'Mecze',
                 ]
             );
         }

@@ -1,0 +1,82 @@
+{% extends 'main.html.twig' %}
+
+{% block title %}Mecz {{ matchGame.competitors }}{% endblock %}
+
+{% block main_content %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Gospodarze</th>
+                <td>{{ matchGame.homeTeam ? matchGame.homeTeam.fullName : ('<em class="text-black-50">nieznany</em>')|raw }}</td>
+            </tr>
+            <tr>
+                <th>Goście</th>
+                <td>{{ matchGame.awayTeam ? matchGame.awayTeam.fullName : ('<em class="text-black-50">nieznany</em>')|raw }}</td>
+            </tr>
+            <tr>
+                <th>Typ rozgrywek</th>
+                <td>{{ matchGame.gameType ? matchGame.gameType.fullName : ('<em class="text-black-50">nieznany</em>')|raw }}</td>
+            </tr>
+            <tr>
+                <th>Sezon</th>
+                <td>{{ matchGame.season }}</td>
+            </tr>
+            <tr>
+                <th>Kolejka</th>
+                <td>{{ matchGame.round }}</td>
+            </tr>
+            <tr>
+                <th>Data</th>
+                <td>{{ matchGame.dateTime|date('d.m.Y') }}</td>
+            </tr>
+            <tr>
+                <th>Godzina</th>
+                <td>{{ matchGame.dateTime|date('H:i') }}</td>
+            </tr>
+            <tr>
+                <th>Miejsce</th>
+                <td>{{ matchGame.venue }}</td>
+            </tr>
+            <tr>
+                <th>Sędzia</th>
+                <td>{{ matchGame.referee ? matchGame.referee.fullName : ('<em class="text-black-50">nieznany</em>')|raw }}</td>
+            </tr>
+            <tr>
+                <th>Asystent 1</th>
+                <td>{{ matchGame.firstAssistantReferee ? matchGame.firstAssistantReferee.fullName : ('<em class="text-black-50">brak</em>')|raw }}{{ matchGame.isFirstAssistantNonProfitable ? ' (społecznie)' : '' }}</td>
+            </tr>
+            <tr>
+                <th>Asystent 2</th>
+                <td>{{ matchGame.secondAssistantReferee ? matchGame.secondAssistantReferee.fullName : ('<em class="text-black-50">brak</em>')|raw }}{{ matchGame.isSecondAssistantNonProfitable ? ' (społecznie)' : '' }}</td>
+            </tr>
+            <tr>
+                <th>Sędzia techniczny</th>
+                <td>{{ matchGame.fourthOfficial ? matchGame.fourthOfficial.fullName : ('<em class="text-black-50">brak</em>')|raw }}</td>
+            </tr>
+            <tr>
+                <th>Obserwator</th>
+                <td>{{ matchGame.refereeObserver ? matchGame.refereeObserver.fullName : ('<em class="text-black-50">brak</em>')|raw }}</td>
+            </tr>
+            <tr>
+                <th>Delegat</th>
+                <td>{{ matchGame.delegate ? matchGame.delegate.fullName : ('<em class="text-black-50">brak</em>')|raw }}</td>
+            </tr>
+            <tr>
+                <th>Dodatkowe informacje</th>
+                <td>{{ matchGame.moreInfo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameVoter::LIST')) %}
+        <a href="{{ path('match_games_front') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
+    {% endif %}
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameVoter::EDIT'), matchGame) %}
+        {{ include('buttons/edit_lg.html.twig', {path: 'match_game_edit', parameters: {'match_game_id': matchGame.id}}) }}
+    {% endif %}
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameVoter::DELETE'), matchGame) %}
+        {{ include('match_game/_delete_form.html.twig', {btn_size: 'lg'}) }}
+    {% endif %}
+{% endblock %}

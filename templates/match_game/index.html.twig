@@ -1,0 +1,25 @@
+{% extends 'main.html.twig' %}
+
+{% block title %}Mecze{% endblock %}
+
+{% block main_content %}
+    {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameVoter::CREATE')) %}
+        {{ include('buttons/add.html.twig', {path: 'match_game_create', parameters: {}, text: 'Dodaj nowy'}) }}
+    {% endif %}
+
+    <div class="mb-3">
+        <table class="dataTable table table-hover table-responsive" id="match-games-list">
+            <thead>
+                <tr>
+                    <th>L.p.</th>
+                    <th class="s">Data i godzina</th>
+                    <th class="s">Typ rozgrywek</th>
+                    <th class="s">Drużyny</th>
+                    <th>Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
