@@ -1,0 +1,24 @@
+{{ form_start(form) }}
+    {{ form_row(form.name, {'label': 'Nazwa'}) }}
+    {{ form_row(form.group, {'label': 'Grupa'}) }}
+    {{ form_row(form.isOfficial, {'label': 'Oficjalne rozgrywki'}) }}
+    {{ form_row(form.image, {'label': 'Obrazek'}) }}
+
+    {% if gameType is defined and gameType.image %}
+        <div class="mb-3 image-container">
+            <figure class="figure" style="max-width: 200px; max-height: 200px;">
+                <img src="upload/{{gameType.image.filePath}}" class="img-fluid img-thumbnail" alt="Błąd ładowania zdjęcia" width="{{gameType.image.width}}" height="{{gameType.image.height}}">
+                <figcaption class="figure-caption">
+                    Aktualny obrazek.
+                    <a href="{{ path('game_type_image_delete', {'game_type_id': gameType.id}) }}" class="delete-image text-danger">Usuń</a>
+                </figcaption>
+            </figure>
+        </div>
+    {% endif %}
+
+    {{ form_row(form.save, {'label': button_save_label|default('Zapisz'), 'attr': {'class': 'btn-success icon-save loadable-save'}}) }}
+    {{ form_row(form.saveAndContinue, {'label': button_save_and_continue_label|default('Zapisz i dodaj nowy'), 'attr': {'class': 'btn-success icon-save loadable-save'}}) }}
+    {% if is_granted(constant('\\App\\Security\\Voter\\GameTypeVoter::LIST')) %}
+        <a href="{{ path('game_types_front') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Anuluj</a>
+    {% endif %}
+{{ form_end(form) }}

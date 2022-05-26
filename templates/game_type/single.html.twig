@@ -1,0 +1,38 @@
+{% extends 'main.html.twig' %}
+
+{% block title %}{{ gameType.name }}{% endblock %}
+
+{% block main_content %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Nazwa</th>
+                <td>{{ gameType.name }}</td>
+            </tr>
+            <tr>
+                <th>Grupa</th>
+                <td>{{ gameType.group }}</td>
+            </tr>
+            <tr>
+                <th>Obrazek</th>
+                <td>
+                    {% if gameType.image %}
+                        <img src="upload/{{gameType.image.filePath}}" class="img-fluid img-thumbnail" alt="Błąd ładowania zdjęcia" width="{{gameType.image.width}}" height="{{gameType.image.height}}" style="max-width: 200px; max-height: 200px;">
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Oficjalne rozgrywki</th>
+                <td>{{ gameType.isOfficial ? 'Tak' : 'Nie' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\GameTypeVoter::LIST')) %}
+        <a href="{{ path('game_types_front') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
+    {% endif %}
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\GameTypeVoter::EDIT'), gameType) %}
+        {{ include('buttons/edit_lg.html.twig', {path: 'game_type_edit', parameters: {'game_type_id': gameType.id}}) }}
+    {% endif %}
+{% endblock %}
