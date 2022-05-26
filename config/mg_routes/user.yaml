@@ -32,3 +32,13 @@ user_delete:
     controller: App\Controller\User\UserDeleteController::delete
     path: /uzytkownik/{user_id<\d+>}/usun
     methods: [ POST ]
+
+user_profile:
+    controller: App\Controller\User\Profile\UserProfileController
+    path: /profil
+    methods: [ GET ]
+
+user_bind_with_person:
+    controller: App\Controller\User\UserBindWithPersonController
+    path: /uzytkownik/{user_id<\d+>}/polacz-z-osoba
+    methods: [ GET, POST ]

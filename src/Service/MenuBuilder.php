@@ -136,6 +136,16 @@ final class MenuBuilder
 
         $menu['rt']
             ->addChild(
+                'profile',
+                [
+                    'route' => 'user_profile',
+                    'label' => 'Profil',
+                ]
+            )
+        ;
+
+        $menu['rt']
+            ->addChild(
                 'logout',
                 [
                     'route' => 'app_logout',

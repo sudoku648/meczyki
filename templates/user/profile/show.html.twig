@@ -1,0 +1,14 @@
+{% extends 'main.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block main_content %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Nazwa użytkownika</th>
+                <td>{{ user.username }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
