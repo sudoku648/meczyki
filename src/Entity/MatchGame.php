@@ -166,11 +166,11 @@ class MatchGame
         return $this->dateTime;
     }
 
-    public function setDateTime(\DateTimeImmutable $date, \DateTimeImmutable $time): self
+    public function setDateTime(\DateTimeImmutable $dateTime): self
     {
         $this->dateTime = \DateTimeImmutable::createFromFormat(
             'Y-m-d H:i',
-            $date->format('Y-m-d').' '.$time->format('H:i'),
+            $dateTime->format('Y-m-d H:i'),
             new \DateTimeZone('Europe/Warsaw')
         );
 

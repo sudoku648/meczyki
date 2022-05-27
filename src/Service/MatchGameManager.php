@@ -50,8 +50,7 @@ class MatchGameManager implements ContentManagerInterface
     {
         $matchGame->setHomeTeam($dto->homeTeam);
         $matchGame->setAwayTeam($dto->awayTeam);
-        $matchGame->setDate($dto->date);
-        $matchGame->setTime($dto->time);
+        $matchGame->setDateTime($dto->dateTime);
         $matchGame->setGameType($dto->gameType);
         $matchGame->setSeason($dto->season);
         $matchGame->setRound($dto->round);
