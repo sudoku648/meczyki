@@ -112,6 +112,9 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.12"
     },
+    "fzaninotto/faker": {
+        "version": "v1.5.0"
+    },
     "knplabs/knp-menu": {
         "version": "v3.3.0"
     },
