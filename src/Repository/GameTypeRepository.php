@@ -6,7 +6,13 @@ namespace App\Repository;
 
 use App\Entity\GameType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Exception\NotValidCurrentPageException;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\PagerfantaInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method GameType|null find($id, $lockMode = null, $lockVersion = null)
@@ -118,5 +124,47 @@ class GameTypeRepository extends ServiceEntityRepository
                 'group' => 'ASC',
             ]
         );
+    }
+
+    public function findByCriteria(Criteria $criteria): PagerfantaInterface
+    {
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter(
+                $this->getGameTypeQueryBuilder($criteria)
+            )
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
+            $pagerfanta->setCurrentPage($criteria->page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        $this->hydrate(...$pagerfanta);
+
+        return $pagerfanta;
+    }
+
+    private function getGameTypeQueryBuilder(Criteria $criteria): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('gt')
+            ->addOrderBy('gt.name', 'ASC')
+            ->addOrderBy('gt.group', 'ASC');
+
+        return $qb;
+    }
+
+    public function hydrate(GameType ...$gameTypes): void
+    {
+        $this->_em->createQueryBuilder()
+            ->select('gt')
+            ->addSelect('i')
+            ->from(GameType::class, 'gt')
+            ->leftJoin('gt.image', 'i')
+            ->where('gt IN (?1)')
+            ->setParameter(1, $gameTypes)
+            ->getQuery()
+            ->getResult();
     }
 }

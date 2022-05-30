@@ -5,8 +5,15 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Team;
+use App\PageView\TeamPageView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Exception\NotValidCurrentPageException;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\PagerfantaInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Team|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,6 +23,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TeamRepository extends ServiceEntityRepository
 {
+    const PER_PAGE = 10;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Team::class);
@@ -134,5 +143,56 @@ class TeamRepository extends ServiceEntityRepository
                 'shortName' => 'ASC',
             ]
         );
+    }
+
+    public function findByCriteria(TeamPageView $criteria): PagerfantaInterface
+    {
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter(
+                $this->getTeamQueryBuilder($criteria)
+            )
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
+            $pagerfanta->setCurrentPage($criteria->page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        $this->hydrate(...$pagerfanta);
+
+        return $pagerfanta;
+    }
+
+    private function getTeamQueryBuilder(Criteria $criteria): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->addOrderBy('t.shortName', 'ASC');
+
+        $this->filter($qb, $criteria);
+
+        return $qb;
+    }
+
+    private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
+    {
+        if ($criteria->club) {
+            $qb->andWhere('t.club = :club')
+                ->setParameter('club', $criteria->club);
+        }
+
+        return $qb;
+    }
+
+    public function hydrate(Team ...$teams): void
+    {
+        $this->_em->createQueryBuilder()
+            ->select('t')
+            ->from(Team::class, 't')
+            ->where('t IN (?1)')
+            ->setParameter(1, $teams)
+            ->getQuery()
+            ->getResult();
     }
 }

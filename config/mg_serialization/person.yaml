@@ -1,0 +1,20 @@
+App\Dto\PersonDto:
+    attributes:
+        id:
+            groups: [ 'matchGame:item:get', 'person:collection:get', 'person:item:get', 'person:delegate:collection:get', 'person:referee:collection:get', 'person:refereeObserver:collection:get' ]
+        firstName:
+            groups: [ 'matchGame:item:get', 'person:collection:get', 'person:item:get', 'person:delegate:collection:get', 'person:referee:collection:get', 'person:refereeObserver:collection:get' ]
+        lastName:
+            groups: [ 'matchGame:item:get', 'person:collection:get', 'person:item:get', 'person:delegate:collection:get', 'person:referee:collection:get', 'person:refereeObserver:collection:get' ]
+        fullName:
+            groups: [ 'matchGame:item:get', 'person:collection:get', 'person:item:get', 'person:delegate:collection:get', 'person:referee:collection:get', 'person:refereeObserver:collection:get' ]
+        fullNameInversed:
+            groups: [ 'matchGame:item:get', 'person:collection:get', 'person:item:get', 'person:delegate:collection:get', 'person:referee:collection:get', 'person:refereeObserver:collection:get' ]
+        mobilePhone:
+            groups: [ 'person:item:get' ]
+        isDelegate:
+            groups: [ 'person:collection:get', 'person:item:get' ]
+        isReferee:
+            groups: [ 'person:collection:get', 'person:item:get' ]
+        isRefereeObserver:
+            groups: [ 'person:collection:get', 'person:item:get' ]

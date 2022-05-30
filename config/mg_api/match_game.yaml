@@ -1,0 +1,58 @@
+resources:
+    App\Dto\MatchGameDto:
+        properties:
+            id:
+                identifier: true
+            user:
+                writable: true
+            homeTeam:
+                writable: true
+            awayTeam:
+                writable: true
+            dateTime:
+                writable: true
+            gameType:
+                writable: true
+            season:
+                writable: true
+            round:
+                writable: true
+            venue:
+                writable: true
+            referee:
+                writable: true
+            firstAssistantReferee:
+                writable: true
+            isFirstAssistantNonProfitable:
+                writable: true
+            secondAssistantReferee:
+                writable: true
+            isSecondAssistantNonProfitable:
+                writable: true
+            fourthOfficial:
+                writable: true
+            refereeObserver:
+                writable: true
+            delegate:
+                writable: true
+            moreInfo:
+                writable: true
+        shortName: 'matchGame'
+        collectionOperations:
+            get:
+                method: GET
+                path: /match-games.{_format}
+                normalization_context:
+                    groups: [ 'matchGame:collection:get' ]
+            post:
+                method: POST
+                path: /match-games
+        itemOperations:
+            get:
+                method: GET
+                path: /match-game/{id}
+                normalization_context:
+                    groups: [ 'matchGame:item:get' ]
+        attributes:
+            denormalization_context:
+                groups: [ 'matchGame:write' ]

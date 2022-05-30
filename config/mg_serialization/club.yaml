@@ -1,0 +1,8 @@
+App\Dto\ClubDto:
+    attributes:
+        id:
+            groups: [ 'club:collection:get', 'club:item:get', 'single:club:team:collection:get', 'team:item:get' ]
+        name:
+            groups: [ 'club:collection:get', 'club:item:get', 'single:club:team:collection:get', 'team:item:get' ]
+        emblem:
+            groups: [ 'single:club:team:collection:get', 'club:item:get' ]

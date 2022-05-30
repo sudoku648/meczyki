@@ -1,0 +1,29 @@
+resources:
+    App\Dto\TeamDto:
+        properties:
+            id:
+                identifier: true
+            fullName:
+                writable: true
+            shortName:
+                writable: true
+            club:
+                writable: true
+        shortName: 'team'
+        collectionOperations:
+            get:
+                method: GET
+                path: /teams.{_format}
+                normalization_context:
+                    groups: [ 'team:collection:get' ]
+            post:
+                method: POST
+        itemOperations:
+            get:
+                method: GET
+                path: /team/{id}
+                normalization_context:
+                    groups: [ 'team:item:get' ]
+        attributes:
+            denormalization_context:
+                groups: [ 'club:team:write' ]

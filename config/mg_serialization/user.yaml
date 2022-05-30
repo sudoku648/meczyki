@@ -1,0 +1,8 @@
+App\Dto\UserDto:
+    attributes:
+        id:
+            groups: [ 'user:collection:get', 'user:item:get' ]
+        username:
+            groups: [ 'user:collection:get', 'user:item:get' ]
+        plainPassword:
+            groups: [ 'user:write' ]

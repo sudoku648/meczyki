@@ -6,8 +6,14 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Exception\NotValidCurrentPageException;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\PagerfantaInterface;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -21,6 +27,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class UserRepository extends ServiceEntityRepository implements UserLoaderInterface, PasswordUpgraderInterface
 {
+    const PER_PAGE = 10;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
@@ -140,5 +148,44 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             'results'     => $results,
             'countResult' => $countResult,
         ];
+    }
+
+    public function findByCriteria(Criteria $criteria): PagerfantaInterface
+    {
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter(
+                $this->getUserQueryBuilder($criteria)
+            )
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
+            $pagerfanta->setCurrentPage($criteria->page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        $this->hydrate(...$pagerfanta);
+
+        return $pagerfanta;
+    }
+
+    private function getUserQueryBuilder(Criteria $criteria): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->addOrderBy('u.username', 'ASC');
+
+        return $qb;
+    }
+
+    public function hydrate(User ...$users): void
+    {
+        $this->_em->createQueryBuilder()
+            ->select('u')
+            ->from(User::class, 'u')
+            ->where('u IN (?1)')
+            ->setParameter(1, $users)
+            ->getQuery()
+            ->getResult();
     }
 }

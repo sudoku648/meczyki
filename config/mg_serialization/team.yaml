@@ -1,0 +1,10 @@
+App\Dto\TeamDto:
+    attributes:
+        id:
+            groups: [ 'matchGame:collection:get', 'matchGame:item:get', 'single:club:team:collection:get', 'team:collection:get', 'team:item:get' ]
+        fullName:
+            groups: [ 'matchGame:collection:get', 'matchGame:item:get', 'single:club:team:collection:get', 'team:collection:get', 'team:item:get' ]
+        shortName:
+            groups: [ 'club:team:collection:get', 'club:team:item:get', 'single:club:team:collection:get', 'team:collection:get', 'team:item:get' ]
+        club:
+            groups: [ 'single:club:team:collection:get', 'team:collection:get', 'team:item:get' ]

@@ -6,7 +6,13 @@ namespace App\Repository;
 
 use App\Entity\MatchGame;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Exception\NotValidCurrentPageException;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\PagerfantaInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method MatchGame|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,6 +22,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class MatchGameRepository extends ServiceEntityRepository
 {
+    const PER_PAGE = 10;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, MatchGame::class);
@@ -134,5 +142,50 @@ class MatchGameRepository extends ServiceEntityRepository
             'results'     => $results,
             'countResult' => $countResult,
         ];
+    }
+
+    public function findByCriteria(Criteria $criteria): PagerfantaInterface
+    {
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter(
+                $this->getMatchGameQueryBuilder($criteria)
+            )
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
+            $pagerfanta->setCurrentPage($criteria->page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        $this->hydrate(...$pagerfanta);
+
+        return $pagerfanta;
+    }
+
+    private function getMatchGameQueryBuilder(Criteria $criteria): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('mg')
+            ->addOrderBy('mg.dateTime', 'DESC');
+
+        return $qb;
+    }
+
+    public function hydrate(MatchGame ...$matchGames): void
+    {
+        $this->_em->createQueryBuilder()
+            ->select('mg')
+            ->addSelect('t1')
+            ->addSelect('t2')
+            ->addSelect('gt')
+            ->from(MatchGame::class, 'mg')
+            ->leftJoin('mg.homeTeam', 't1')
+            ->leftJoin('mg.awayTeam', 't2')
+            ->leftJoin('mg.gameType', 'gt')
+            ->where('mg IN (?1)')
+            ->setParameter(1, $matchGames)
+            ->getQuery()
+            ->getResult();
     }
 }

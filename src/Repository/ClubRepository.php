@@ -6,7 +6,13 @@ namespace App\Repository;
 
 use App\Entity\Club;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Exception\NotValidCurrentPageException;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\PagerfantaInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Club|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,6 +22,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ClubRepository extends ServiceEntityRepository
 {
+    const PER_PAGE = 10;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Club::class);
@@ -99,5 +107,46 @@ class ClubRepository extends ServiceEntityRepository
             'results'     => $results,
             'countResult' => $countResult,
         ];
+    }
+
+    public function findByCriteria(Criteria $criteria): PagerfantaInterface
+    {
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter(
+                $this->getClubQueryBuilder($criteria)
+            )
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
+            $pagerfanta->setCurrentPage($criteria->page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        $this->hydrate(...$pagerfanta);
+
+        return $pagerfanta;
+    }
+
+    private function getClubQueryBuilder(Criteria $criteria): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->addOrderBy('c.name', 'ASC');
+
+        return $qb;
+    }
+
+    public function hydrate(Club ...$clubs): void
+    {
+        $this->_em->createQueryBuilder()
+            ->select('c')
+            ->addSelect('i')
+            ->from(Club::class, 'c')
+            ->leftJoin('c.emblem', 'i')
+            ->where('c IN (?1)')
+            ->setParameter(1, $clubs)
+            ->getQuery()
+            ->getResult();
     }
 }

@@ -6,7 +6,13 @@ namespace App\Repository;
 
 use App\Entity\Person;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Exception\NotValidCurrentPageException;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\PagerfantaInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Person|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,6 +22,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PersonRepository extends ServiceEntityRepository
 {
+    const PER_PAGE = 10;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Person::class);
@@ -137,5 +145,65 @@ class PersonRepository extends ServiceEntityRepository
                 'firstName' => 'ASC',
             ]
         );
+    }
+
+    public function findByCriteria(Criteria $criteria): PagerfantaInterface
+    {
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter(
+                $this->getPersonQueryBuilder($criteria)
+            )
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
+            $pagerfanta->setCurrentPage($criteria->page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        $this->hydrate(...$pagerfanta);
+
+        return $pagerfanta;
+    }
+
+    private function getPersonQueryBuilder(Criteria $criteria): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->addOrderBy('p.lastName', 'ASC')
+            ->addOrderBy('p.firstName', 'ASC');
+
+        $this->filter($qb, $criteria);
+
+        return $qb;
+    }
+
+    private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
+    {
+        if ($criteria->isDelegate) {
+            $qb->andWhere('p.isDelegate = :isDelegate')
+                ->setParameter('isDelegate', $criteria->isDelegate);
+        }
+        if ($criteria->isReferee) {
+            $qb->andWhere('p.isReferee = :isReferee')
+                ->setParameter('isReferee', $criteria->isReferee);
+        }
+        if ($criteria->isRefereeObserver) {
+            $qb->andWhere('p.isRefereeObserver = :isRefereeObserver')
+                ->setParameter('isRefereeObserver', $criteria->isRefereeObserver);
+        }
+
+        return $qb;
+    }
+
+    public function hydrate(Person ...$people): void
+    {
+        $this->_em->createQueryBuilder()
+            ->select('p')
+            ->from(Person::class, 'p')
+            ->where('p IN (?1)')
+            ->setParameter(1, $people)
+            ->getQuery()
+            ->getResult();
     }
 }

@@ -1,0 +1,32 @@
+resources:
+    App\Dto\GameTypeDto:
+        properties:
+            id:
+                identifier: true
+            name:
+                writable: true
+            group:
+                writable: true
+            isOfficial:
+                writable: true
+            image:
+                writable: true
+        shortName: 'gameType'
+        collectionOperations:
+            get:
+                method: GET
+                path: /game-types.{_format}
+                normalization_context:
+                    groups: [ 'gameType:collection:get' ]
+            post:
+                method: POST
+                path: /game-types
+        itemOperations:
+            get:
+                method: GET
+                path: /game-type/{id}
+                normalization_context:
+                    groups: [ 'gameType:item:get' ]
+        attributes:
+            denormalization_context:
+                groups: [ 'gameType:write' ]

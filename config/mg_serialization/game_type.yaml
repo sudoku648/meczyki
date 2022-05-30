@@ -1,0 +1,14 @@
+App\Dto\GameTypeDto:
+    attributes:
+        id:
+            groups: [ 'matchGame:collection:get', 'matchGame:item:get', 'gameType:collection:get', 'gameType:item:get' ]
+        name:
+            groups: [ 'matchGame:collection:get', 'matchGame:item:get', 'gameType:collection:get', 'gameType:item:get' ]
+        group:
+            groups: [ 'matchGame:collection:get', 'matchGame:item:get', 'gameType:collection:get', 'gameType:item:get' ]
+        fullName:
+            groups: [ 'matchGame:collection:get', 'matchGame:item:get', 'gameType:collection:get', 'gameType:item:get' ]
+        isOfficial:
+            groups: [ 'gameType:item:get' ]
+        image:
+            groups: [ 'gameType:item:get' ]

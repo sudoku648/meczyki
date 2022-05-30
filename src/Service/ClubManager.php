@@ -55,6 +55,7 @@ class ClubManager implements ContentManagerInterface
         $club->setName($dto->name);
         $oldEmblem = $club->getEmblem();
         $club->setEmblem($dto->emblem);
+        $club->setUpdatedAt();
 
         $this->entityManager->flush();
 
