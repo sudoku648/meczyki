@@ -71,5 +71,39 @@ class PeselValidator extends ConstraintValidator
                 ->setCode(Pesel::CHECKSUM_FAILED_ERROR)
                 ->addViolation();
         }
+
+        $year     = \substr($value, 0, 2);
+        $month    = \substr($value, 2, 2);
+        $monthInt = (int) $month;
+        $day      = (int) \substr($value, 4, 2);
+
+        if ($monthInt >= 81 && $monthInt <= 92) {
+            $month = $monthInt - 80;
+            $year = $year + 1800;
+        } elseif ($monthInt >= 61 && $monthInt <= 72) {
+            $month = $monthInt - 60;
+            $year = $year + 2200;
+        } elseif ($monthInt >= 41 && $monthInt <= 52) {
+            $month = $monthInt - 40;
+            $year = $year + 2100;
+        } elseif ($monthInt >= 21 && $monthInt <= 32) {
+            $month = $monthInt - 20;
+            $year = $year + 2000;
+        } elseif ($monthInt >= 1 && $monthInt <= 12) {
+            $year = $year + 1900;
+        } else {
+            $year = null;
+        }
+
+        if (
+            null === $year ||
+            $day > \cal_days_in_month(\CAL_GREGORIAN, (int) $month, $year)
+
+        ) {
+            $this->context->buildViolation($constraint->message)
+                ->setParameter('{{ value }}', $this->formatValue($value))
+                ->setCode(Pesel::DATE_OF_BIRTH_ERROR)
+                ->addViolation();
+        }
     }
 }
