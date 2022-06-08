@@ -128,6 +128,22 @@ class UserAjaxController extends UserAbstractController
                                 )
                             );
                         }
+                        if ($this->isGranted(UserVoter::BIND_WITH_PERSON, $user)) {
+                            $responseTemp .= \str_replace(
+                                ["\r\n", "\n", "\r", '"'],
+                                [' ', ' ', ' ', "'"],
+                                $this->renderView(
+                                    'user/_buttons/bind_with_person.html.twig',
+                                    [
+                                        'path' => 'user_bind_with_person',
+                                        'parameters' =>
+                                        [
+                                            'user_id' => $user->getId(),
+                                        ],
+                                    ]
+                                )
+                            );
+                        }
                         if ($this->isGranted(UserVoter::IMPERSONATE, $user)) {
                             $responseTemp .= \str_replace(
                                 ["\r\n", "\n", "\r", '"'],

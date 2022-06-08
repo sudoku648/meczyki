@@ -1,0 +1,50 @@
+{% extends 'main.html.twig' %}
+
+{% block title %}Rachunek za mecz {{ matchGameBill.matchGame.competitors }}{% endblock %}
+
+{% block main_content %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Osoba</th>
+                <td>{{ matchGameBill.person.fullName }}</td>
+            </tr>
+            <tr>
+                <th>Bazowy ekwiwalent brutto</th>
+                <td>{{ matchGameBill.baseEquivalent }} zł</td>
+            </tr>
+            <tr>
+                <th>Należna część ekwiwalentu bazowego</th>
+                <td>{{ matchGameBill.percentOfBaseEquivalent }}%</td>
+            </tr>
+            <tr>
+                <th>Należny ekwiwalent brutto</th>
+                <td>{{ matchGameBill.grossEquivalent }} zł</td>
+            </tr>
+            <tr>
+                <th>Koszty uzyskania przychodu ({{ matchGameBill.taxDeductibleStakePercent }}%)</th>
+                <td>{{ matchGameBill.taxDeductibleExpenses }} zł</td>
+            </tr>
+            <tr>
+                <th>Podstawa opodatkowania</th>
+                <td>{{ matchGameBill.taxationBase }} zł</td>
+            </tr>
+            <tr>
+                <th>Podatek dochodowy ({{ matchGameBill.incomeTaxStakePercent }}%)</th>
+                <td>{{ matchGameBill.incomeTax }} zł</td>
+            </tr>
+            <tr>
+                <th>Ekwiwalent do wypłaty</th>
+                <td>{{ matchGameBill.equivalentToWithdraw }} zł</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameVoter::SHOW'), matchGameBill.matchGame) %}
+        <a href="{{ path('match_game_single', {'match_game_id': matchGameBill.matchGame.id}) }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do szczegółów meczu">Wróć do szczegółów meczu</a>
+    {% endif %}
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameBillVoter::EDIT'), matchGameBill) %}
+        {{ include('buttons/edit_lg.html.twig', {path: 'match_game_bill_edit', parameters: {'match_game_id': matchGameBill.matchGame.id, 'match_game_bill_id': matchGameBill.id}}) }}
+    {% endif %}
+{% endblock %}

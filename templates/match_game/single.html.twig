@@ -65,6 +65,30 @@
                 <th>Dodatkowe informacje</th>
                 <td>{{ matchGame.moreInfo }}</td>
             </tr>
+            <tr>
+                <th>Rachunki</th>
+                <td>
+                    <ul>
+                        {% for matchGameBill in matchGame.matchGameBills %}
+                            <li>
+                                {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameBillVoter::SHOW'), matchGameBill) %}
+                                    <a href="{{ path('match_game_bill_single', {'match_game_id': matchGame.id, 'match_game_bill_id': matchGameBill.id}) }}">
+                                {% endif %}
+                                {{ matchGameBill.person.fullName }}
+                                {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameBillVoter::SHOW'), matchGameBill) %}
+                                    </a>
+                                {% endif %}
+                                {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameBillVoter::DELETE'), matchGameBill) %}
+                                    {{ include('match_game_bill/_delete_form.html.twig', {'matchGameBill': matchGameBill}) }}
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameVoter::CREATE_BILL'), matchGame) %}
+                        {{ include('buttons/add.html.twig', {path: 'match_game_bill_create', parameters: {'match_game_id': matchGame.id}, text: 'Dodaj nowy'}) }}
+                    {% endif %}
+                </td>
+            </tr>
         </tbody>
     </table>
 

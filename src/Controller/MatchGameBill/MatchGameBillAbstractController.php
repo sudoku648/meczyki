@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\User;
+namespace App\Controller\MatchGameBill;
 
 use App\Controller\AbstractController;
-use App\Entity\User;
-use App\Service\UserManager;
+use App\Entity\MatchGameBill;
+use App\Service\MatchGameBillManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
-abstract class UserAbstractController extends AbstractController
+abstract class MatchGameBillAbstractController extends AbstractController
 {
-    protected UserManager $manager;
+    protected MatchGameBillManager $manager;
     protected RouterInterface $router;
     protected EventDispatcherInterface $dispatcher;
     protected Breadcrumbs $breadcrumbs;
 
     public function __construct(
-        UserManager $manager,
+        MatchGameBillManager $manager,
         RouterInterface $router,
         EventDispatcherInterface $dispatcher,
         Breadcrumbs $breadcrumbs
@@ -34,28 +34,19 @@ abstract class UserAbstractController extends AbstractController
 
         $this->manager = $manager;
 
-        $this->breadcrumbs->addItem(
-            'Użytkownicy',
-            $this->router->generate('users_front')
-        );
+        // $this->breadcrumbs->addItem(
+        //     'Rachunki',
+        //     $this->router->generate('bills_front')
+        // ); @todo
     }
 
-    protected function redirectToEditUser(User $user): Response
+    protected function redirectToEditBill(MatchGameBill $matchGameBill): Response
     {
         return $this->redirectToRoute(
-            'user_edit',
+            'bill_edit',
             [
-                'user_id' => $user->getId(),
-            ]
-        );
-    }
-
-    protected function redirectToUserBindWithPerson(User $user): Response
-    {
-        return $this->redirectToRoute(
-            'user_bind_with_person',
-            [
-                'user_id' => $user->getId(),
+                'match_game_id' => $matchGameBill->getMatchGame()->getId(),
+                'bill_id'       => $matchGameBill->getId(),
             ]
         );
     }

@@ -1,0 +1,19 @@
+match_game_bill_single:
+    controller: App\Controller\MatchGameBill\MatchGameBillSingleController
+    path: /mecz/{match_game_id<\d+>}/rachunek/{match_game_bill_id<\d+>}
+    methods: [ GET ]
+
+match_game_bill_create:
+    controller: App\Controller\MatchGameBill\MatchGameBillCreateController
+    path: /mecz/{match_game_id<\d+>}/rachunek/nowy
+    methods: [ GET, POST ]
+
+match_game_bill_edit:
+    controller: App\Controller\MatchGameBill\MatchGameBillEditController
+    path: /mecz/{match_game_id<\d+>}/rachunek/{match_game_bill_id<\d+>}/edytuj
+    methods: [ GET, POST ]
+
+match_game_bill_delete:
+    controller: App\Controller\MatchGameBill\MatchGameBillDeleteController::delete
+    path: /mecz/{match_game_id<\d+>}/rachunek/{match_game_bill_id<\d+>}/usun
+    methods: [ POST ]

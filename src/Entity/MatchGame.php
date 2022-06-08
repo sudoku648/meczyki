@@ -7,6 +7,8 @@ namespace App\Entity;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
 use App\Repository\MatchGameRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -79,6 +81,9 @@ class MatchGame
     #[ORM\Column(type: Types::STRING, length: 2000)]
     private string $moreInfo = '';
 
+    #[ORM\OneToMany(targetEntity: MatchGameBill::class, mappedBy: 'matchGame')]
+    private Collection $matchGameBills;
+
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[ORM\Column(type: Types::INTEGER)]
@@ -121,6 +126,7 @@ class MatchGame
         $this->refereeObserver                = $refereeObserver;
         $this->delegate                       = $delegate;
         $this->moreInfo                       = $moreInfo ?? '';
+        $this->matchGameBills                          = new ArrayCollection();
 
         $this->createdAtTraitConstruct();
     }
@@ -331,6 +337,47 @@ class MatchGame
         $this->moreInfo = $moreInfo;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, MatchGameBill>
+     */
+    public function getMatchGameBills(): Collection
+    {
+        return $this->matchGameBills;
+    }
+
+    public function addMatchGameBill(MatchGameBill $matchGameBill): self
+    {
+        if (!$this->matchGameBills->contains($matchGameBill)) {
+            $this->matchGameBills[] = $matchGameBill;
+            $matchGameBill->setMatchGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMatchGameBill(MatchGameBill $matchGameBill): self
+    {
+        if ($this->matchGameBills->removeElement($matchGameBill)) {
+            // set the owning side to null (unless already changed)
+            if ($matchGameBill->getMatchGame() === $this) {
+                $matchGameBill->setMatchGame(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getBillOfPerson(?Person $person): ?MatchGameBill
+    {
+        if (!$person) return null;
+
+        $bill = $this->matchGameBills->filter(function($element) use ($person) {
+            return $element->getPerson() === $person;
+        })->first();
+
+        return $bill ?: null;
     }
 
     public function getCompetitors(): string

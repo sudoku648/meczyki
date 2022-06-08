@@ -8,6 +8,8 @@ use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\PersonTrait;
 use App\Entity\Traits\UpdatedAtTrait;
 use App\Repository\PersonRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -34,6 +36,9 @@ class Person
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $isRefereeObserver = false;
 
+    #[ORM\OneToMany(targetEntity: MatchGameBill::class, mappedBy: 'person')]
+    private Collection $matchGameBills;
+
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[ORM\Column(type: Types::INTEGER)]
@@ -52,6 +57,7 @@ class Person
         $this->isDelegate        = $isDelegate ?? false;
         $this->isReferee         = $isReferee ?? false;
         $this->isRefereeObserver = $isRefereeObserver ?? false;
+        $this->matchGameBills    = new ArrayCollection();
 
         $this->personTraitConstruct($firstName, $lastName);
 
@@ -104,6 +110,57 @@ class Person
         $this->isRefereeObserver = $isRefereeObserver;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, MatchGameBill>
+     */
+    public function getMatchGameBills(): Collection
+    {
+        return $this->matchGameBills;
+    }
+
+    public function addMatchGameBill(MatchGameBill $matchGameBill): self
+    {
+        if (!$this->matchGameBills->contains($matchGameBill)) {
+            $this->matchGameBills[] = $matchGameBill;
+            $matchGameBill->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMatchGameBill(MatchGameBill $matchGameBill): self
+    {
+        if ($this->matchGameBills->removeElement($matchGameBill)) {
+            // set the owning side to null (unless already changed)
+            if ($matchGameBill->getPerson() === $this) {
+                $matchGameBill->setPerson(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isInMatchGame(MatchGame $matchGame): bool
+    {
+        return
+            $matchGame->getReferee()                === $this ||
+            $matchGame->getFirstAssistantReferee()  === $this ||
+            $matchGame->getSecondAssistantReferee() === $this ||
+            $matchGame->getFourthOfficial()         === $this ||
+            $matchGame->getDelegate()               === $this ||
+            $matchGame->getRefereeObserver()        === $this
+        ;
+    }
+
+    public function hasBillForMatchGame(MatchGame $matchGame): bool
+    {
+        $bills = $this->matchGameBills->filter(function($element) use ($matchGame) {
+            return $element->getMatchGame() === $matchGame;
+        });
+
+        return !$bills->isEmpty();
     }
 
     public function getId(): int
