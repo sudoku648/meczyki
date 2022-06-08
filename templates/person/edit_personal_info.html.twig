@@ -1,0 +1,7 @@
+{% extends 'main.html.twig' %}
+
+{% block title %}Edytuj dane osobowe{% endblock %}
+
+{% block main_content %}
+    {{ include('person/_form_personal_info.html.twig', {'button_save_label': 'Zapisz'}) }}
+{% endblock %}

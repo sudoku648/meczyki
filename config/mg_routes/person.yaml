@@ -22,3 +22,8 @@ person_delete:
     controller: App\Controller\Person\PersonDeleteController::delete
     path: /osoba/{person_id<\d+>}/usun
     methods: [ POST ]
+
+person_personal_info_edit:
+    controller: App\Controller\Person\PersonPersonalInfoEditController
+    path: /dane-osobowe/edytuj
+    methods: [ GET, POST ]

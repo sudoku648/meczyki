@@ -42,7 +42,7 @@ final class UniqueValidator extends ConstraintValidator
 
             $fieldValue = $propertyAccessor->getValue($value, $dtoField);
 
-            if (null === $fieldValue) {
+            if ($constraint->takeNullIntoAccount && null === $fieldValue) {
                 $qb->andWhere($qb->expr()->isNull("e.$entityField"));
             } else {
                 $qb->andWhere($qb->expr()->eq("e.$entityField", ":f_$entityField"));

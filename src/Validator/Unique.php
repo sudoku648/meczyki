@@ -46,6 +46,8 @@ class Unique extends Constraint
      */
     public $idFields;
 
+    public $takeNullIntoAccount = false;
+
     public $errorPath = '';
 
     public function __construct($options = null)

@@ -10,11 +10,12 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class PersonVoter extends Voter
 {
-    const LIST   = 'person_list';
-    const CREATE = 'person_create';
-    const SHOW   = 'person_show';
-    const EDIT   = 'person_edit';
-    const DELETE = 'person_delete';
+    const LIST               = 'person_list';
+    const CREATE             = 'person_create';
+    const SHOW               = 'person_show';
+    const EDIT               = 'person_edit';
+    const DELETE             = 'person_delete';
+    const EDIT_PERSONAL_INFO = 'person_personal_info_edit';
 
     protected function supports(string $attribute, $subject): bool
     {
@@ -26,6 +27,7 @@ class PersonVoter extends Voter
                 self::SHOW,
                 self::EDIT,
                 self::DELETE,
+                self::EDIT_PERSONAL_INFO,
             ],
             true
         );
@@ -42,11 +44,12 @@ class PersonVoter extends Voter
         if ($user->isSuperAdmin()) return true;
 
         switch ($attribute) {
-            case self::LIST:   return $this->canList($user);
-            case self::CREATE: return $this->canCreate();
-            case self::SHOW:   return $this->canSee($user);
-            case self::EDIT:   return $this->canEdit();
-            case self::DELETE: return $this->canDelete();
+            case self::LIST:               return $this->canList($user);
+            case self::CREATE:             return $this->canCreate();
+            case self::SHOW:               return $this->canSee($user);
+            case self::EDIT:               return $this->canEdit();
+            case self::DELETE:             return $this->canDelete();
+            case self::EDIT_PERSONAL_INFO: return $this->canEditPersonalInfo($user);
             default: throw new \LogicException();
         }
     }
@@ -74,5 +77,10 @@ class PersonVoter extends Voter
     private function canDelete(): bool
     {
         return false;
+    }
+
+    private function canEditPersonalInfo(User $user): bool
+    {
+        return $user->isPerson();
     }
 }

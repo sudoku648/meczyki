@@ -36,6 +36,51 @@ class Person
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $isRefereeObserver = false;
 
+    #[ORM\Column(type: Types::STRING, length: 150, nullable: true)]
+    private ?string $email = null;
+
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $dateOfBirth = null;
+
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
+    private ?string $placeOfBirth = null;
+
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
+    private ?string $addressTown = null;
+
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
+    private ?string $addressStreet = null;
+
+    #[ORM\Column(type: Types::STRING, length: 6, nullable: true)]
+    private ?string $addressZipCode = null;
+
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
+    private ?string $addressPostOffice = null;
+
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
+    private ?string $addressVoivodeship = null;
+
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
+    private ?string $addressPowiat = null;
+
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
+    private ?string $addressGmina = null;
+
+    #[ORM\Column(type: Types::STRING, length: 150, nullable: true)]
+    private ?string $taxOfficeName = null;
+
+    #[ORM\Column(type: Types::STRING, length: 150, nullable: true)]
+    private ?string $taxOfficeAddress = null;
+
+    #[ORM\Column(type: Types::STRING, length: 11, nullable: true)]
+    private ?string $pesel = null;
+
+    #[ORM\Column(type: Types::STRING, length: 10, nullable: true)]
+    private ?string $nip = null;
+
+    #[ORM\Column(type: Types::STRING, length: 26, nullable: true)]
+    private ?string $bankAccountNumber = null;
+
     #[ORM\OneToMany(targetEntity: MatchGameBill::class, mappedBy: 'person')]
     private Collection $matchGameBills;
 
@@ -108,6 +153,186 @@ class Person
     public function setIsRefereeObserver(bool $isRefereeObserver): self
     {
         $this->isRefereeObserver = $isRefereeObserver;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getDateOfBirth(): ?\DateTimeImmutable
+    {
+        return $this->dateOfBirth;
+    }
+
+    public function setDateOfBirth(?\DateTimeImmutable $date): self
+    {
+        $this->dateOfBirth = $date;
+
+        return $this;
+    }
+
+    public function getPlaceOfBirth(): ?string
+    {
+        return $this->placeOfBirth;
+    }
+
+    public function setPlaceOfBirth(?string $town): self
+    {
+        $this->placeOfBirth = $town;
+
+        return $this;
+    }
+
+    public function getAddressTown(): ?string
+    {
+        return $this->addressTown;
+    }
+
+    public function setAddressTown(?string $town): self
+    {
+        $this->addressTown = $town;
+
+        return $this;
+    }
+
+    public function getAddressStreet(): ?string
+    {
+        return $this->addressStreet;
+    }
+
+    public function setAddressStreet(?string $streetWithNumber): self
+    {
+        $this->addressStreet = $streetWithNumber;
+
+        return $this;
+    }
+
+    public function getAddressZipCode(): ?string
+    {
+        return $this->addressZipCode;
+    }
+
+    public function setAddressZipCode(?string $zipCode): self
+    {
+        $this->addressZipCode = $zipCode;
+
+        return $this;
+    }
+
+    public function getAddressPostOffice(): ?string
+    {
+        return $this->addressPostOffice;
+    }
+
+    public function setAddressPostOffice(?string $postOffice): self
+    {
+        $this->addressPostOffice = $postOffice;
+
+        return $this;
+    }
+
+    public function getAddressVoivodeship(): ?string
+    {
+        return $this->addressVoivodeship;
+    }
+
+    public function setAddressVoivodeship(?string $voivodeship): self
+    {
+        $this->addressVoivodeship = $voivodeship;
+
+        return $this;
+    }
+
+    public function getAddressPowiat(): ?string
+    {
+        return $this->addressPowiat;
+    }
+
+    public function setAddressPowiat(?string $powiat): self
+    {
+        $this->addressPowiat = $powiat;
+
+        return $this;
+    }
+
+    public function getAddressGmina(): ?string
+    {
+        return $this->addressGmina;
+    }
+
+    public function setAddressGmina(?string $gmina): self
+    {
+        $this->addressGmina = $gmina;
+
+        return $this;
+    }
+
+    public function getTaxOfficeName(): ?string
+    {
+        return $this->taxOfficeName;
+    }
+
+    public function setTaxOfficeName(?string $name): self
+    {
+        $this->taxOfficeName = $name;
+
+        return $this;
+    }
+
+    public function getTaxOfficeAddress(): ?string
+    {
+        return $this->taxOfficeAddress;
+    }
+
+    public function setTaxOfficeAddress(?string $address): self
+    {
+        $this->taxOfficeAddress = $address;
+
+        return $this;
+    }
+
+    public function getPesel(): ?string
+    {
+        return $this->pesel;
+    }
+
+    public function setPesel(?string $pesel): self
+    {
+        $this->pesel = $pesel;
+
+        return $this;
+    }
+
+    public function getNip(): ?string
+    {
+        return $this->nip;
+    }
+
+    public function setNip(?string $nip): self
+    {
+        $this->nip = $nip;
+
+        return $this;
+    }
+
+    public function getBankAccountNumber(): ?string
+    {
+        return $this->bankAccountNumber;
+    }
+
+    public function setBankAccountNumber(?string $number): self
+    {
+        $this->bankAccountNumber = $number;
 
         return $this;
     }
