@@ -19,7 +19,7 @@ class Pesel extends Constraint
     public const CHECKSUM_FAILED_ERROR = '0dc5e9bc-02be-49a6-9ab7-244118ab8793';
     public const DATE_OF_BIRTH_ERROR = 'fd7e0ef4-72b1-41ea-a873-2be92e8ea1d2';
 
-    protected static $errorNames = [
+    protected const ERROR_NAMES = [
         self::TOO_SHORT_ERROR => 'TOO_SHORT_ERROR',
         self::TOO_LONG_ERROR => 'TOO_LONG_ERROR',
         self::INVALID_CHARACTERS_ERROR => 'INVALID_CHARACTERS_ERROR',

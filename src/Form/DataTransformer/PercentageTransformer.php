@@ -11,7 +11,7 @@ class PercentageTransformer implements DataTransformerInterface
     /**
      * Transforms percent number value to a fraction.
      *
-     * @param string|null $percent
+     * @param float|null $percent
      */
     public function transform($percent): ?float
     {
@@ -25,7 +25,7 @@ class PercentageTransformer implements DataTransformerInterface
     /**
      * Transforms percent as a fraction to number value.
      *
-     * @param string|null $fraction
+     * @param float|null $fraction
      */
     public function reverseTransform($fraction): ?float
     {

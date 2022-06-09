@@ -18,7 +18,7 @@ class Nip extends Constraint
     public const INVALID_CHARACTERS_ERROR = 'b3071b04-c70c-4c36-9ad2-028a02630e35';
     public const CHECKSUM_FAILED_ERROR = '4aa12d87-2097-4020-8df2-c72bbf9e7046';
 
-    protected static $errorNames = [
+    protected const ERROR_NAMES = [
         self::TOO_SHORT_ERROR => 'TOO_SHORT_ERROR',
         self::TOO_LONG_ERROR => 'TOO_LONG_ERROR',
         self::INVALID_CHARACTERS_ERROR => 'INVALID_CHARACTERS_ERROR',

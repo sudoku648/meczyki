@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Dto\PersonDto;
+use App\Form\DataTransformer\IbanTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -16,6 +17,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PersonPersonalInfoType extends AbstractType
 {
+    private IbanTransformer $ibanTransformer;
+
+    public function __construct(IbanTransformer $ibanTransformer)
+    {
+        $this->ibanTransformer = $ibanTransformer;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -81,6 +89,9 @@ class PersonPersonalInfoType extends AbstractType
             )
             ->add('save', SubmitType::class)
         ;
+
+        $builder->get('bankAccountNumber')
+            ->addModelTransformer($this->ibanTransformer);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

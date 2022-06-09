@@ -33,11 +33,6 @@ abstract class MatchGameBillAbstractController extends AbstractController
         );
 
         $this->manager = $manager;
-
-        // $this->breadcrumbs->addItem(
-        //     'Rachunki',
-        //     $this->router->generate('bills_front')
-        // ); @todo
     }
 
     protected function redirectToEditBill(MatchGameBill $matchGameBill): Response

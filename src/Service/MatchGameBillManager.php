@@ -160,6 +160,8 @@ class MatchGameBillManager implements ContentManagerInterface
             $colWidth = 4;
             $offset = 0;
 
+            $bankAccountNumber = \substr($bankAccountNumber, 2);
+
             for ($i = 0; $i < \strlen($bankAccountNumber); $i++) {
                 if (\in_array($i, [2, 6, 10, 14, 18, 22])) $offset++;
 

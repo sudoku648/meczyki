@@ -78,7 +78,7 @@ class Person
     #[ORM\Column(type: Types::STRING, length: 10, nullable: true)]
     private ?string $nip = null;
 
-    #[ORM\Column(type: Types::STRING, length: 26, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 28, nullable: true)]
     private ?string $bankAccountNumber = null;
 
     #[ORM\Column(type: Types::BOOLEAN)]

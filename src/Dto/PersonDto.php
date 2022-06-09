@@ -8,6 +8,7 @@ use App\Entity\Person;
 use App\Validator\Nip;
 use App\Validator\Pesel;
 use App\Validator\PolishMobilePhone;
+use App\Validator\PolishZipCode;
 use App\Validator\Unique;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -60,8 +61,8 @@ class PersonDto
     #[Assert\Length(min: 2, max: 100)]
     public ?string $addressStreet = null;
 
-    // @todo validate
     #[Assert\Length(min: 6, max: 6)]
+    #[PolishZipCode()]
     public ?string $addressZipCode = null;
 
     #[Assert\Length(min: 2, max: 100)]
@@ -93,8 +94,7 @@ class PersonDto
     #[Nip()]
     public ?string $nip = null;
 
-    // @todo validate
-    #[Assert\Length(min: 26, max: 26)]
+    #[Assert\Iban()]
     public ?string $bankAccountNumber = null;
 
     #[Assert\Type('boolean')]

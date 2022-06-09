@@ -91,7 +91,6 @@ class MatchGameManager implements ContentManagerInterface
 
     private function setNonProfitableValues(MatchGame $matchGame): MatchGame
     {
-        // @todo validator in dto
         if (!$matchGame->getFirstAssistantReferee()) {
             $matchGame->setFirstAssistantNonProfitable(null);
         }

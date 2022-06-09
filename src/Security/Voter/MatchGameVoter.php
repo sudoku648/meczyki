@@ -46,7 +46,7 @@ class MatchGameVoter extends Voter
             case self::LIST:        return $this->canList($user);
             case self::CREATE:      return $this->canCreate($user);
             case self::SHOW:        return $this->canSee($user);
-            case self::EDIT:        return $this->canEdit($user);
+            case self::EDIT:        return $this->canEdit($subject, $user);
             case self::DELETE:      return $this->canDelete($user);
             case self::CREATE_BILL: return $this->canCreateBill($subject, $user);
             default: throw new \LogicException();
@@ -68,10 +68,15 @@ class MatchGameVoter extends Voter
         return $user->isSuperAdmin();
     }
 
-    // @todo can own matches
-    private function canEdit(User $user): bool
+    private function canEdit(MatchGame $matchGame, User $user): bool
     {
-        return $user->isSuperAdmin();
+        if ($user->isSuperAdmin()) return true;
+
+        if (!$user->isPerson()) return false;
+
+        $person = $user->getPerson();
+
+        return $person->isInMatchGame($matchGame);
     }
 
     private function canDelete(User $user): bool
