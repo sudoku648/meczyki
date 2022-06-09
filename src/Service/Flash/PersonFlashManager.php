@@ -7,6 +7,7 @@ namespace App\Service\Flash;
 use App\Entity\Person;
 use App\Message\Flash\Person\PersonCreatedFlashMessage;
 use App\Message\Flash\Person\PersonDeletedFlashMessage;
+use App\Message\Flash\Person\PersonPersonalInfoUpdatedFlashMessage;
 use App\Message\Flash\Person\PersonUpdatedFlashMessage;
 use App\Service\FlashManager;
 
@@ -20,6 +21,11 @@ class PersonFlashManager extends FlashManager
     public function sendUpdated(Person $person): void
     {
         $this->flash(new PersonUpdatedFlashMessage($person->getId()));
+    }
+
+    public function sendPersonalInfoUpdated(Person $person): void
+    {
+        $this->flash(new PersonPersonalInfoUpdatedFlashMessage($person->getId()));
     }
 
     public function sendDeleted(Person $person): void

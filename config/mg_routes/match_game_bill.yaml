@@ -17,3 +17,8 @@ match_game_bill_delete:
     controller: App\Controller\MatchGameBill\MatchGameBillDeleteController::delete
     path: /mecz/{match_game_id<\d+>}/rachunek/{match_game_bill_id<\d+>}/usun
     methods: [ POST ]
+
+match_game_bill_download:
+    controller: App\Controller\MatchGameBill\MatchGameBillDownloadController
+    path: /mecz/{match_game_id<\d+>}/rachunek/{match_game_bill_id<\d+>}/pobierz
+    methods: [ GET ]

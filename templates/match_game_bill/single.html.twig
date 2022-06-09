@@ -47,4 +47,8 @@
     {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameBillVoter::EDIT'), matchGameBill) %}
         {{ include('buttons/edit_lg.html.twig', {path: 'match_game_bill_edit', parameters: {'match_game_id': matchGameBill.matchGame.id, 'match_game_bill_id': matchGameBill.id}}) }}
     {% endif %}
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameBillVoter::DOWNLOAD'), matchGameBill) %}
+        {{ include('match_game_bill/_buttons/download_xlsx_lg.html.twig', {path: 'match_game_bill_download', parameters: {'match_game_id': matchGameBill.matchGame.id, 'match_game_bill_id': matchGameBill.id}}) }}
+    {% endif %}
 {% endblock %}

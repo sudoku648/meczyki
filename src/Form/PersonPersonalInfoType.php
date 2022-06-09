@@ -6,6 +6,7 @@ namespace App\Form;
 
 use App\Dto\PersonDto;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -71,6 +72,13 @@ class PersonPersonalInfoType extends AbstractType
             ->add('pesel')
             ->add('nip')
             ->add('bankAccountNumber')
+            ->add(
+                'allowsToSendPitByEmail',
+                CheckboxType::class,
+                [
+                    'required' => false,
+                ]
+            )
             ->add('save', SubmitType::class)
         ;
     }

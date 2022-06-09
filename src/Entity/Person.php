@@ -81,6 +81,9 @@ class Person
     #[ORM\Column(type: Types::STRING, length: 26, nullable: true)]
     private ?string $bankAccountNumber = null;
 
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $allowsToSendPitByEmail = false;
+
     #[ORM\OneToMany(targetEntity: MatchGameBill::class, mappedBy: 'person')]
     private Collection $matchGameBills;
 
@@ -241,6 +244,28 @@ class Person
         return $this;
     }
 
+    public function getAddress(): string
+    {
+        $address = '';
+
+        if ($this->addressTown) {
+            $address .= $this->addressTown;
+        }
+        if ($this->addressStreet) {
+            $address .= '' !== $address ? ', '.$this->addressStreet : $this->addressStreet;
+        }
+        if ($this->addressZipCode) {
+            $address .= '' !== $address ? ', '.$this->addressZipCode : $this->addressZipCode;
+        }
+        if ($this->addressPostOffice && $this->addressZipCode) {
+            $address .= $this->addressPostOffice;
+        } else {
+            $address .= '' !== $address ? ', '.$this->addressPostOffice : $this->addressPostOffice;
+        }
+
+        return $address;
+    }
+
     public function getAddressVoivodeship(): ?string
     {
         return $this->addressVoivodeship;
@@ -333,6 +358,18 @@ class Person
     public function setBankAccountNumber(?string $number): self
     {
         $this->bankAccountNumber = $number;
+
+        return $this;
+    }
+
+    public function allowsToSendPitByEmail(): bool
+    {
+        return $this->allowsToSendPitByEmail;
+    }
+
+    public function setAllowsToSendPitByEmail(bool $isAllowed): self
+    {
+        $this->allowsToSendPitByEmail = $isAllowed;
 
         return $this;
     }

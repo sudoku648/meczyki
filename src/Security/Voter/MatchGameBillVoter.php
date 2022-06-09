@@ -11,9 +11,10 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class MatchGameBillVoter extends Voter
 {
-    const SHOW   = 'match_game_bill_show';
-    const EDIT   = 'match_game_bill_edit';
-    const DELETE = 'match_game_bill_delete';
+    const SHOW     = 'match_game_bill_show';
+    const EDIT     = 'match_game_bill_edit';
+    const DELETE   = 'match_game_bill_delete';
+    const DOWNLOAD = 'match_game_bill_download';
 
     protected function supports(string $attribute, $subject): bool
     {
@@ -23,6 +24,7 @@ class MatchGameBillVoter extends Voter
                 self::SHOW,
                 self::EDIT,
                 self::DELETE,
+                self::DOWNLOAD,
             ],
             true
         );
@@ -43,9 +45,10 @@ class MatchGameBillVoter extends Voter
         if ($user->isSuperAdmin()) return true;
 
         switch ($attribute) {
-            case self::SHOW:   return $this->canSee($subject, $user);
-            case self::EDIT:   return $this->canEdit($subject, $user);
-            case self::DELETE: return $this->canDelete($subject, $user);
+            case self::SHOW:     return $this->canSee($subject, $user);
+            case self::EDIT:     return $this->canEdit($subject, $user);
+            case self::DELETE:   return $this->canDelete($subject, $user);
+            case self::DOWNLOAD: return $this->canDownload($subject, $user);
             default: throw new \LogicException();
         }
     }
@@ -73,6 +76,17 @@ class MatchGameBillVoter extends Voter
     }
 
     private function canDelete(MatchGameBill $matchGameBill, User $user): bool
+    {
+        if (!$user->isPerson()) return false;
+
+        $person = $user->getPerson();
+
+        if ($matchGameBill->getPerson() !== $person) return false;
+
+        return true;
+    }
+
+    private function canDownload(MatchGameBill $matchGameBill, User $user): bool
     {
         if (!$user->isPerson()) return false;
 

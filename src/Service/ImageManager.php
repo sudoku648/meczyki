@@ -38,7 +38,7 @@ class ImageManager
 
     public static function isImageUrl(string $url): bool
     {
-        $urlExt = \pathinfo($url, PATHINFO_EXTENSION);
+        $urlExt = \pathinfo($url, \PATHINFO_EXTENSION);
 
         $types = \array_map(
             fn($type) => \str_replace('image/', '', $type), self::IMAGE_MIMETYPES

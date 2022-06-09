@@ -18,6 +18,7 @@
         "mhujer/breadcrumbs-bundle": "^1.5",
         "pagerfanta/pagerfanta": "^3.6",
         "phpdocumentor/reflection-docblock": "^5.3",
+        "phpoffice/phpspreadsheet": "^1.23",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/console": "6.0.*",
         "symfony/dotenv": "6.0.*",

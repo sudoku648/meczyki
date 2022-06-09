@@ -8,6 +8,7 @@ use App\Dto\PersonDto;
 use App\Entity\Person;
 use App\Event\Person\PersonCreatedEvent;
 use App\Event\Person\PersonDeletedEvent;
+use App\Event\Person\PersonPersonalInfoUpdatedEvent;
 use App\Event\Person\PersonUpdatedEvent;
 use App\Factory\PersonFactory;
 use App\Service\Contracts\ContentManagerInterface;
@@ -77,10 +78,11 @@ class PersonManager implements ContentManagerInterface
         $person->setPesel($dto->pesel);
         $person->setNip($dto->nip);
         $person->setBankAccountNumber($dto->bankAccountNumber);
+        $person->setAllowsToSendPitByEmail($dto->allowsToSendPitByEmail);
 
         $this->entityManager->flush();
 
-        // $this->dispatcher->dispatch(new PersonUpdatedEvent($person));
+        $this->dispatcher->dispatch(new PersonPersonalInfoUpdatedEvent($person));
 
         return $person;
     }

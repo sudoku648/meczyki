@@ -144,6 +144,18 @@ final class MenuBuilder
             )
         ;
 
+        if ($this->security->isGranted(PersonVoter::EDIT_PERSONAL_INFO)) {
+            $menu['rt']
+                ->addChild(
+                    'personalInfo',
+                    [
+                        'route' => 'person_personal_info_edit',
+                        'label' => 'Dane osobowe',
+                    ]
+                )
+            ;
+        }
+
         $menu['rt']
             ->addChild(
                 'logout',

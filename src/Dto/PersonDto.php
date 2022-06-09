@@ -97,6 +97,9 @@ class PersonDto
     #[Assert\Length(min: 26, max: 26)]
     public ?string $bankAccountNumber = null;
 
+    #[Assert\Type('boolean')]
+    public ?bool $allowsToSendPitByEmail = null;
+
     private ?int $id = null;
 
     #[Assert\Callback]

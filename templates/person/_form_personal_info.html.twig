@@ -14,6 +14,7 @@
     {{ form_row(form.pesel, {'label': 'PESEL'}) }}
     {{ form_row(form.nip, {'label': 'NIP'}) }}
     {{ form_row(form.bankAccountNumber, {'label': 'Numer konta'}) }}
+    {{ form_row(form.allowsToSendPitByEmail, {'label': 'Zgoda na wysyłanie PIT na adres e-mail'}) }}
     {{ form_row(form.save, {'label': button_save_label|default('Zapisz'), 'attr': {'class': 'btn-success icon-save loadable-save'}}) }}
     {% if is_granted(constant('\\App\\Security\\Voter\\FrontVoter::FRONT')) %}
         <a href="{{ path('front') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do panelu">Anuluj</a>

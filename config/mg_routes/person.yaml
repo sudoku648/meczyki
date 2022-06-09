@@ -25,5 +25,5 @@ person_delete:
 
 person_personal_info_edit:
     controller: App\Controller\Person\PersonPersonalInfoEditController
-    path: /dane-osobowe/edytuj
+    path: /dane-osobowe
     methods: [ GET, POST ]
