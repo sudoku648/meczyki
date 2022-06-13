@@ -9,11 +9,11 @@ use App\Validator\Nip;
 use App\Validator\Pesel;
 use App\Validator\PolishMobilePhone;
 use App\Validator\PolishZipCode;
-use App\Validator\Unique;
+use App\Validator\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-#[Unique(options: [
+#[UniqueEntity(options: [
     'entityClass' => Person::class,
     'errorPath' => 'mobilePhone',
     'fields' => ['mobilePhone'],

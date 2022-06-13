@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  * @Target({"CLASS"})
  */
 #[\Attribute(\Attribute::TARGET_CLASS)]
-class Unique extends Constraint
+class UniqueEntity extends Constraint
 {
     public const NOT_UNIQUE_ERROR = 'eec1b008-c55b-4d91-b5ad-f0b201eb8ada';
 
@@ -46,7 +46,19 @@ class Unique extends Constraint
      */
     public $idFields;
 
-    public $takeNullIntoAccount = false;
+    /**
+     * If NULL values should be compared.
+     *
+     * @var string[]|null
+     */
+    public $nullComparisonForFields;
+
+    /**
+     * If strings should be compared case insensitive.
+     *
+     * @var bool
+     */
+    public $caseInsensitive = true;
 
     public $errorPath = '';
 

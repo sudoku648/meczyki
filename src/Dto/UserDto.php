@@ -7,10 +7,10 @@ namespace App\Dto;
 use App\Dto\Contracts\UserDtoInterface;
 use App\Entity\Person;
 use App\Entity\User;
-use App\Validator\Unique;
+use App\Validator\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[Unique(options: [
+#[UniqueEntity(options: [
     'entityClass' => User::class,
     'errorPath' => 'username',
     'fields' => ['username'],

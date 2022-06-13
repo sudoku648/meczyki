@@ -6,14 +6,15 @@ namespace App\Dto;
 
 use App\Entity\GameType;
 use App\Entity\Image;
-use App\Validator\Unique;
+use App\Validator\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[Unique(options: [
+#[UniqueEntity(options: [
     'entityClass' => GameType::class,
     'errorPath' => 'group',
     'fields' => ['name', 'group'],
     'idFields' => 'id',
+    'nullComparisonForFields' => ['group'],
     'message' => 'Rozgrywki mają już tę grupę.',
 ])]
 class GameTypeDto

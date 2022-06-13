@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
-final class UniqueValidator extends ConstraintValidator
+final class UniqueEntityValidator extends ConstraintValidator
 {
     private EntityManagerInterface $entityManager;
 
@@ -25,8 +25,8 @@ final class UniqueValidator extends ConstraintValidator
             throw new UnexpectedTypeException($value, 'object');
         }
 
-        if (!$constraint instanceof Unique) {
-            throw new UnexpectedTypeException($constraint, Unique::class);
+        if (!$constraint instanceof UniqueEntity) {
+            throw new UnexpectedTypeException($constraint, UniqueEntity::class);
         }
 
         $qb = $this->entityManager->createQueryBuilder()
@@ -42,8 +42,11 @@ final class UniqueValidator extends ConstraintValidator
 
             $fieldValue = $propertyAccessor->getValue($value, $dtoField);
 
-            if ($constraint->takeNullIntoAccount && null === $fieldValue) {
+            if (\in_array($dtoField, (array) $constraint->nullComparisonForFields) && null === $fieldValue) {
                 $qb->andWhere($qb->expr()->isNull("e.$entityField"));
+            } elseif (\is_string($fieldValue) && $constraint->caseInsensitive) {
+                $qb->andWhere($qb->expr()->eq("LOWER(e.$entityField)", "LOWER(:f_$entityField)"));
+                $qb->setParameter("f_$entityField", \mb_strtolower($fieldValue));
             } else {
                 $qb->andWhere($qb->expr()->eq("e.$entityField", ":f_$entityField"));
                 $qb->setParameter("f_$entityField", $fieldValue);
@@ -67,7 +70,7 @@ final class UniqueValidator extends ConstraintValidator
 
         if ($count > 0) {
             $this->context->buildViolation($constraint->message)
-                ->setCode(Unique::NOT_UNIQUE_ERROR)
+                ->setCode(UniqueEntity::NOT_UNIQUE_ERROR)
                 ->atPath($constraint->errorPath)
                 ->addViolation();
         }

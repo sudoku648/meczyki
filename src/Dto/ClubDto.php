@@ -6,10 +6,10 @@ namespace App\Dto;
 
 use App\Entity\Club;
 use App\Entity\Image;
-use App\Validator\Unique;
+use App\Validator\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[Unique(options: [
+#[UniqueEntity(options: [
     'entityClass' => Club::class,
     'errorPath' => 'name',
     'fields' => ['name'],
