@@ -14,7 +14,7 @@ final class Version20220608105952 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Personal info for person entity';
     }
 
     public function up(Schema $schema): void

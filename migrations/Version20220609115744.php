@@ -14,7 +14,7 @@ final class Version20220609115744 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Fix bank account number length (longer for IBAN)';
     }
 
     public function up(Schema $schema): void

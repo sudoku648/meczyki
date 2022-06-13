@@ -14,7 +14,7 @@ final class Version20220607133909 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'MatchGameBill entity';
     }
 
     public function up(Schema $schema): void

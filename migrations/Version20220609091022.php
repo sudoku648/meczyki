@@ -14,7 +14,7 @@ final class Version20220609091022 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Permission to send PIT by email option';
     }
 
     public function up(Schema $schema): void
