@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Dto\RefereeDto;
+use App\Dto\PersonDto;
 use App\Form\DataTransformer\PolishMobilePhoneTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -44,7 +44,7 @@ class RefereeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => RefereeDto::class
+            'data_class' => PersonDto::class
         ]);
     }
 }

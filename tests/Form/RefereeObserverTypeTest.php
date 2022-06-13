@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Form;
 
-use App\Dto\RefereeObserverDto;
+use App\Dto\PersonDto;
 use App\Form\DataTransformer\PolishMobilePhoneTransformer;
 use App\Form\RefereeObserverType;
 use Symfony\Component\Form\PreloadedExtension;
@@ -38,10 +38,11 @@ class RefereeObserverTypeTest extends TypeTestCase
             'mobilePhone' => '520123456',
         ];
 
-        $model = new RefereeObserverDto();
+        $model = new PersonDto();
+        $model->isRefereeObserver = true;
         $form = $this->factory->create(RefereeObserverType::class, $model);
 
-        $expected = new RefereeObserverDto();
+        $expected = new PersonDto();
         $expected->firstName         = $formData['firstName'];
         $expected->lastName          = $formData['lastName'];
         $expected->mobilePhone       = '+48'.$formData['mobilePhone'];

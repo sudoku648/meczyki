@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Form;
 
-use App\Dto\RefereeDto;
+use App\Dto\PersonDto;
 use App\Form\DataTransformer\PolishMobilePhoneTransformer;
 use App\Form\RefereeType;
 use Symfony\Component\Form\PreloadedExtension;
@@ -38,10 +38,11 @@ class RefereeTypeTest extends TypeTestCase
             'mobilePhone' => '520123456',
         ];
 
-        $model = new RefereeDto();
+        $model = new PersonDto();
+        $model->isReferee = true;
         $form = $this->factory->create(RefereeType::class, $model);
 
-        $expected = new RefereeDto();
+        $expected = new PersonDto();
         $expected->firstName         = $formData['firstName'];
         $expected->lastName          = $formData['lastName'];
         $expected->mobilePhone       = '+48'.$formData['mobilePhone'];

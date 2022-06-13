@@ -25,6 +25,7 @@ class RefereeCreateController extends RefereeAbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $dto = $form->getData();
+            $dto->isReferee = true;
 
             $this->manager->create($dto);
 

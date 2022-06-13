@@ -25,6 +25,7 @@ class DelegateCreateController extends DelegateAbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $dto = $form->getData();
+            $dto->isDelegate = true;
 
             $this->manager->create($dto);
 

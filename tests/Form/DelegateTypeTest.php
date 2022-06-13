@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Form;
 
-use App\Dto\DelegateDto;
+use App\Dto\PersonDto;
 use App\Form\DataTransformer\PolishMobilePhoneTransformer;
 use App\Form\DelegateType;
 use Symfony\Component\Form\PreloadedExtension;
@@ -38,10 +38,11 @@ class DelegateTypeTest extends TypeTestCase
             'mobilePhone' => '520123456',
         ];
 
-        $model = new DelegateDto();
+        $model = new PersonDto();
+        $model->isDelegate = true;
         $form = $this->factory->create(DelegateType::class, $model);
 
-        $expected = new DelegateDto();
+        $expected = new PersonDto();
         $expected->firstName         = $formData['firstName'];
         $expected->lastName          = $formData['lastName'];
         $expected->mobilePhone       = '+48'.$formData['mobilePhone'];

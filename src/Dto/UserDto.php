@@ -26,6 +26,9 @@ class UserDto implements UserDtoInterface
     #[Assert\Length(min: 6, max: 4096)]
     public ?string $plainPassword = null;
 
+    #[Assert\Type('boolean')]
+    public ?bool $isActive = null;
+
     public Person|PersonDto|null $person = null;
 
     private ?int $id = null;

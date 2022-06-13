@@ -25,6 +25,7 @@ class RefereeObserverCreateController extends RefereeObserverAbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $dto = $form->getData();
+            $dto->isRefereeObserver = true;
 
             $this->manager->create($dto);
 
