@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Dto\UserBindWithPersonDto;
+use App\Dto\UserDto;
 use App\Entity\Person;
 use App\Repository\PersonRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -47,7 +47,7 @@ class UserBindWithPersonType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => UserBindWithPersonDto::class
+            'data_class' => UserDto::class
         ]);
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Dto\UserBindWithPersonDto;
 use App\Dto\UserDto;
 use App\Entity\Person;
 use App\Entity\User;
@@ -138,11 +137,6 @@ class UserManager
     public function createDto(User $user): UserDto
     {
         return $this->factory->createDto($user);
-    }
-
-    public function createUserBindWithPersonDto(User $user): UserBindWithPersonDto
-    {
-        return $this->factory->createUserBindWithPersonDto($user);
     }
 
     public function logout(): void

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Dto;
 
 use App\Dto\Contracts\UserDtoInterface;
+use App\Entity\Person;
 use App\Entity\User;
 use App\Validator\Unique;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -24,6 +25,8 @@ class UserDto implements UserDtoInterface
 
     #[Assert\Length(min: 6, max: 4096)]
     public ?string $plainPassword = null;
+
+    public Person|PersonDto|null $person = null;
 
     private ?int $id = null;
 

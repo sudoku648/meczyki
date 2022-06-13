@@ -41,7 +41,7 @@ class UserBindWithPersonController extends UserAbstractController
             )
         ;
 
-        $dto = $this->manager->createUserBindWithPersonDto($user);
+        $dto = $this->manager->createDto($user);
 
         $form = $this->createForm(UserBindWithPersonType::class, $dto);
         $form->handleRequest($request);

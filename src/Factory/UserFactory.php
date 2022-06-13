@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Factory;
 
-use App\Dto\UserBindWithPersonDto;
 use App\Dto\UserDto;
 use App\Entity\User;
 use App\Factory\Contracts\ContentFactoryInterface;
@@ -25,17 +24,8 @@ class UserFactory implements ContentFactoryInterface
 
         $dto->username  = $user->getUsername();
         $dto->isActive  = $user->isActive();
+        $dto->person    = $user->getPerson();
         $dto->createdAt = $user->getCreatedAt();
-        $dto->setId($user->getId());
-
-        return $dto;
-    }
-
-    public function createUserBindWithPersonDto(User $user): UserBindWithPersonDto
-    {
-        $dto = new UserBindWithPersonDto();
-
-        $dto->person = $user->getPerson();
         $dto->setId($user->getId());
 
         return $dto;
