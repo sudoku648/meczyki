@@ -39,7 +39,9 @@ class MatchGameBillFactory implements ContentFactoryInterface
         $dto->incomeTax                 = $matchGameBill->getIncomeTax();
         $dto->equivalentToWithdraw      = $matchGameBill->getEquivalentToWithdraw();
         $dto->createdAt                 = $matchGameBill->getCreatedAt();
+        $dto->createdAtAgo              = $matchGameBill->getCreatedAtAgo();
         $dto->updatedAt                 = $matchGameBill->getUpdatedAt();
+        $dto->updatedAtAgo              = $matchGameBill->getUpdatedAtAgo();
         $dto->setId($matchGameBill->getId());
 
         return $dto;

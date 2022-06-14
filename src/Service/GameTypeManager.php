@@ -55,6 +55,7 @@ class GameTypeManager implements ContentManagerInterface
         $gameType->setIsOfficial($dto->isOfficial);
         $oldImage = $gameType->getImage();
         $gameType->setImage($dto->image);
+        $gameType->setUpdatedAt();
 
         $this->entityManager->flush();
 

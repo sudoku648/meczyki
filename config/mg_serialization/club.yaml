@@ -6,3 +6,11 @@ App\Dto\ClubDto:
             groups: [ 'club:collection:get', 'club:item:get', 'single:club:team:collection:get', 'team:item:get' ]
         emblem:
             groups: [ 'single:club:team:collection:get', 'club:item:get' ]
+        createdAt:
+            groups: [ 'club:item:get' ]
+        updatedAt:
+            groups: [ 'club:item:get' ]
+        createdAtAgo:
+            groups: [ 'club:item:get' ]
+        updatedAtAgo:
+            groups: [ 'club:item:get' ]

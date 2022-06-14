@@ -12,3 +12,11 @@ App\Dto\GameTypeDto:
             groups: [ 'gameType:item:get' ]
         image:
             groups: [ 'gameType:item:get' ]
+        createdAt:
+            groups: [ 'gameType:item:get' ]
+        updatedAt:
+            groups: [ 'gameType:item:get' ]
+        createdAtAgo:
+            groups: [ 'gameType:item:get' ]
+        updatedAtAgo:
+            groups: [ 'gameType:item:get' ]

@@ -22,10 +22,13 @@ class UserFactory implements ContentFactoryInterface
     {
         $dto = new UserDto();
 
-        $dto->username  = $user->getUsername();
-        $dto->isActive  = $user->isActive();
-        $dto->person    = $user->getPerson();
-        $dto->createdAt = $user->getCreatedAt();
+        $dto->username     = $user->getUsername();
+        $dto->isActive     = $user->isActive();
+        $dto->person       = $user->getPerson();
+        $dto->createdAt    = $user->getCreatedAt();
+        $dto->createdAtAgo = $user->getCreatedAtAgo();
+        $dto->updatedAt    = $user->getUpdatedAt();
+        $dto->updatedAtAgo = $user->getUpdatedAtAgo();
         $dto->setId($user->getId());
 
         return $dto;

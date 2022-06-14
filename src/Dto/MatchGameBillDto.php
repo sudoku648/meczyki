@@ -30,6 +30,14 @@ class MatchGameBillDto
     #[Assert\Range(min: 0, max: 100)]
     public ?int $incomeTaxStakePercent = null;
 
+    public ?\DateTimeImmutable $createdAt = null;
+
+    public ?string $createdAtAgo = null;
+
+    public ?\DateTimeImmutable $updatedAt = null;
+
+    public ?string $updatedAtAgo = null;
+
     private ?int $id = null;
 
     public function getId(): ?int

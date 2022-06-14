@@ -19,6 +19,14 @@ class TeamDto
 
     public Club|ClubDto|null $club = null;
 
+    public ?\DateTimeImmutable $createdAt = null;
+
+    public ?string $createdAtAgo = null;
+
+    public ?\DateTimeImmutable $updatedAt = null;
+
+    public ?string $updatedAtAgo = null;
+
     private ?int $id = null;
 
     public function getId(): ?int

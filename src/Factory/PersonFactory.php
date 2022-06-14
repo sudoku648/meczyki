@@ -51,7 +51,9 @@ class PersonFactory implements ContentFactoryInterface
         $dto->bankAccountNumber      = $person->getBankAccountNumber();
         $dto->allowsToSendPitByEmail = $person->allowsToSendPitByEmail();
         $dto->createdAt              = $person->getCreatedAt();
+        $dto->createdAtAgo           = $person->getCreatedAtAgo();
         $dto->updatedAt              = $person->getUpdatedAt();
+        $dto->updatedAtAgo           = $person->getUpdatedAtAgo();
         $dto->setId($person->getId());
 
         return $dto;

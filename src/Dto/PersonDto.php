@@ -100,6 +100,14 @@ class PersonDto
     #[Assert\Type('boolean')]
     public ?bool $allowsToSendPitByEmail = null;
 
+    public ?\DateTimeImmutable $createdAt = null;
+
+    public ?string $createdAtAgo = null;
+
+    public ?\DateTimeImmutable $updatedAt = null;
+
+    public ?string $updatedAtAgo = null;
+
     private ?int $id = null;
 
     #[Assert\Callback]

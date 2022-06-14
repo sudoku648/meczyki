@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\CreatedAtTrait;
+use App\Entity\Traits\UpdatedAtTrait;
 use App\Repository\GameTypeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,6 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: GameTypeRepository::class)]
 class GameType
 {
+    use CreatedAtTrait {
+        CreatedAtTrait::__construct as createdAtTraitConstruct;
+    }
+    use UpdatedAtTrait;
+
     #[ORM\Column(type: Types::STRING, length: 150)]
     private string $name = '';
 
@@ -38,6 +45,8 @@ class GameType
         $this->name       = $name;
         $this->group      = $group;
         $this->isOfficial = $isOfficial;
+
+        $this->createdAtTraitConstruct();
     }
 
     public function getName(): string

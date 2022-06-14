@@ -34,3 +34,11 @@ App\Dto\MatchGameDto:
             groups: [ 'matchGame:item:get' ]
         moreInfo:
             groups: [ 'matchGame:item:get' ]
+        createdAt:
+            groups: [ 'matchGame:item:get' ]
+        updatedAt:
+            groups: [ 'matchGame:item:get' ]
+        createdAtAgo:
+            groups: [ 'matchGame:item:get' ]
+        updatedAtAgo:
+            groups: [ 'matchGame:item:get' ]

@@ -6,3 +6,11 @@ App\Dto\UserDto:
             groups: [ 'user:collection:get', 'user:item:get' ]
         plainPassword:
             groups: [ 'user:write' ]
+        createdAt:
+            groups: [ 'user:item:get' ]
+        updatedAt:
+            groups: [ 'user:item:get' ]
+        createdAtAgo:
+            groups: [ 'user:item:get' ]
+        updatedAtAgo:
+            groups: [ 'user:item:get' ]

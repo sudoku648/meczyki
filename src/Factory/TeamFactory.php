@@ -23,11 +23,13 @@ class TeamFactory implements ContentFactoryInterface
     {
         $dto = new TeamDto();
 
-        $dto->fullName  = $team->getFullName();
-        $dto->shortName = $team->getShortName();
-        $dto->club      = $team->getClub();
-        $dto->createdAt = $team->getCreatedAt();
-        $dto->updatedAt = $team->getUpdatedAt();
+        $dto->fullName     = $team->getFullName();
+        $dto->shortName    = $team->getShortName();
+        $dto->club         = $team->getClub();
+        $dto->createdAt    = $team->getCreatedAt();
+        $dto->createdAtAgo = $team->getCreatedAtAgo();
+        $dto->updatedAt    = $team->getUpdatedAt();
+        $dto->updatedAtAgo = $team->getUpdatedAtAgo();
         $dto->setId($team->getId());
 
         return $dto;

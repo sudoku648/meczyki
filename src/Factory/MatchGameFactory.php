@@ -55,8 +55,10 @@ class MatchGameFactory implements ContentFactoryInterface
         $dto->refereeObserver                = $matchGame->getRefereeObserver();
         $dto->delegate                       = $matchGame->getDelegate();
         $dto->moreInfo                       = $matchGame->getMoreInfo();
-        $dto->updatedAt                      = $matchGame->getUpdatedAt();
         $dto->createdAt                      = $matchGame->getCreatedAt();
+        $dto->createdAtAgo                   = $matchGame->getCreatedAtAgo();
+        $dto->updatedAt                      = $matchGame->getUpdatedAt();
+        $dto->updatedAtAgo                   = $matchGame->getUpdatedAtAgo();
         $dto->setId($matchGame->getId());
 
         return $dto;
