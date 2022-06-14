@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\GameType;
 
 use App\Entity\GameType;
+use App\Message\Flash\GameType\GameTypeDeletedFlashMessage;
 use App\Security\Voter\GameTypeVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,8 @@ class GameTypeDeleteController extends GameTypeAbstractController
         $this->denyAccessUnlessGranted(GameTypeVoter::DELETE, $gameType);
 
         $this->validateCsrf('game_type_delete', $request->request->get('_token'));
+
+        $this->flash(new GameTypeDeletedFlashMessage($gameType->getId()));
 
         $this->manager->delete($gameType);
 

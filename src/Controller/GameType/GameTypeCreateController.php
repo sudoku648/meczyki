@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\GameType;
 
 use App\Form\GameTypeType;
+use App\Message\Flash\GameType\GameTypeCreatedFlashMessage;
 use App\Security\Voter\GameTypeVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,7 +27,9 @@ class GameTypeCreateController extends GameTypeAbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $dto = $form->getData();
 
-            $this->manager->create($dto);
+            $gameType = $this->manager->create($dto);
+
+            $this->flash(new GameTypeCreatedFlashMessage($gameType->getId()));
 
             /** @var ClickableInterface $continueButton */
             $continueButton = $form->get('saveAndContinue');

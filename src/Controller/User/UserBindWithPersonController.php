@@ -6,6 +6,8 @@ namespace App\Controller\User;
 
 use App\Entity\User;
 use App\Form\UserBindWithPersonType;
+use App\Message\Flash\User\UserBoundWithPersonFlashMessage;
+use App\Message\Flash\User\UserUnboundWithPersonFlashMessage;
 use App\Security\Voter\UserVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,8 +51,10 @@ class UserBindWithPersonController extends UserAbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($dto->person) {
                 $this->manager->bindWithPerson($user, $dto->person);
+                $this->flash(new UserBoundWithPersonFlashMessage($user->getId()));
             } else {
                 $this->manager->unbindPerson($user);
+                $this->flash(new UserUnboundWithPersonFlashMessage($user->getId()));
             }
 
             /** @var ClickableInterface $continueButton */

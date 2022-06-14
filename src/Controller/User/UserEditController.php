@@ -8,6 +8,7 @@ use App\Dto\UserDto;
 use App\Entity\User;
 use App\Form\UserBasicType;
 use App\Form\UserPasswordType;
+use App\Message\Flash\User\UserUpdatedFlashMessage;
 use App\Security\Voter\UserVoter;
 use App\Service\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -84,6 +85,8 @@ class UserEditController extends UserAbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->edit($user, $dto);
+
+            $this->flash(new UserUpdatedFlashMessage($user->getId()));
 
             /** @var ClickableInterface $continueButton */
             $continueButton = $form->get('saveAndContinue');

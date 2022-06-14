@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Person;
 
 use App\Entity\Person;
+use App\Message\Flash\Person\PersonDeletedFlashMessage;
 use App\Security\Voter\PersonVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,8 @@ class PersonDeleteController extends PersonAbstractController
         $this->denyAccessUnlessGranted(PersonVoter::DELETE, $person);
 
         $this->validateCsrf('person_delete', $request->request->get('_token'));
+
+        $this->flash(new PersonDeletedFlashMessage($person->getId()));
 
         $this->manager->delete($person);
 

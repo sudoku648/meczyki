@@ -10,8 +10,6 @@ use App\Entity\User;
 use App\Event\User\UserActivateEvent;
 use App\Event\User\UserBindWithPersonEvent;
 use App\Event\User\UserDeletedEvent;
-use App\Event\User\UserNotBindWithPersonEvent;
-use App\Event\User\UserNotUnbindWithPersonEvent;
 use App\Event\User\UserUnbindWithPersonEvent;
 use App\Factory\UserFactory;
 use Doctrine\ORM\EntityManagerInterface;
@@ -108,11 +106,6 @@ class UserManager
 
     public function bindWithPerson(User $user, Person $person): void
     {
-        if ($user->getPerson() === $person) {
-            $this->dispatcher->dispatch(new UserNotBindWithPersonEvent($user));
-            return;
-        }
-
         $user->bindWithPerson($person);
 
         $this->entityManager->flush();
@@ -122,11 +115,6 @@ class UserManager
 
     public function unbindPerson(User $user): void
     {
-        if (!$user->getPerson()) {
-            $this->dispatcher->dispatch(new UserNotUnbindWithPersonEvent($user));
-            return;
-        }
-
         $user->unbindPerson();
 
         $this->entityManager->flush();

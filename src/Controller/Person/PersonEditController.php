@@ -6,6 +6,7 @@ namespace App\Controller\Person;
 
 use App\Entity\Person;
 use App\Form\PersonType;
+use App\Message\Flash\Person\PersonUpdatedFlashMessage;
 use App\Security\Voter\PersonVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,6 +36,8 @@ class PersonEditController extends PersonAbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $person = $this->manager->edit($person, $dto);
+
+            $this->flash(new PersonUpdatedFlashMessage($person->getId()));
 
             /** @var ClickableInterface $continueButton */
             $continueButton = $form->get('saveAndContinue');

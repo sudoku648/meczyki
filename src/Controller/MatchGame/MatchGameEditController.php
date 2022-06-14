@@ -6,6 +6,7 @@ namespace App\Controller\MatchGame;
 
 use App\Entity\MatchGame;
 use App\Form\MatchGameType;
+use App\Message\Flash\MatchGame\MatchGameUpdatedFlashMessage;
 use App\Security\Voter\MatchGameVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,6 +36,8 @@ class MatchGameEditController extends MatchGameAbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $matchGame = $this->manager->edit($matchGame, $dto);
+
+            $this->flash(new MatchGameUpdatedFlashMessage($matchGame->getId()));
 
             /** @var ClickableInterface $continueButton */
             $continueButton = $form->get('saveAndContinue');

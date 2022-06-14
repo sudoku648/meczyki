@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Club;
 
 use App\Entity\Club;
+use App\Message\Flash\Club\ClubDeletedFlashMessage;
 use App\Security\Voter\ClubVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,8 @@ class ClubDeleteController extends ClubAbstractController
         $this->denyAccessUnlessGranted(ClubVoter::DELETE, $club);
 
         $this->validateCsrf('club_delete', $request->request->get('_token'));
+
+        $this->flash(new ClubDeletedFlashMessage($club->getId()));
 
         $this->manager->delete($club);
 

@@ -6,6 +6,7 @@ namespace App\Controller\Team;
 
 use App\Entity\Club;
 use App\Form\TeamType;
+use App\Message\Flash\Team\TeamCreatedFlashMessage;
 use App\Security\Voter\TeamVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,7 +47,9 @@ class TeamCreateController extends TeamAbstractController
             $dto       = $form->getData();
             $dto->club = $club;
 
-            $this->manager->create($dto);
+            $team = $this->manager->create($dto);
+
+            $this->flash(new TeamCreatedFlashMessage($team->getId()));
 
             /** @var ClickableInterface $continueButton */
             $continueButton = $form->get('saveAndContinue');

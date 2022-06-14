@@ -6,6 +6,7 @@ namespace App\Controller\Team;
 
 use App\Entity\Club;
 use App\Entity\Team;
+use App\Message\Flash\Team\TeamDeletedFlashMessage;
 use App\Security\Voter\TeamVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,8 @@ class TeamDeleteController extends TeamAbstractController
         $this->denyAccessUnlessGranted(TeamVoter::DELETE, $team);
 
         $this->validateCsrf('team_delete', $request->request->get('_token'));
+
+        $this->flash(new TeamDeletedFlashMessage($team->getId()));
 
         $this->manager->delete($team);
 

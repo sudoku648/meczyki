@@ -6,6 +6,7 @@ namespace App\Controller\MatchGameBill;
 
 use App\Entity\MatchGameBill;
 use App\Entity\MatchGame;
+use App\Message\Flash\MatchGameBill\MatchGameBillDeletedFlashMessage;
 use App\Security\Voter\MatchGameBillVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,8 @@ class MatchGameBillDeleteController extends MatchGameBillAbstractController
         $this->denyAccessUnlessGranted(MatchGameBillVoter::DELETE, $matchGameBill);
 
         $this->validateCsrf('match_game_bill_delete', $request->request->get('_token'));
+
+        $this->flash(new MatchGameBillDeletedFlashMessage($matchGameBill->getId()));
 
         $this->manager->delete($matchGameBill);
 

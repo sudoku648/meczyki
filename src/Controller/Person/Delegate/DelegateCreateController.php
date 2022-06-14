@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Person\Delegate;
 
 use App\Form\DelegateType;
+use App\Message\Flash\Person\PersonCreatedFlashMessage;
 use App\Security\Voter\DelegateVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,7 +28,9 @@ class DelegateCreateController extends DelegateAbstractController
             $dto = $form->getData();
             $dto->isDelegate = true;
 
-            $this->manager->create($dto);
+            $person = $this->manager->create($dto);
+
+            $this->flash(new PersonCreatedFlashMessage($person->getId()));
 
             /** @var ClickableInterface $continueButton */
             $continueButton = $form->get('saveAndContinue');

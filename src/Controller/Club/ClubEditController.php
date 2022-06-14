@@ -6,6 +6,7 @@ namespace App\Controller\Club;
 
 use App\Entity\Club;
 use App\Form\ClubType;
+use App\Message\Flash\Club\ClubUpdatedFlashMessage;
 use App\Security\Voter\ClubVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,6 +36,8 @@ class ClubEditController extends ClubAbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $club = $this->manager->edit($club, $dto);
+
+            $this->flash(new ClubUpdatedFlashMessage($club->getId()));
 
             /** @var ClickableInterface $continueButton */
             $continueButton = $form->get('saveAndContinue');

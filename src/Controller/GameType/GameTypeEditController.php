@@ -6,6 +6,7 @@ namespace App\Controller\GameType;
 
 use App\Entity\GameType;
 use App\Form\GameTypeType;
+use App\Message\Flash\GameType\GameTypeUpdatedFlashMessage;
 use App\Security\Voter\GameTypeVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,6 +36,8 @@ class GameTypeEditController extends GameTypeAbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $gameType = $this->manager->edit($gameType, $dto);
+
+            $this->flash(new GameTypeUpdatedFlashMessage($gameType->getId()));
 
             /** @var ClickableInterface $continueButton */
             $continueButton = $form->get('saveAndContinue');

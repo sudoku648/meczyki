@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Club;
 
 use App\Form\ClubType;
+use App\Message\Flash\Club\ClubCreatedFlashMessage;
 use App\Security\Voter\ClubVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,7 +27,9 @@ class ClubCreateController extends ClubAbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $dto = $form->getData();
 
-            $this->manager->create($dto);
+            $club = $this->manager->create($dto);
+
+            $this->flash(new ClubCreatedFlashMessage($club->getId()));
 
             /** @var ClickableInterface $continueButton */
             $continueButton = $form->get('saveAndContinue');

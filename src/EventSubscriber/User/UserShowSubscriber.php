@@ -9,10 +9,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class UserShowSubscriber implements EventSubscriberInterface
 {
-    public function __construct()
-    {
-    }
-
     public static function getSubscribedEvents(): array
     {
         return [

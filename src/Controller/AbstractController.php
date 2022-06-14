@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\Club;
 use App\Entity\MatchGame;
 use App\Entity\User;
+use App\Message\Contracts\FlashMessageInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
@@ -117,5 +118,13 @@ abstract class AbstractController extends BaseAbstractController
                 ),
             ]
         );
+    }
+
+    protected function flash(
+        FlashMessageInterface $message,
+        string $type = 'success'
+    ): void
+    {
+        $this->addFlash($type, $message->getMessage());
     }
 }

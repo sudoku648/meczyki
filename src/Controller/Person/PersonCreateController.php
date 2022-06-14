@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Person;
 
 use App\Form\PersonType;
+use App\Message\Flash\Person\PersonCreatedFlashMessage;
 use App\Security\Voter\PersonVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,7 +27,9 @@ class PersonCreateController extends PersonAbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $dto = $form->getData();
 
-            $this->manager->create($dto);
+            $person = $this->manager->create($dto);
+
+            $this->flash(new PersonCreatedFlashMessage($person->getId()));
 
             /** @var ClickableInterface $continueButton */
             $continueButton = $form->get('saveAndContinue');
