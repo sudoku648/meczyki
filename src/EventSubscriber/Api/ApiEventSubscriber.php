@@ -10,11 +10,13 @@ use App\Dto\ClubDto;
 use App\Dto\GameTypeDto;
 use App\Dto\MatchGameDto;
 use App\Dto\TeamDto;
+use App\Dto\UserDto;
 use App\Factory\ClubFactory;
 use App\Factory\GameTypeFactory;
 use App\Factory\ImageFactory;
 use App\Factory\PersonFactory;
 use App\Factory\TeamFactory;
+use App\Factory\UserFactory;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -26,13 +28,15 @@ final class ApiEventSubscriber implements EventSubscriberInterface
     private ImageFactory $imageFactory;
     private PersonFactory $personFactory;
     private TeamFactory $teamFactory;
+    private UserFactory $userFactory;
 
     public function __construct(
         ClubFactory $clubFactory,
         GameTypeFactory $gameTypeFactory,
         ImageFactory $imageFactory,
         PersonFactory $personFactory,
-        TeamFactory $teamFactory
+        TeamFactory $teamFactory,
+        UserFactory $userFactory
     )
     {
         $this->clubFactory     = $clubFactory;
@@ -40,6 +44,7 @@ final class ApiEventSubscriber implements EventSubscriberInterface
         $this->imageFactory    = $imageFactory;
         $this->personFactory   = $personFactory;
         $this->teamFactory     = $teamFactory;
+        $this->userFactory     = $userFactory;
     }
 
     public static function getSubscribedEvents(): array
@@ -71,6 +76,9 @@ final class ApiEventSubscriber implements EventSubscriberInterface
             case $dto instanceof TeamDto:
                 $this->team($dto);
                 break;
+            case $dto instanceof UserDto:
+                $this->user($dto);
+                break;
         }
     }
 
@@ -93,6 +101,9 @@ final class ApiEventSubscriber implements EventSubscriberInterface
                 case $dto instanceof TeamDto:
                     $this->team($dto);
                     break;
+                case $dto instanceof UserDto:
+                    $this->user($dto);
+                    break;
             }
         }
     }
@@ -109,6 +120,8 @@ final class ApiEventSubscriber implements EventSubscriberInterface
 
     private function matchGame(MatchGameDto $dto): void
     {
+        $dto->user = $dto->user
+            ? $this->userFactory->createDto($dto->user) : null;
         $dto->homeTeam = $dto->homeTeam
             ? $this->teamFactory->createDto($dto->homeTeam) : null;
         $dto->awayTeam = $dto->awayTeam
@@ -132,5 +145,10 @@ final class ApiEventSubscriber implements EventSubscriberInterface
     private function team(TeamDto $dto): void
     {
         $dto->club = $dto->club ? $this->clubFactory->createDto($dto->club) : null;
+    }
+
+    private function user(UserDto $dto): void
+    {
+        $dto->person = $dto->person ? $this->personFactory->createDto($dto->person) : null;
     }
 }
