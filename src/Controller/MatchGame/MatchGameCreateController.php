@@ -34,11 +34,7 @@ class MatchGameCreateController extends MatchGameAbstractController
                 return $this->redirectToRefererOrHome($request);
             }
 
-            return $this->redirectToRoute(
-                'match_games_front',
-                [],
-                Response::HTTP_SEE_OTHER
-            );
+            return $this->redirectToMatchGamesList();
         }
 
         return $this->render(

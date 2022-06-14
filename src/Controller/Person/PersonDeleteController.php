@@ -21,6 +21,6 @@ class PersonDeleteController extends PersonAbstractController
 
         $this->manager->delete($person);
 
-        return $this->redirectToRefererOrHome($request);
+        return $this->redirectToPeopleList();
     }
 }

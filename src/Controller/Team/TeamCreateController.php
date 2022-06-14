@@ -54,11 +54,7 @@ class TeamCreateController extends TeamAbstractController
                 return $this->redirectToRefererOrHome($request);
             }
 
-            return $this->redirectToRoute(
-                'teams_front',
-                [],
-                Response::HTTP_SEE_OTHER
-            );
+            return $this->redirectToTeamsList();
         }
 
         return $this->render(

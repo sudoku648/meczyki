@@ -40,6 +40,15 @@ abstract class MatchGameAbstractController extends AbstractController
         );
     }
 
+    protected function redirectToMatchGamesList(): Response
+    {
+        return $this->redirectToRoute(
+            'match_games_front',
+            [],
+            Response::HTTP_SEE_OTHER
+        );
+    }
+
     protected function redirectToEditMatchGame(MatchGame $matchGame): Response
     {
         return $this->redirectToRoute(

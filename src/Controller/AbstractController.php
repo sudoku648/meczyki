@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Club;
+use App\Entity\MatchGame;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -66,6 +68,28 @@ abstract class AbstractController extends BaseAbstractController
         }
 
         return $this->redirect($request->headers->get('Referer'));
+    }
+
+    protected function redirectToSingleClub(Club $club): Response
+    {
+        return $this->redirectToRoute(
+            'club_single',
+            [
+                'club_id' => $club->getId()
+            ],
+            Response::HTTP_SEE_OTHER
+        );
+    }
+
+    protected function redirectToSingleMatchGame(MatchGame $matchGame): Response
+    {
+        return $this->redirectToRoute(
+            'match_game_single',
+            [
+                'match_game_id' => $matchGame->getId()
+            ],
+            Response::HTTP_SEE_OTHER
+        );
     }
 
     protected function getJsonSuccessResponse(): JsonResponse

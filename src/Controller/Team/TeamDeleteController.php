@@ -23,6 +23,10 @@ class TeamDeleteController extends TeamAbstractController
 
         $this->manager->delete($team);
 
-        return $this->redirectToRefererOrHome($request);
+        if ($request->request->get('show_club', false)) {
+            return $this->redirectToSingleClub($club);
+        }
+
+        return $this->redirectToTeamsList();
     }
 }

@@ -40,6 +40,42 @@ abstract class PersonAbstractController extends AbstractController
         );
     }
 
+    protected function redirectToPeopleList(): Response
+    {
+        return $this->redirectToRoute(
+            'people_front',
+            [],
+            Response::HTTP_SEE_OTHER
+        );
+    }
+
+    protected function redirectToDelegatesList(): Response
+    {
+        return $this->redirectToRoute(
+            'delegates_front',
+            [],
+            Response::HTTP_SEE_OTHER
+        );
+    }
+
+    protected function redirectToRefereesList(): Response
+    {
+        return $this->redirectToRoute(
+            'referees_front',
+            [],
+            Response::HTTP_SEE_OTHER
+        );
+    }
+
+    protected function redirectToRefereeObserversList(): Response
+    {
+        return $this->redirectToRoute(
+            'referee_observers_front',
+            [],
+            Response::HTTP_SEE_OTHER
+        );
+    }
+
     protected function redirectToEditPerson(Person $person): Response
     {
         return $this->redirectToRoute(

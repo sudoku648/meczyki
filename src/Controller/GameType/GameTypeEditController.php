@@ -42,11 +42,7 @@ class GameTypeEditController extends GameTypeAbstractController
                 return $this->redirectToEditGameType($gameType);
             }
 
-            return $this->redirectToRoute(
-                'game_types_front',
-                [],
-                Response::HTTP_SEE_OTHER
-            );
+            return $this->redirectToGameTypesList();
         }
 
         return $this->render(

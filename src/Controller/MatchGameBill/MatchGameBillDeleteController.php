@@ -23,6 +23,6 @@ class MatchGameBillDeleteController extends MatchGameBillAbstractController
 
         $this->manager->delete($matchGameBill);
 
-        return $this->redirectToRefererOrHome($request);
+        return $this->redirectToSingleMatchGame($matchGame);
     }
 }

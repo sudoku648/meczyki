@@ -35,4 +35,8 @@
     {% if is_granted(constant('\\App\\Security\\Voter\\GameTypeVoter::EDIT'), gameType) %}
         {{ include('buttons/edit_lg.html.twig', {path: 'game_type_edit', parameters: {'game_type_id': gameType.id}}) }}
     {% endif %}
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\GameTypeVoter::DELETE'), gameType) %}
+        {{ include('game_type/_delete_form.html.twig', {btn_size: 'lg'}) }}
+    {% endif %}
 {% endblock %}

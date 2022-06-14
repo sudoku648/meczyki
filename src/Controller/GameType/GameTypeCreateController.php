@@ -34,11 +34,7 @@ class GameTypeCreateController extends GameTypeAbstractController
                 return $this->redirectToRefererOrHome($request);
             }
 
-            return $this->redirectToRoute(
-                'game_types_front',
-                [],
-                Response::HTTP_SEE_OTHER
-            );
+            return $this->redirectToGameTypesList();
         }
 
         return $this->render(

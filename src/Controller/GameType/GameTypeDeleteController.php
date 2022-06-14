@@ -21,6 +21,6 @@ class GameTypeDeleteController extends GameTypeAbstractController
 
         $this->manager->delete($gameType);
 
-        return $this->redirectToRefererOrHome($request);
+        return $this->redirectToGameTypesList();
     }
 }

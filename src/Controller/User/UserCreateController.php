@@ -34,11 +34,7 @@ class UserCreateController extends UserAbstractController
                 return $this->redirectToRefererOrHome($request);
             }
 
-            return $this->redirectToRoute(
-                'users_front',
-                [],
-                Response::HTTP_SEE_OTHER
-            );
+            return $this->redirectToUsersList();
         }
 
         return $this->render(

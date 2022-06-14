@@ -21,6 +21,6 @@ class ClubDeleteController extends ClubAbstractController
 
         $this->manager->delete($club);
 
-        return $this->redirectToRefererOrHome($request);
+        return $this->redirectToClubsList();
     }
 }

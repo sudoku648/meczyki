@@ -91,11 +91,7 @@ class UserEditController extends UserAbstractController
                 return $this->redirectToEditUser($user);
             }
 
-            return $this->redirectToRoute(
-                'users_front',
-                [],
-                Response::HTTP_SEE_OTHER
-            );
+            return $this->redirectToUsersList();
         }
 
         return $form;

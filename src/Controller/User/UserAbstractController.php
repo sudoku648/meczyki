@@ -40,6 +40,15 @@ abstract class UserAbstractController extends AbstractController
         );
     }
 
+    protected function redirectToUsersList(): Response
+    {
+        return $this->redirectToRoute(
+            'users_front',
+            [],
+            Response::HTTP_SEE_OTHER
+        );
+    }
+
     protected function redirectToEditUser(User $user): Response
     {
         return $this->redirectToRoute(

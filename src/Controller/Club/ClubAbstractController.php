@@ -40,6 +40,15 @@ abstract class ClubAbstractController extends AbstractController
         );
     }
 
+    protected function redirectToClubsList(): Response
+    {
+        return $this->redirectToRoute(
+            'clubs_front',
+            [],
+            Response::HTTP_SEE_OTHER
+        );
+    }
+
     protected function redirectToEditClub(Club $club): Response
     {
         return $this->redirectToRoute(

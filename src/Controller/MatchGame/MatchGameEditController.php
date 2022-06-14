@@ -42,11 +42,7 @@ class MatchGameEditController extends MatchGameAbstractController
                 return $this->redirectToEditMatchGame($matchGame);
             }
 
-            return $this->redirectToRoute(
-                'match_games_front',
-                [],
-                Response::HTTP_SEE_OTHER
-            );
+            return $this->redirectToMatchGamesList();
         }
 
         return $this->render(

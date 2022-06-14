@@ -42,11 +42,7 @@ class ClubEditController extends ClubAbstractController
                 return $this->redirectToEditClub($club);
             }
 
-            return $this->redirectToRoute(
-                'clubs_front',
-                [],
-                Response::HTTP_SEE_OTHER
-            );
+            return $this->redirectToClubsList();
         }
 
         return $this->render(

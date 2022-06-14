@@ -21,6 +21,6 @@ class UserDeleteController extends UserAbstractController
 
         $this->manager->delete($user);
 
-        return $this->redirectToRefererOrHome($request);
+        return $this->redirectToUsersList();
     }
 }

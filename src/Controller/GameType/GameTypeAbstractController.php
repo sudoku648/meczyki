@@ -40,6 +40,15 @@ abstract class GameTypeAbstractController extends AbstractController
         );
     }
 
+    protected function redirectToGameTypesList(): Response
+    {
+        return $this->redirectToRoute(
+            'game_types_front',
+            [],
+            Response::HTTP_SEE_OTHER
+        );
+    }
+
     protected function redirectToEditGameType(GameType $gameType): Response
     {
         return $this->redirectToRoute(

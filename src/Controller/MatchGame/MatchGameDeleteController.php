@@ -21,6 +21,6 @@ class MatchGameDeleteController extends MatchGameAbstractController
 
         $this->manager->delete($matchGame);
 
-        return $this->redirectToRefererOrHome($request);
+        return $this->redirectToMatchGamesList();
     }
 }

@@ -22,7 +22,18 @@
                 <td>
                     <ul>
                         {% for team in club.teams %}
-                            <li><a href="{{ path('team_single', {'club_id': club.id, 'team_id': team.id}) }}">{{ team.fullName }}</a></li>
+                            <li>
+                                {% if is_granted(constant('\\App\\Security\\Voter\\TeamVoter::SHOW'), team) %}
+                                    <a href="{{ path('team_single', {'club_id': club.id, 'team_id': team.id}) }}">
+                                {% endif %}
+                                {{ team.fullName }}
+                                {% if is_granted(constant('\\App\\Security\\Voter\\TeamVoter::SHOW'), team) %}
+                                    </a>
+                                {% endif %}
+                                {% if is_granted(constant('\\App\\Security\\Voter\\TeamVoter::DELETE'), team) %}
+                                    {{ include('team/_delete_form.html.twig', {'team': team, 'show_club': true}) }}
+                                {% endif %}
+                            </li>
                         {% endfor %}
                     </ul>
                     {% if is_granted(constant('\\App\\Security\\Voter\\TeamVoter::CREATE')) %}
@@ -39,5 +50,9 @@
 
     {% if is_granted(constant('\\App\\Security\\Voter\\ClubVoter::EDIT'), club) %}
         {{ include('buttons/edit_lg.html.twig', {path: 'club_edit', parameters: {'club_id': club.id}}) }}
+    {% endif %}
+
+    {% if is_granted(constant('\\App\\Security\\Voter\\ClubVoter::DELETE'), club) %}
+        {{ include('club/_delete_form.html.twig', {btn_size: 'lg'}) }}
     {% endif %}
 {% endblock %}

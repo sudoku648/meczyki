@@ -40,6 +40,15 @@ abstract class TeamAbstractController extends AbstractController
         );
     }
 
+    protected function redirectToTeamsList(): Response
+    {
+        return $this->redirectToRoute(
+            'teams_front',
+            [],
+            Response::HTTP_SEE_OTHER
+        );
+    }
+
     protected function redirectToEditTeam(Team $team): Response
     {
         return $this->redirectToRoute(

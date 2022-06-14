@@ -1,4 +1,7 @@
 {{ include('form/delete_confirmation.html.twig') }}
 <form class="d-none d-md-inline-block form-inline ms-auto my-2 my-md-0" action="{{ path('team_delete', {'club_id': team.club.id, 'team_id': team.id}) }}" method="post" data-confirmation="true" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    {% if show_club is defined and show_club == true %}
+        <input name="show_club" type="hidden" value="true">
+    {% endif %}
     {{ include('buttons/delete'~(btn_size is defined ? '_'~ btn_size : '')~'.html.twig', {csrf_name: 'team_delete'}) }}
 </form>

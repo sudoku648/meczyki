@@ -43,6 +43,6 @@ class GameTypeDeleteImageController extends GameTypeAbstractController
             );
         }
 
-        return $this->redirectToRefererOrHome($request);
+        return $this->redirectToGameTypesList();
     }
 }
