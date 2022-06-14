@@ -38,10 +38,10 @@ abstract class MatchGameBillAbstractController extends AbstractController
     protected function redirectToEditBill(MatchGameBill $matchGameBill): Response
     {
         return $this->redirectToRoute(
-            'bill_edit',
+            'match_game_bill_edit',
             [
-                'match_game_id' => $matchGameBill->getMatchGame()->getId(),
-                'bill_id'       => $matchGameBill->getId(),
+                'match_game_id'      => $matchGameBill->getMatchGame()->getId(),
+                'match_game_bill_id' => $matchGameBill->getId(),
             ]
         );
     }
