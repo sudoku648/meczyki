@@ -32,7 +32,7 @@ class RefereeFixtures extends BaseFixture
 
     }
 
-    private function provideRandomReferees($count = 1): iterable
+    private function provideRandomReferees(int $count = 1): iterable
     {
         for ($i = 0; $i < $count; $i++) {
             $sex = \mt_rand(0, 9);

@@ -44,7 +44,7 @@ class MatchGameFixtures extends BaseFixture implements DependentFixtureInterface
 
     }
 
-    private function provideRandomMatchGames($count = 1): iterable
+    private function provideRandomMatchGames(int $count = 1): iterable
     {
         for ($i = 0; $i < $count; $i++) {
             yield [

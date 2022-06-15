@@ -32,7 +32,7 @@ class DelegateFixtures extends BaseFixture
 
     }
 
-    private function provideRandomDelegates($count = 1): iterable
+    private function provideRandomDelegates(int $count = 1): iterable
     {
         for ($i = 0; $i < $count; $i++) {
             yield [

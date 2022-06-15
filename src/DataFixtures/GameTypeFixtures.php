@@ -29,7 +29,7 @@ class GameTypeFixtures extends BaseFixture
 
     }
 
-    private function provideRandomGameTypes($count = 1): iterable
+    private function provideRandomGameTypes(int $count = 1): iterable
     {
         for ($i = 0; $i < $count; $i++) {
             $group = null;

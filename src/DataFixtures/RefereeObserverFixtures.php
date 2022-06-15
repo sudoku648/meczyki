@@ -34,7 +34,7 @@ class RefereeObserverFixtures extends BaseFixture
 
     }
 
-    private function provideRandomRefereeObservers($count = 1): iterable
+    private function provideRandomRefereeObservers(int $count = 1): iterable
     {
         for ($i = 0; $i < $count; $i++) {
             yield [

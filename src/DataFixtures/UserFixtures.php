@@ -46,7 +46,7 @@ class UserFixtures extends BaseFixture
 
     }
 
-    private function provideRandomUsers($count = 1): iterable
+    private function provideRandomUsers(int $count = 1): iterable
     {
         yield [
             'username' => 'admin',

@@ -30,7 +30,7 @@ class TeamFixtures extends BaseFixture implements DependentFixtureInterface
 
     }
 
-    private function provideRandomTeams($count = 1): iterable
+    private function provideRandomTeams(int $count = 1): iterable
     {
         for ($i = 0; $i < $count; $i++) {
             $shortName = \ucfirst($this->faker->word).' '.$this->faker->city;
