@@ -33,14 +33,14 @@ class PersonPersonalInfoTypeTest extends TypeTestCase
     public function testSubmitValidData(): void
     {
         $formData = [
-            'bankAccountNumber' => '10105000997603123456789123',
+            'iban' => '10105000997603123456789123',
         ];
 
         $model = new PersonDto();
         $form = $this->factory->create(PersonPersonalInfoType::class, $model);
 
         $expected = new PersonDto();
-        $expected->bankAccountNumber = 'PL'.$formData['bankAccountNumber'];
+        $expected->iban = 'PL'.$formData['iban'];
 
         $form->submit($formData);
 

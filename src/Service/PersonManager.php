@@ -77,7 +77,7 @@ class PersonManager implements ContentManagerInterface
         $person->setTaxOfficeAddress($dto->taxOfficeAddress);
         $person->setPesel($dto->pesel);
         $person->setNip($dto->nip);
-        $person->setBankAccountNumber($dto->bankAccountNumber);
+        $person->setIban($dto->iban);
         $person->setAllowsToSendPitByEmail($dto->allowsToSendPitByEmail);
 
         $this->entityManager->flush();

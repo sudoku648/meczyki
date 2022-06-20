@@ -79,7 +79,7 @@ class PersonPersonalInfoType extends AbstractType
             ->add('taxOfficeAddress')
             ->add('pesel')
             ->add('nip')
-            ->add('bankAccountNumber')
+            ->add('iban')
             ->add(
                 'allowsToSendPitByEmail',
                 CheckboxType::class,
@@ -90,7 +90,7 @@ class PersonPersonalInfoType extends AbstractType
             ->add('save', SubmitType::class)
         ;
 
-        $builder->get('bankAccountNumber')
+        $builder->get('iban')
             ->addModelTransformer($this->ibanTransformer);
     }
 

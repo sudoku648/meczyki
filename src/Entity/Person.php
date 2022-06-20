@@ -79,7 +79,7 @@ class Person
     private ?string $nip = null;
 
     #[ORM\Column(type: Types::STRING, length: 28, nullable: true)]
-    private ?string $bankAccountNumber = null;
+    private ?string $iban = null;
 
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $allowsToSendPitByEmail = false;
@@ -350,14 +350,14 @@ class Person
         return $this;
     }
 
-    public function getBankAccountNumber(): ?string
+    public function getIban(): ?string
     {
-        return $this->bankAccountNumber;
+        return $this->iban;
     }
 
-    public function setBankAccountNumber(?string $number): self
+    public function setIban(?string $iban): self
     {
-        $this->bankAccountNumber = $number;
+        $this->iban = $iban;
 
         return $this;
     }

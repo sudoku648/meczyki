@@ -48,7 +48,7 @@ class PersonFactory implements ContentFactoryInterface
         $dto->taxOfficeAddress       = $person->getTaxOfficeAddress();
         $dto->pesel                  = $person->getPesel();
         $dto->nip                    = $person->getNip();
-        $dto->bankAccountNumber      = $person->getBankAccountNumber();
+        $dto->iban                   = $person->getIban();
         $dto->allowsToSendPitByEmail = $person->allowsToSendPitByEmail();
         $dto->createdAt              = $person->getCreatedAt();
         $dto->createdAtAgo           = $person->getCreatedAtAgo();

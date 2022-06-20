@@ -95,7 +95,7 @@ class PersonDto
     public ?string $nip = null;
 
     #[Assert\Iban()]
-    public ?string $bankAccountNumber = null;
+    public ?string $iban = null;
 
     #[Assert\Type('boolean')]
     public ?bool $allowsToSendPitByEmail = null;
