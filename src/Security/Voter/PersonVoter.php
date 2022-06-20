@@ -41,14 +41,12 @@ class PersonVoter extends Voter
             return false;
         }
 
-        if ($user->isSuperAdmin()) return true;
-
         switch ($attribute) {
             case self::LIST:               return $this->canList($user);
-            case self::CREATE:             return $this->canCreate();
+            case self::CREATE:             return $this->canCreate($user);
             case self::SHOW:               return $this->canSee($user);
-            case self::EDIT:               return $this->canEdit();
-            case self::DELETE:             return $this->canDelete();
+            case self::EDIT:               return $this->canEdit($user);
+            case self::DELETE:             return $this->canDelete($user);
             case self::EDIT_PERSONAL_INFO: return $this->canEditPersonalInfo($user);
             default: throw new \LogicException();
         }
@@ -56,26 +54,36 @@ class PersonVoter extends Voter
 
     private function canList(User $user): bool
     {
+        if ($user->isSuperAdmin()) return true;
+
         return $user->isPerson();
     }
 
-    private function canCreate(): bool
+    private function canCreate(User $user): bool
     {
+        if ($user->isSuperAdmin()) return true;
+
         return false;
     }
 
     private function canSee(User $user): bool
     {
+        if ($user->isSuperAdmin()) return true;
+
         return $user->isPerson();
     }
 
-    private function canEdit(): bool
+    private function canEdit(User $user): bool
     {
+        if ($user->isSuperAdmin()) return true;
+
         return false;
     }
 
-    private function canDelete(): bool
+    private function canDelete(User $user): bool
     {
+        if ($user->isSuperAdmin()) return true;
+
         return false;
     }
 
