@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[UniqueEntity(options: [
     'entityClass' => User::class,
-    'errorPath' => 'username',
+    'errorPaths' => 'username',
     'fields' => ['username'],
     'idFields' => 'id',
 ])]

@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[UniqueEntity(options: [
     'entityClass' => Person::class,
-    'errorPath' => 'mobilePhone',
+    'errorPaths' => 'mobilePhone',
     'fields' => ['mobilePhone'],
     'idFields' => 'id',
     'message' => 'Wartość jest już wykorzystywana.',

@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[UniqueEntity(options: [
     'entityClass' => Club::class,
-    'errorPath' => 'name',
+    'errorPaths' => 'name',
     'fields' => ['name'],
     'idFields' => 'id',
     'message' => 'Nazwa jest już wykorzystywana.',

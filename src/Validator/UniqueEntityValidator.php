@@ -69,10 +69,14 @@ final class UniqueEntityValidator extends ConstraintValidator
         $count = $qb->getQuery()->getSingleScalarResult();
 
         if ($count > 0) {
-            $this->context->buildViolation($constraint->message)
+            $constraint->errorPaths = (array) $constraint->errorPaths;
+
+            foreach ($constraint->errorPaths as $errorPath) {
+                $this->context->buildViolation($constraint->message)
                 ->setCode(UniqueEntity::NOT_UNIQUE_ERROR)
-                ->atPath($constraint->errorPath)
+                ->atPath($errorPath)
                 ->addViolation();
+            }
         }
     }
 }

@@ -60,7 +60,10 @@ class UniqueEntity extends Constraint
      */
     public $caseInsensitive = true;
 
-    public $errorPath = '';
+    /**
+     * @var string[]|null
+     */
+    public $errorPaths = '';
 
     public function __construct($options = null)
     {

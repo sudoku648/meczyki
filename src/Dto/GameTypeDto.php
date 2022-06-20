@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[UniqueEntity(options: [
     'entityClass' => GameType::class,
-    'errorPath' => 'group',
+    'errorPaths' => 'group',
     'fields' => ['name', 'group'],
     'idFields' => 'id',
     'nullComparisonForFields' => ['group'],
