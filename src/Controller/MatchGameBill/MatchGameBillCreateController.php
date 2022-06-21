@@ -54,7 +54,7 @@ class MatchGameBillCreateController extends MatchGameBillAbstractController
             $this->flash(new MatchGameBillCreatedFlashMessage($matchGameBill->getId()));
 
             return $this->redirectToRoute(
-                'match_games_single',
+                'match_game_single',
                 [
                     'matchGame' => $matchGame,
                 ],
