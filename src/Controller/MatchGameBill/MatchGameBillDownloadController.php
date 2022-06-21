@@ -11,18 +11,19 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class MatchGameBillDownloadController extends MatchGameBillAbstractController
 {
     #[ParamConverter('matchGame', options: ['mapping' => ['match_game_id' => 'id']])]
     #[ParamConverter('matchGameBill', options: ['mapping' => ['match_game_bill_id' => 'id']])]
-    public function __invoke(MatchGame $matchGame, MatchGameBill $matchGameBill): Response
+    public function __invoke(MatchGame $matchGame, MatchGameBill $matchGameBill, SluggerInterface $slugger): Response
     {
         $this->denyAccessUnlessGranted(MatchGameBillVoter::DOWNLOAD, $matchGameBill);
 
         $spreadsheet = $this->manager->generateXlsx($matchGameBill);
 
-        $fileName = 'rachunek.xlsx';
+        $fileName = $slugger->slug($matchGame->getCompetitors())->lower()->toString();
         $tempFile = \tempnam(\sys_get_temp_dir(), $fileName);
 
         $writer = new Xlsx($spreadsheet);

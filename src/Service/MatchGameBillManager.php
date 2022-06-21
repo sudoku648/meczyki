@@ -175,7 +175,7 @@ class MatchGameBillManager implements ContentManagerInterface
         $email = $person->getEmail();
         if ($email && $person->allowsToSendPitByEmail()) {
             $startCol = 3;
-            $colWidth = 4;
+            $colWidth = 3;
             $length = \strlen($email);
 
             for ($col = $startCol; $col < $startCol + $length * $colWidth; $col = $col + $colWidth) {
