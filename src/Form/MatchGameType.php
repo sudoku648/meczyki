@@ -21,26 +21,33 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Security;
 
 class MatchGameType extends AbstractType
 {
     private GameTypeRepository $gameTypeRepository;
     private PersonRepository $personRepository;
     private TeamRepository $teamRepository;
+    private Security $security;
 
     public function __construct(
         GameTypeRepository $gameTypeRepository,
         PersonRepository $personRepository,
-        TeamRepository $teamRepository
+        TeamRepository $teamRepository,
+        Security $security
     )
     {
         $this->gameTypeRepository = $gameTypeRepository;
         $this->personRepository   = $personRepository;
         $this->teamRepository     = $teamRepository;
+        $this->security           = $security;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /** @var User $user */
+        $user = $this->security->getToken()->getUser();
+
         $builder
             ->add(
                 'homeTeam',
@@ -120,6 +127,13 @@ class MatchGameType extends AbstractType
                     },
                     'choices'      => $this->personRepository->allOrderedByName('referee'),
                     'class'        => Person::class,
+                    'group_by'     => function($choice, $key, $value) use ($user) {
+                        if ($choice === $user->getPerson()) {
+                            return 'Ty';
+                        }
+
+                        return 'Pozostali';
+                    },
                 ]
             )
             ->add(
@@ -131,6 +145,13 @@ class MatchGameType extends AbstractType
                     },
                     'choices'      => $this->personRepository->allOrderedByName('referee'),
                     'class'        => Person::class,
+                    'group_by'     => function($choice, $key, $value) use ($user) {
+                        if ($choice === $user->getPerson()) {
+                            return 'Ty';
+                        }
+
+                        return 'Pozostali';
+                    },
                     'required'     => false,
                 ]
             )
@@ -150,6 +171,13 @@ class MatchGameType extends AbstractType
                     },
                     'choices'      => $this->personRepository->allOrderedByName('referee'),
                     'class'        => Person::class,
+                    'group_by'     => function($choice, $key, $value) use ($user) {
+                        if ($choice === $user->getPerson()) {
+                            return 'Ty';
+                        }
+
+                        return 'Pozostali';
+                    },
                     'required'     => false,
                 ]
             )
@@ -169,6 +197,13 @@ class MatchGameType extends AbstractType
                     },
                     'choices'      => $this->personRepository->allOrderedByName('referee'),
                     'class'        => Person::class,
+                    'group_by'     => function($choice, $key, $value) use ($user) {
+                        if ($choice === $user->getPerson()) {
+                            return 'Ty';
+                        }
+
+                        return 'Pozostali';
+                    },
                     'required'     => false,
                 ]
             )
@@ -181,6 +216,13 @@ class MatchGameType extends AbstractType
                     },
                     'choices'      => $this->personRepository->allOrderedByName('refereeObserver'),
                     'class'        => Person::class,
+                    'group_by'     => function($choice, $key, $value) use ($user) {
+                        if ($choice === $user->getPerson()) {
+                            return 'Ty';
+                        }
+
+                        return 'Pozostali';
+                    },
                     'required'     => false,
                 ]
             )
@@ -193,6 +235,13 @@ class MatchGameType extends AbstractType
                     },
                     'choices'      => $this->personRepository->allOrderedByName('delegate'),
                     'class'        => Person::class,
+                    'group_by'     => function($choice, $key, $value) use ($user) {
+                        if ($choice === $user->getPerson()) {
+                            return 'Ty';
+                        }
+
+                        return 'Pozostali';
+                    },
                     'required'     => false,
                 ]
             )
