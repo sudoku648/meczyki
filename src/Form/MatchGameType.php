@@ -6,8 +6,9 @@ namespace App\Form;
 
 use App\Dto\MatchGameDto;
 use App\Entity\GameType;
-use App\Entity\Person;
 use App\Entity\Team;
+use App\Entity\User;
+use App\Form\Option\PersonOption;
 use App\Repository\GameTypeRepository;
 use App\Repository\PersonRepository;
 use App\Repository\TeamRepository;
@@ -121,39 +122,20 @@ class MatchGameType extends AbstractType
             ->add(
                 'referee',
                 EntityType::class,
-                [
-                    'choice_label' => function (Person $referee) {
-                        return $referee->getFullName();
-                    },
-                    'choices'      => $this->personRepository->allOrderedByName('referee'),
-                    'class'        => Person::class,
-                    'group_by'     => function($choice, $key, $value) use ($user) {
-                        if ($choice === $user->getPerson()) {
-                            return 'Ty';
-                        }
-
-                        return 'Pozostali';
-                    },
-                ]
+                \array_merge(
+                    PersonOption::default($this->personRepository, $user, 'referee'),
+                    []
+                ),
             )
             ->add(
                 'firstAssistantReferee',
                 EntityType::class,
-                [
-                    'choice_label' => function (Person $referee) {
-                        return $referee->getFullName();
-                    },
-                    'choices'      => $this->personRepository->allOrderedByName('referee'),
-                    'class'        => Person::class,
-                    'group_by'     => function($choice, $key, $value) use ($user) {
-                        if ($choice === $user->getPerson()) {
-                            return 'Ty';
-                        }
-
-                        return 'Pozostali';
-                    },
-                    'required'     => false,
-                ]
+                \array_merge(
+                    PersonOption::default($this->personRepository, $user, 'referee'),
+                    [
+                        'required' => false,
+                    ]
+                ),
             )
             ->add(
                 'isFirstAssistantNonProfitable',
@@ -165,21 +147,12 @@ class MatchGameType extends AbstractType
             ->add(
                 'secondAssistantReferee',
                 EntityType::class,
-                [
-                    'choice_label' => function (Person $referee) {
-                        return $referee->getFullName();
-                    },
-                    'choices'      => $this->personRepository->allOrderedByName('referee'),
-                    'class'        => Person::class,
-                    'group_by'     => function($choice, $key, $value) use ($user) {
-                        if ($choice === $user->getPerson()) {
-                            return 'Ty';
-                        }
-
-                        return 'Pozostali';
-                    },
-                    'required'     => false,
-                ]
+                \array_merge(
+                    PersonOption::default($this->personRepository, $user, 'referee'),
+                    [
+                        'required' => false,
+                    ]
+                ),
             )
             ->add(
                 'isSecondAssistantNonProfitable',
@@ -191,59 +164,32 @@ class MatchGameType extends AbstractType
             ->add(
                 'fourthOfficial',
                 EntityType::class,
-                [
-                    'choice_label' => function (Person $referee) {
-                        return $referee->getFullName();
-                    },
-                    'choices'      => $this->personRepository->allOrderedByName('referee'),
-                    'class'        => Person::class,
-                    'group_by'     => function($choice, $key, $value) use ($user) {
-                        if ($choice === $user->getPerson()) {
-                            return 'Ty';
-                        }
-
-                        return 'Pozostali';
-                    },
-                    'required'     => false,
-                ]
+                \array_merge(
+                    PersonOption::default($this->personRepository, $user, 'referee'),
+                    [
+                        'required' => false,
+                    ]
+                ),
             )
             ->add(
                 'refereeObserver',
                 EntityType::class,
-                [
-                    'choice_label' => function (Person $refereeObserver) {
-                        return $refereeObserver->getFullName();
-                    },
-                    'choices'      => $this->personRepository->allOrderedByName('refereeObserver'),
-                    'class'        => Person::class,
-                    'group_by'     => function($choice, $key, $value) use ($user) {
-                        if ($choice === $user->getPerson()) {
-                            return 'Ty';
-                        }
-
-                        return 'Pozostali';
-                    },
-                    'required'     => false,
-                ]
+                \array_merge(
+                    PersonOption::default($this->personRepository, $user, 'refereeObserver'),
+                    [
+                        'required' => false,
+                    ]
+                ),
             )
             ->add(
                 'delegate',
                 EntityType::class,
-                [
-                    'choice_label' => function (Person $delegate) {
-                        return $delegate->getFullName();
-                    },
-                    'choices'      => $this->personRepository->allOrderedByName('delegate'),
-                    'class'        => Person::class,
-                    'group_by'     => function($choice, $key, $value) use ($user) {
-                        if ($choice === $user->getPerson()) {
-                            return 'Ty';
-                        }
-
-                        return 'Pozostali';
-                    },
-                    'required'     => false,
-                ]
+                \array_merge(
+                    PersonOption::default($this->personRepository, $user, 'delegate'),
+                    [
+                        'required' => false,
+                    ]
+                ),
             )
             ->add(
                 'moreInfo',
