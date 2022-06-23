@@ -16,27 +16,15 @@ class PersonOption
         $personType = null
     ): array
     {
-        $choices = [];
-
-        $people = $personRepository->allOrderedByName($personType);
-        $userPerson = $user->getPerson();
-
-        if ($userPerson && \in_array($userPerson, $people)) {
-            $choices['Ty'] = [$userPerson];
-        }
-
-        foreach ($people as $person) {
-            if ($person === $userPerson) continue;
-
-            $choices[] = $person;
-        }
-
         return [
-            'choice_label' => function (Person $person) {
+            'choice_label'      => function (Person $person) {
                 return $person->getFullName();
             },
-            'choices'      => $choices,
-            'class'        => Person::class,
+            'choices'           => $personRepository->allOrderedByName($personType),
+            'class'             => Person::class,
+            'preferred_choices' => function(Person $person) use ($user) {
+                return $person === $user->getPerson();
+            },
         ];
     }
 }
