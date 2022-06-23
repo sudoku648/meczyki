@@ -105,6 +105,7 @@ class GameTypeRepository extends ServiceEntityRepository
         }
 
         $query->addOrderBy('gameType.name', 'ASC');
+        $query->addOrderBy('gameType.group + 0', 'ASC');
 
         $results = $query->getQuery()->getResult();
         $countResult = $countQuery->getQuery()->getSingleScalarResult();
@@ -117,13 +118,12 @@ class GameTypeRepository extends ServiceEntityRepository
 
     public function allOrderedByName(): array
     {
-        return $this->findBy(
-            [],
-            [
-                'name' => 'ASC',
-                'group' => 'ASC',
-            ]
-        );
+        $query = $this->createQueryBuilder('gameType');
+
+        $query->addOrderBy('gameType.name', 'ASC');
+        $query->addOrderBy('gameType.group + 0', 'ASC');
+
+        return $query->getQuery()->getResult();
     }
 
     public function findByCriteria(Criteria $criteria): PagerfantaInterface
