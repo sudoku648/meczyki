@@ -238,7 +238,12 @@
 {%- endblock radio_widget %}
 
 {%- block choice_widget_collapsed -%}
-    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-select')|trim}) -%}
+    {%- if attr['data-live-search'] is defined -%}
+        {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) -%}
+    {%- else -%}
+        {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-select')|trim}) -%}
+    {%- endif -%}
+    
     {{- parent() -}}
 {%- endblock choice_widget_collapsed -%}
 

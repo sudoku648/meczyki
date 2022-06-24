@@ -27,3 +27,12 @@ import './js/refereeObserver.js';
 import './js/team.js';
 import './js/user.js';
 import './js/bootstrap-dataTables.js';
+
+import 'bootstrap-select/dist/css/bootstrap-select.min.css';
+
+const bootstrap = window.bootstrap = require('bootstrap'); // without this bootstrap-select crashes with `undefined bootstrap`
+require('bootstrap-select/js/bootstrap-select'); // we have to manually require the working js file
+
+$(function() {
+    $('select[data-live-search=true]').selectpicker();
+});

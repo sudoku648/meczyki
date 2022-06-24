@@ -1,6 +1,6 @@
 {{ form_start(form) }}
-    {{ form_row(form.homeTeam, {'label': 'Gospodarze', 'placeholder': '-- wybierz --'}) }}
-    {{ form_row(form.awayTeam, {'label': 'Goście', 'placeholder': '-- wybierz --'}) }}
+    {{ form_row(form.homeTeam, {'label': 'Gospodarze', 'placeholder': '-- wybierz --', 'attr': {'data-live-search': 'true', 'data-width': '100%'}}) }}
+    {{ form_row(form.awayTeam, {'label': 'Goście', 'placeholder': '-- wybierz --', 'attr': {'data-live-search': 'true', 'data-width': '100%'}}) }}
     <div class="mb-3">
         {{ form_label(form.dateTime.date, 'Data') }}
         {{ form_widget(form.dateTime.date) }}
@@ -11,18 +11,18 @@
         {{ form_widget(form.dateTime.time) }}
         {{ form_errors(form.dateTime.time) }}
     </div>
-    {{ form_row(form.gameType, {'label': 'Typ rozgrywek', 'placeholder': '-- wybierz --'}) }}
+    {{ form_row(form.gameType, {'label': 'Typ rozgrywek', 'placeholder': '-- wybierz --', 'attr': {'data-live-search': 'true', 'data-width': '100%'}}) }}
     {{ form_row(form.season, {'label': 'Sezon'}) }}
     {{ form_row(form.round, {'label': 'Kolejka'}) }}
     {{ form_row(form.venue, {'label': 'Miejsce'}) }}
-    {{ form_row(form.referee, {'label': 'Sędzia', 'placeholder': '-- wybierz --'}) }}
-    {{ form_row(form.firstAssistantReferee, {'label': 'Asystent 1', 'placeholder': '-- brak --'}) }}
+    {{ form_row(form.referee, {'label': 'Sędzia', 'placeholder': '-- wybierz --', 'attr': {'data-live-search': 'true', 'data-width': '100%'}}) }}
+    {{ form_row(form.firstAssistantReferee, {'label': 'Asystent 1', 'placeholder': '-- brak --', 'attr': {'data-live-search': 'true', 'data-width': '100%'}}) }}
     {{ form_row(form.isFirstAssistantNonProfitable, {'label': 'Społecznie'}) }}
-    {{ form_row(form.secondAssistantReferee, {'label': 'Asystent 2', 'placeholder': '-- brak --'}) }}
+    {{ form_row(form.secondAssistantReferee, {'label': 'Asystent 2', 'placeholder': '-- brak --', 'attr': {'data-live-search': 'true', 'data-width': '100%'}}) }}
     {{ form_row(form.isSecondAssistantNonProfitable, {'label': 'Społecznie'}) }}
-    {{ form_row(form.fourthOfficial, {'label': 'Sędzia techniczny', 'placeholder': '-- brak --'}) }}
-    {{ form_row(form.refereeObserver, {'label': 'Obserwator', 'placeholder': '-- brak --'}) }}
-    {{ form_row(form.delegate, {'label': 'Delegat', 'placeholder': '-- brak --'}) }}
+    {{ form_row(form.fourthOfficial, {'label': 'Sędzia techniczny', 'placeholder': '-- brak --', 'attr': {'data-live-search': 'true', 'data-width': '100%'}}) }}
+    {{ form_row(form.refereeObserver, {'label': 'Obserwator', 'placeholder': '-- brak --', 'attr': {'data-live-search': 'true', 'data-width': '100%'}}) }}
+    {{ form_row(form.delegate, {'label': 'Delegat', 'placeholder': '-- brak --', 'attr': {'data-live-search': 'true', 'data-width': '100%'}}) }}
     {{ form_row(form.moreInfo, {'label': 'Dodatkowe informacje'}) }}
     {{ form_row(form.save, {'label': button_save_label|default('Zapisz'), 'attr': {'class': 'btn-success icon-save loadable-save'}}) }}
     {{ form_row(form.saveAndContinue, {'label': button_save_and_continue_label|default('Zapisz i dodaj nowy'), 'attr': {'class': 'btn-success icon-save loadable-save'}}) }}
