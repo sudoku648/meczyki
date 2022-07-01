@@ -1,44 +1,5 @@
 import 'datatables';
 
-$(function() {
-    if (!$.fn.DataTable.isDataTable('.dataTable')) {
-        $('.dataTable').dataTable({
-            pageLength: 10,
-            stateSave: true,
-            language: {
-                "oAria": {
-                    "sSortAscending": ": aktywuj, aby posortować kolumnę rosnąco",
-                    "sSortDescending": ": aktywuj, aby posortować kolumnę malejąco"
-                },
-                "oPaginate": {
-                    "sFirst": "Pierwsza",
-                    "sLast": "Ostatnia",
-                    "sNext": "Następna",
-                    "sPrevious": "Poprzednia"
-                },
-                "sEmptyTable": "Brak danych",
-                "sInfo": "Pozycje od _START_ do _END_ z _TOTAL_ łącznie",
-                "sInfoEmpty": "Pozycji 0 z 0 dostępnych",
-                "sInfoFiltered": "(filtrowanie spośród _MAX_ dostępnych pozycji)",
-                "sInfoPostFix": "",
-                "sDecimal": "",
-                "sThousands": ",",
-                "sLengthMenu": "Pokaż _MENU_ pozycji",
-                "sLoadingRecords": "Ładowanie...",
-                "sProcessing": "Przetwarzanie...",
-                "sSearch": "Szukaj:",
-                "sSearchPlaceholder": "Wpisz coś...",
-                "sUrl": "",
-                "sZeroRecords": "Nie znaleziono żadnych pasujących indeksów"
-            },
-            ordering: false,
-            info: true,
-            lengthMenu: [[5, 10, 20, 50, -1], [5, 10, 20, 50, 'Wszystko']],
-            sPaginationType: 'full_numbers'
-        });
-    }
-});
-
 /*!
  DataTables Bootstrap 5 integration
  2020 SpryMedia Ltd - datatables.net/license

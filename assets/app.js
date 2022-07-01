@@ -13,6 +13,7 @@ import './styles/my.css';
 import './styles/bootstrap-dataTables.css';
 
 import 'datatables';
+import './js/dataTables-defaults.js';
 import './js/layout.js';
 import './js/confirmModal.js';
 import './js/club.js';
@@ -27,6 +28,7 @@ import './js/refereeObserver.js';
 import './js/team.js';
 import './js/user.js';
 import './js/bootstrap-dataTables.js';
+import './js/dataTables.js';
 
 import 'bootstrap-select/dist/css/bootstrap-select.min.css';
 
