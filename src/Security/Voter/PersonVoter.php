@@ -15,6 +15,7 @@ class PersonVoter extends Voter
     const SHOW               = 'person_show';
     const EDIT               = 'person_edit';
     const DELETE             = 'person_delete';
+    const DELETE_BATCH       = 'person_delete_batch';
     const EDIT_PERSONAL_INFO = 'person_personal_info_edit';
 
     protected function supports(string $attribute, $subject): bool
@@ -27,6 +28,7 @@ class PersonVoter extends Voter
                 self::SHOW,
                 self::EDIT,
                 self::DELETE,
+                self::DELETE_BATCH,
                 self::EDIT_PERSONAL_INFO,
             ],
             true
@@ -47,6 +49,7 @@ class PersonVoter extends Voter
             case self::SHOW:               return $this->canSee($user);
             case self::EDIT:               return $this->canEdit($user);
             case self::DELETE:             return $this->canDelete($user);
+            case self::DELETE_BATCH:       return $this->canDeleteBatch($user);
             case self::EDIT_PERSONAL_INFO: return $this->canEditPersonalInfo($user);
             default: throw new \LogicException();
         }
@@ -85,6 +88,11 @@ class PersonVoter extends Voter
         if ($user->isSuperAdmin()) return true;
 
         return false;
+    }
+
+    private function canDeleteBatch(User $user): bool
+    {
+        return $this->canDelete($user);
     }
 
     private function canEditPersonalInfo(User $user): bool

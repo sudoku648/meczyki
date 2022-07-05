@@ -1,2 +1,2 @@
 <input type="hidden" name="_token" value="{{ csrf_token(csrf_name) }}">
-<button type="submit" class="btn btn-danger btn-sm icon-delete">Usuń</button>
+<button type="submit" class="btn btn-danger btn-sm icon-delete"{{btn_id is defined ? " id="~ btn_id : ""}}>Usuń</button>

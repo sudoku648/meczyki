@@ -64,6 +64,12 @@ class UserAjaxController extends UserAbstractController
                         $responseTemp = $objKey + 1 + $start;
                         break;
                     }
+                    case 'checkbox':
+                    {
+                        $responseTemp = "<input type='checkbox' id='checkbox_user_".$user->getId()."' ";
+                        $responseTemp .= "class='form-check-input' data-userId='".$user->getId()."'>";
+                        break;
+                    }
                     case 'username':
                     {
                         $responseTemp = $user->getUsername();

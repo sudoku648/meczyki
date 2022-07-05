@@ -34,7 +34,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private bool $isActive = true;
 
     #[ORM\OneToOne(targetEntity: Person::class)]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Person $person;
 
     #[ORM\Id]

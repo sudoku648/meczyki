@@ -23,6 +23,11 @@ person_delete:
     path: /osoba/{person_id<\d+>}/usun
     methods: [ POST ]
 
+person_delete_batch:
+    controller: App\Controller\Person\PersonDeleteController::deleteBatch
+    path: /osoby/usun
+    methods: [ POST ]
+
 person_personal_info_edit:
     controller: App\Controller\Person\PersonPersonalInfoEditController
     path: /dane-osobowe

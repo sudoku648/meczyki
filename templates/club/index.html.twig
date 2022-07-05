@@ -6,12 +6,16 @@
     {% if is_granted(constant('\\App\\Security\\Voter\\ClubVoter::CREATE')) %}
         {{ include('buttons/add.html.twig', {path: 'club_create', parameters: {}, text: 'Dodaj nowy'}) }}
     {% endif %}
+    {% if is_granted(constant('\\App\\Security\\Voter\\ClubVoter::DELETE_BATCH')) %}
+        {{ include('club/_delete_batch_form.html.twig') }}
+    {% endif %}
 
     <div class="mb-3">
         <table class="dataTable table table-hover table-responsive" id="clubs-list">
             <thead>
                 <tr>
                     <th>L.p.</th>
+                    <th></th>
                     <th class="s">Nazwa</th>
                     <th>Akcje</th>
                 </tr>

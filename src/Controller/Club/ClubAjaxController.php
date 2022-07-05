@@ -65,6 +65,12 @@ class ClubAjaxController extends AbstractController
                         $responseTemp = $objKey + 1 + $start;
                         break;
                     }
+                    case 'checkbox':
+                    {
+                        $responseTemp = "<input type='checkbox' id='checkbox_club_".$club->getId()."' ";
+                        $responseTemp .= "class='form-check-input' data-clubId='".$club->getId()."'>";
+                        break;
+                    }
                     case 'name':
                     {
                         $responseTemp = $club->getName();

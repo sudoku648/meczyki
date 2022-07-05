@@ -16,6 +16,7 @@ class GameTypeVoter extends Voter
     const SHOW         = 'game_type_show';
     const EDIT         = 'game_type_edit';
     const DELETE       = 'game_type_delete';
+    const DELETE_BATCH = 'game_type_delete_batch';
     const DELETE_IMAGE = 'game_type_delete_image';
 
     protected function supports(string $attribute, $subject): bool
@@ -28,6 +29,7 @@ class GameTypeVoter extends Voter
                 self::SHOW,
                 self::EDIT,
                 self::DELETE,
+                self::DELETE_BATCH,
                 self::DELETE_IMAGE,
             ],
             true
@@ -48,6 +50,7 @@ class GameTypeVoter extends Voter
             case self::SHOW:         return $this->canSee($user);
             case self::EDIT:         return $this->canEdit($user);
             case self::DELETE:       return $this->canDelete($user);
+            case self::DELETE_BATCH: return $this->canDeleteBatch($user);
             case self::DELETE_IMAGE: return $this->canDeleteImage($subject, $user);
             default: throw new \LogicException();
         }
@@ -81,5 +84,10 @@ class GameTypeVoter extends Voter
     private function canDeleteImage(GameType $gameType, User $user): bool
     {
         return $gameType->getImage() && $user->isSuperAdmin();
+    }
+
+    private function canDeleteBatch(User $user): bool
+    {
+        return $this->canDelete($user);
     }
 }

@@ -23,6 +23,11 @@ club_delete:
     path: /klub/{club_id<\d+>}/usun
     methods: [ POST ]
 
+club_delete_batch:
+    controller: App\Controller\Club\ClubDeleteController::deleteBatch
+    path: /kluby/usun
+    methods: [ POST ]
+
 club_emblem_delete:
     controller: App\Controller\Club\ClubDeleteEmblemController
     path: /klub/{club_id<\d+>}/usun-herb

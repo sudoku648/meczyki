@@ -16,6 +16,7 @@ class ClubVoter extends Voter
     const SHOW          = 'club_show';
     const EDIT          = 'club_edit';
     const DELETE        = 'club_delete';
+    const DELETE_BATCH  = 'club_delete_batch';
     const DELETE_EMBLEM = 'club_delete_emblem';
 
     protected function supports(string $attribute, $subject): bool
@@ -28,6 +29,7 @@ class ClubVoter extends Voter
                 self::SHOW,
                 self::EDIT,
                 self::DELETE,
+                self::DELETE_BATCH,
                 self::DELETE_EMBLEM,
             ],
             true
@@ -48,6 +50,7 @@ class ClubVoter extends Voter
             case self::SHOW:          return $this->canSee($user);
             case self::EDIT:          return $this->canEdit($user);
             case self::DELETE:        return $this->canDelete($user);
+            case self::DELETE_BATCH:  return $this->canDeleteBatch($user);
             case self::DELETE_EMBLEM: return $this->canDeleteEmblem($subject, $user);
             default: throw new \LogicException();
         }
@@ -81,5 +84,10 @@ class ClubVoter extends Voter
     private function canDeleteEmblem(Club $club, User $user): bool
     {
         return $club->getEmblem() && $user->isSuperAdmin();
+    }
+
+    private function canDeleteBatch(User $user): bool
+    {
+        return $this->canDelete($user);
     }
 }

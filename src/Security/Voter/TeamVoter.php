@@ -10,11 +10,12 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class TeamVoter extends Voter
 {
-    const LIST   = 'team_list';
-    const CREATE = 'team_create';
-    const SHOW   = 'team_show';
-    const EDIT   = 'team_edit';
-    const DELETE = 'team_delete';
+    const LIST         = 'team_list';
+    const CREATE       = 'team_create';
+    const SHOW         = 'team_show';
+    const EDIT         = 'team_edit';
+    const DELETE       = 'team_delete';
+    const DELETE_BATCH = 'team_delete_batch';
 
     protected function supports(string $attribute, $subject): bool
     {
@@ -26,6 +27,7 @@ class TeamVoter extends Voter
                 self::SHOW,
                 self::EDIT,
                 self::DELETE,
+                self::DELETE_BATCH,
             ],
             true
         );
@@ -42,11 +44,12 @@ class TeamVoter extends Voter
         if ($user->isSuperAdmin()) return true;
 
         switch ($attribute) {
-            case self::LIST:   return $this->canList($user);
-            case self::CREATE: return $this->canCreate();
-            case self::SHOW:   return $this->canSee($user);
-            case self::EDIT:   return $this->canEdit();
-            case self::DELETE: return $this->canDelete();
+            case self::LIST:         return $this->canList($user);
+            case self::CREATE:       return $this->canCreate();
+            case self::SHOW:         return $this->canSee($user);
+            case self::EDIT:         return $this->canEdit();
+            case self::DELETE:       return $this->canDelete();
+            case self::DELETE_BATCH: return $this->canDeleteBatch();
             default: throw new \LogicException();
         }
     }
@@ -74,5 +77,10 @@ class TeamVoter extends Voter
     private function canDelete(): bool
     {
         return false;
+    }
+
+    private function canDeleteBatch(): bool
+    {
+        return $this->canDelete();
     }
 }

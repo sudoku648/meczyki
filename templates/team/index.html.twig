@@ -3,11 +3,16 @@
 {% block title %}Drużyny{% endblock %}
 
 {% block main_content %}
+    {% if is_granted(constant('\\App\\Security\\Voter\\TeamVoter::DELETE_BATCH')) %}
+        {{ include('team/_delete_batch_form.html.twig') }}
+    {% endif %}
+
     <div class="mb-3">
         <table class="dataTable table table-hover table-responsive" id="teams-list">
             <thead>
                 <tr>
                     <th>L.p.</th>
+                    <th></th>
                     <th class="s">Nazwa</th>
                     <th class="s">Klub</th>
                     <th>Akcje</th>

@@ -1,0 +1,4 @@
+{{ include('form/delete_confirmation.html.twig') }}
+<form class="d-md-inline-block align-middle mb-3" action="{{ path('club_delete_batch') }}" method="post" id="clubs-delete-batch" data-confirmation="true" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    {{ include('buttons/delete'~(btn_size is defined ? '_'~ btn_size : '')~'.html.twig', {csrf_name: 'club_delete_batch', btn_id: 'clubs-delete-batch-btn'}) }}
+</form>

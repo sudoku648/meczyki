@@ -22,3 +22,8 @@ team_delete:
     controller: App\Controller\Team\TeamDeleteController::delete
     path: /klub/{club_id<\d+>}/druzyna/{team_id<\d+>}/usun
     methods: [ POST ]
+
+team_delete_batch:
+    controller: App\Controller\Team\TeamDeleteController::deleteBatch
+    path: /kluby/druzyny/usun
+    methods: [ POST ]

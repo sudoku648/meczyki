@@ -23,6 +23,11 @@ game_type_delete:
     path: /typ-rozgrywek/{game_type_id<\d+>}/usun
     methods: [ POST ]
 
+game_type_delete_batch:
+    controller: App\Controller\GameType\GameTypeDeleteController::deleteBatch
+    path: /typy-rozgrywek/usun
+    methods: [ POST ]
+
 game_type_image_delete:
     controller: App\Controller\GameType\GameTypeDeleteImageController
     path: /typ-rozgrywek/{game_type_id<\d+>}/usun-obrazek

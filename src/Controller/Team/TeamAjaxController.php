@@ -64,6 +64,12 @@ class TeamAjaxController extends TeamAbstractController
                         $responseTemp = $objKey + 1 + $start;
                         break;
                     }
+                    case 'checkbox':
+                    {
+                        $responseTemp = "<input type='checkbox' id='checkbox_team_".$team->getId()."' ";
+                        $responseTemp .= "class='form-check-input' data-teamId='".$team->getId()."'>";
+                        break;
+                    }
                     case 'name':
                     {
                         $responseTemp = $team->getFullName();

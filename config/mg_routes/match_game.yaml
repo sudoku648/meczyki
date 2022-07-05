@@ -22,3 +22,8 @@ match_game_delete:
     controller: App\Controller\MatchGame\MatchGameDeleteController::delete
     path: /mecz/{match_game_id<\d+>}/usun
     methods: [ POST ]
+
+match_game_delete_batch:
+    controller: App\Controller\MatchGame\MatchGameDeleteController::deleteBatch
+    path: /mecze/usun
+    methods: [ POST ]

@@ -65,6 +65,12 @@ class GameTypeAjaxController extends AbstractController
                         $responseTemp = $objKey + 1 + $start;
                         break;
                     }
+                    case 'checkbox':
+                    {
+                        $responseTemp = "<input type='checkbox' id='checkbox_gameType_".$gameType->getId()."' ";
+                        $responseTemp .= "class='form-check-input' data-gameTypeId='".$gameType->getId()."'>";
+                        break;
+                    }
                     case 'name':
                     {
                         $responseTemp = $gameType->getFullName();

@@ -65,6 +65,12 @@ class MatchGameAjaxController extends AbstractController
                         $responseTemp = $objKey + 1 + $start;
                         break;
                     }
+                    case 'checkbox':
+                    {
+                        $responseTemp = "<input type='checkbox' id='checkbox_matchGame_".$matchGame->getId()."' ";
+                        $responseTemp .= "class='form-check-input' data-matchGameId='".$matchGame->getId()."'>";
+                        break;
+                    }
                     case 'dateTime':
                     {
                         $responseTemp = $matchGame->getDateTime()->format('d.m.Y, H:i');

@@ -17,6 +17,7 @@ class UserVoter extends Voter
     const ACTIVATE         = 'user_activate';
     const DEACTIVATE       = 'user_deactivate';
     const DELETE           = 'user_delete';
+    const DELETE_BATCH     = 'user_delete_batch';
     const IMPERSONATE      = 'user_impersonate';
     const BIND_WITH_PERSON = 'user_bind_with_person';
 
@@ -32,6 +33,7 @@ class UserVoter extends Voter
                 self::ACTIVATE,
                 self::DEACTIVATE,
                 self::DELETE,
+                self::DELETE_BATCH,
                 self::IMPERSONATE,
                 self::BIND_WITH_PERSON,
             ],
@@ -57,6 +59,7 @@ class UserVoter extends Voter
             case self::ACTIVATE:         return $this->canActivate($subject);
             case self::DEACTIVATE:       return $this->canDeactivate($subject, $user);
             case self::DELETE:           return $this->canDelete($subject);
+            case self::DELETE_BATCH:     return $this->canDeleteBatch();
             case self::IMPERSONATE:      return $this->canImpersonate($subject, $user);
             case self::BIND_WITH_PERSON: return $this->canBindWithPerson();
             default: throw new \LogicException();
@@ -96,6 +99,11 @@ class UserVoter extends Voter
     private function canDelete(User $userEntity): bool
     {
         return !$userEntity->isActive();
+    }
+
+    private function canDeleteBatch(): bool
+    {
+        return false; // @todo
     }
 
     private function canImpersonate(User $userEntity, User $user): bool

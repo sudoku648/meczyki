@@ -65,6 +65,12 @@ class RefereeObserverAjaxController extends AbstractController
                         $responseTemp = $objKey + 1 + $start;
                         break;
                     }
+                    case 'checkbox':
+                    {
+                        $responseTemp = "<input type='checkbox' id='checkbox_person_".$person->getId()."' ";
+                        $responseTemp .= "class='form-check-input' data-personId='".$person->getId()."'>";
+                        break;
+                    }
                     case 'fullName':
                     {
                         $responseTemp = $person->getFullName();

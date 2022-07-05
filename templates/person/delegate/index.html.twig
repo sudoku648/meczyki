@@ -8,12 +8,16 @@
     {% if is_granted(constant('\\App\\Security\\Voter\\DelegateVoter::CREATE')) %}
         {{ include('buttons/add.html.twig', {path: 'delegate_create', parameters: {}, text: 'Dodaj nowego'}) }}
     {% endif %}
+    {% if is_granted(constant('\\App\\Security\\Voter\\PersonVoter::DELETE_BATCH')) %}
+        {{ include('person/_delete_batch_form.html.twig') }}
+    {% endif %}
 
     <div class="mb-3">
         <table class="dataTable table table-hover table-responsive" id="delegates-list">
             <thead>
                 <tr>
                     <th>L.p.</th>
+                    <th></th>
                     <th class="s">Nazwisko i imię</th>
                     <th>Akcje</th>
                 </tr>

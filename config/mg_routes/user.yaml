@@ -33,6 +33,11 @@ user_delete:
     path: /uzytkownik/{user_id<\d+>}/usun
     methods: [ POST ]
 
+user_delete_batch:
+    controller: App\Controller\User\UserDeleteController::deleteBatch
+    path: /uzytkownicy/usun
+    methods: [ POST ]
+
 user_profile:
     controller: App\Controller\User\Profile\UserProfileController
     path: /profil

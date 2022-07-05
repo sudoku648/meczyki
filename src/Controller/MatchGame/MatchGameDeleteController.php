@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Controller\MatchGame;
 
 use App\Entity\MatchGame;
+use App\Message\Flash\MatchGame\MatchGameDeletedBatchFlashMessage;
 use App\Message\Flash\MatchGame\MatchGameDeletedFlashMessage;
+use App\Message\Flash\MatchGame\MatchGameNotAllDeletedBatchFlashMessage;
+use App\Repository\MatchGameRepository;
 use App\Security\Voter\MatchGameVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +26,36 @@ class MatchGameDeleteController extends MatchGameAbstractController
         $this->flash(new MatchGameDeletedFlashMessage($matchGame->getId()));
 
         $this->manager->delete($matchGame);
+
+        return $this->redirectToMatchGamesList();
+    }
+
+    public function deleteBatch(MatchGameRepository $repository, Request $request): Response
+    {
+        $this->denyAccessUnlessGranted(MatchGameVoter::DELETE_BATCH);
+
+        $this->validateCsrf('match_game_delete_batch', $request->request->get('_token'));
+
+        $matchGameIds = $request->request->all('matchGames');
+
+        $notAllDeleted = false;
+        foreach ($matchGameIds as $matchGameId) {
+            $matchGame = $repository->find($matchGameId);
+            if ($matchGame) {
+                if ($this->isGranted(MatchGameVoter::DELETE, $matchGame)) {
+                    $this->manager->delete($matchGame);
+                    continue;
+                }
+
+                $notAllDeleted = true;
+            }
+        }
+
+        if ($notAllDeleted) {
+            $this->flash(new MatchGameNotAllDeletedBatchFlashMessage(), 'warning');
+        } else {
+            $this->flash(new MatchGameDeletedBatchFlashMessage());
+        }
 
         return $this->redirectToMatchGamesList();
     }
