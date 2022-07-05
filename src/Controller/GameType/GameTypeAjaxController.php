@@ -87,7 +87,8 @@ class GameTypeAjaxController extends AbstractController
                                 $this->renderView(
                                     'buttons/show.html.twig',
                                     [
-                                        'path' => 'game_type_single',
+                                        'btn_size'   => 'table',
+                                        'path'       => 'game_type_single',
                                         'parameters' =>
                                         [
                                             'game_type_id' => $gameType->getId(),
@@ -103,7 +104,8 @@ class GameTypeAjaxController extends AbstractController
                                 $this->renderView(
                                     'buttons/edit.html.twig',
                                     [
-                                        'path' => 'game_type_edit',
+                                        'btn_size'   => 'table',
+                                        'path'       => 'game_type_edit',
                                         'parameters' =>
                                         [
                                             'game_type_id' => $gameType->getId(),
@@ -119,6 +121,7 @@ class GameTypeAjaxController extends AbstractController
                                 $this->renderView(
                                     'game_type/_delete_form.html.twig',
                                     [
+                                        'btn_size' => 'table',
                                         'gameType' => $gameType,
                                     ]
                                 )

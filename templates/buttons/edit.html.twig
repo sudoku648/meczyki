@@ -1,1 +1,4 @@
-<a class="btn btn-outline-secondary btn-sm icon-edit" href="{{ path(path, parameters) }}" role="button">Edytuj</a>
+{% extends 'buttons/_btn.html.twig' %}
+{% block button %}
+    <a class="btn btn-outline-secondary {{btnClass}} icon-edit" href="{{ path(path, parameters) }}" role="button">Edytuj</a>
+{% endblock %}

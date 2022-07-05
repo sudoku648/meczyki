@@ -86,7 +86,8 @@ class UserAjaxController extends UserAbstractController
                                 $this->renderView(
                                     'buttons/show.html.twig',
                                     [
-                                        'path' => 'user_single',
+                                        'btn_size'   => 'table',
+                                        'path'       => 'user_single',
                                         'parameters' =>
                                         [
                                             'user_id' => $user->getId(),
@@ -102,7 +103,8 @@ class UserAjaxController extends UserAbstractController
                                 $this->renderView(
                                     'buttons/edit.html.twig',
                                     [
-                                        'path' => 'user_edit',
+                                        'btn_size'   => 'table',
+                                        'path'       => 'user_edit',
                                         'parameters' =>
                                         [
                                             'user_id' => $user->getId(),
@@ -118,7 +120,8 @@ class UserAjaxController extends UserAbstractController
                                 $this->renderView(
                                     'user/_activate_form.html.twig',
                                     [
-                                        'user' => $user,
+                                        'btn_size' => 'table',
+                                        'user'     => $user,
                                     ]
                                 )
                             );
@@ -129,7 +132,8 @@ class UserAjaxController extends UserAbstractController
                                 $this->renderView(
                                     'user/_deactivate_form.html.twig',
                                     [
-                                        'user' => $user,
+                                        'btn_size' => 'table',
+                                        'user'     => $user,
                                     ]
                                 )
                             );
@@ -141,7 +145,8 @@ class UserAjaxController extends UserAbstractController
                                 $this->renderView(
                                     'user/_buttons/bind_with_person.html.twig',
                                     [
-                                        'path' => 'user_bind_with_person',
+                                        'btn_size'   => 'table',
+                                        'path'       => 'user_bind_with_person',
                                         'parameters' =>
                                         [
                                             'user_id' => $user->getId(),
@@ -157,7 +162,8 @@ class UserAjaxController extends UserAbstractController
                                 $this->renderView(
                                     'user/_buttons/impersonate.html.twig',
                                     [
-                                        'path' => 'front',
+                                        'btn_size'   => 'table',
+                                        'path'       => 'front',
                                         'parameters' =>
                                         [
                                             '_switch_user' => $user->getUserIdentifier(),
@@ -173,7 +179,8 @@ class UserAjaxController extends UserAbstractController
                                 $this->renderView(
                                     'user/_delete_form.html.twig',
                                     [
-                                        'user' => $user,
+                                        'btn_size' => 'table',
+                                        'user'     => $user,
                                     ]
                                 )
                             );

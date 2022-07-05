@@ -99,7 +99,8 @@ class PersonAjaxController extends AbstractController
                                 $this->renderView(
                                     'buttons/show.html.twig',
                                     [
-                                        'path' => 'person_single',
+                                        'btn_size'   => 'table',
+                                        'path'       => 'person_single',
                                         'parameters' =>
                                         [
                                             'person_id' => $person->getId(),
@@ -115,7 +116,8 @@ class PersonAjaxController extends AbstractController
                                 $this->renderView(
                                     'buttons/edit.html.twig',
                                     [
-                                        'path' => 'person_edit',
+                                        'btn_size'   => 'table',
+                                        'path'       => 'person_edit',
                                         'parameters' =>
                                         [
                                             'person_id' => $person->getId(),
@@ -131,7 +133,8 @@ class PersonAjaxController extends AbstractController
                                 $this->renderView(
                                     'person/_delete_form.html.twig',
                                     [
-                                        'person' => $person,
+                                        'btn_size' => 'table',
+                                        'person'   => $person,
                                     ]
                                 )
                             );

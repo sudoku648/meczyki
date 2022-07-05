@@ -1,2 +1,5 @@
-<input type="hidden" name="_token" value="{{ csrf_token(csrf_name) }}">
-<button type="submit" class="btn btn-outline-danger btn-sm icon-reject">Dezaktywuj</button>
+{% extends 'buttons/_btn.html.twig' %}
+{% block button %}
+    <input type="hidden" name="_token" value="{{ csrf_token(csrf_name) }}">
+    <button type="submit" class="btn btn-outline-danger {{btnClass}} icon-reject">Dezaktywuj</button>
+{% endblock %}

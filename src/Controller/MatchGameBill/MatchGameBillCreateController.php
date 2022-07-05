@@ -56,7 +56,7 @@ class MatchGameBillCreateController extends MatchGameBillAbstractController
             return $this->redirectToRoute(
                 'match_game_single',
                 [
-                    'matchGame' => $matchGame,
+                    'match_game_id' => $matchGame->getId(),
                 ],
                 Response::HTTP_SEE_OTHER
             );

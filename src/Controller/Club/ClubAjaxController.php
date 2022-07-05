@@ -87,7 +87,8 @@ class ClubAjaxController extends AbstractController
                                 $this->renderView(
                                     'buttons/show.html.twig',
                                     [
-                                        'path' => 'club_single',
+                                        'btn_size'   => 'table',
+                                        'path'       => 'club_single',
                                         'parameters' =>
                                         [
                                             'club_id' => $club->getId(),
@@ -103,7 +104,8 @@ class ClubAjaxController extends AbstractController
                                 $this->renderView(
                                     'buttons/edit.html.twig',
                                     [
-                                        'path' => 'club_edit',
+                                        'btn_size'   => 'table',
+                                        'path'       => 'club_edit',
                                         'parameters' =>
                                         [
                                             'club_id' => $club->getId(),
@@ -119,7 +121,8 @@ class ClubAjaxController extends AbstractController
                                 $this->renderView(
                                     'club/_delete_form.html.twig',
                                     [
-                                        'club' => $club,
+                                        'btn_size' => 'table',
+                                        'club'     => $club,
                                     ]
                                 )
                             );

@@ -1,2 +1,5 @@
-<input type="hidden" name="_token" value="{{ csrf_token(csrf_name) }}">
-<button type="submit" class="btn btn-success btn-sm icon-accept">Aktywuj</button>
+{% extends 'buttons/_btn.html.twig' %}
+{% block button %}
+    <input type="hidden" name="_token" value="{{ csrf_token(csrf_name) }}">
+    <button type="submit" class="btn btn-success {{btnClass}} icon-accept">Aktywuj</button>
+{% endblock %}

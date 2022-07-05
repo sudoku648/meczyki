@@ -26,14 +26,14 @@
     {% endif %}
 
     {% if is_granted(constant('\\App\\Security\\Voter\\UserVoter::EDIT'), user) %}
-        {{ include('buttons/edit_lg.html.twig', {path: 'user_edit', parameters: {'user_id': user.id}}) }}
+        {{ include('buttons/edit.html.twig', {path: 'user_edit', parameters: {'user_id': user.id}}) }}
     {% endif %}
 
     {% if is_granted(constant('\\App\\Security\\Voter\\UserVoter::IMPERSONATE'), user) %}
-        {{ include('user/_buttons/impersonate_lg.html.twig', {path: 'front', parameters: {'_switch_user': user.userIdentifier}}) }}
+        {{ include('user/_buttons/impersonate.html.twig', {path: 'front', parameters: {'_switch_user': user.userIdentifier}}) }}
     {% endif %}
 
     {% if is_granted(constant('\\App\\Security\\Voter\\UserVoter::DELETE'), user) %}
-        {{ include('user/_delete_form.html.twig', {btn_size: 'lg'}) }}
+        {{ include('user/_delete_form.html.twig') }}
     {% endif %}
 {% endblock %}

@@ -25,10 +25,10 @@
     {% endif %}
 
     {% if is_granted(constant('\\App\\Security\\Voter\\TeamVoter::EDIT'), team) %}
-        {{ include('buttons/edit_lg.html.twig', {path: 'team_edit', parameters: {'club_id': team.club.id, 'team_id': team.id}}) }}
+        {{ include('buttons/edit.html.twig', {path: 'team_edit', parameters: {'club_id': team.club.id, 'team_id': team.id}}) }}
     {% endif %}
 
     {% if is_granted(constant('\\App\\Security\\Voter\\TeamVoter::DELETE'), team) %}
-        {{ include('team/_delete_form.html.twig', {btn_size: 'lg'}) }}
+        {{ include('team/_delete_form.html.twig') }}
     {% endif %}
 {% endblock %}

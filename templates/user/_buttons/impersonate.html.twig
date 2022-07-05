@@ -1,1 +1,4 @@
-<a class="btn btn-primary btn-sm icon-user" href="{{ path(path, parameters) }}" role="button">Zaloguj</a>
+{% extends 'buttons/_btn.html.twig' %}
+{% block button %}
+    <a class="btn btn-primary {{btnClass}} icon-user" href="{{ path(path, parameters) }}" role="button">Zaloguj</a>
+{% endblock %}

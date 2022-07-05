@@ -1,1 +1,4 @@
-<a class="btn btn-secondary btn-sm icon-show" href="{{ path(path, parameters) }}" role="button">Pokaż</a>
+{% extends 'buttons/_btn.html.twig' %}
+{% block button %}
+    <a class="btn btn-secondary {{btnClass}} icon-show" href="{{ path(path, parameters) }}" role="button">Pokaż</a>
+{% endblock %}

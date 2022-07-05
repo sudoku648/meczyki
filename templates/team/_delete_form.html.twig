@@ -3,5 +3,5 @@
     {% if show_club is defined and show_club == true %}
         <input name="show_club" type="hidden" value="true">
     {% endif %}
-    {{ include('buttons/delete'~(btn_size is defined ? '_'~ btn_size : '')~'.html.twig', {csrf_name: 'team_delete'}) }}
+    {{ include('buttons/delete.html.twig', {csrf_name: 'team_delete'}) }}
 </form>

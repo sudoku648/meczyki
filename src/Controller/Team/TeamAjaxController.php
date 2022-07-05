@@ -91,7 +91,8 @@ class TeamAjaxController extends TeamAbstractController
                                 $this->renderView(
                                     'buttons/show.html.twig',
                                     [
-                                        'path' => 'team_single',
+                                        'btn_size'   => 'table',
+                                        'path'       => 'team_single',
                                         'parameters' =>
                                         [
                                             'club_id' => $team->getClub()->getId(),
@@ -108,7 +109,8 @@ class TeamAjaxController extends TeamAbstractController
                                 $this->renderView(
                                     'buttons/edit.html.twig',
                                     [
-                                        'path' => 'team_edit',
+                                        'btn_size'   => 'table',
+                                        'path'       => 'team_edit',
                                         'parameters' =>
                                         [
                                             'club_id' => $team->getClub()->getId(),
@@ -125,8 +127,9 @@ class TeamAjaxController extends TeamAbstractController
                                 $this->renderView(
                                     'team/_delete_form.html.twig',
                                     [
-                                        'club_id' => $team->getClub()->getId(),
-                                        'team' => $team,
+                                        'btn_size' => 'table',
+                                        'club_id'  => $team->getClub()->getId(),
+                                        'team'     => $team,
                                     ]
                                 )
                             );

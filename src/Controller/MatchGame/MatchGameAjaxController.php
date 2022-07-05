@@ -119,7 +119,8 @@ class MatchGameAjaxController extends AbstractController
                                 $this->renderView(
                                     'buttons/show.html.twig',
                                     [
-                                        'path' => 'match_game_single',
+                                        'btn_size'   => 'table',
+                                        'path'       => 'match_game_single',
                                         'parameters' =>
                                         [
                                             'match_game_id' => $matchGame->getId(),
@@ -135,7 +136,8 @@ class MatchGameAjaxController extends AbstractController
                                 $this->renderView(
                                     'buttons/edit.html.twig',
                                     [
-                                        'path' => 'match_game_edit',
+                                        'btn_size'   => 'table',
+                                        'path'       => 'match_game_edit',
                                         'parameters' =>
                                         [
                                             'match_game_id' => $matchGame->getId(),
@@ -151,6 +153,7 @@ class MatchGameAjaxController extends AbstractController
                                 $this->renderView(
                                     'match_game/_delete_form.html.twig',
                                     [
+                                        'btn_size'  => 'table',
                                         'matchGame' => $matchGame,
                                     ]
                                 )

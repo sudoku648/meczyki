@@ -31,10 +31,10 @@
     {% endif %}
 
     {% if is_granted(constant('\\App\\Security\\Voter\\PersonVoter::EDIT'), person) %}
-        {{ include('buttons/edit_lg.html.twig', {path: 'person_edit', parameters: {'person_id': person.id}}) }}
+        {{ include('buttons/edit.html.twig', {path: 'person_edit', parameters: {'person_id': person.id}}) }}
     {% endif %}
 
     {% if is_granted(constant('\\App\\Security\\Voter\\PersonVoter::DELETE'), person) %}
-        {{ include('person/_delete_form.html.twig', {btn_size: 'lg'}) }}
+        {{ include('person/_delete_form.html.twig') }}
     {% endif %}
 {% endblock %}
