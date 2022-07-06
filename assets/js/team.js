@@ -9,24 +9,54 @@ $(function() {
         }
     });
 
-    const deleteButton = $('#teams-delete-batch-btn');
+    const $deleteButton       = $('#teams-delete-batch-btn');
+    const checkSingleSelector = 'input[id^="checkbox_team_"]';
+    const checkAllId          = 'checkbox_teams_all';
+    const checkAllSelector    = 'input[id="'+checkAllId+'"]';
 
-    deleteButton.attr('disabled', 'disabled');
+    $deleteButton.attr('disabled', 'disabled');
 
-    $(document).on('change', 'input[id^="checkbox_team_"]', function() {
-        var teamId = $(this).attr('data-teamId');
+    $(document).on('change', checkSingleSelector+', '+checkAllSelector, function() {
+        var all = $(checkSingleSelector).length;
 
-        if ($(this).is(":checked")) {
-            var newInput = "<input name='teams[]' type='hidden' value='"+teamId+"'>";
-            $('form#teams-delete-batch').append(newInput);
-        } else {
-            $("input[value='"+teamId+"']").remove();
+        if ($(this).attr('id').startsWith(checkAllId)) {
+            if ($(this).is(':checked')) {
+                $(checkSingleSelector).each(function() {
+                    $(this).prop('checked', true);
+                });
+            } else {
+                $(checkSingleSelector).each(function() {
+                    $(this).prop('checked', false);
+                });
+            }
         }
 
-        if ($('input[id^="checkbox_team_"]').filter(':checked').length > 0) {
-            deleteButton.removeAttr('disabled');
+        var checked = $(checkSingleSelector).filter(':checked').length;
+
+        $(checkSingleSelector).each(function() {
+            var teamId = $(this).attr('data-teamId');
+
+            $('input[value="'+teamId+'"]').remove();
+
+            if ($(this).is(':checked')) {
+                var newInput = '<input name="teams[]" type="hidden" value="'+teamId+'">';
+
+                $('form#teams-delete-batch').append(newInput);
+            }
+        });
+
+        if (checked > 0) {
+            $deleteButton.removeAttr('disabled');
+
+            if (checked === all) {
+                $(checkAllSelector).prop({'checked': true, 'indeterminate': false});
+            } else {
+                $(checkAllSelector).prop({'checked': false, 'indeterminate': true});
+            }
         } else {
-            deleteButton.attr('disabled', 'disabled');
+            $deleteButton.attr('disabled', 'disabled');
+
+            $(checkAllSelector).prop({'checked': false, 'indeterminate': false});
         }
     });
 });

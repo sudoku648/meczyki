@@ -10,24 +10,54 @@ $(function() {
         }
     });
 
-    const deleteButton = $('#match-games-delete-batch-btn');
+    const $deleteButton       = $('#match-games-delete-batch-btn');
+    const checkSingleSelector = 'input[id^="checkbox_matchGame_"]';
+    const checkAllId          = 'checkbox_matchGames_all';
+    const checkAllSelector    = 'input[id="'+checkAllId+'"]';
 
-    deleteButton.attr('disabled', 'disabled');
+    $deleteButton.attr('disabled', 'disabled');
 
-    $(document).on('change', 'input[id^="checkbox_matchGame_"]', function() {
-        var matchGameId = $(this).attr('data-matchGameId');
+    $(document).on('change', checkSingleSelector+', '+checkAllSelector, function() {
+        var all = $(checkSingleSelector).length;
 
-        if ($(this).is(":checked")) {
-            var newInput = "<input name='matchGames[]' type='hidden' value='"+matchGameId+"'>";
-            $('form#match-games-delete-batch').append(newInput);
-        } else {
-            $("input[value='"+matchGameId+"']").remove();
+        if ($(this).attr('id').startsWith(checkAllId)) {
+            if ($(this).is(':checked')) {
+                $(checkSingleSelector).each(function() {
+                    $(this).prop('checked', true);
+                });
+            } else {
+                $(checkSingleSelector).each(function() {
+                    $(this).prop('checked', false);
+                });
+            }
         }
 
-        if ($('input[id^="checkbox_matchGame_"]').filter(':checked').length > 0) {
-            deleteButton.removeAttr('disabled');
+        var checked = $(checkSingleSelector).filter(':checked').length;
+
+        $(checkSingleSelector).each(function() {
+            var matchGameId = $(this).attr('data-matchGameId');
+
+            $('input[value="'+matchGameId+'"]').remove();
+
+            if ($(this).is(':checked')) {
+                var newInput = '<input name="matchGames[]" type="hidden" value="'+matchGameId+'">';
+
+                $('form#match-games-delete-batch').append(newInput);
+            }
+        });
+
+        if (checked > 0) {
+            $deleteButton.removeAttr('disabled');
+
+            if (checked === all) {
+                $(checkAllSelector).prop({'checked': true, 'indeterminate': false});
+            } else {
+                $(checkAllSelector).prop({'checked': false, 'indeterminate': true});
+            }
         } else {
-            deleteButton.attr('disabled', 'disabled');
+            $deleteButton.attr('disabled', 'disabled');
+
+            $(checkAllSelector).prop({'checked': false, 'indeterminate': false});
         }
     });
 });
