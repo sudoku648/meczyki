@@ -16,7 +16,7 @@ $(function() {
         var clubId = $(this).attr('data-clubId');
 
         if ($(this).is(":checked")) {
-            var newInput = $("<input name='clubs[]' type='hidden' value='"+clubId+"'>");
+            var newInput = "<input name='clubs[]' type='hidden' value='"+clubId+"'>";
             $('form#clubs-delete-batch').append(newInput);
         } else {
             $("input[value='"+clubId+"']").remove();

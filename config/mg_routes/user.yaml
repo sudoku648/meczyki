@@ -23,6 +23,16 @@ user_deactivate:
     path: /uzytkownik/{user_id<\d+>}/dezaktywuj
     methods: [ POST ]
 
+user_activate_batch:
+    controller: App\Controller\User\UserActivationController::activateBatch
+    path: /uzytkownicy/aktywuj
+    methods: [ POST ]
+
+user_deactivate_batch:
+    controller: App\Controller\User\UserActivationController::deactivateBatch
+    path: /uzytkownicy/dezaktywuj
+    methods: [ POST ]
+
 user_edit:
     controller: App\Controller\User\UserEditController
     path: /uzytkownik/{user_id<\d+>}/edytuj

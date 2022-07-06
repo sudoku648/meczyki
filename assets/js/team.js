@@ -17,7 +17,7 @@ $(function() {
         var teamId = $(this).attr('data-teamId');
 
         if ($(this).is(":checked")) {
-            var newInput = $("<input name='teams[]' type='hidden' value='"+teamId+"'>");
+            var newInput = "<input name='teams[]' type='hidden' value='"+teamId+"'>";
             $('form#teams-delete-batch').append(newInput);
         } else {
             $("input[value='"+teamId+"']").remove();

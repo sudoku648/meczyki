@@ -16,7 +16,7 @@ $(function() {
         var gameTypeId = $(this).attr('data-gameTypeId');
 
         if ($(this).is(":checked")) {
-            var newInput = $("<input name='gameTypes[]' type='hidden' value='"+gameTypeId+"'>");
+            var newInput = "<input name='gameTypes[]' type='hidden' value='"+gameTypeId+"'>";
             $('form#game-types-delete-batch').append(newInput);
         } else {
             $("input[value='"+gameTypeId+"']").remove();

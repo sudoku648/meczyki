@@ -16,7 +16,7 @@ $(function() {
         var refereeId = $(this).attr('data-refereeId');
 
         if ($(this).is(":checked")) {
-            var newInput = $("<input name='referees[]' type='hidden' value='"+refereeId+"'>");
+            var newInput = "<input name='referees[]' type='hidden' value='"+refereeId+"'>";
             $('form#referees-delete-batch').append(newInput);
         } else {
             $("input[value='"+refereeId+"']").remove();

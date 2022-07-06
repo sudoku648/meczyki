@@ -16,7 +16,7 @@ $(function() {
         var delegateId = $(this).attr('data-delegateId');
 
         if ($(this).is(":checked")) {
-            var newInput = $("<input name='delegates[]' type='hidden' value='"+delegateId+"'>");
+            var newInput = "<input name='delegates[]' type='hidden' value='"+delegateId+"'>";
             $('form#delegates-delete-batch').append(newInput);
         } else {
             $("input[value='"+delegateId+"']").remove();

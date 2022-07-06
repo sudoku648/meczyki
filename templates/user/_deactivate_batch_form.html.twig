@@ -1,0 +1,3 @@
+<form class="d-md-inline-block align-middle mb-3" action="{{ path('user_deactivate_batch') }}" method="post" id="users-deactivate-batch">
+    {{ include('buttons/deactivate.html.twig', {csrf_name: 'user_deactivate_batch', btn_id: 'users-deactivate-batch-btn'}) }}
+</form>

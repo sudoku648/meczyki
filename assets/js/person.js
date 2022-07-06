@@ -17,7 +17,7 @@ $(function() {
         var personId = $(this).attr('data-personId');
 
         if ($(this).is(":checked")) {
-            var newInput = $("<input name='people[]' type='hidden' value='"+personId+"'>");
+            var newInput = "<input name='people[]' type='hidden' value='"+personId+"'>";
             $('form#people-delete-batch').append(newInput);
         } else {
             $("input[value='"+personId+"']").remove();

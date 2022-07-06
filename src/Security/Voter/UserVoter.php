@@ -16,6 +16,8 @@ class UserVoter extends Voter
     const EDIT             = 'user_edit';
     const ACTIVATE         = 'user_activate';
     const DEACTIVATE       = 'user_deactivate';
+    const ACTIVATE_BATCH   = 'user_activate_batch';
+    const DEACTIVATE_BATCH = 'user_deactivate_batch';
     const DELETE           = 'user_delete';
     const DELETE_BATCH     = 'user_delete_batch';
     const IMPERSONATE      = 'user_impersonate';
@@ -32,6 +34,8 @@ class UserVoter extends Voter
                 self::EDIT,
                 self::ACTIVATE,
                 self::DEACTIVATE,
+                self::ACTIVATE_BATCH,
+                self::DEACTIVATE_BATCH,
                 self::DELETE,
                 self::DELETE_BATCH,
                 self::IMPERSONATE,
@@ -58,6 +62,8 @@ class UserVoter extends Voter
             case self::EDIT:             return $this->canEdit();
             case self::ACTIVATE:         return $this->canActivate($subject);
             case self::DEACTIVATE:       return $this->canDeactivate($subject, $user);
+            case self::ACTIVATE_BATCH:   return $this->canActivateBatch();
+            case self::DEACTIVATE_BATCH: return $this->canDeactivateBatch();
             case self::DELETE:           return $this->canDelete($subject);
             case self::DELETE_BATCH:     return $this->canDeleteBatch();
             case self::IMPERSONATE:      return $this->canImpersonate($subject, $user);
@@ -96,6 +102,16 @@ class UserVoter extends Voter
         return $userEntity->isActive() && $userEntity !== $user;
     }
 
+    private function canActivateBatch(): bool
+    {
+        return true;
+    }
+
+    private function canDeactivateBatch(): bool
+    {
+        return true;
+    }
+
     private function canDelete(User $userEntity): bool
     {
         return !$userEntity->isActive();
@@ -103,7 +119,7 @@ class UserVoter extends Voter
 
     private function canDeleteBatch(): bool
     {
-        return false; // @todo
+        return true;
     }
 
     private function canImpersonate(User $userEntity, User $user): bool

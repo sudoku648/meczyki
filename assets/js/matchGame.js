@@ -18,7 +18,7 @@ $(function() {
         var matchGameId = $(this).attr('data-matchGameId');
 
         if ($(this).is(":checked")) {
-            var newInput = $("<input name='matchGames[]' type='hidden' value='"+matchGameId+"'>");
+            var newInput = "<input name='matchGames[]' type='hidden' value='"+matchGameId+"'>";
             $('form#match-games-delete-batch').append(newInput);
         } else {
             $("input[value='"+matchGameId+"']").remove();
