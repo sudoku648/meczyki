@@ -67,8 +67,8 @@ class ClubAjaxController extends AbstractController
                     }
                     case 'checkbox':
                     {
-                        $responseTemp = "<input type='checkbox' id='checkbox_club_".$club->getId()."' ";
-                        $responseTemp .= "class='form-check-input' data-clubId='".$club->getId()."'>";
+                        $responseTemp = '<input type="checkbox" id="checkbox_club_'.$club->getId().'" ';
+                        $responseTemp .= 'class="form-check-input" data-clubId="'.$club->getId().'">';
                         break;
                     }
                     case 'name':
@@ -81,55 +81,49 @@ class ClubAjaxController extends AbstractController
                         $responseTemp = '';
 
                         if ($this->isGranted(ClubVoter::SHOW, $club)) {
-                            $responseTemp .= \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'buttons/show.html.twig',
+                            $responseTemp .= $this->renderView(
+                                'buttons/show.html.twig',
+                                [
+                                    'btn_size'   => 'table',
+                                    'path'       => 'club_single',
+                                    'parameters' =>
                                     [
-                                        'btn_size'   => 'table',
-                                        'path'       => 'club_single',
-                                        'parameters' =>
-                                        [
-                                            'club_id' => $club->getId(),
-                                        ],
-                                    ]
-                                )
+                                        'club_id' => $club->getId(),
+                                    ],
+                                ]
                             );
                         }
                         if ($this->isGranted(ClubVoter::EDIT, $club)) {
-                            $responseTemp .= \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'buttons/edit.html.twig',
+                            $responseTemp .= $this->renderView(
+                                'buttons/edit.html.twig',
+                                [
+                                    'btn_size'   => 'table',
+                                    'path'       => 'club_edit',
+                                    'parameters' =>
                                     [
-                                        'btn_size'   => 'table',
-                                        'path'       => 'club_edit',
-                                        'parameters' =>
-                                        [
-                                            'club_id' => $club->getId(),
-                                        ],
-                                    ]
-                                )
+                                        'club_id' => $club->getId(),
+                                    ],
+                                ]
                             );
                         }
                         if ($this->isGranted(ClubVoter::DELETE, $club)) {
-                            $responseTemp .= \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'club/_delete_form.html.twig',
-                                    [
-                                        'btn_size' => 'table',
-                                        'club'     => $club,
-                                    ]
-                                )
+                            $responseTemp .= $this->renderView(
+                                'club/_delete_form.html.twig',
+                                [
+                                    'btn_size' => 'table',
+                                    'club'     => $club,
+                                ]
                             );
                         }
                         break;
                     }
                 }
+
+                $responseTemp = \str_replace(
+                    ["\r\n", "\n", "\r", '"'],
+                    [' ', ' ', ' ', "'"],
+                    (string) $responseTemp
+                );
 
                 $response .= $responseTemp;
 

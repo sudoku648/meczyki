@@ -66,8 +66,8 @@ class TeamAjaxController extends TeamAbstractController
                     }
                     case 'checkbox':
                     {
-                        $responseTemp = "<input type='checkbox' id='checkbox_team_".$team->getId()."' ";
-                        $responseTemp .= "class='form-check-input' data-teamId='".$team->getId()."'>";
+                        $responseTemp = '<input type="checkbox" id="checkbox_team_'.$team->getId().'" ';
+                        $responseTemp .= 'class="form-check-input" data-teamId="'.$team->getId().'">';
                         break;
                     }
                     case 'name':
@@ -85,58 +85,52 @@ class TeamAjaxController extends TeamAbstractController
                         $responseTemp = '';
 
                         if ($this->isGranted(TeamVoter::SHOW, $team)) {
-                            $responseTemp = \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'buttons/show.html.twig',
+                            $responseTemp = $this->renderView(
+                                'buttons/show.html.twig',
+                                [
+                                    'btn_size'   => 'table',
+                                    'path'       => 'team_single',
+                                    'parameters' =>
                                     [
-                                        'btn_size'   => 'table',
-                                        'path'       => 'team_single',
-                                        'parameters' =>
-                                        [
-                                            'club_id' => $team->getClub()->getId(),
-                                            'team_id' => $team->getId(),
-                                        ],
-                                    ]
-                                )
+                                        'club_id' => $team->getClub()->getId(),
+                                        'team_id' => $team->getId(),
+                                    ],
+                                ]
                             );
                         }
                         if ($this->isGranted(TeamVoter::EDIT, $team)) {
-                            $responseTemp .= \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'buttons/edit.html.twig',
+                            $responseTemp .= $this->renderView(
+                                'buttons/edit.html.twig',
+                                [
+                                    'btn_size'   => 'table',
+                                    'path'       => 'team_edit',
+                                    'parameters' =>
                                     [
-                                        'btn_size'   => 'table',
-                                        'path'       => 'team_edit',
-                                        'parameters' =>
-                                        [
-                                            'club_id' => $team->getClub()->getId(),
-                                            'team_id' => $team->getId(),
-                                        ],
-                                    ]
-                                )
+                                        'club_id' => $team->getClub()->getId(),
+                                        'team_id' => $team->getId(),
+                                    ],
+                                ]
                             );
                         }
                         if ($this->isGranted(TeamVoter::DELETE, $team)) {
-                            $responseTemp .= \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'team/_delete_form.html.twig',
-                                    [
-                                        'btn_size' => 'table',
-                                        'club_id'  => $team->getClub()->getId(),
-                                        'team'     => $team,
-                                    ]
-                                )
+                            $responseTemp .= $this->renderView(
+                                'team/_delete_form.html.twig',
+                                [
+                                    'btn_size' => 'table',
+                                    'club_id'  => $team->getClub()->getId(),
+                                    'team'     => $team,
+                                ]
                             );
                         }
                         break;
                     }
                 }
+
+                $responseTemp = \str_replace(
+                    ["\r\n", "\n", "\r", '"'],
+                    [' ', ' ', ' ', "'"],
+                    (string) $responseTemp
+                );
 
                 $response .= $responseTemp;
 

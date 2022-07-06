@@ -67,8 +67,8 @@ class DelegateAjaxController extends AbstractController
                     }
                     case 'checkbox':
                     {
-                        $responseTemp = "<input type='checkbox' id='checkbox_person_".$person->getId()."' ";
-                        $responseTemp .= "class='form-check-input' data-personId='".$person->getId()."'>";
+                        $responseTemp = '<input type="checkbox" id="checkbox_person_'.$person->getId().'" ';
+                        $responseTemp .= 'class="form-check-input" data-personId="'.$person->getId().'">';
                         break;
                     }
                     case 'fullName':
@@ -81,55 +81,49 @@ class DelegateAjaxController extends AbstractController
                         $responseTemp = '';
 
                         if ($this->isGranted(PersonVoter::SHOW, $person)) {
-                            $responseTemp .= \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'buttons/show.html.twig',
+                            $responseTemp .= $this->renderView(
+                                'buttons/show.html.twig',
+                                [
+                                    'btn_size'   => 'table',
+                                    'path'       => 'person_single',
+                                    'parameters' =>
                                     [
-                                        'btn_size'   => 'table',
-                                        'path'       => 'person_single',
-                                        'parameters' =>
-                                        [
-                                            'person_id' => $person->getId(),
-                                        ],
-                                    ]
-                                )
+                                        'person_id' => $person->getId(),
+                                    ],
+                                ]
                             );
                         }
                         if ($this->isGranted(PersonVoter::EDIT, $person)) {
-                            $responseTemp .= \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'buttons/edit.html.twig',
+                            $responseTemp .= $this->renderView(
+                                'buttons/edit.html.twig',
+                                [
+                                    'btn_size'   => 'table',
+                                    'path'       => 'person_edit',
+                                    'parameters' =>
                                     [
-                                        'btn_size'   => 'table',
-                                        'path'       => 'person_edit',
-                                        'parameters' =>
-                                        [
-                                            'person_id' => $person->getId(),
-                                        ],
-                                    ]
-                                )
+                                        'person_id' => $person->getId(),
+                                    ],
+                                ]
                             );
                         }
                         if ($this->isGranted(PersonVoter::DELETE, $person)) {
-                            $responseTemp .= \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'person/_delete_form.html.twig',
-                                    [
-                                        'btn_size' => 'table',
-                                        'person'   => $person,
-                                    ]
-                                )
+                            $responseTemp .= $this->renderView(
+                                'person/_delete_form.html.twig',
+                                [
+                                    'btn_size' => 'table',
+                                    'person'   => $person,
+                                ]
                             );
                         }
                         break;
                     }
                 }
+
+                $responseTemp = \str_replace(
+                    ["\r\n", "\n", "\r", '"'],
+                    [' ', ' ', ' ', "'"],
+                    (string) $responseTemp
+                );
 
                 $response .= $responseTemp;
 

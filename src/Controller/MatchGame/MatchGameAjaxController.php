@@ -67,8 +67,8 @@ class MatchGameAjaxController extends AbstractController
                     }
                     case 'checkbox':
                     {
-                        $responseTemp = "<input type='checkbox' id='checkbox_matchGame_".$matchGame->getId()."' ";
-                        $responseTemp .= "class='form-check-input' data-matchGameId='".$matchGame->getId()."'>";
+                        $responseTemp = '<input type="checkbox" id="checkbox_matchGame_'.$matchGame->getId().'" ';
+                        $responseTemp .= 'class="form-check-input" data-matchGameId="'.$matchGame->getId().'">';
                         break;
                     }
                     case 'dateTime':
@@ -79,7 +79,7 @@ class MatchGameAjaxController extends AbstractController
                     case 'gameType':
                     {
                         $responseTemp = $matchGame->getGameType()
-                            ? $matchGame->getGameType()->getFullName() : "<em class='text-black-50'>nieznany</em>";
+                            ? $matchGame->getGameType()->getFullName() : '<em class="text-black-50">nieznany</em>';
                         break;
                     }
                     case 'teams':
@@ -95,16 +95,16 @@ class MatchGameAjaxController extends AbstractController
                                 $responseTemp =
                                     $matchGame->getHomeTeam()->getFullName().
                                     ' - '.
-                                    "<em class='text-black-50'>nieznany</em>";
+                                    '<em class="text-black-50">nieznany</em>';
                                 break;
                             case $matchGame->getAwayTeam():
                                 $responseTemp =
-                                    "<em class='text-black-50'>nieznany</em>".
+                                '<em class="text-black-50">nieznany</em>'.
                                     ' - '.
                                     $matchGame->getAwayTeam()->getFullName();
                                 break;
                             default:
-                                $responseTemp = "<em class='text-black-50'>nieznane</em>";
+                                $responseTemp = '<em class="text-black-50">nieznany</em>';
                         }
                         break;
                     }
@@ -113,55 +113,49 @@ class MatchGameAjaxController extends AbstractController
                         $responseTemp = '';
 
                         if ($this->isGranted(MatchGameVoter::SHOW, $matchGame)) {
-                            $responseTemp .= \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'buttons/show.html.twig',
+                            $responseTemp .= $this->renderView(
+                                'buttons/show.html.twig',
+                                [
+                                    'btn_size'   => 'table',
+                                    'path'       => 'match_game_single',
+                                    'parameters' =>
                                     [
-                                        'btn_size'   => 'table',
-                                        'path'       => 'match_game_single',
-                                        'parameters' =>
-                                        [
-                                            'match_game_id' => $matchGame->getId(),
-                                        ],
-                                    ]
-                                )
+                                        'match_game_id' => $matchGame->getId(),
+                                    ],
+                                ]
                             );
                         }
                         if ($this->isGranted(MatchGameVoter::EDIT, $matchGame)) {
-                            $responseTemp .= \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'buttons/edit.html.twig',
+                            $responseTemp .= $this->renderView(
+                                'buttons/edit.html.twig',
+                                [
+                                    'btn_size'   => 'table',
+                                    'path'       => 'match_game_edit',
+                                    'parameters' =>
                                     [
-                                        'btn_size'   => 'table',
-                                        'path'       => 'match_game_edit',
-                                        'parameters' =>
-                                        [
-                                            'match_game_id' => $matchGame->getId(),
-                                        ],
-                                    ]
-                                )
+                                        'match_game_id' => $matchGame->getId(),
+                                    ],
+                                ]
                             );
                         }
                         if ($this->isGranted(MatchGameVoter::DELETE, $matchGame)) {
-                            $responseTemp .= \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'match_game/_delete_form.html.twig',
-                                    [
-                                        'btn_size'  => 'table',
-                                        'matchGame' => $matchGame,
-                                    ]
-                                )
+                            $responseTemp .= $this->renderView(
+                                'match_game/_delete_form.html.twig',
+                                [
+                                    'btn_size'  => 'table',
+                                    'matchGame' => $matchGame,
+                                ]
                             );
                         }
                         break;
                     }
                 }
+
+                $responseTemp = \str_replace(
+                    ["\r\n", "\n", "\r", '"'],
+                    [' ', ' ', ' ', "'"],
+                    (string) $responseTemp
+                );
 
                 $response .= $responseTemp;
 

@@ -67,8 +67,8 @@ class GameTypeAjaxController extends AbstractController
                     }
                     case 'checkbox':
                     {
-                        $responseTemp = "<input type='checkbox' id='checkbox_gameType_".$gameType->getId()."' ";
-                        $responseTemp .= "class='form-check-input' data-gameTypeId='".$gameType->getId()."'>";
+                        $responseTemp = '<input type="checkbox" id="checkbox_gameType_'.$gameType->getId().'" ';
+                        $responseTemp .= 'class="form-check-input" data-gameTypeId="'.$gameType->getId().'">';
                         break;
                     }
                     case 'name':
@@ -81,55 +81,49 @@ class GameTypeAjaxController extends AbstractController
                         $responseTemp = '';
 
                         if ($this->isGranted(GameTypeVoter::SHOW, $gameType)) {
-                            $responseTemp .= \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'buttons/show.html.twig',
+                            $responseTemp .= $this->renderView(
+                                'buttons/show.html.twig',
+                                [
+                                    'btn_size'   => 'table',
+                                    'path'       => 'game_type_single',
+                                    'parameters' =>
                                     [
-                                        'btn_size'   => 'table',
-                                        'path'       => 'game_type_single',
-                                        'parameters' =>
-                                        [
-                                            'game_type_id' => $gameType->getId(),
-                                        ],
-                                    ]
-                                )
+                                        'game_type_id' => $gameType->getId(),
+                                    ],
+                                ]
                             );
                         }
                         if ($this->isGranted(GameTypeVoter::EDIT, $gameType)) {
-                            $responseTemp .= \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'buttons/edit.html.twig',
+                            $responseTemp .= $this->renderView(
+                                'buttons/edit.html.twig',
+                                [
+                                    'btn_size'   => 'table',
+                                    'path'       => 'game_type_edit',
+                                    'parameters' =>
                                     [
-                                        'btn_size'   => 'table',
-                                        'path'       => 'game_type_edit',
-                                        'parameters' =>
-                                        [
-                                            'game_type_id' => $gameType->getId(),
-                                        ],
-                                    ]
-                                )
+                                        'game_type_id' => $gameType->getId(),
+                                    ],
+                                ]
                             );
                         }
                         if ($this->isGranted(GameTypeVoter::DELETE, $gameType)) {
-                            $responseTemp .= \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'game_type/_delete_form.html.twig',
-                                    [
-                                        'btn_size' => 'table',
-                                        'gameType' => $gameType,
-                                    ]
-                                )
+                            $responseTemp .= $this->renderView(
+                                'game_type/_delete_form.html.twig',
+                                [
+                                    'btn_size' => 'table',
+                                    'gameType' => $gameType,
+                                ]
                             );
                         }
                         break;
                     }
                 }
+
+                $responseTemp = \str_replace(
+                    ["\r\n", "\n", "\r", '"'],
+                    [' ', ' ', ' ', "'"],
+                    (string) $responseTemp
+                );
 
                 $response .= $responseTemp;
 

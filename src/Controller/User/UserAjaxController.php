@@ -66,8 +66,8 @@ class UserAjaxController extends UserAbstractController
                     }
                     case 'checkbox':
                     {
-                        $responseTemp = "<input type='checkbox' id='checkbox_user_".$user->getId()."' ";
-                        $responseTemp .= "class='form-check-input' data-userId='".$user->getId()."'>";
+                        $responseTemp = '<input type="checkbox" id="checkbox_user_'.$user->getId().'" ';
+                        $responseTemp .= 'class="form-check-input" data-userId="'.$user->getId().'">';
                         break;
                     }
                     case 'username':
@@ -80,114 +80,92 @@ class UserAjaxController extends UserAbstractController
                         $responseTemp = '';
 
                         if ($this->isGranted(UserVoter::SHOW, $user)) {
-                            $responseTemp .= \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'buttons/show.html.twig',
+                            $responseTemp .= $this->renderView(
+                                'buttons/show.html.twig',
+                                [
+                                    'btn_size'   => 'table',
+                                    'path'       => 'user_single',
+                                    'parameters' =>
                                     [
-                                        'btn_size'   => 'table',
-                                        'path'       => 'user_single',
-                                        'parameters' =>
-                                        [
-                                            'user_id' => $user->getId(),
-                                        ],
-                                    ]
-                                )
+                                        'user_id' => $user->getId(),
+                                    ],
+                                ]
                             );
                         }
                         if ($this->isGranted(UserVoter::EDIT, $user)) {
-                            $responseTemp .= \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'buttons/edit.html.twig',
+                            $responseTemp .= $this->renderView(
+                                'buttons/edit.html.twig',
+                                [
+                                    'btn_size'   => 'table',
+                                    'path'       => 'user_edit',
+                                    'parameters' =>
                                     [
-                                        'btn_size'   => 'table',
-                                        'path'       => 'user_edit',
-                                        'parameters' =>
-                                        [
-                                            'user_id' => $user->getId(),
-                                        ],
-                                    ]
-                                )
+                                        'user_id' => $user->getId(),
+                                    ],
+                                ]
                             );
                         }
                         if ($this->isGranted(UserVoter::ACTIVATE, $user)) {
-                            $responseTemp .= \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'user/_activate_form.html.twig',
-                                    [
-                                        'btn_size' => 'table',
-                                        'user'     => $user,
-                                    ]
-                                )
+                            $responseTemp .= $this->renderView(
+                                'user/_activate_form.html.twig',
+                                [
+                                    'btn_size' => 'table',
+                                    'user'     => $user,
+                                ]
                             );
                         } elseif ($this->isGranted(UserVoter::DEACTIVATE, $user)) {
-                            $responseTemp .= \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'user/_deactivate_form.html.twig',
-                                    [
-                                        'btn_size' => 'table',
-                                        'user'     => $user,
-                                    ]
-                                )
+                            $responseTemp .= $this->renderView(
+                                'user/_deactivate_form.html.twig',
+                                [
+                                    'btn_size' => 'table',
+                                    'user'     => $user,
+                                ]
                             );
                         }
                         if ($this->isGranted(UserVoter::BIND_WITH_PERSON, $user)) {
-                            $responseTemp .= \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'user/_buttons/bind_with_person.html.twig',
+                            $responseTemp .= $this->renderView(
+                                'user/_buttons/bind_with_person.html.twig',
+                                [
+                                    'btn_size'   => 'table',
+                                    'path'       => 'user_bind_with_person',
+                                    'parameters' =>
                                     [
-                                        'btn_size'   => 'table',
-                                        'path'       => 'user_bind_with_person',
-                                        'parameters' =>
-                                        [
-                                            'user_id' => $user->getId(),
-                                        ],
-                                    ]
-                                )
+                                        'user_id' => $user->getId(),
+                                    ],
+                                ]
                             );
                         }
                         if ($this->isGranted(UserVoter::IMPERSONATE, $user)) {
-                            $responseTemp .= \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'user/_buttons/impersonate.html.twig',
+                            $responseTemp .= $this->renderView(
+                                'user/_buttons/impersonate.html.twig',
+                                [
+                                    'btn_size'   => 'table',
+                                    'path'       => 'front',
+                                    'parameters' =>
                                     [
-                                        'btn_size'   => 'table',
-                                        'path'       => 'front',
-                                        'parameters' =>
-                                        [
-                                            '_switch_user' => $user->getUserIdentifier(),
-                                        ],
-                                    ]
-                                )
+                                        '_switch_user' => $user->getUserIdentifier(),
+                                    ],
+                                ]
                             );
                         }
                         if ($this->isGranted(UserVoter::DELETE, $user)) {
-                            $responseTemp .= \str_replace(
-                                ["\r\n", "\n", "\r", '"'],
-                                [' ', ' ', ' ', "'"],
-                                $this->renderView(
-                                    'user/_delete_form.html.twig',
-                                    [
-                                        'btn_size' => 'table',
-                                        'user'     => $user,
-                                    ]
-                                )
+                            $responseTemp .= $this->renderView(
+                                'user/_delete_form.html.twig',
+                                [
+                                    'btn_size' => 'table',
+                                    'user'     => $user,
+                                ]
                             );
                         }
                         break;
                     }
                 }
+
+                $responseTemp = \str_replace(
+                    ["\r\n", "\n", "\r", '"'],
+                    [' ', ' ', ' ', "'"],
+                    (string) $responseTemp
+                );
 
                 $response .= $responseTemp;
 
