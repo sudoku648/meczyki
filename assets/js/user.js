@@ -15,9 +15,9 @@ $(function() {
     const checkAllId          = 'checkbox_users_all';
     const checkAllSelector    = 'input[id="'+checkAllId+'"]';
 
-    $activateButton.attr('disabled', 'disabled');
-    $deactivateButton.attr('disabled', 'disabled');
-    $deleteButton.attr('disabled', 'disabled');
+    $activateButton.attr('disabled', 'disabled').parent('form').addClass('cursor-not-allowed');
+    $deactivateButton.attr('disabled', 'disabled').parent('form').addClass('cursor-not-allowed');
+    $deleteButton.attr('disabled', 'disabled').parent('form').addClass('cursor-not-allowed');
 
     $(document).on('change', checkSingleSelector+', '+checkAllSelector, function() {
         var all = $(checkSingleSelector).length;
@@ -51,9 +51,9 @@ $(function() {
         });
 
         if (checked > 0) {
-            $activateButton.removeAttr('disabled');
-            $deactivateButton.removeAttr('disabled');
-            $deleteButton.removeAttr('disabled');
+            $activateButton.removeAttr('disabled').parent('form').removeClass('cursor-not-allowed');
+            $deactivateButton.removeAttr('disabled').parent('form').removeClass('cursor-not-allowed');
+            $deleteButton.removeAttr('disabled').parent('form').removeClass('cursor-not-allowed');
 
             if (checked === all) {
                 $(checkAllSelector).prop({'checked': true, 'indeterminate': false});
@@ -61,9 +61,9 @@ $(function() {
                 $(checkAllSelector).prop({'checked': false, 'indeterminate': true});
             }
         } else {
-            $activateButton.attr('disabled', 'disabled');
-            $deactivateButton.attr('disabled', 'disabled');
-            $deleteButton.attr('disabled', 'disabled');
+            $activateButton.attr('disabled', 'disabled').parent('form').addClass('cursor-not-allowed');
+            $deactivateButton.attr('disabled', 'disabled').parent('form').addClass('cursor-not-allowed');
+            $deleteButton.attr('disabled', 'disabled').parent('form').addClass('cursor-not-allowed');
 
             $(checkAllSelector).prop({'checked': false, 'indeterminate': false});
         }

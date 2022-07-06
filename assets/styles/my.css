@@ -170,3 +170,11 @@ fieldset > legend {
 .dropdown-toggle.bs-placeholder::after {
     content: none;
 }
+
+button:disabled.cursor-not-allowed,
+[type="button"]:disabled.cursor-not-allowed,
+[type="reset"]:disabled.cursor-not-allowed,
+[type="submit"]:disabled.cursor-not-allowed,
+.cursor-not-allowed {
+    cursor: not-allowed;
+}

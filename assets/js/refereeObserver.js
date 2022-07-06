@@ -13,7 +13,7 @@ $(function() {
     const checkAllId          = 'checkbox_people_all';
     const checkAllSelector    = 'input[id="'+checkAllId+'"]';
 
-    $deleteButton.attr('disabled', 'disabled');
+    $deleteButton.attr('disabled', 'disabled').parent('form').addClass('cursor-not-allowed');
 
     $(document).on('change', checkSingleSelector+', '+checkAllSelector, function() {
         var all = $(checkSingleSelector).length;
@@ -45,7 +45,7 @@ $(function() {
         });
 
         if (checked > 0) {
-            $deleteButton.removeAttr('disabled');
+            $deleteButton.removeAttr('disabled').parent('form').removeClass('cursor-not-allowed');
 
             if (checked === all) {
                 $(checkAllSelector).prop({'checked': true, 'indeterminate': false});
@@ -53,7 +53,7 @@ $(function() {
                 $(checkAllSelector).prop({'checked': false, 'indeterminate': true});
             }
         } else {
-            $deleteButton.attr('disabled', 'disabled');
+            $deleteButton.attr('disabled', 'disabled').parent('form').addClass('cursor-not-allowed');
 
             $(checkAllSelector).prop({'checked': false, 'indeterminate': false});
         }
