@@ -32,7 +32,7 @@ $.extend($.fn.dataTable.defaults, {
     paginationType: 'full_numbers',
     columnDefs: [
         { "name": "lp", "targets": 0, "searchable": false, "orderable": false, "width": "1px" },
-        { "name": "checkbox", "targets": 1, "orderable": false, "width": "1px" },
+        { "name": "checkbox", "targets": 1, "searchable": false, "orderable": false, "width": "1px" },
         { "name": "buttons", "targets": -1, "searchable": false, "orderable": false, "class": "buttons" }
     ],
     processing: true,
