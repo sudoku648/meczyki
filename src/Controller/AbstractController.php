@@ -127,4 +127,13 @@ abstract class AbstractController extends BaseAbstractController
     {
         $this->addFlash($type, $message->getMessage());
     }
+
+    protected function escapeDTResponse(int|string $response): string
+    {
+        return \str_replace(
+            ["\r\n", "\n", "\r", '"'],
+            [' ', ' ', ' ', "'"],
+            (string) $response
+        );
+    }
 }

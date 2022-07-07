@@ -126,11 +126,7 @@ class TeamAjaxController extends TeamAbstractController
                     }
                 }
 
-                $responseTemp = \str_replace(
-                    ["\r\n", "\n", "\r", '"'],
-                    [' ', ' ', ' ', "'"],
-                    (string) $responseTemp
-                );
+                $responseTemp = $this->escapeDTResponse($responseTemp);
 
                 $response .= $responseTemp;
 
