@@ -88,6 +88,8 @@ class PersonRepository extends ServiceEntityRepository
             }
         }
 
+        if ($length < 0) $length = null;
+
         $query->setFirstResult($start)->setMaxResults($length);
 
         foreach ($orders as $key => $order) {
