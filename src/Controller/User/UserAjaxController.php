@@ -66,8 +66,12 @@ class UserAjaxController extends UserAbstractController
                     }
                     case 'checkbox':
                     {
-                        $responseTemp = '<input type="checkbox" id="checkbox_user_'.$user->getId().'" ';
-                        $responseTemp .= 'class="form-check-input" data-userId="'.$user->getId().'">';
+                        $responseTemp = $this->renderView(
+                            'user/_datatable_checkbox.html.twig',
+                            [
+                                'userId' => $user->getId(),
+                            ]
+                        );
                         break;
                     }
                     case 'username':

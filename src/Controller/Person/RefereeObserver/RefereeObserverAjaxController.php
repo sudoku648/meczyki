@@ -67,8 +67,12 @@ class RefereeObserverAjaxController extends AbstractController
                     }
                     case 'checkbox':
                     {
-                        $responseTemp = '<input type="checkbox" id="checkbox_person_'.$person->getId().'" ';
-                        $responseTemp .= 'class="form-check-input" data-personId="'.$person->getId().'">';
+                        $responseTemp = $this->renderView(
+                            'person/_datatable_checkbox.html.twig',
+                            [
+                                'personId' => $person->getId(),
+                            ]
+                        );
                         break;
                     }
                     case 'fullName':

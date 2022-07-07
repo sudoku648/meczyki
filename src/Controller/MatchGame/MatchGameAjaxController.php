@@ -67,8 +67,12 @@ class MatchGameAjaxController extends AbstractController
                     }
                     case 'checkbox':
                     {
-                        $responseTemp = '<input type="checkbox" id="checkbox_matchGame_'.$matchGame->getId().'" ';
-                        $responseTemp .= 'class="form-check-input" data-matchGameId="'.$matchGame->getId().'">';
+                        $responseTemp = $this->renderView(
+                            'match_game/_datatable_checkbox.html.twig',
+                            [
+                                'matchGameId' => $matchGame->getId(),
+                            ]
+                        );
                         break;
                     }
                     case 'dateTime':

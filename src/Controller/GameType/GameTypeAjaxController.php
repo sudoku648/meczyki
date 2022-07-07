@@ -67,8 +67,12 @@ class GameTypeAjaxController extends AbstractController
                     }
                     case 'checkbox':
                     {
-                        $responseTemp = '<input type="checkbox" id="checkbox_gameType_'.$gameType->getId().'" ';
-                        $responseTemp .= 'class="form-check-input" data-gameTypeId="'.$gameType->getId().'">';
+                        $responseTemp = $this->renderView(
+                            'game_type/_datatable_checkbox.html.twig',
+                            [
+                                'gameTypeId' => $gameType->getId(),
+                            ]
+                        );
                         break;
                     }
                     case 'name':

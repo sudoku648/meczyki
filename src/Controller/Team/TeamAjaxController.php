@@ -66,8 +66,12 @@ class TeamAjaxController extends TeamAbstractController
                     }
                     case 'checkbox':
                     {
-                        $responseTemp = '<input type="checkbox" id="checkbox_team_'.$team->getId().'" ';
-                        $responseTemp .= 'class="form-check-input" data-teamId="'.$team->getId().'">';
+                        $responseTemp = $this->renderView(
+                            'team/_datatable_checkbox.html.twig',
+                            [
+                                'teamId' => $team->getId(),
+                            ]
+                        );
                         break;
                     }
                     case 'name':

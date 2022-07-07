@@ -67,8 +67,12 @@ class ClubAjaxController extends AbstractController
                     }
                     case 'checkbox':
                     {
-                        $responseTemp = '<input type="checkbox" id="checkbox_club_'.$club->getId().'" ';
-                        $responseTemp .= 'class="form-check-input" data-clubId="'.$club->getId().'">';
+                        $responseTemp = $this->renderView(
+                            'club/_datatable_checkbox.html.twig',
+                            [
+                                'clubId' => $club->getId(),
+                            ]
+                        );
                         break;
                     }
                     case 'name':
