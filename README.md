@@ -6,9 +6,9 @@ Aplikacja do zbierania informacji o posędziowanych meczach.
 
 ### Requirements
 
-https://symfony.com/doc/6.0/reference/requirements.html
+https://symfony.com/doc/6.1/reference/requirements.html
 
-* PHP version: 8.0 or higher
+* PHP version: 8.1 or higher
 * Apache
 * MySQL
 
