@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Enums\VoivodeshipEnum;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\PersonTrait;
 use App\Entity\Traits\UpdatedAtTrait;
@@ -57,8 +58,8 @@ class Person
     #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
     private ?string $addressPostOffice = null;
 
-    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
-    private ?string $addressVoivodeship = null;
+    #[ORM\Column(type: Types::STRING, enumType: VoivodeshipEnum::class, length: 100, nullable: true)]
+    private ?VoivodeshipEnum $addressVoivodeship = null;
 
     #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
     private ?string $addressPowiat = null;
@@ -266,12 +267,12 @@ class Person
         return $address;
     }
 
-    public function getAddressVoivodeship(): ?string
+    public function getAddressVoivodeship(): ?VoivodeshipEnum
     {
         return $this->addressVoivodeship;
     }
 
-    public function setAddressVoivodeship(?string $voivodeship): self
+    public function setAddressVoivodeship(?VoivodeshipEnum $voivodeship): self
     {
         $this->addressVoivodeship = $voivodeship;
 

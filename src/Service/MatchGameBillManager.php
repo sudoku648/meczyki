@@ -105,7 +105,7 @@ class MatchGameBillManager implements ContentManagerInterface
         $sheet->setCellValue('U17', $person->getPlaceOfBirth() ? $person->getPlaceOfBirth() : '');
 
         $sheet->setCellValue('BB17', $person->getAddress());
-        $sheet->setCellValue('A20', $person->getAddressVoivodeship() ? $person->getAddressVoivodeship() : '');
+        $sheet->setCellValue('A20', $person->getAddressVoivodeship() ? $person->getAddressVoivodeship()->getName() : '');
         $sheet->setCellValue('AM20', $person->getAddressPowiat() ? $person->getAddressPowiat() : '');
         $sheet->setCellValue('BY20', $person->getAddressGmina() ? $person->getAddressGmina() : '');
 

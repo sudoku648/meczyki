@@ -14,7 +14,7 @@ final class Version20220705104307 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Fix binding with person.';
     }
 
     public function up(Schema $schema): void

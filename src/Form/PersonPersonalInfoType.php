@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Dto\PersonDto;
+use App\Entity\Enums\VoivodeshipEnum;
 use App\Form\DataTransformer\IbanTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -50,27 +51,13 @@ class PersonPersonalInfoType extends AbstractType
             ->add('addressPostOffice')
             ->add(
                 'addressVoivodeship',
-                ChoiceType::class,
+                EnumType::class,
                 [
-                    'choices'  => [
-                        'dolnośląskie'        => 'dolnośląskie',
-                        'kujawsko-pomorskie'  => 'kujawsko-pomorskie',
-                        'lubelskie'           => 'lubelskie',
-                        'lubuskie'            => 'lubuskie',
-                        'łódzkie'             => 'łódzkie',
-                        'małopolskie'         => 'małopolskie',
-                        'mazowieckie'         => 'mazowieckie',
-                        'opolskie'            => 'opolskie',
-                        'podkarpackie'        => 'podkarpackie',
-                        'podlaskie'           => 'podlaskie',
-                        'pomorskie'           => 'pomorskie',
-                        'śląskie'             => 'śląskie',
-                        'świętokrzyskie'      => 'świętokrzyskie',
-                        'warmińsko-mazurskie' => 'warmińsko-mazurskie',
-                        'wielkopolskie'       => 'wielkopolskie',
-                        'zachodniopomorskie'  => 'zachodniopomorskie',
-                    ],
-                    'required' => false,
+                    'class'        => VoivodeshipEnum::class,
+                    'choice_label' => function (VoivodeshipEnum $voivodeship) {
+                        return $voivodeship->getName();
+                    },
+                    'required'     => false,
                 ]
             )
             ->add('addressPowiat')

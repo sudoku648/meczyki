@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
+use App\Entity\Enums\VoivodeshipEnum;
 use App\Entity\Person;
 use App\Validator\Nip;
 use App\Validator\Pesel;
@@ -68,13 +69,8 @@ class PersonDto
     #[Assert\Length(min: 2, max: 100)]
     public ?string $addressPostOffice = null;
 
-    #[Assert\Choice(choices: [
-        'dolnośląskie', 'kujawsko-pomorskie', 'lubelskie', 'lubuskie',
-        'łódzkie', 'małopolskie', 'mazowieckie', 'opolskie',
-        'podkarpackie', 'podlaskie', 'pomorskie', 'śląskie',
-        'świętokrzyskie', 'warmińsko-mazurskie', 'wielkopolskie', 'zachodniopomorskie',
-    ])]
-    public ?string $addressVoivodeship = null;
+    #[Assert\Type(type: VoivodeshipEnum::class)]
+    public ?VoivodeshipEnum $addressVoivodeship = null;
 
     #[Assert\Length(min: 2, max: 100)]
     public ?string $addressPowiat = null;
