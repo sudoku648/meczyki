@@ -1,5 +1,9 @@
+import {checkInputs, setMainCheckbox, addOrRemoveInputFromForms, removeInput} from './dataTables';
+
 $(function() {
-    $('#referee-observers-list').dataTable({
+    const $dataTable = $('#referee-observers-list');
+
+    $dataTable.dataTable({
         columnDefs: $.fn.dataTable.defaults.columnDefs.concat([
             { "name": "fullName", "targets": 2, "orderable": false },
         ]),
@@ -8,54 +12,45 @@ $(function() {
         }
     });
 
-    const $deleteButton       = $('#people-delete-batch-btn');
-    const checkSingleSelector = 'input[id^="checkbox_person_"]';
-    const checkAllId          = 'checkbox_people_all';
+    const inputName           = 'refereeObservers[]';
+    const dataAttribute       = 'data-refereeObserverId';
+    const checkSingleSelector = 'input[id^="checkbox_refereeObserver_"]';
+    const checkAllId          = 'checkbox_refereeObservers_all';
     const checkAllSelector    = 'input[id="'+checkAllId+'"]';
+    const inputSelector       = 'input[name=\''+inputName+'\']';
+    const formSelectors       = [
+        'form#referee-observers-delete-batch',
+    ];
+    const buttonsSelectors    = [
+        '#referee-observers-delete-batch-btn',
+    ];
 
-    $deleteButton.attr('disabled', 'disabled').parent('form').addClass('cursor-not-allowed');
+    checkInputs(inputSelector, buttonsSelectors);
 
-    $(document).on('change', checkSingleSelector+', '+checkAllSelector, function() {
-        var all = $(checkSingleSelector).length;
-
-        if ($(this).attr('id').startsWith(checkAllId)) {
-            if ($(this).is(':checked')) {
-                $(checkSingleSelector).each(function() {
-                    $(this).prop('checked', true);
-                });
-            } else {
-                $(checkSingleSelector).each(function() {
-                    $(this).prop('checked', false);
-                });
-            }
-        }
-
-        var checked = $(checkSingleSelector).filter(':checked').length;
-
-        $(checkSingleSelector).each(function() {
-            var personId = $(this).attr('data-personId');
-
-            $('input[value="'+personId+'"]').remove();
-
-            if ($(this).is(':checked')) {
-                var newInput = '<input name="people[]" type="hidden" value="'+personId+'">';
-
-                $('form#people-delete-batch').append(newInput);
-            }
+    $dataTable.DataTable().on('draw', function () {
+        $(inputSelector).each(function () {
+            var refereeObserverId = $(this).attr('value');
+            removeInput(inputSelector, formSelectors, refereeObserverId);
         });
+        setMainCheckbox(checkSingleSelector, checkAllSelector);
+    });
 
-        if (checked > 0) {
-            $deleteButton.removeAttr('disabled').parent('form').removeClass('cursor-not-allowed');
+    $(document).on('change', checkAllSelector, function() {
+        var checkbox = $(this);
 
-            if (checked === all) {
-                $(checkAllSelector).prop({'checked': true, 'indeterminate': false});
-            } else {
-                $(checkAllSelector).prop({'checked': false, 'indeterminate': true});
-            }
-        } else {
-            $deleteButton.attr('disabled', 'disabled').parent('form').addClass('cursor-not-allowed');
+        $(checkSingleSelector).each(function () {
+            $(this).prop('checked', checkbox.is(':checked'));
+            addOrRemoveInputFromForms($(this), dataAttribute, inputSelector, inputName, formSelectors);
+        });
+    });
 
-            $(checkAllSelector).prop({'checked': false, 'indeterminate': false});
-        }
+    $(document).on('change', checkSingleSelector, function() {
+        var checkbox = $(this);
+        addOrRemoveInputFromForms(checkbox, dataAttribute, inputSelector, inputName, formSelectors);
+        setMainCheckbox(checkSingleSelector, checkAllSelector);
+    });
+
+    $(document).on('change', formSelectors, function() {
+        checkInputs(inputSelector, buttonsSelectors);
     });
 });

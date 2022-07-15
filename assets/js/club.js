@@ -1,5 +1,9 @@
+import {checkInputs, setMainCheckbox, addOrRemoveInputFromForms, removeInput} from './dataTables';
+
 $(function() {
-    $('#clubs-list').dataTable({
+    const $dataTable = $('#clubs-list');
+
+    $dataTable.dataTable({
         columnDefs: $.fn.dataTable.defaults.columnDefs.concat([
             { "name": "name", "targets": 2, "orderable": false },
         ]),
@@ -8,54 +12,45 @@ $(function() {
         }
     });
 
-    const $deleteButton       = $('#clubs-delete-batch-btn');
+    const inputName           = 'clubs[]';
+    const dataAttribute       = 'data-clubId';
     const checkSingleSelector = 'input[id^="checkbox_club_"]';
     const checkAllId          = 'checkbox_clubs_all';
     const checkAllSelector    = 'input[id="'+checkAllId+'"]';
+    const inputSelector       = 'input[name=\''+inputName+'\']';
+    const formSelectors       = [
+        'form#clubs-delete-batch',
+    ];
+    const buttonsSelectors    = [
+        '#clubs-delete-batch-btn',
+    ];
 
-    $deleteButton.attr('disabled', 'disabled').parent('form').addClass('cursor-not-allowed');
+    checkInputs(inputSelector, buttonsSelectors);
 
-    $(document).on('change', checkSingleSelector+', '+checkAllSelector, function() {
-        var all = $(checkSingleSelector).length;
-
-        if ($(this).attr('id').startsWith(checkAllId)) {
-            if ($(this).is(':checked')) {
-                $(checkSingleSelector).each(function() {
-                    $(this).prop('checked', true);
-                });
-            } else {
-                $(checkSingleSelector).each(function() {
-                    $(this).prop('checked', false);
-                });
-            }
-        }
-
-        var checked = $(checkSingleSelector).filter(':checked').length;
-
-        $(checkSingleSelector).each(function() {
-            var clubId = $(this).attr('data-clubId');
-
-            $('input[value="'+clubId+'"]').remove();
-
-            if ($(this).is(':checked')) {
-                var newInput = '<input name="clubs[]" type="hidden" value="'+clubId+'">';
-
-                $('form#clubs-delete-batch').append(newInput);
-            }
+    $dataTable.DataTable().on('draw', function () {
+        $(inputSelector).each(function () {
+            var clubId = $(this).attr('value');
+            removeInput(inputSelector, formSelectors, clubId);
         });
+        setMainCheckbox(checkSingleSelector, checkAllSelector);
+    });
 
-        if (checked > 0) {
-            $deleteButton.removeAttr('disabled').parent('form').removeClass('cursor-not-allowed');
+    $(document).on('change', checkAllSelector, function() {
+        var checkbox = $(this);
 
-            if (checked === all) {
-                $(checkAllSelector).prop({'checked': true, 'indeterminate': false});
-            } else {
-                $(checkAllSelector).prop({'checked': false, 'indeterminate': true});
-            }
-        } else {
-            $deleteButton.attr('disabled', 'disabled').parent('form').addClass('cursor-not-allowed');
+        $(checkSingleSelector).each(function () {
+            $(this).prop('checked', checkbox.is(':checked'));
+            addOrRemoveInputFromForms($(this), dataAttribute, inputSelector, inputName, formSelectors);
+        });
+    });
 
-            $(checkAllSelector).prop({'checked': false, 'indeterminate': false});
-        }
+    $(document).on('change', checkSingleSelector, function() {
+        var checkbox = $(this);
+        addOrRemoveInputFromForms(checkbox, dataAttribute, inputSelector, inputName, formSelectors);
+        setMainCheckbox(checkSingleSelector, checkAllSelector);
+    });
+
+    $(document).on('change', formSelectors, function() {
+        checkInputs(inputSelector, buttonsSelectors);
     });
 });

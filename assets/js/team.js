@@ -1,5 +1,9 @@
+import {checkInputs, setMainCheckbox, addOrRemoveInputFromForms, removeInput} from './dataTables';
+
 $(function() {
-    $('#teams-list').dataTable({
+    const $dataTable = $('#teams-list');
+
+    $dataTable.dataTable({
         columnDefs: $.fn.dataTable.defaults.columnDefs.concat([
             { "name": "name", "targets": 2, "orderable": false },
             { "name": "club", "targets": 3, "orderable": false },
@@ -9,54 +13,45 @@ $(function() {
         }
     });
 
-    const $deleteButton       = $('#teams-delete-batch-btn');
+    const inputName           = 'teams[]';
+    const dataAttribute       = 'data-teamId';
     const checkSingleSelector = 'input[id^="checkbox_team_"]';
     const checkAllId          = 'checkbox_teams_all';
     const checkAllSelector    = 'input[id="'+checkAllId+'"]';
+    const inputSelector       = 'input[name=\''+inputName+'\']';
+    const formSelectors       = [
+        'form#teams-delete-batch',
+    ];
+    const buttonsSelectors    = [
+        '#teams-delete-batch-btn',
+    ];
 
-    $deleteButton.attr('disabled', 'disabled').parent('form').addClass('cursor-not-allowed');
+    checkInputs(inputSelector, buttonsSelectors);
 
-    $(document).on('change', checkSingleSelector+', '+checkAllSelector, function() {
-        var all = $(checkSingleSelector).length;
-
-        if ($(this).attr('id').startsWith(checkAllId)) {
-            if ($(this).is(':checked')) {
-                $(checkSingleSelector).each(function() {
-                    $(this).prop('checked', true);
-                });
-            } else {
-                $(checkSingleSelector).each(function() {
-                    $(this).prop('checked', false);
-                });
-            }
-        }
-
-        var checked = $(checkSingleSelector).filter(':checked').length;
-
-        $(checkSingleSelector).each(function() {
-            var teamId = $(this).attr('data-teamId');
-
-            $('input[value="'+teamId+'"]').remove();
-
-            if ($(this).is(':checked')) {
-                var newInput = '<input name="teams[]" type="hidden" value="'+teamId+'">';
-
-                $('form#teams-delete-batch').append(newInput);
-            }
+    $dataTable.DataTable().on('draw', function () {
+        $(inputSelector).each(function () {
+            var teamId = $(this).attr('value');
+            removeInput(inputSelector, formSelectors, teamId);
         });
+        setMainCheckbox(checkSingleSelector, checkAllSelector);
+    });
 
-        if (checked > 0) {
-            $deleteButton.removeAttr('disabled').parent('form').removeClass('cursor-not-allowed');
+    $(document).on('change', checkAllSelector, function() {
+        var checkbox = $(this);
 
-            if (checked === all) {
-                $(checkAllSelector).prop({'checked': true, 'indeterminate': false});
-            } else {
-                $(checkAllSelector).prop({'checked': false, 'indeterminate': true});
-            }
-        } else {
-            $deleteButton.attr('disabled', 'disabled').parent('form').addClass('cursor-not-allowed');
+        $(checkSingleSelector).each(function () {
+            $(this).prop('checked', checkbox.is(':checked'));
+            addOrRemoveInputFromForms($(this), dataAttribute, inputSelector, inputName, formSelectors);
+        });
+    });
 
-            $(checkAllSelector).prop({'checked': false, 'indeterminate': false});
-        }
+    $(document).on('change', checkSingleSelector, function() {
+        var checkbox = $(this);
+        addOrRemoveInputFromForms(checkbox, dataAttribute, inputSelector, inputName, formSelectors);
+        setMainCheckbox(checkSingleSelector, checkAllSelector);
+    });
+
+    $(document).on('change', formSelectors, function() {
+        checkInputs(inputSelector, buttonsSelectors);
     });
 });

@@ -1,5 +1,9 @@
+import {checkInputs, setMainCheckbox, addOrRemoveInputFromForms, removeInput} from './dataTables';
+
 $(function() {
-    $('#game-types-list').dataTable({
+    const $dataTable = $('#game-types-list');
+
+    $dataTable.dataTable({
         columnDefs: $.fn.dataTable.defaults.columnDefs.concat([
             { "name": "name", "targets": 2, "orderable": false },
         ]),
@@ -8,54 +12,45 @@ $(function() {
         }
     });
 
-    const $deleteButton       = $('#game-types-delete-batch-btn');
+    const inputName           = 'gameTypes[]';
+    const dataAttribute       = 'data-gameTypeId';
     const checkSingleSelector = 'input[id^="checkbox_gameType_"]';
     const checkAllId          = 'checkbox_gameTypes_all';
     const checkAllSelector    = 'input[id="'+checkAllId+'"]';
+    const inputSelector       = 'input[name=\''+inputName+'\']';
+    const formSelectors       = [
+        'form#game-types-delete-batch',
+    ];
+    const buttonsSelectors    = [
+        '#game-types-delete-batch-btn',
+    ];
 
-    $deleteButton.attr('disabled', 'disabled').parent('form').addClass('cursor-not-allowed');
+    checkInputs(inputSelector, buttonsSelectors);
 
-    $(document).on('change', checkSingleSelector+', '+checkAllSelector, function() {
-        var all = $(checkSingleSelector).length;
-
-        if ($(this).attr('id').startsWith(checkAllId)) {
-            if ($(this).is(':checked')) {
-                $(checkSingleSelector).each(function() {
-                    $(this).prop('checked', true);
-                });
-            } else {
-                $(checkSingleSelector).each(function() {
-                    $(this).prop('checked', false);
-                });
-            }
-        }
-
-        var checked = $(checkSingleSelector).filter(':checked').length;
-
-        $(checkSingleSelector).each(function() {
-            var gameTypeId = $(this).attr('data-gameTypeId');
-
-            $('input[value="'+gameTypeId+'"]').remove();
-
-            if ($(this).is(':checked')) {
-                var newInput = '<input name="gameTypes[]" type="hidden" value="'+gameTypeId+'">';
-
-                $('form#game-types-delete-batch').append(newInput);
-            }
+    $dataTable.DataTable().on('draw', function () {
+        $(inputSelector).each(function () {
+            var gameTypeId = $(this).attr('value');
+            removeInput(inputSelector, formSelectors, gameTypeId);
         });
+        setMainCheckbox(checkSingleSelector, checkAllSelector);
+    });
 
-        if (checked > 0) {
-            $deleteButton.removeAttr('disabled').parent('form').removeClass('cursor-not-allowed');
+    $(document).on('change', checkAllSelector, function() {
+        var checkbox = $(this);
 
-            if (checked === all) {
-                $(checkAllSelector).prop({'checked': true, 'indeterminate': false});
-            } else {
-                $(checkAllSelector).prop({'checked': false, 'indeterminate': true});
-            }
-        } else {
-            $deleteButton.attr('disabled', 'disabled').parent('form').addClass('cursor-not-allowed');
+        $(checkSingleSelector).each(function () {
+            $(this).prop('checked', checkbox.is(':checked'));
+            addOrRemoveInputFromForms($(this), dataAttribute, inputSelector, inputName, formSelectors);
+        });
+    });
 
-            $(checkAllSelector).prop({'checked': false, 'indeterminate': false});
-        }
+    $(document).on('change', checkSingleSelector, function() {
+        var checkbox = $(this);
+        addOrRemoveInputFromForms(checkbox, dataAttribute, inputSelector, inputName, formSelectors);
+        setMainCheckbox(checkSingleSelector, checkAllSelector);
+    });
+
+    $(document).on('change', formSelectors, function() {
+        checkInputs(inputSelector, buttonsSelectors);
     });
 });
