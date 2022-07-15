@@ -1,4 +1,4 @@
-import {checkInputs, setMainCheckbox, addOrRemoveInputFromForms, removeInput} from './dataTables';
+import {checkInputs, setMainCheckbox, addOrRemoveInputFromForms, removeInput} from './dataTables-functions';
 
 $(function() {
     const $dataTable = $('#game-types-list');
