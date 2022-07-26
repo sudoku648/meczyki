@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Enums\PermissionEnum;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
 use App\Repository\UserRepository;
@@ -157,6 +158,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->userRoles->removeElement($userRole);
 
         return $this;
+    }
+
+    public function isGranted(PermissionEnum $permission): bool
+    {
+        foreach ($this->userRoles as $role) {
+            if (\in_array($permission, $role->getPermissions())) return true;
+        }
+
+        return false;
     }
 
     public function deactivate(): void

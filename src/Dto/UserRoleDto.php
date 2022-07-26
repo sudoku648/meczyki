@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UserRoleDto
 {
     #[Assert\NotBlank()]
-    #[Assert\Length(min: 2, max: 50)]
+    #[Assert\Length(min: 2, max: 180)]
     public ?string $name = null;
 
     public ?array $permissions = null;

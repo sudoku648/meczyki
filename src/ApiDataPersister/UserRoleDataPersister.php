@@ -44,9 +44,7 @@ final class UserRoleDataPersister implements ContextAwareDataPersisterInterface
             return $this->factory->createDto($this->manager->edit($userRole, $data));
         }
 
-        return $this->factory->createDto(
-            $this->manager->create($data)
-        );
+        return $this->factory->createDto($this->manager->create($data));
     }
 
     public function remove($data, array $context = [])

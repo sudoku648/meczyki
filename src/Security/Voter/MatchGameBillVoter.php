@@ -9,6 +9,9 @@ use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
+/**
+ * @todo
+ */
 class MatchGameBillVoter extends Voter
 {
     const SHOW     = 'match_game_bill_show';

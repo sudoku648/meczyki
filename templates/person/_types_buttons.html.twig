@@ -3,18 +3,12 @@
         <div class="col">
             <a class="btn btn-secondary d-block" href="{{ path('people_front') }}">Wszyscy</a>
         </div>
-    {% endif %}
-    {% if is_granted(constant('\\App\\Security\\Voter\\DelegateVoter::LIST')) %}
         <div class="col">
             <a class="btn btn-secondary d-block" href="{{ path('delegates_front') }}">Delegaci</a>
         </div>
-    {% endif %}
-    {% if is_granted(constant('\\App\\Security\\Voter\\RefereeVoter::LIST')) %}
         <div class="col">
             <a class="btn btn-secondary d-block" href="{{ path('referees_front') }}">Sędziowie</a>
         </div>
-    {% endif %}
-    {% if is_granted(constant('\\App\\Security\\Voter\\RefereeObserverVoter::LIST')) %}
         <div class="col">
             <a class="btn btn-secondary d-block" href="{{ path('referee_observers_front') }}">Obserwatorzy</a>
         </div>

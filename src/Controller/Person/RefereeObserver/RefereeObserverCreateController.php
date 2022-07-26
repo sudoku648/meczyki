@@ -6,7 +6,7 @@ namespace App\Controller\Person\RefereeObserver;
 
 use App\Form\RefereeObserverType;
 use App\Message\Flash\Person\PersonCreatedFlashMessage;
-use App\Security\Voter\RefereeObserverVoter;
+use App\Security\Voter\PersonVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,7 +14,7 @@ class RefereeObserverCreateController extends RefereeObserverAbstractController
 {
     public function __invoke(Request $request): Response
     {
-        $this->denyAccessUnlessGranted(RefereeObserverVoter::CREATE);
+        $this->denyAccessUnlessGranted(PersonVoter::CREATE);
 
         $this->breadcrumbs->addItem(
             'Dodaj obserwatora',

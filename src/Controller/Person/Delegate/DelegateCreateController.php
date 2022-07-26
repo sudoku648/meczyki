@@ -6,7 +6,7 @@ namespace App\Controller\Person\Delegate;
 
 use App\Form\DelegateType;
 use App\Message\Flash\Person\PersonCreatedFlashMessage;
-use App\Security\Voter\DelegateVoter;
+use App\Security\Voter\PersonVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,7 +14,7 @@ class DelegateCreateController extends DelegateAbstractController
 {
     public function __invoke(Request $request): Response
     {
-        $this->denyAccessUnlessGranted(DelegateVoter::CREATE);
+        $this->denyAccessUnlessGranted(PersonVoter::CREATE);
 
         $this->breadcrumbs->addItem(
             'Dodaj delegata',

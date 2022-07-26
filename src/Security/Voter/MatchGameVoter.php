@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Security\Voter;
 
+use App\Entity\Enums\PermissionEnum;
 use App\Entity\MatchGame;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -45,7 +46,7 @@ class MatchGameVoter extends Voter
         }
 
         switch ($attribute) {
-            case self::LIST:         return $this->canList($user);
+            case self::LIST:         return $this->canList();
             case self::CREATE:       return $this->canCreate($user);
             case self::SHOW:         return $this->canSee($user);
             case self::EDIT:         return $this->canEdit($subject, $user);
@@ -56,26 +57,46 @@ class MatchGameVoter extends Voter
         }
     }
 
-    private function canList(User $user): bool
+    private function canList(): bool
     {
-        return $user->isSuperAdmin() || $user->isPerson();
+        return true;
     }
 
     private function canCreate(User $user): bool
     {
-        return $user->isSuperAdmin() || $user->isPerson();
+        if ($user->isPerson()) {
+            return true;
+        }
+        if ($user->isGranted(PermissionEnum::MANAGE_MATCH_GAMES)) {
+            return true;
+        }
+
+        return $user->isSuperAdmin();
     }
 
     private function canSee(User $user): bool
     {
+        if ($user->isPerson()) {
+            return true;
+        }
+        if ($user->isGranted(PermissionEnum::MANAGE_MATCH_GAMES)) {
+            return true;
+        }
+
         return $user->isSuperAdmin();
     }
 
     private function canEdit(MatchGame $matchGame, User $user): bool
     {
-        if ($user->isSuperAdmin()) return true;
-
-        if (!$user->isPerson()) return false;
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+        if ($user->isGranted(PermissionEnum::MANAGE_MATCH_GAMES)) {
+            return true;
+        }
+        if (!$user->isPerson()) {
+            return false;
+        }
 
         $person = $user->getPerson();
 
@@ -84,6 +105,10 @@ class MatchGameVoter extends Voter
 
     private function canDelete(User $user): bool
     {
+        if ($user->isGranted(PermissionEnum::MANAGE_MATCH_GAMES)) {
+            return true;
+        }
+
         return $user->isSuperAdmin();
     }
 

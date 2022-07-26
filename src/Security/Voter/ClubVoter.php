@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Security\Voter;
 
 use App\Entity\Club;
+use App\Entity\Enums\PermissionEnum;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -63,6 +64,10 @@ class ClubVoter extends Voter
 
     private function canCreate(User $user): bool
     {
+        if ($user->isGranted(PermissionEnum::MANAGE_CLUBS)) {
+            return true;
+        }
+
         return $user->isSuperAdmin();
     }
 
@@ -73,17 +78,32 @@ class ClubVoter extends Voter
 
     private function canEdit(User $user): bool
     {
+        if ($user->isGranted(PermissionEnum::MANAGE_CLUBS)) {
+            return true;
+        }
+
         return $user->isSuperAdmin();
     }
 
     private function canDelete(User $user): bool
     {
+        if ($user->isGranted(PermissionEnum::MANAGE_CLUBS)) {
+            return true;
+        }
+
         return $user->isSuperAdmin();
     }
 
     private function canDeleteEmblem(Club $club, User $user): bool
     {
-        return $club->getEmblem() && $user->isSuperAdmin();
+        if (!$club->getEmblem()) {
+            return false;
+        }
+        if ($user->isGranted(PermissionEnum::MANAGE_CLUBS)) {
+            return true;
+        }
+
+        return $user->isSuperAdmin();
     }
 
     private function canDeleteBatch(User $user): bool

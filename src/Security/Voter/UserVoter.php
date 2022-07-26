@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Security\Voter;
 
+use App\Entity\Enums\PermissionEnum;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -53,82 +54,140 @@ class UserVoter extends Voter
             return false;
         }
 
-        if (!$user->isSuperAdmin()) return false;
-
         switch ($attribute) {
-            case self::LIST:             return $this->canList();
-            case self::CREATE:           return $this->canCreate();
-            case self::SHOW:             return $this->canSee();
-            case self::EDIT:             return $this->canEdit();
-            case self::ACTIVATE:         return $this->canActivate($subject);
+            case self::LIST:             return $this->canList($user);
+            case self::CREATE:           return $this->canCreate($user);
+            case self::SHOW:             return $this->canSee($user);
+            case self::EDIT:             return $this->canEdit($user);
+            case self::ACTIVATE:         return $this->canActivate($subject, $user);
             case self::DEACTIVATE:       return $this->canDeactivate($subject, $user);
-            case self::ACTIVATE_BATCH:   return $this->canActivateBatch();
-            case self::DEACTIVATE_BATCH: return $this->canDeactivateBatch();
-            case self::DELETE:           return $this->canDelete($subject);
-            case self::DELETE_BATCH:     return $this->canDeleteBatch();
+            case self::ACTIVATE_BATCH:   return $this->canActivateBatch($user);
+            case self::DEACTIVATE_BATCH: return $this->canDeactivateBatch($user);
+            case self::DELETE:           return $this->canDelete($subject, $user);
+            case self::DELETE_BATCH:     return $this->canDeleteBatch($user);
             case self::IMPERSONATE:      return $this->canImpersonate($subject, $user);
-            case self::BIND_WITH_PERSON: return $this->canBindWithPerson();
+            case self::BIND_WITH_PERSON: return $this->canBindWithPerson($user);
             default:                     throw new \LogicException();
         }
     }
 
-    private function canList(): bool
+    private function canList(User $user): bool
     {
-        return true;
+        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
+            return true;
+        }
+
+        return $user->isSuperAdmin();
     }
 
-    private function canCreate(): bool
+    private function canCreate(User $user): bool
     {
-        return true;
+        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
+            return true;
+        }
+
+        return $user->isSuperAdmin();
     }
 
-    private function canSee(): bool
+    private function canSee(User $user): bool
     {
-        return true;
+        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
+            return true;
+        }
+
+        return $user->isSuperAdmin();
     }
 
-    private function canEdit(): bool
+    private function canEdit(User $user): bool
     {
-        return true;
+        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
+            return true;
+        }
+
+        return $user->isSuperAdmin();
     }
 
-    private function canActivate(User $userEntity): bool
+    private function canActivate(User $userEntity, User $user): bool
     {
-        return !$userEntity->isActive();
+        if ($userEntity->isActive()) {
+            return false;
+        }
+        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
+            return true;
+        }
+
+        return $user->isSuperAdmin();
     }
 
     private function canDeactivate(User $userEntity, User $user): bool
     {
-        return $userEntity->isActive() && $userEntity !== $user;
+        if (!$userEntity->isActive()) {
+            return false;
+        }
+        if ($userEntity === $user) {
+            return false;
+        }
+        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
+            return true;
+        }
+
+        return $user->isSuperAdmin();
     }
 
-    private function canActivateBatch(): bool
+    private function canActivateBatch(User $user): bool
     {
-        return true;
+        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
+            return true;
+        }
+
+        return $user->isSuperAdmin();
     }
 
-    private function canDeactivateBatch(): bool
+    private function canDeactivateBatch(User $user): bool
     {
-        return true;
+        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
+            return true;
+        }
+
+        return $user->isSuperAdmin();
     }
 
-    private function canDelete(User $userEntity): bool
+    private function canDelete(User $userEntity, User $user): bool
     {
-        return !$userEntity->isActive();
+        if ($userEntity->isActive()) {
+            return false;
+        }
+        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
+            return true;
+        }
+
+        return $user->isSuperAdmin();
     }
 
-    private function canDeleteBatch(): bool
+    private function canDeleteBatch(User $user): bool
     {
-        return true;
+        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
+            return true;
+        }
+
+        return $user->isSuperAdmin();
     }
 
     private function canImpersonate(User $userEntity, User $user): bool
     {
+        if (!$user->isSuperAdmin()) {
+            return false;
+        }
+
         return $userEntity->isActive() && $userEntity !== $user;
     }
 
-    private function canBindWithPerson(): bool
+    private function canBindWithPerson(User $user): bool
     {
-        return true;
+        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
+            return true;
+        }
+
+        return $user->isSuperAdmin();
     }
 }

@@ -6,7 +6,7 @@ namespace App\Controller\Person\Referee;
 
 use App\Form\RefereeType;
 use App\Message\Flash\Person\PersonCreatedFlashMessage;
-use App\Security\Voter\RefereeVoter;
+use App\Security\Voter\PersonVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,7 +14,7 @@ class RefereeCreateController extends RefereeAbstractController
 {
     public function __invoke(Request $request): Response
     {
-        $this->denyAccessUnlessGranted(RefereeVoter::CREATE);
+        $this->denyAccessUnlessGranted(PersonVoter::CREATE);
 
         $this->breadcrumbs->addItem(
             'Dodaj sędziego',
