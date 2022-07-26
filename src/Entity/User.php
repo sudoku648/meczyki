@@ -7,6 +7,8 @@ namespace App\Entity;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -37,6 +39,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Person $person;
 
+    #[ORM\ManyToMany(targetEntity: UserRole::class, inversedBy: 'users')]
+    #[ORM\JoinTable(name: 'user_to_role')]
+    private Collection $userRoles;
+
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[ORM\Column(type: Types::INTEGER)]
@@ -47,8 +53,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         string $password
     )
     {
-        $this->password = $password;
-        $this->username = $username;
+        $this->password  = $password;
+        $this->username  = $username;
+        $this->userRoles = new ArrayCollection();
 
         $this->createdAtTraitConstruct();
     }
@@ -131,9 +138,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return \in_array('ROLE_SUPER_ADMIN', $this->getRoles());
     }
 
-    public function isUser(): bool
+    public function getUserRoles(): Collection
     {
-        return \in_array('ROLE_USER', $this->getRoles());
+        return $this->userRoles;
+    }
+
+    public function addUserRole(UserRole $userRole): self
+    {
+        if (!$this->userRoles->contains($userRole)) {
+            $this->userRoles[] = $userRole;
+        }
+
+        return $this;
+    }
+
+    public function removeUserRole(UserRole $userRole): self
+    {
+        $this->userRoles->removeElement($userRole);
+
+        return $this;
     }
 
     public function deactivate(): void

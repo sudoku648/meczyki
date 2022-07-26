@@ -50,6 +50,10 @@ class UserManager
         $user->setOrRemoveSuperAdminRole(!$isSuperAdmin);
 
         $user->setPassword($this->passwordHasher->hashPassword($user, $dto->plainPassword));
+        
+        foreach ($dto->userRoles as $userRole) {
+            $user->addUserRole($userRole);
+        }
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
@@ -66,6 +70,10 @@ class UserManager
 
             if ($dto->plainPassword) {
                 $user->setPassword($this->passwordHasher->hashPassword($user, $dto->plainPassword));
+            }
+
+            foreach ($dto->userRoles as $userRole) {
+                $userRole->addUser($user);
             }
 
             $this->entityManager->flush();

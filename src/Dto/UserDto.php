@@ -8,6 +8,7 @@ use App\Dto\Contracts\UserDtoInterface;
 use App\Entity\Person;
 use App\Entity\User;
 use App\Validator\UniqueEntity;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[UniqueEntity(options: [
@@ -30,6 +31,8 @@ class UserDto implements UserDtoInterface
     public ?bool $isActive = null;
 
     public Person|PersonDto|null $person = null;
+
+    public ?Collection $userRoles = null;
 
     public ?\DateTimeImmutable $createdAt = null;
 

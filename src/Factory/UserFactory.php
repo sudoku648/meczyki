@@ -25,6 +25,7 @@ class UserFactory implements ContentFactoryInterface
         $dto->username     = $user->getUsername();
         $dto->isActive     = $user->isActive();
         $dto->person       = $user->getPerson();
+        $dto->userRoles    = $user->getUserRoles();
         $dto->createdAt    = $user->getCreatedAt();
         $dto->createdAtAgo = $user->getCreatedAtAgo();
         $dto->updatedAt    = $user->getUpdatedAt();

@@ -50,7 +50,7 @@ class TeamVoter extends Voter
             case self::EDIT:         return $this->canEdit();
             case self::DELETE:       return $this->canDelete();
             case self::DELETE_BATCH: return $this->canDeleteBatch();
-            default: throw new \LogicException();
+            default:                 throw new \LogicException();
         }
     }
 

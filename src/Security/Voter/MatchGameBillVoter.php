@@ -49,7 +49,7 @@ class MatchGameBillVoter extends Voter
             case self::EDIT:     return $this->canEdit($subject, $user);
             case self::DELETE:   return $this->canDelete($subject, $user);
             case self::DOWNLOAD: return $this->canDownload($subject, $user);
-            default: throw new \LogicException();
+            default:             throw new \LogicException();
         }
     }
 

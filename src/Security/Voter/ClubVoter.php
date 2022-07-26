@@ -45,20 +45,20 @@ class ClubVoter extends Voter
         }
 
         switch ($attribute) {
-            case self::LIST:          return $this->canList($user);
+            case self::LIST:          return $this->canList();
             case self::CREATE:        return $this->canCreate($user);
-            case self::SHOW:          return $this->canSee($user);
+            case self::SHOW:          return $this->canSee();
             case self::EDIT:          return $this->canEdit($user);
             case self::DELETE:        return $this->canDelete($user);
             case self::DELETE_BATCH:  return $this->canDeleteBatch($user);
             case self::DELETE_EMBLEM: return $this->canDeleteEmblem($subject, $user);
-            default: throw new \LogicException();
+            default:                  throw new \LogicException();
         }
     }
 
-    private function canList(User $user): bool
+    private function canList(): bool
     {
-        return $user->isUser();
+        return true;
     }
 
     private function canCreate(User $user): bool
@@ -66,9 +66,9 @@ class ClubVoter extends Voter
         return $user->isSuperAdmin();
     }
 
-    private function canSee(User $user): bool
+    private function canSee(): bool
     {
-        return $user->isUser();
+        return true;
     }
 
     private function canEdit(User $user): bool

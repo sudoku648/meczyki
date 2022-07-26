@@ -1,0 +1,24 @@
+user_roles_front:
+    controller: App\Controller\UserRole\UserRoleFrontController::front
+    path: /role-uzytkownikow
+    methods: [ GET ]
+
+user_role_create:
+    controller: App\Controller\UserRole\UserRoleCreateController
+    path: /rola-uzytkownikow/nowa
+    methods: [ GET, POST ]
+
+user_role_edit:
+    controller: App\Controller\UserRole\UserRoleEditController
+    path: /rola-uzytkownikow/{user_role_id<\d+>}/edytuj
+    methods: [ GET, POST ]
+
+user_role_delete:
+    controller: App\Controller\UserRole\UserRoleDeleteController::delete
+    path: /rola-uzytkownikow/{user_role_id<\d+>}/usun
+    methods: [ POST ]
+
+user_role_delete_batch:
+    controller: App\Controller\UserRole\UserRoleDeleteController::deleteBatch
+    path: /role-uzytkownikow/usun
+    methods: [ POST ]

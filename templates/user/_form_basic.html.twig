@@ -1,5 +1,12 @@
 {{ form_start(form) }}
     {{ form_row(form.username, {'label': 'Nazwa użytkownika'}) }}
+
+    <div class="mb-3">
+        {{ form_label(form.userRoles, 'Uprawnienia') }}
+        {{ form_widget(form.userRoles, {'attr': {'class': 'checkboxes-in-choice'}}) }}
+        {{ form_errors(form.userRoles) }}
+    </div>
+
     {{ form_row(form.save, {'label': button_save_label|default('Zapisz'), 'attr': {'class': 'btn-success icon-save loadable-save'}}) }}
     {{ form_row(form.saveAndContinue, {'label': button_save_and_continue_label|default('Zapisz i kontynuuj edycję'), 'attr': {'class': 'btn-success icon-save loadable-save'}}) }}
     {% if is_granted(constant('\\App\\Security\\Voter\\UserVoter::LIST')) %}

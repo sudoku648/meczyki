@@ -51,7 +51,7 @@ class PersonVoter extends Voter
             case self::DELETE:             return $this->canDelete($user);
             case self::DELETE_BATCH:       return $this->canDeleteBatch($user);
             case self::EDIT_PERSONAL_INFO: return $this->canEditPersonalInfo($user);
-            default: throw new \LogicException();
+            default:                       throw new \LogicException();
         }
     }
 

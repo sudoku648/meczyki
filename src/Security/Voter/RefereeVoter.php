@@ -38,7 +38,7 @@ class RefereeVoter extends Voter
         switch ($attribute) {
             case self::LIST:   return $this->canList($user);
             case self::CREATE: return $this->canCreate();
-            default: throw new \LogicException();
+            default:           throw new \LogicException();
         }
     }
 

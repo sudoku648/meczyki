@@ -52,7 +52,7 @@ class MatchGameVoter extends Voter
             case self::DELETE:       return $this->canDelete($user);
             case self::DELETE_BATCH: return $this->canDeleteBatch($user);
             case self::CREATE_BILL:  return $this->canCreateBill($subject, $user);
-            default: throw new \LogicException();
+            default:                 throw new \LogicException();
         }
     }
 

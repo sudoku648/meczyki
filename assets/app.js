@@ -27,6 +27,7 @@ import './js/referee.js';
 import './js/refereeObserver.js';
 import './js/team.js';
 import './js/user.js';
+import './js/userRole.js';
 import './js/bootstrap-dataTables.js';
 import './js/dataTables.js';
 

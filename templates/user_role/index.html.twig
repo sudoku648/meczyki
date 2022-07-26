@@ -1,0 +1,27 @@
+{% extends 'main.html.twig' %}
+
+{% block title %}Role użytkowników{% endblock %}
+
+{% block main_content %}
+    {% if is_granted(constant('\\App\\Security\\Voter\\UserRoleVoter::CREATE')) %}
+        {{ include('buttons/add.html.twig', {path: 'user_role_create', parameters: {}, text: 'Dodaj nową'}) }}
+    {% endif %}
+    {% if is_granted(constant('\\App\\Security\\Voter\\UserRoleVoter::DELETE_BATCH')) %}
+        {{ include('user_role/_delete_batch_form.html.twig') }}
+    {% endif %}
+
+    <div class="mb-3">
+        <table class="dataTable table table-hover table-responsive" id="user-roles-list">
+            <thead>
+                <tr>
+                    <th>L.p.</th>
+                    <th><input type="checkbox" id="checkbox_userRoles_all" class="form-check-input"></th>
+                    <th class="s">Nazwa</th>
+                    <th>Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

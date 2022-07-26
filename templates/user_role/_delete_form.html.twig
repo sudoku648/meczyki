@@ -1,0 +1,4 @@
+{{ include('form/delete_confirmation.html.twig') }}
+<form class="d-none d-md-inline-block form-inline ms-auto my-2 my-md-0" action="{{ path('user_role_delete', {'user_role_id': userRole.id}) }}" method="post" data-confirmation="true" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    {{ include('buttons/delete.html.twig', {csrf_name: 'user_role_delete'}) }}
+</form>

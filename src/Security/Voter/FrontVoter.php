@@ -32,13 +32,13 @@ class FrontVoter extends Voter
         }
 
         switch ($attribute) {
-            case self::FRONT: return $this->canSeeFront($user);
-            default: throw new \LogicException();
+            case self::FRONT: return $this->canSeeFront();
+            default:          throw new \LogicException();
         }
     }
 
-    private function canSeeFront(User $user): bool
+    private function canSeeFront(): bool
     {
-        return $user->isUser();
+        return true;
     }
 }

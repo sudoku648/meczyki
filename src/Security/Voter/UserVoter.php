@@ -68,7 +68,7 @@ class UserVoter extends Voter
             case self::DELETE_BATCH:     return $this->canDeleteBatch();
             case self::IMPERSONATE:      return $this->canImpersonate($subject, $user);
             case self::BIND_WITH_PERSON: return $this->canBindWithPerson();
-            default: throw new \LogicException();
+            default:                     throw new \LogicException();
         }
     }
 

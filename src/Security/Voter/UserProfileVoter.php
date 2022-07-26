@@ -33,12 +33,12 @@ class UserProfileVoter extends Voter
 
         switch ($attribute) {
             case self::PROFILE_SHOW: return $this->canSeeProfile($subject, $user);
-            default: throw new \LogicException();
+            default:                 throw new \LogicException();
         }
     }
 
     private function canSeeProfile(User $userEntity, User $user): bool
     {
-        return $user->isUser() && $userEntity === $user;
+        return $userEntity === $user;
     }
 }

@@ -1,0 +1,5 @@
+ajax_fetch_user_roles:
+    controller: App\Controller\UserRole\UserRoleAjaxController::fetchUserRoles
+    defaults: { _format: json }
+    path: /ajax/fetch_user_roles
+    methods: [ POST ]

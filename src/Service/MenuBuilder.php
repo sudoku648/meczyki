@@ -10,6 +10,7 @@ use App\Security\Voter\GameTypeVoter;
 use App\Security\Voter\MatchGameVoter;
 use App\Security\Voter\PersonVoter;
 use App\Security\Voter\TeamVoter;
+use App\Security\Voter\UserRoleVoter;
 use App\Security\Voter\UserVoter;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
@@ -48,6 +49,15 @@ final class MenuBuilder
                 [
                     'route' => 'users_front',
                     'label' => 'Użytkownicy',
+                ]
+            );
+        }
+        if ($this->security->isGranted(UserRoleVoter::LIST)) {
+            $menu->addChild(
+                'userRoles',
+                [
+                    'route' => 'user_roles_front',
+                    'label' => 'Role użytkowników',
                 ]
             );
         }
