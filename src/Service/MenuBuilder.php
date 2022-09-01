@@ -18,16 +18,10 @@ use Symfony\Component\Security\Core\Security;
 
 final class MenuBuilder
 {
-    private FactoryInterface $factory;
-    private Security $security;
-
     public function __construct(
-        FactoryInterface $factory,
-        Security $security
-    )
-    {
-        $this->factory  = $factory;
-        $this->security = $security;
+        private readonly FactoryInterface $factory,
+        private readonly Security $security
+    ) {
     }
 
     public function createMainMenu(array $options): ItemInterface
@@ -133,9 +127,8 @@ final class MenuBuilder
                 ->addChild(
                     'exit_impersonator',
                     [
-                        'route' => 'users_front',
-                        'routeParameters' =>
-                        [
+                        'route'           => 'users_front',
+                        'routeParameters' => [
                             '_switch_user' => '_exit',
                         ],
                         'label' => 'Wróć na swoje konto',

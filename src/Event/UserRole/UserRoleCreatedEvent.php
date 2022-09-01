@@ -8,11 +8,9 @@ use App\Entity\UserRole;
 
 class UserRoleCreatedEvent
 {
-    private UserRole $userRole;
-
-    public function __construct(UserRole $userRole)
-    {
-        $this->userRole = $userRole;
+    public function __construct(
+        private UserRole $userRole
+    ) {
     }
 
     public function getUserRole(): UserRole

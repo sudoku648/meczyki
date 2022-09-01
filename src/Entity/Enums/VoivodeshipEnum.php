@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity\Enums;
 
+use LogicException;
+
 enum VoivodeshipEnum: string
 {
     case LOWER_SILESIAN      = 'lower_silesian';
@@ -42,7 +44,7 @@ enum VoivodeshipEnum: string
             self::WARMIAN_MASURIAN    => 'warmińsko-mazurskie',
             self::GREATER_POLAND      => 'wielkopolskie',
             self::WEST_POMERANIAN     => 'zachodniopomorskie',
-            default                   => throw new \LogicException(),
+            default                   => throw new LogicException(),
         };
     }
 }

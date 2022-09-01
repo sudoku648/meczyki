@@ -11,21 +11,34 @@ use App\Security\Voter\PersonVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
+use function count;
+
 class RefereeAjaxController extends AbstractController
 {
     public function fetchReferees(
         PersonRepository $repository,
         Request $request
-    ): JsonResponse
-    {
+    ): JsonResponse {
         foreach ($request->request->all() as $key => $param) {
             switch ($key) {
-                case 'draw':    $draw    = $param; break;
-                case 'columns': $columns = $param; break;
-                case 'order':   $orders  = $param; break;
-                case 'start':   $start   = $param; break;
-                case 'length':  $length  = $param; break;
-                case 'search':  $search  = $param; break;
+                case 'draw':    $draw    = $param;
+
+                    break;
+                case 'columns': $columns = $param;
+
+                    break;
+                case 'order':   $orders  = $param;
+
+                    break;
+                case 'start':   $start   = $param;
+
+                    break;
+                case 'length':  $length  = $param;
+
+                    break;
+                case 'search':  $search  = $param;
+
+                    break;
             }
         }
 
@@ -34,18 +47,23 @@ class RefereeAjaxController extends AbstractController
         }
 
         $results = $repository->getRequiredDTData(
-            $start, $length, $orders, $search, $columns, 'person.isReferee = 1'
+            $start,
+            $length,
+            $orders,
+            $search,
+            $columns,
+            'person.isReferee = 1'
         );
 
-        $objects = $results['results'];
-        $totalObjectsCount = $repository->count(['isReferee' => true,]);
-        $selectedObjectsCount = \count($objects);
+        $objects              = $results['results'];
+        $totalObjectsCount    = $repository->count(['isReferee' => true, ]);
+        $selectedObjectsCount = count($objects);
         $filteredObjectsCount = $results['countResult'];
 
         $response = '{
-            "draw": '.$draw.',
-            "recordsTotal": '.$totalObjectsCount.',
-            "recordsFiltered": '.$filteredObjectsCount.',
+            "draw": ' . $draw . ',
+            "recordsTotal": ' . $totalObjectsCount . ',
+            "recordsFiltered": ' . $filteredObjectsCount . ',
             "data": [';
 
         $i = 0;
@@ -54,93 +72,98 @@ class RefereeAjaxController extends AbstractController
         foreach ($objects as $objKey => $person) {
             $response .= '["';
 
-            $j = 0;
-            $nbColumn = \count($columns);
+            $j        = 0;
+            $nbColumn = count($columns);
             foreach ($columns as $colKey => $column) {
                 $responseTemp = '-';
 
                 switch ($column['name']) {
                     case 'lp':
-                    {
-                        $responseTemp = $objKey + 1 + $start;
-                        break;
-                    }
-                    case 'checkbox':
-                    {
-                        $responseTemp = $this->renderView(
-                            'person/_datatable_checkbox.html.twig',
-                            [
-                                'personId' => $person->getId(),
-                            ]
-                        );
-                        break;
-                    }
-                    case 'fullName':
-                    {
-                        $responseTemp = $person->getFullName();
-                        break;
-                    }
-                    case 'buttons':
-                    {
-                        $responseTemp = '';
+                        {
+                            $responseTemp = $objKey + 1 + $start;
 
-                        if ($this->isGranted(PersonVoter::SHOW, $person)) {
-                            $responseTemp .= $this->renderView(
-                                'buttons/show.html.twig',
+                            break;
+                        }
+                    case 'checkbox':
+                        {
+                            $responseTemp = $this->renderView(
+                                'person/_datatable_checkbox.html.twig',
                                 [
-                                    'btn_size'   => 'table',
-                                    'path'       => 'person_single',
-                                    'parameters' =>
+                                    'personId' => $person->getId(),
+                                ]
+                            );
+
+                            break;
+                        }
+                    case 'fullName':
+                        {
+                            $responseTemp = $person->getFullName();
+
+                            break;
+                        }
+                    case 'buttons':
+                        {
+                            $responseTemp = '';
+
+                            if ($this->isGranted(PersonVoter::SHOW, $person)) {
+                                $responseTemp .= $this->renderView(
+                                    'buttons/show.html.twig',
                                     [
-                                        'person_id' => $person->getId(),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($this->isGranted(PersonVoter::EDIT, $person)) {
-                            $responseTemp .= $this->renderView(
-                                'buttons/edit.html.twig',
-                                [
-                                    'btn_size'   => 'table',
-                                    'path'       => 'person_edit',
-                                    'parameters' =>
+                                        'btn_size'   => 'table',
+                                        'path'       => 'person_single',
+                                        'parameters' => [
+                                            'person_id' => $person->getId(),
+                                        ],
+                                    ]
+                                );
+                            }
+                            if ($this->isGranted(PersonVoter::EDIT, $person)) {
+                                $responseTemp .= $this->renderView(
+                                    'buttons/edit.html.twig',
                                     [
-                                        'person_id' => $person->getId(),
-                                    ],
-                                ]
-                            );
+                                        'btn_size'   => 'table',
+                                        'path'       => 'person_edit',
+                                        'parameters' => [
+                                            'person_id' => $person->getId(),
+                                        ],
+                                    ]
+                                );
+                            }
+                            if ($this->isGranted(PersonVoter::DELETE, $person)) {
+                                $responseTemp .= $this->renderView(
+                                    'person/_delete_form.html.twig',
+                                    [
+                                        'btn_size' => 'table',
+                                        'person'   => $person,
+                                    ]
+                                );
+                            }
+
+                            break;
                         }
-                        if ($this->isGranted(PersonVoter::DELETE, $person)) {
-                            $responseTemp .= $this->renderView(
-                                'person/_delete_form.html.twig',
-                                [
-                                    'btn_size' => 'table',
-                                    'person'   => $person,
-                                ]
-                            );
-                        }
-                        break;
-                    }
                 }
 
                 $responseTemp = $this->escapeDTResponse($responseTemp);
 
                 $response .= $responseTemp;
 
-                if (++$j !== $nbColumn)
+                if (++$j !== $nbColumn) {
                     $response .= '","';
+                }
             }
 
             $response .= '"]';
 
-            if (++$i !== $selectedObjectsCount)
+            if (++$i !== $selectedObjectsCount) {
                 $response .= ',';
+            }
         }
 
         $response .= ']}';
 
         $returnResponse = new JsonResponse();
         $returnResponse->setJson($response);
+
         return $returnResponse;
     }
 }

@@ -13,7 +13,7 @@ class PersonEditSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            PersonUpdatedEvent::class => 'onPersonUpdated',
+            PersonUpdatedEvent::class             => 'onPersonUpdated',
             PersonPersonalInfoUpdatedEvent::class => 'onPersonPersonalInfoUpdated',
         ];
     }

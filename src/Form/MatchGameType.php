@@ -23,21 +23,15 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use function array_merge;
+
 class MatchGameType extends AbstractType
 {
-    private GameTypeRepository $gameTypeRepository;
-    private PersonRepository $personRepository;
-    private TeamRepository $teamRepository;
-
     public function __construct(
-        GameTypeRepository $gameTypeRepository,
-        PersonRepository $personRepository,
-        TeamRepository $teamRepository
-    )
-    {
-        $this->gameTypeRepository = $gameTypeRepository;
-        $this->personRepository   = $personRepository;
-        $this->teamRepository     = $teamRepository;
+        private readonly GameTypeRepository $gameTypeRepository,
+        private readonly PersonRepository $personRepository,
+        private readonly TeamRepository $teamRepository
+    ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -115,7 +109,7 @@ class MatchGameType extends AbstractType
             ->add(
                 'referee',
                 EntityType::class,
-                \array_merge(
+                array_merge(
                     PersonOption::default($this->personRepository, 'referee'),
                     []
                 ),
@@ -123,7 +117,7 @@ class MatchGameType extends AbstractType
             ->add(
                 'firstAssistantReferee',
                 EntityType::class,
-                \array_merge(
+                array_merge(
                     PersonOption::default($this->personRepository, 'referee'),
                     [
                         'required' => false,
@@ -140,7 +134,7 @@ class MatchGameType extends AbstractType
             ->add(
                 'secondAssistantReferee',
                 EntityType::class,
-                \array_merge(
+                array_merge(
                     PersonOption::default($this->personRepository, 'referee'),
                     [
                         'required' => false,
@@ -157,7 +151,7 @@ class MatchGameType extends AbstractType
             ->add(
                 'fourthOfficial',
                 EntityType::class,
-                \array_merge(
+                array_merge(
                     PersonOption::default($this->personRepository, 'referee'),
                     [
                         'required' => false,
@@ -167,7 +161,7 @@ class MatchGameType extends AbstractType
             ->add(
                 'refereeObserver',
                 EntityType::class,
-                \array_merge(
+                array_merge(
                     PersonOption::default($this->personRepository, 'refereeObserver'),
                     [
                         'required' => false,
@@ -177,7 +171,7 @@ class MatchGameType extends AbstractType
             ->add(
                 'delegate',
                 EntityType::class,
-                \array_merge(
+                array_merge(
                     PersonOption::default($this->personRepository, 'delegate'),
                     [
                         'required' => false,

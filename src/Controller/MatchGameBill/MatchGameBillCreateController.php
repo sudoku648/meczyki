@@ -6,7 +6,6 @@ namespace App\Controller\MatchGameBill;
 
 use App\Entity\MatchGame;
 use App\Form\MatchGameBillType;
-use App\Message\Flash\MatchGameBill\MatchGameBillCreatedFlashMessage;
 use App\Security\Voter\MatchGameVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,9 +48,9 @@ class MatchGameBillCreateController extends MatchGameBillAbstractController
             $dto            = $form->getData();
             $dto->matchGame = $matchGame;
 
-            $matchGameBill = $this->manager->create($dto, $this->getUserOrThrow()->getPerson());
+            $this->manager->create($dto, $this->getUserOrThrow()->getPerson());
 
-            $this->flash(new MatchGameBillCreatedFlashMessage($matchGameBill->getId()));
+            $this->addFlash('success', 'Rachunek meczowy został dodany.');
 
             return $this->redirectToRoute(
                 'match_game_single',

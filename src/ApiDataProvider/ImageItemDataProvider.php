@@ -12,21 +12,17 @@ use App\Repository\ImageRepository;
 
 final class ImageItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
-    private ImageRepository $repository;
-    private ImageFactory $factory;
-
-    public function __construct(ImageRepository $repository, ImageFactory $factory)
-    {
-        $this->repository = $repository;
-        $this->factory    = $factory;
+    public function __construct(
+        private readonly ImageRepository $repository,
+        private readonly ImageFactory $factory
+    ) {
     }
 
     public function supports(
         string $resourceClass,
         string $operationName = null,
         array $context = []
-    ): bool
-    {
+    ): bool {
         return ImageDto::class === $resourceClass;
     }
 
@@ -35,8 +31,7 @@ final class ImageItemDataProvider implements ItemDataProviderInterface, Restrict
         $id,
         string $operationName = null,
         array $context = []
-    ): ?ImageDto
-    {
+    ): ?ImageDto {
         $image = $this->repository->find($id);
 
         return $image ? $this->factory->createDto($image) : null;

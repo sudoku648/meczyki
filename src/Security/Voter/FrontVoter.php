@@ -5,16 +5,19 @@ declare(strict_types=1);
 namespace App\Security\Voter;
 
 use App\Entity\User;
+use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
+use function in_array;
+
 class FrontVoter extends Voter
 {
-    const FRONT = 'front_front';
+    public const FRONT = 'front_front';
 
     protected function supports(string $attribute, $subject): bool
     {
-        return \in_array(
+        return in_array(
             $attribute,
             [
                 self::FRONT,
@@ -33,7 +36,7 @@ class FrontVoter extends Voter
 
         switch ($attribute) {
             case self::FRONT: return $this->canSeeFront();
-            default:          throw new \LogicException();
+            default:          throw new LogicException();
         }
     }
 

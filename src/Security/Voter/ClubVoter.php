@@ -7,22 +7,25 @@ namespace App\Security\Voter;
 use App\Entity\Club;
 use App\Entity\Enums\PermissionEnum;
 use App\Entity\User;
+use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
+use function in_array;
+
 class ClubVoter extends Voter
 {
-    const LIST          = 'club_list';
-    const CREATE        = 'club_create';
-    const SHOW          = 'club_show';
-    const EDIT          = 'club_edit';
-    const DELETE        = 'club_delete';
-    const DELETE_BATCH  = 'club_delete_batch';
-    const DELETE_EMBLEM = 'club_delete_emblem';
+    public const LIST          = 'club_list';
+    public const CREATE        = 'club_create';
+    public const SHOW          = 'club_show';
+    public const EDIT          = 'club_edit';
+    public const DELETE        = 'club_delete';
+    public const DELETE_BATCH  = 'club_delete_batch';
+    public const DELETE_EMBLEM = 'club_delete_emblem';
 
     protected function supports(string $attribute, $subject): bool
     {
-        return \in_array(
+        return in_array(
             $attribute,
             [
                 self::LIST,
@@ -53,7 +56,7 @@ class ClubVoter extends Voter
             case self::DELETE:        return $this->canDelete($user);
             case self::DELETE_BATCH:  return $this->canDeleteBatch($user);
             case self::DELETE_EMBLEM: return $this->canDeleteEmblem($subject, $user);
-            default:                  throw new \LogicException();
+            default:                  throw new LogicException();
         }
     }
 

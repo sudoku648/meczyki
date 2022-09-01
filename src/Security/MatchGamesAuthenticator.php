@@ -24,11 +24,9 @@ class MatchGamesAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    private UrlGeneratorInterface $urlGenerator;
-
-    public function __construct(UrlGeneratorInterface $urlGenerator)
-    {
-        $this->urlGenerator = $urlGenerator;
+    public function __construct(
+        private readonly UrlGeneratorInterface $urlGenerator
+    ) {
     }
 
     public function authenticate(Request $request): Passport
@@ -51,8 +49,7 @@ class MatchGamesAuthenticator extends AbstractLoginFormAuthenticator
         Request $request,
         TokenInterface $token,
         string $firewallName
-    ): ?Response
-    {
+    ): ?Response {
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }

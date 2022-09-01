@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\UserRole;
 
 use App\Entity\UserRole;
-use App\Message\Flash\UserRole\UserRoleDeletedBatchFlashMessage;
-use App\Message\Flash\UserRole\UserRoleDeletedFlashMessage;
-use App\Message\Flash\UserRole\UserRoleNotAllDeletedBatchFlashMessage;
 use App\Repository\UserRoleRepository;
 use App\Security\Voter\UserRoleVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -23,7 +20,7 @@ class UserRoleDeleteController extends UserRoleAbstractController
 
         $this->validateCsrf('user_role_delete', $request->request->get('_token'));
 
-        $this->flash(new UserRoleDeletedFlashMessage($userRole->getId()));
+        $this->addFlash('success', 'Rola użytkowników została usunięta.');
 
         $this->manager->delete($userRole);
 
@@ -44,6 +41,7 @@ class UserRoleDeleteController extends UserRoleAbstractController
             if ($userRole) {
                 if ($this->isGranted(UserRoleVoter::DELETE, $userRole)) {
                     $this->manager->delete($userRole);
+
                     continue;
                 }
 
@@ -52,9 +50,9 @@ class UserRoleDeleteController extends UserRoleAbstractController
         }
 
         if ($notAllDeleted) {
-            $this->flash(new UserRoleNotAllDeletedBatchFlashMessage(), 'warning');
+            $this->addFlash('warning', 'Nie wszystkie role użytkowników zostały usunięte.');
         } else {
-            $this->flash(new UserRoleDeletedBatchFlashMessage());
+            $this->addFlash('success', 'Role użytkowników zostały usunięte.');
         }
 
         return $this->redirectToUserRolesList();

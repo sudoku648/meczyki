@@ -14,25 +14,17 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 abstract class MatchGameBillAbstractController extends AbstractController
 {
-    protected MatchGameBillManager $manager;
-    protected RouterInterface $router;
-    protected EventDispatcherInterface $dispatcher;
-    protected Breadcrumbs $breadcrumbs;
-
     public function __construct(
-        MatchGameBillManager $manager,
-        RouterInterface $router,
-        EventDispatcherInterface $dispatcher,
-        Breadcrumbs $breadcrumbs
-    )
-    {
+        protected MatchGameBillManager $manager,
+        protected RouterInterface $router,
+        protected EventDispatcherInterface $dispatcher,
+        protected Breadcrumbs $breadcrumbs
+    ) {
         parent::__construct(
             $router,
             $dispatcher,
             $breadcrumbs
         );
-
-        $this->manager = $manager;
     }
 
     protected function redirectToEditBill(MatchGameBill $matchGameBill): Response

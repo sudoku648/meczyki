@@ -12,21 +12,17 @@ use App\Repository\MatchGameRepository;
 
 final class MatchGameItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
-    private MatchGameRepository $repository;
-    private MatchGameFactory $factory;
-
-    public function __construct(MatchGameRepository $repository, MatchGameFactory $factory)
-    {
-        $this->repository = $repository;
-        $this->factory    = $factory;
+    public function __construct(
+        private readonly MatchGameRepository $repository,
+        private readonly MatchGameFactory $factory
+    ) {
     }
 
     public function supports(
         string $resourceClass,
         string $operationName = null,
         array $context = []
-    ): bool
-    {
+    ): bool {
         return MatchGameDto::class === $resourceClass;
     }
 
@@ -35,8 +31,7 @@ final class MatchGameItemDataProvider implements ItemDataProviderInterface, Rest
         $id,
         string $operationName = null,
         array $context = []
-    ): ?MatchGameDto
-    {
+    ): ?MatchGameDto {
         $matchGame = $this->repository->find($id);
 
         return $matchGame ? $this->factory->createDto($matchGame) : null;

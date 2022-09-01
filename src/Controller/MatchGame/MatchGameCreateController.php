@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\MatchGame;
 
 use App\Form\MatchGameType;
-use App\Message\Flash\MatchGame\MatchGameCreatedFlashMessage;
 use App\Security\Voter\MatchGameVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,9 +26,9 @@ class MatchGameCreateController extends MatchGameAbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $dto = $form->getData();
 
-            $matchGame = $this->manager->create($dto, $this->getUserOrThrow());
+            $this->manager->create($dto, $this->getUserOrThrow());
 
-            $this->flash(new MatchGameCreatedFlashMessage($matchGame->getId()));
+            $this->addFlash('success', 'Mecz został dodany.');
 
             /** @var ClickableInterface $continueButton */
             $continueButton = $form->get('saveAndContinue');

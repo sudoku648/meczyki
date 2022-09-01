@@ -10,18 +10,22 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
+use function in_array;
+use function is_int;
+use function is_object;
+use function is_string;
+use function mb_strtolower;
+
 final class UniqueEntityValidator extends ConstraintValidator
 {
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager
+    ) {
     }
 
     public function validate($value, Constraint $constraint): void
     {
-        if (!\is_object($value)) {
+        if (!is_object($value)) {
             throw new UnexpectedTypeException($value, 'object');
         }
 
@@ -36,17 +40,17 @@ final class UniqueEntityValidator extends ConstraintValidator
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
         foreach ((array) $constraint->fields as $dtoField => $entityField) {
-            if (\is_int($dtoField)) {
+            if (is_int($dtoField)) {
                 $dtoField = $entityField;
             }
 
             $fieldValue = $propertyAccessor->getValue($value, $dtoField);
 
-            if (\in_array($dtoField, (array) $constraint->nullComparisonForFields) && null === $fieldValue) {
+            if (in_array($dtoField, (array) $constraint->nullComparisonForFields) && null === $fieldValue) {
                 $qb->andWhere($qb->expr()->isNull("e.$entityField"));
-            } elseif (\is_string($fieldValue) && $constraint->caseInsensitive) {
+            } elseif (is_string($fieldValue) && $constraint->caseInsensitive) {
                 $qb->andWhere($qb->expr()->eq("LOWER(e.$entityField)", "LOWER(:f_$entityField)"));
-                $qb->setParameter("f_$entityField", \mb_strtolower($fieldValue));
+                $qb->setParameter("f_$entityField", mb_strtolower($fieldValue));
             } else {
                 $qb->andWhere($qb->expr()->eq("e.$entityField", ":f_$entityField"));
                 $qb->setParameter("f_$entityField", $fieldValue);
@@ -54,7 +58,7 @@ final class UniqueEntityValidator extends ConstraintValidator
         }
 
         foreach ((array) $constraint->idFields as $dtoField => $entityField) {
-            if (\is_int($dtoField)) {
+            if (is_int($dtoField)) {
                 $dtoField = $entityField;
             }
 

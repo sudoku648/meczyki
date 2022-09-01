@@ -19,6 +19,9 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use function get_class;
+use function sprintf;
+
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
  * @method User|null findOneBy(array $criteria, array $orderBy = null)
@@ -27,7 +30,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class UserRepository extends ServiceEntityRepository implements UserLoaderInterface, PasswordUpgraderInterface
 {
-    const PER_PAGE = 10;
+    private const PER_PAGE = 10;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -54,13 +57,12 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     public function upgradePassword(
         PasswordAuthenticatedUserInterface $user,
         string $newEncodedPassword
-    ): void
-    {
+    ): void {
         if (!$user instanceof User) {
             throw new UnsupportedUserException(
-                \sprintf(
+                sprintf(
                     'Instances of "%s" are not supported.',
-                    \get_class($user)
+                    get_class($user)
                 )
             );
         }
@@ -77,8 +79,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         array $search,
         array $columns,
         ?string $otherConditions = null
-    ): array
-    {
+    ): array {
         $query = $this->createQueryBuilder('user');
 
         $countQuery = $this->createQueryBuilder('user');
@@ -94,32 +95,35 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
         if ($search['value'] != '') {
             $query->andWhere('user.username LIKE :search');
-            $query->setParameter('search', '%'.$search['value'].'%');
+            $query->setParameter('search', '%' . $search['value'] . '%');
         }
 
         foreach ($columns as $colKey => $column) {
             if ($column['search']['value'] != '') {
-                $searchItem = $column['search']['value'];
+                $searchItem  = $column['search']['value'];
                 $searchQuery = null;
 
                 switch ($column['name']) {
                     case 'username':
-                    {
-                        $searchQuery = 'user.username LIKE :item_'.$colKey;
-                        break;
-                    }
+                        {
+                            $searchQuery = 'user.username LIKE :item_' . $colKey;
+
+                            break;
+                        }
                 }
 
                 if ($searchQuery !== null) {
                     $query->andWhere($searchQuery);
-                    $query->setParameter('item_'.$colKey, '%'.$searchItem.'%');
+                    $query->setParameter('item_' . $colKey, '%' . $searchItem . '%');
                     $countQuery->andWhere($searchQuery);
-                    $countQuery->setParameter('item_'.$colKey, '%'.$searchItem.'%');
+                    $countQuery->setParameter('item_' . $colKey, '%' . $searchItem . '%');
                 }
             }
         }
 
-        if ($length < 0) $length = null;
+        if ($length < 0) {
+            $length = null;
+        }
 
         $query->setFirstResult($start)->setMaxResults($length);
 
@@ -129,10 +133,11 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
                 switch ($order['name']) {
                     case 'username':
-                    {
-                        $orderColumn = 'user.username';
-                        break;
-                    }
+                        {
+                            $orderColumn = 'user.username';
+
+                            break;
+                        }
                 }
 
                 if ($orderColumn !== null) {
@@ -143,7 +148,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
         $query->addOrderBy('user.username', 'ASC');
 
-        $results = $query->getQuery()->getResult();
+        $results     = $query->getQuery()->getResult();
         $countResult = $countQuery->getQuery()->getSingleScalarResult();
 
         return [

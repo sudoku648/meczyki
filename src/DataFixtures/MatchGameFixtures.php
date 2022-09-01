@@ -8,9 +8,11 @@ use App\Entity\MatchGame;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
+use function mt_rand;
+
 class MatchGameFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    const MATCH_GAMES_COUNT = 22;
+    private const MATCH_GAMES_COUNT = 22;
 
     public function loadData(ObjectManager $manager): void
     {
@@ -37,11 +39,10 @@ class MatchGameFixtures extends BaseFixture implements DependentFixtureInterface
 
             $manager->persist($newMatchGame);
 
-            $this->addReference('match_game'.'_'.$index, $newMatchGame);
+            $this->addReference('match_game' . '_' . $index, $newMatchGame);
 
             $manager->flush();
         }
-
     }
 
     private function provideRandomMatchGames(int $count = 1): iterable
@@ -49,42 +50,42 @@ class MatchGameFixtures extends BaseFixture implements DependentFixtureInterface
         for ($i = 0; $i < $count; $i++) {
             yield [
                 'user'                   => $this->getReference(
-                    'user'.'_'.\mt_rand(0, UserFixtures::USERS_COUNT - 1)
+                    'user' . '_' . mt_rand(0, UserFixtures::USERS_COUNT - 1)
                 ),
                 'homeTeam'               => $this->getReference(
-                    'team'.'_'.\mt_rand(0, TeamFixtures::TEAMS_COUNT - 1)
+                    'team' . '_' . mt_rand(0, TeamFixtures::TEAMS_COUNT - 1)
                 ),
                 'awayTeam'               => $this->getReference(
-                    'team'.'_'.\mt_rand(0, TeamFixtures::TEAMS_COUNT - 1)
+                    'team' . '_' . mt_rand(0, TeamFixtures::TEAMS_COUNT - 1)
                 ),
                 'dateTime'               => $this->getRandomDateTime(),
                 'gameType'               => $this->getReference(
-                    'game_type'.'_'.\mt_rand(0, GameTypeFixtures::GAME_TYPES_COUNT - 1)
+                    'game_type' . '_' . mt_rand(0, GameTypeFixtures::GAME_TYPES_COUNT - 1)
                 ),
                 'season'                 => null,
                 'round'                  => null,
-                'venue'                  => $this->faker->city,
+                'venue'                  => $this->faker->city(),
                 'referee'                => $this->getReference(
-                    'referee'.'_'.\mt_rand(0, RefereeFixtures::REFEREES_COUNT - 1)
+                    'referee' . '_' . mt_rand(0, RefereeFixtures::REFEREES_COUNT - 1)
                 ),
-                'firstAssistantReferee'  => \mt_rand(0, 1)
+                'firstAssistantReferee'  => mt_rand(0, 1)
                     ? $this->getReference(
-                        'referee'.'_'.\mt_rand(0, RefereeFixtures::REFEREES_COUNT - 1)
+                        'referee' . '_' . mt_rand(0, RefereeFixtures::REFEREES_COUNT - 1)
                     )
                     : null,
-                'secondAssistantReferee' => \mt_rand(0, 1)
+                'secondAssistantReferee' => mt_rand(0, 1)
                     ? $this->getReference(
-                        'referee'.'_'.\mt_rand(0, RefereeFixtures::REFEREES_COUNT - 1)
+                        'referee' . '_' . mt_rand(0, RefereeFixtures::REFEREES_COUNT - 1)
                     )
                     : null,
-                'refereeObserver'        => \mt_rand(0, 1)
+                'refereeObserver'        => mt_rand(0, 1)
                     ? $this->getReference(
-                        'referee_observer'.'_'.\mt_rand(0, RefereeObserverFixtures::REFEREE_OBSERVERS_COUNT - 1)
+                        'referee_observer' . '_' . mt_rand(0, RefereeObserverFixtures::REFEREE_OBSERVERS_COUNT - 1)
                     )
                     : null,
-                'delegate'               => \mt_rand(0, 1)
+                'delegate'               => mt_rand(0, 1)
                     ? $this->getReference(
-                        'delegate'.'_'.\mt_rand(0, DelegateFixtures::DELEGATES_COUNT - 1)
+                        'delegate' . '_' . mt_rand(0, DelegateFixtures::DELEGATES_COUNT - 1)
                     )
                     : null,
             ];

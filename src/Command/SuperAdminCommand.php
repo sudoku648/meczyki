@@ -17,18 +17,17 @@ class SuperAdminCommand extends Command
 {
     protected static $defaultName = 'app:user:sa';
 
-    private EntityManagerInterface $entityManager;
-    private UserRepository $repository;
+    private readonly EntityManagerInterface $entityManager;
+    private readonly UserRepository $repository;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         UserRepository $repository
-    )
-    {
+    ) {
         parent::__construct();
 
         $this->entityManager = $entityManager;
-        $this->repository = $repository;
+        $this->repository    = $repository;
     }
 
     protected function configure(): void

@@ -9,31 +9,22 @@ use App\Repository\ImageRepository;
 use App\Service\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class DeleteImageHandler implements MessageHandlerInterface
 {
-    private ImageRepository $imageRepository;
-    private ImageManager $imageManager;
-    private EntityManagerInterface $entityManager;
-    private ManagerRegistry $managerRegistry;
-
     public function __construct(
-        ImageRepository $imageRepository,
-        ImageManager $imageManager,
-        EntityManagerInterface $entityManager,
-        ManagerRegistry $managerRegistry
-    )
-    {
-        $this->imageRepository = $imageRepository;
-        $this->imageManager    = $imageManager;
-        $this->entityManager   = $entityManager;
-        $this->managerRegistry = $managerRegistry;
+        private readonly ImageRepository $imageRepository,
+        private readonly ImageManager $imageManager,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ManagerRegistry $managerRegistry
+    ) {
     }
 
     public function __invoke(DeleteImageMessage $message)
     {
-        $image = $this->imageRepository->findOneBy(['filePath' => $message->getPath(),]);
+        $image = $this->imageRepository->findOneBy(['filePath' => $message->getPath(), ]);
 
         if ($image) {
             try {
@@ -43,9 +34,10 @@ class DeleteImageHandler implements MessageHandlerInterface
                 $this->entityManager->flush();
 
                 $this->entityManager->commit();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->entityManager->rollback();
                 $this->managerRegistry->resetManager();
+
                 return;
             }
         }

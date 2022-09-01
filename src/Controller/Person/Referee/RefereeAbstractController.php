@@ -12,18 +12,12 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 abstract class RefereeAbstractController extends PersonAbstractController
 {
-    protected PersonManager $manager;
-    protected RouterInterface $router;
-    protected EventDispatcherInterface $dispatcher;
-    protected Breadcrumbs $breadcrumbs;
-
     public function __construct(
-        PersonManager $manager,
-        RouterInterface $router,
-        EventDispatcherInterface $dispatcher,
-        Breadcrumbs $breadcrumbs
-    )
-    {
+        protected PersonManager $manager,
+        protected RouterInterface $router,
+        protected EventDispatcherInterface $dispatcher,
+        protected Breadcrumbs $breadcrumbs
+    ) {
         parent::__construct(
             $manager,
             $router,

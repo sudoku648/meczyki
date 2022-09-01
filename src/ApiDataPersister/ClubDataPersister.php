@@ -12,19 +12,11 @@ use App\Service\ClubManager;
 
 final class ClubDataPersister implements ContextAwareDataPersisterInterface
 {
-    private ClubManager $manager;
-    private ClubFactory $factory;
-    private ClubRepository $repository;
-
     public function __construct(
-        ClubManager $manager,
-        ClubFactory $factory,
-        ClubRepository $repository
-    )
-    {
-        $this->manager    = $manager;
-        $this->factory    = $factory;
-        $this->repository = $repository;
+        private readonly ClubManager $manager,
+        private readonly ClubFactory $factory,
+        private readonly ClubRepository $repository
+    ) {
     }
 
     public function supports($data, array $context = []): bool

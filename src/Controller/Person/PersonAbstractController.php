@@ -14,25 +14,17 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 abstract class PersonAbstractController extends AbstractController
 {
-    protected PersonManager $manager;
-    protected RouterInterface $router;
-    protected EventDispatcherInterface $dispatcher;
-    protected Breadcrumbs $breadcrumbs;
-
     public function __construct(
-        PersonManager $manager,
-        RouterInterface $router,
-        EventDispatcherInterface $dispatcher,
-        Breadcrumbs $breadcrumbs
-    )
-    {
+        protected PersonManager $manager,
+        protected RouterInterface $router,
+        protected EventDispatcherInterface $dispatcher,
+        protected Breadcrumbs $breadcrumbs
+    ) {
         parent::__construct(
             $router,
             $dispatcher,
             $breadcrumbs
         );
-
-        $this->manager = $manager;
 
         $this->breadcrumbs->addItem(
             'Osoby',

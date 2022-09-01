@@ -18,22 +18,12 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class GameTypeManager implements ContentManagerInterface
 {
-    private EventDispatcherInterface $dispatcher;
-    private EntityManagerInterface $entityManager;
-    private MessageBusInterface $bus;
-    private GameTypeFactory $factory;
-
     public function __construct(
-        EventDispatcherInterface $dispatcher,
-        EntityManagerInterface $entityManager,
-        MessageBusInterface $bus,
-        GameTypeFactory $factory
-    )
-    {
-        $this->dispatcher    = $dispatcher;
-        $this->entityManager = $entityManager;
-        $this->bus           = $bus;
-        $this->factory       = $factory;
+        private readonly EventDispatcherInterface $dispatcher,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly MessageBusInterface $bus,
+        private readonly GameTypeFactory $factory
+    ) {
     }
 
     public function create(GameTypeDto $dto): GameType

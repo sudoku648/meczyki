@@ -9,7 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class RefereeObserverFixtures extends BaseFixture
 {
-    const REFEREE_OBSERVERS_COUNT = 8;
+    public const REFEREE_OBSERVERS_COUNT = 8;
 
     public function loadData(ObjectManager $manager): void
     {
@@ -27,19 +27,18 @@ class RefereeObserverFixtures extends BaseFixture
 
             $manager->persist($newRefereeObserver);
 
-            $this->addReference('referee_observer'.'_'.$index, $newRefereeObserver);
+            $this->addReference('referee_observer' . '_' . $index, $newRefereeObserver);
 
             $manager->flush();
         }
-
     }
 
     private function provideRandomRefereeObservers(int $count = 1): iterable
     {
         for ($i = 0; $i < $count; $i++) {
             yield [
-                'firstName'   => $this->faker->firstNameMale,
-                'lastName'    => $this->faker->lastNameMale,
+                'firstName'   => $this->faker->firstNameMale(),
+                'lastName'    => $this->faker->lastNameMale(),
                 'mobilePhone' => null,
             ];
         }

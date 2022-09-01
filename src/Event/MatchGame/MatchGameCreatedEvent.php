@@ -8,11 +8,9 @@ use App\Entity\MatchGame;
 
 class MatchGameCreatedEvent
 {
-    private MatchGame $matchGame;
-
-    public function __construct(MatchGame $matchGame)
-    {
-        $this->matchGame = $matchGame;
+    public function __construct(
+        private MatchGame $matchGame
+    ) {
     }
 
     public function getMatchGame(): MatchGame

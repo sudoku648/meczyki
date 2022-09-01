@@ -12,19 +12,11 @@ use App\Service\PersonManager;
 
 final class PersonDataPersister implements ContextAwareDataPersisterInterface
 {
-    private PersonManager $manager;
-    private PersonFactory $factory;
-    private PersonRepository $repository;
-
     public function __construct(
-        PersonManager $manager,
-        PersonFactory $factory,
-        PersonRepository $repository
-    )
-    {
-        $this->manager    = $manager;
-        $this->factory    = $factory;
-        $this->repository = $repository;
+        private readonly PersonManager $manager,
+        private readonly PersonFactory $factory,
+        private readonly PersonRepository $repository
+    ) {
     }
 
     public function supports($data, array $context = []): bool

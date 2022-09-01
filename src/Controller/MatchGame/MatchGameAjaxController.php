@@ -11,21 +11,34 @@ use App\Security\Voter\MatchGameVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
+use function count;
+
 class MatchGameAjaxController extends AbstractController
 {
     public function fetchMatchGames(
         MatchGameRepository $repository,
         Request $request
-    ): JsonResponse
-    {
+    ): JsonResponse {
         foreach ($request->request->all() as $key => $param) {
             switch ($key) {
-                case 'draw':    $draw    = $param; break;
-                case 'columns': $columns = $param; break;
-                case 'order':   $orders  = $param; break;
-                case 'start':   $start   = $param; break;
-                case 'length':  $length  = $param; break;
-                case 'search':  $search  = $param; break;
+                case 'draw':    $draw    = $param;
+
+                    break;
+                case 'columns': $columns = $param;
+
+                    break;
+                case 'order':   $orders  = $param;
+
+                    break;
+                case 'start':   $start   = $param;
+
+                    break;
+                case 'length':  $length  = $param;
+
+                    break;
+                case 'search':  $search  = $param;
+
+                    break;
             }
         }
 
@@ -34,18 +47,22 @@ class MatchGameAjaxController extends AbstractController
         }
 
         $results = $repository->getRequiredDTData(
-            $start, $length, $orders, $search, $columns
+            $start,
+            $length,
+            $orders,
+            $search,
+            $columns
         );
 
-        $objects = $results['results'];
-        $totalObjectsCount = $repository->count([]);
-        $selectedObjectsCount = \count($objects);
+        $objects              = $results['results'];
+        $totalObjectsCount    = $repository->count([]);
+        $selectedObjectsCount = count($objects);
         $filteredObjectsCount = $results['countResult'];
 
         $response = '{
-            "draw": '.$draw.',
-            "recordsTotal": '.$totalObjectsCount.',
-            "recordsFiltered": '.$filteredObjectsCount.',
+            "draw": ' . $draw . ',
+            "recordsTotal": ' . $totalObjectsCount . ',
+            "recordsFiltered": ' . $filteredObjectsCount . ',
             "data": [';
 
         $i = 0;
@@ -54,125 +71,135 @@ class MatchGameAjaxController extends AbstractController
         foreach ($objects as $objKey => $matchGame) {
             $response .= '["';
 
-            $j = 0;
-            $nbColumn = \count($columns);
+            $j        = 0;
+            $nbColumn = count($columns);
             foreach ($columns as $colKey => $column) {
                 $responseTemp = '-';
 
                 switch ($column['name']) {
                     case 'lp':
-                    {
-                        $responseTemp = $objKey + 1 + $start;
-                        break;
-                    }
-                    case 'checkbox':
-                    {
-                        $responseTemp = $this->renderView(
-                            'match_game/_datatable_checkbox.html.twig',
-                            [
-                                'matchGameId' => $matchGame->getId(),
-                            ]
-                        );
-                        break;
-                    }
-                    case 'dateTime':
-                    {
-                        $responseTemp = $matchGame->getDateTime()->format('d.m.Y, H:i');
-                        break;
-                    }
-                    case 'gameType':
-                    {
-                        $responseTemp = $matchGame->getGameType()
-                            ? $matchGame->getGameType()->getFullName() : '<em class="text-black-50">nieznany</em>';
-                        break;
-                    }
-                    case 'teams':
-                    {
-                        switch (true) {
-                            case $matchGame->getHomeTeam() && $matchGame->getAwayTeam():
-                                $responseTemp =
-                                    $matchGame->getHomeTeam()->getFullName().
-                                    ' - '.
-                                    $matchGame->getAwayTeam()->getFullName();
-                                break;
-                            case $matchGame->getHomeTeam():
-                                $responseTemp =
-                                    $matchGame->getHomeTeam()->getFullName().
-                                    ' - '.
-                                    '<em class="text-black-50">nieznany</em>';
-                                break;
-                            case $matchGame->getAwayTeam():
-                                $responseTemp =
-                                '<em class="text-black-50">nieznany</em>'.
-                                    ' - '.
-                                    $matchGame->getAwayTeam()->getFullName();
-                                break;
-                            default:
-                                $responseTemp = '<em class="text-black-50">nieznany</em>';
-                        }
-                        break;
-                    }
-                    case 'buttons':
-                    {
-                        $responseTemp = '';
+                        {
+                            $responseTemp = $objKey + 1 + $start;
 
-                        if ($this->isGranted(MatchGameVoter::SHOW, $matchGame)) {
-                            $responseTemp .= $this->renderView(
-                                'buttons/show.html.twig',
+                            break;
+                        }
+                    case 'checkbox':
+                        {
+                            $responseTemp = $this->renderView(
+                                'match_game/_datatable_checkbox.html.twig',
                                 [
-                                    'btn_size'   => 'table',
-                                    'path'       => 'match_game_single',
-                                    'parameters' =>
+                                    'matchGameId' => $matchGame->getId(),
+                                ]
+                            );
+
+                            break;
+                        }
+                    case 'dateTime':
+                        {
+                            $responseTemp = $matchGame->getDateTime()->format('d.m.Y, H:i');
+
+                            break;
+                        }
+                    case 'gameType':
+                        {
+                            $responseTemp = $matchGame->getGameType()
+                                ? $matchGame->getGameType()->getFullName() : '<em class="text-black-50">nieznany</em>';
+
+                            break;
+                        }
+                    case 'teams':
+                        {
+                            switch (true) {
+                                case $matchGame->getHomeTeam() && $matchGame->getAwayTeam():
+                                    $responseTemp =
+                                        $matchGame->getHomeTeam()->getFullName() .
+                                        ' - ' .
+                                        $matchGame->getAwayTeam()->getFullName();
+
+                                    break;
+                                case $matchGame->getHomeTeam():
+                                    $responseTemp =
+                                        $matchGame->getHomeTeam()->getFullName() .
+                                        ' - ' .
+                                        '<em class="text-black-50">nieznany</em>';
+
+                                    break;
+                                case $matchGame->getAwayTeam():
+                                    $responseTemp =
+                                    '<em class="text-black-50">nieznany</em>' .
+                                        ' - ' .
+                                        $matchGame->getAwayTeam()->getFullName();
+
+                                    break;
+                                default:
+                                    $responseTemp = '<em class="text-black-50">nieznany</em>';
+                            }
+
+                            break;
+                        }
+                    case 'buttons':
+                        {
+                            $responseTemp = '';
+
+                            if ($this->isGranted(MatchGameVoter::SHOW, $matchGame)) {
+                                $responseTemp .= $this->renderView(
+                                    'buttons/show.html.twig',
                                     [
-                                        'match_game_id' => $matchGame->getId(),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($this->isGranted(MatchGameVoter::EDIT, $matchGame)) {
-                            $responseTemp .= $this->renderView(
-                                'buttons/edit.html.twig',
-                                [
-                                    'btn_size'   => 'table',
-                                    'path'       => 'match_game_edit',
-                                    'parameters' =>
+                                        'btn_size'   => 'table',
+                                        'path'       => 'match_game_single',
+                                        'parameters' => [
+                                            'match_game_id' => $matchGame->getId(),
+                                        ],
+                                    ]
+                                );
+                            }
+                            if ($this->isGranted(MatchGameVoter::EDIT, $matchGame)) {
+                                $responseTemp .= $this->renderView(
+                                    'buttons/edit.html.twig',
                                     [
-                                        'match_game_id' => $matchGame->getId(),
-                                    ],
-                                ]
-                            );
+                                        'btn_size'   => 'table',
+                                        'path'       => 'match_game_edit',
+                                        'parameters' => [
+                                            'match_game_id' => $matchGame->getId(),
+                                        ],
+                                    ]
+                                );
+                            }
+                            if ($this->isGranted(MatchGameVoter::DELETE, $matchGame)) {
+                                $responseTemp .= $this->renderView(
+                                    'match_game/_delete_form.html.twig',
+                                    [
+                                        'btn_size'  => 'table',
+                                        'matchGame' => $matchGame,
+                                    ]
+                                );
+                            }
+
+                            break;
                         }
-                        if ($this->isGranted(MatchGameVoter::DELETE, $matchGame)) {
-                            $responseTemp .= $this->renderView(
-                                'match_game/_delete_form.html.twig',
-                                [
-                                    'btn_size'  => 'table',
-                                    'matchGame' => $matchGame,
-                                ]
-                            );
-                        }
-                        break;
-                    }
                 }
 
                 $responseTemp = $this->escapeDTResponse($responseTemp);
 
                 $response .= $responseTemp;
 
-                if (++$j !== $nbColumn)
+                if (++$j !== $nbColumn) {
                     $response .= '","';
+                }
             }
 
             $response .= '"]';
 
-            if (++$i !== $selectedObjectsCount)
+            if (++$i !== $selectedObjectsCount) {
                 $response .= ',';
+            }
         }
 
         $response .= ']}';
 
         $returnResponse = new JsonResponse();
         $returnResponse->setJson($response);
+
         return $returnResponse;
     }
 }

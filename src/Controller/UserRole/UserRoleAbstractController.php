@@ -14,25 +14,17 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 abstract class UserRoleAbstractController extends AbstractController
 {
-    protected UserRoleManager $manager;
-    protected RouterInterface $router;
-    protected EventDispatcherInterface $dispatcher;
-    protected Breadcrumbs $breadcrumbs;
-
     public function __construct(
-        UserRoleManager $manager,
-        RouterInterface $router,
-        EventDispatcherInterface $dispatcher,
-        Breadcrumbs $breadcrumbs
-    )
-    {
+        protected UserRoleManager $manager,
+        protected RouterInterface $router,
+        protected EventDispatcherInterface $dispatcher,
+        protected Breadcrumbs $breadcrumbs
+    ) {
         parent::__construct(
             $router,
             $dispatcher,
             $breadcrumbs
         );
-
-        $this->manager = $manager;
 
         $this->breadcrumbs->addItem(
             'Role użytkowników',

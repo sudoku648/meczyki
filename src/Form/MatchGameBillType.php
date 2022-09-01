@@ -15,11 +15,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MatchGameBillType extends AbstractType
 {
-    private PercentageTransformer $percentageTransformer;
-
-    public function __construct(PercentageTransformer $percentageTransformer)
-    {
-        $this->percentageTransformer = $percentageTransformer;
+    public function __construct(
+        private readonly PercentageTransformer $percentageTransformer
+    ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void

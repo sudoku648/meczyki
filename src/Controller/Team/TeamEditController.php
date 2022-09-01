@@ -7,7 +7,6 @@ namespace App\Controller\Team;
 use App\Entity\Club;
 use App\Entity\Team;
 use App\Form\TeamType;
-use App\Message\Flash\Team\TeamUpdatedFlashMessage;
 use App\Security\Voter\TeamVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,7 +39,7 @@ class TeamEditController extends TeamAbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $team = $this->manager->edit($team, $dto);
 
-            $this->flash(new TeamUpdatedFlashMessage($team->getId()));
+            $this->addFlash('success', 'Drużyna została zaktualizowana.');
 
             /** @var ClickableInterface $continueButton */
             $continueButton = $form->get('saveAndContinue');

@@ -12,19 +12,11 @@ use App\Service\TeamManager;
 
 final class TeamDataPersister implements ContextAwareDataPersisterInterface
 {
-    private TeamManager $manager;
-    private TeamFactory $factory;
-    private TeamRepository $repository;
-
     public function __construct(
-        TeamManager $manager,
-        TeamFactory $factory,
-        TeamRepository $repository
-    )
-    {
-        $this->manager    = $manager;
-        $this->factory    = $factory;
-        $this->repository = $repository;
+        private readonly TeamManager $manager,
+        private readonly TeamFactory $factory,
+        private readonly TeamRepository $repository
+    ) {
     }
 
     public function supports($data, array $context = []): bool

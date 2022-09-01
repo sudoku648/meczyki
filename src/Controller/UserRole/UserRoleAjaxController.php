@@ -11,21 +11,34 @@ use App\Security\Voter\UserRoleVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
+use function count;
+
 class UserRoleAjaxController extends AbstractController
 {
     public function fetchUserRoles(
         UserRoleRepository $repository,
         Request $request
-    ): JsonResponse
-    {
+    ): JsonResponse {
         foreach ($request->request->all() as $key => $param) {
             switch ($key) {
-                case 'draw':    $draw    = $param; break;
-                case 'columns': $columns = $param; break;
-                case 'order':   $orders  = $param; break;
-                case 'start':   $start   = $param; break;
-                case 'length':  $length  = $param; break;
-                case 'search':  $search  = $param; break;
+                case 'draw':    $draw    = $param;
+
+                    break;
+                case 'columns': $columns = $param;
+
+                    break;
+                case 'order':   $orders  = $param;
+
+                    break;
+                case 'start':   $start   = $param;
+
+                    break;
+                case 'length':  $length  = $param;
+
+                    break;
+                case 'search':  $search  = $param;
+
+                    break;
             }
         }
 
@@ -34,18 +47,22 @@ class UserRoleAjaxController extends AbstractController
         }
 
         $results = $repository->getRequiredDTData(
-            $start, $length, $orders, $search, $columns
+            $start,
+            $length,
+            $orders,
+            $search,
+            $columns
         );
 
-        $objects = $results['results'];
-        $totalObjectsCount = $repository->count([]);
-        $selectedObjectsCount = \count($objects);
+        $objects              = $results['results'];
+        $totalObjectsCount    = $repository->count([]);
+        $selectedObjectsCount = count($objects);
         $filteredObjectsCount = $results['countResult'];
 
         $response = '{
-            "draw": '.$draw.',
-            "recordsTotal": '.$totalObjectsCount.',
-            "recordsFiltered": '.$filteredObjectsCount.',
+            "draw": ' . $draw . ',
+            "recordsTotal": ' . $totalObjectsCount . ',
+            "recordsFiltered": ' . $filteredObjectsCount . ',
             "data": [';
 
         $i = 0;
@@ -54,80 +71,86 @@ class UserRoleAjaxController extends AbstractController
         foreach ($objects as $objKey => $userRole) {
             $response .= '["';
 
-            $j = 0;
-            $nbColumn = \count($columns);
+            $j        = 0;
+            $nbColumn = count($columns);
             foreach ($columns as $colKey => $column) {
                 $responseTemp = '-';
 
                 switch ($column['name']) {
                     case 'lp':
-                    {
-                        $responseTemp = $objKey + 1 + $start;
-                        break;
-                    }
-                    case 'checkbox':
-                    {
-                        $responseTemp = $this->renderView(
-                            'user_role/_datatable_checkbox.html.twig',
-                            [
-                                'userRoleId' => $userRole->getId(),
-                            ]
-                        );
-                        break;
-                    }
-                    case 'name':
-                    {
-                        $responseTemp = $userRole->getName();
-                        break;
-                    }
-                    case 'buttons':
-                    {
-                        $responseTemp = '';
+                        {
+                            $responseTemp = $objKey + 1 + $start;
 
-                        if ($this->isGranted(UserRoleVoter::EDIT, $userRole)) {
-                            $responseTemp .= $this->renderView(
-                                'buttons/edit.html.twig',
+                            break;
+                        }
+                    case 'checkbox':
+                        {
+                            $responseTemp = $this->renderView(
+                                'user_role/_datatable_checkbox.html.twig',
                                 [
-                                    'btn_size'   => 'table',
-                                    'path'       => 'user_role_edit',
-                                    'parameters' =>
+                                    'userRoleId' => $userRole->getId(),
+                                ]
+                            );
+
+                            break;
+                        }
+                    case 'name':
+                        {
+                            $responseTemp = $userRole->getName();
+
+                            break;
+                        }
+                    case 'buttons':
+                        {
+                            $responseTemp = '';
+
+                            if ($this->isGranted(UserRoleVoter::EDIT, $userRole)) {
+                                $responseTemp .= $this->renderView(
+                                    'buttons/edit.html.twig',
                                     [
-                                        'user_role_id' => $userRole->getId(),
-                                    ],
-                                ]
-                            );
+                                        'btn_size'   => 'table',
+                                        'path'       => 'user_role_edit',
+                                        'parameters' => [
+                                            'user_role_id' => $userRole->getId(),
+                                        ],
+                                    ]
+                                );
+                            }
+                            if ($this->isGranted(UserRoleVoter::DELETE, $userRole)) {
+                                $responseTemp .= $this->renderView(
+                                    'user_role/_delete_form.html.twig',
+                                    [
+                                        'btn_size' => 'table',
+                                        'userRole' => $userRole,
+                                    ]
+                                );
+                            }
+
+                            break;
                         }
-                        if ($this->isGranted(UserRoleVoter::DELETE, $userRole)) {
-                            $responseTemp .= $this->renderView(
-                                'user_role/_delete_form.html.twig',
-                                [
-                                    'btn_size' => 'table',
-                                    'userRole' => $userRole,
-                                ]
-                            );
-                        }
-                        break;
-                    }
                 }
 
                 $responseTemp = $this->escapeDTResponse($responseTemp);
 
                 $response .= $responseTemp;
 
-                if (++$j !== $nbColumn)
+                if (++$j !== $nbColumn) {
                     $response .= '","';
+                }
             }
 
             $response .= '"]';
 
-            if (++$i !== $selectedObjectsCount)
+            if (++$i !== $selectedObjectsCount) {
                 $response .= ',';
+            }
         }
 
         $response .= ']}';
 
         $returnResponse = new JsonResponse();
         $returnResponse->setJson($response);
+
         return $returnResponse;
     }
 }

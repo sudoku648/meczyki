@@ -10,21 +10,34 @@ use App\Security\Voter\TeamVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
+use function count;
+
 class TeamAjaxController extends TeamAbstractController
 {
     public function fetchTeams(
         TeamRepository $repository,
         Request $request
-    ): JsonResponse
-    {
+    ): JsonResponse {
         foreach ($request->request->all() as $key => $param) {
             switch ($key) {
-                case 'draw':    $draw    = $param; break;
-                case 'columns': $columns = $param; break;
-                case 'order':   $orders  = $param; break;
-                case 'start':   $start   = $param; break;
-                case 'length':  $length  = $param; break;
-                case 'search':  $search  = $param; break;
+                case 'draw':    $draw    = $param;
+
+                    break;
+                case 'columns': $columns = $param;
+
+                    break;
+                case 'order':   $orders  = $param;
+
+                    break;
+                case 'start':   $start   = $param;
+
+                    break;
+                case 'length':  $length  = $param;
+
+                    break;
+                case 'search':  $search  = $param;
+
+                    break;
             }
         }
 
@@ -33,18 +46,22 @@ class TeamAjaxController extends TeamAbstractController
         }
 
         $results = $repository->getRequiredDTData(
-            $start, $length, $orders, $search, $columns
+            $start,
+            $length,
+            $orders,
+            $search,
+            $columns
         );
 
-        $objects = $results['results'];
-        $totalObjectsCount = $repository->count([]);
-        $selectedObjectsCount = \count($objects);
+        $objects              = $results['results'];
+        $totalObjectsCount    = $repository->count([]);
+        $selectedObjectsCount = count($objects);
         $filteredObjectsCount = $results['countResult'];
 
         $response = '{
-            "draw": '.$draw.',
-            "recordsTotal": '.$totalObjectsCount.',
-            "recordsFiltered": '.$filteredObjectsCount.',
+            "draw": ' . $draw . ',
+            "recordsTotal": ' . $totalObjectsCount . ',
+            "recordsFiltered": ' . $filteredObjectsCount . ',
             "data": [';
 
         $i = 0;
@@ -53,101 +70,107 @@ class TeamAjaxController extends TeamAbstractController
         foreach ($objects as $objKey => $team) {
             $response .= '["';
 
-            $j = 0;
-            $nbColumn = \count($columns);
+            $j        = 0;
+            $nbColumn = count($columns);
             foreach ($columns as $colKey => $column) {
                 $responseTemp = '-';
 
                 switch ($column['name']) {
                     case 'lp':
-                    {
-                        $responseTemp = $objKey + 1 + $start;
-                        break;
-                    }
-                    case 'checkbox':
-                    {
-                        $responseTemp = $this->renderView(
-                            'team/_datatable_checkbox.html.twig',
-                            [
-                                'teamId' => $team->getId(),
-                            ]
-                        );
-                        break;
-                    }
-                    case 'name':
-                    {
-                        $responseTemp = $team->getFullName();
-                        break;
-                    }
-                    case 'club':
-                    {
-                        $responseTemp = $team->getClub()->getName();
-                        break;
-                    }
-                    case 'buttons':
-                    {
-                        $responseTemp = '';
+                        {
+                            $responseTemp = $objKey + 1 + $start;
 
-                        if ($this->isGranted(TeamVoter::SHOW, $team)) {
+                            break;
+                        }
+                    case 'checkbox':
+                        {
                             $responseTemp = $this->renderView(
-                                'buttons/show.html.twig',
+                                'team/_datatable_checkbox.html.twig',
                                 [
-                                    'btn_size'   => 'table',
-                                    'path'       => 'team_single',
-                                    'parameters' =>
+                                    'teamId' => $team->getId(),
+                                ]
+                            );
+
+                            break;
+                        }
+                    case 'name':
+                        {
+                            $responseTemp = $team->getFullName();
+
+                            break;
+                        }
+                    case 'club':
+                        {
+                            $responseTemp = $team->getClub()->getName();
+
+                            break;
+                        }
+                    case 'buttons':
+                        {
+                            $responseTemp = '';
+
+                            if ($this->isGranted(TeamVoter::SHOW, $team)) {
+                                $responseTemp = $this->renderView(
+                                    'buttons/show.html.twig',
                                     [
-                                        'club_id' => $team->getClub()->getId(),
-                                        'team_id' => $team->getId(),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($this->isGranted(TeamVoter::EDIT, $team)) {
-                            $responseTemp .= $this->renderView(
-                                'buttons/edit.html.twig',
-                                [
-                                    'btn_size'   => 'table',
-                                    'path'       => 'team_edit',
-                                    'parameters' =>
+                                        'btn_size'   => 'table',
+                                        'path'       => 'team_single',
+                                        'parameters' => [
+                                            'club_id' => $team->getClub()->getId(),
+                                            'team_id' => $team->getId(),
+                                        ],
+                                    ]
+                                );
+                            }
+                            if ($this->isGranted(TeamVoter::EDIT, $team)) {
+                                $responseTemp .= $this->renderView(
+                                    'buttons/edit.html.twig',
                                     [
-                                        'club_id' => $team->getClub()->getId(),
-                                        'team_id' => $team->getId(),
-                                    ],
-                                ]
-                            );
+                                        'btn_size'   => 'table',
+                                        'path'       => 'team_edit',
+                                        'parameters' => [
+                                            'club_id' => $team->getClub()->getId(),
+                                            'team_id' => $team->getId(),
+                                        ],
+                                    ]
+                                );
+                            }
+                            if ($this->isGranted(TeamVoter::DELETE, $team)) {
+                                $responseTemp .= $this->renderView(
+                                    'team/_delete_form.html.twig',
+                                    [
+                                        'btn_size' => 'table',
+                                        'club_id'  => $team->getClub()->getId(),
+                                        'team'     => $team,
+                                    ]
+                                );
+                            }
+
+                            break;
                         }
-                        if ($this->isGranted(TeamVoter::DELETE, $team)) {
-                            $responseTemp .= $this->renderView(
-                                'team/_delete_form.html.twig',
-                                [
-                                    'btn_size' => 'table',
-                                    'club_id'  => $team->getClub()->getId(),
-                                    'team'     => $team,
-                                ]
-                            );
-                        }
-                        break;
-                    }
                 }
 
                 $responseTemp = $this->escapeDTResponse($responseTemp);
 
                 $response .= $responseTemp;
 
-                if (++$j !== $nbColumn)
+                if (++$j !== $nbColumn) {
                     $response .= '","';
+                }
             }
 
             $response .= '"]';
 
-            if (++$i !== $selectedObjectsCount)
+            if (++$i !== $selectedObjectsCount) {
                 $response .= ',';
+            }
         }
 
         $response .= ']}';
 
         $returnResponse = new JsonResponse();
         $returnResponse->setJson($response);
+
         return $returnResponse;
     }
 }

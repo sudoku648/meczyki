@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\UserRole;
 
 use App\Form\UserRoleType;
-use App\Message\Flash\UserRole\UserRoleCreatedFlashMessage;
 use App\Security\Voter\UserRoleVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,9 +26,9 @@ class UserRoleCreateController extends UserRoleAbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $dto = $form->getData();
 
-            $userRole = $this->manager->create($dto, $this->getUserOrThrow());
+            $this->manager->create($dto, $this->getUserOrThrow());
 
-            $this->flash(new UserRoleCreatedFlashMessage($userRole->getId()));
+            $this->addFlash('success', 'Rola użytkowników została dodana.');
 
             /** @var ClickableInterface $continueButton */
             $continueButton = $form->get('saveAndContinue');

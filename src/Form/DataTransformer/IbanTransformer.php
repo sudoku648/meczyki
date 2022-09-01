@@ -6,6 +6,8 @@ namespace App\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 
+use function substr;
+
 class IbanTransformer implements DataTransformerInterface
 {
     /**
@@ -19,7 +21,7 @@ class IbanTransformer implements DataTransformerInterface
             return null;
         }
 
-        return \substr($iban, 2);
+        return substr($iban, 2);
     }
 
     /**
@@ -33,6 +35,6 @@ class IbanTransformer implements DataTransformerInterface
             return null;
         }
 
-        return 'PL'.$nrb;
+        return 'PL' . $nrb;
     }
 }

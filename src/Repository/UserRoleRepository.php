@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class UserRoleRepository extends ServiceEntityRepository
 {
-    const PER_PAGE = 10;
+    private const PER_PAGE = 10;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -36,8 +36,7 @@ class UserRoleRepository extends ServiceEntityRepository
         array $search,
         array $columns,
         ?string $otherConditions = null
-    ): array
-    {
+    ): array {
         $query = $this->createQueryBuilder('userRole');
 
         $countQuery = $this->createQueryBuilder('userRole');
@@ -53,32 +52,35 @@ class UserRoleRepository extends ServiceEntityRepository
 
         if ($search['value'] != '') {
             $query->andWhere('userRole.name LIKE :search');
-            $query->setParameter('search', '%'.$search['value'].'%');
+            $query->setParameter('search', '%' . $search['value'] . '%');
         }
 
         foreach ($columns as $colKey => $column) {
             if ($column['search']['value'] != '') {
-                $searchItem = $column['search']['value'];
+                $searchItem  = $column['search']['value'];
                 $searchQuery = null;
 
                 switch ($column['name']) {
                     case 'name':
-                    {
-                        $searchQuery = 'userRole.name LIKE :item_'.$colKey;
-                        break;
-                    }
+                        {
+                            $searchQuery = 'userRole.name LIKE :item_' . $colKey;
+
+                            break;
+                        }
                 }
 
                 if ($searchQuery !== null) {
                     $query->andWhere($searchQuery);
-                    $query->setParameter('item_'.$colKey, '%'.$searchItem.'%');
+                    $query->setParameter('item_' . $colKey, '%' . $searchItem . '%');
                     $countQuery->andWhere($searchQuery);
-                    $countQuery->setParameter('item_'.$colKey, '%'.$searchItem.'%');
+                    $countQuery->setParameter('item_' . $colKey, '%' . $searchItem . '%');
                 }
             }
         }
 
-        if ($length < 0) $length = null;
+        if ($length < 0) {
+            $length = null;
+        }
 
         $query->setFirstResult($start)->setMaxResults($length);
 
@@ -88,10 +90,11 @@ class UserRoleRepository extends ServiceEntityRepository
 
                 switch ($order['name']) {
                     case 'name':
-                    {
-                        $orderColumn = 'userRole.name';
-                        break;
-                    }
+                        {
+                            $orderColumn = 'userRole.name';
+
+                            break;
+                        }
                 }
 
                 if ($orderColumn !== null) {
@@ -102,7 +105,7 @@ class UserRoleRepository extends ServiceEntityRepository
 
         $query->addOrderBy('userRole.name', 'ASC');
 
-        $results = $query->getQuery()->getResult();
+        $results     = $query->getQuery()->getResult();
         $countResult = $countQuery->getQuery()->getSingleScalarResult();
 
         return [

@@ -13,7 +13,7 @@ class UserBindWithPersonSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            UserBindWithPersonEvent::class => 'onUserBoundWithPerson',
+            UserBindWithPersonEvent::class   => 'onUserBoundWithPerson',
             UserUnbindWithPersonEvent::class => 'onUserUnboundWithPerson',
         ];
     }

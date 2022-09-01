@@ -15,13 +15,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserBasicType extends AbstractType
 {
-    private UserRoleRepository $userRoleRepository;
-
     public function __construct(
-        UserRoleRepository $userRoleRepository
-    )
-    {
-        $this->userRoleRepository = $userRoleRepository;
+        private readonly UserRoleRepository $userRoleRepository
+    ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)

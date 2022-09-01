@@ -15,13 +15,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserBindWithPersonType extends AbstractType
 {
-    private PersonRepository $personRepository;
-
     public function __construct(
-        PersonRepository $personRepository
-    )
-    {
-        $this->personRepository = $personRepository;
+        private readonly PersonRepository $personRepository
+    ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void

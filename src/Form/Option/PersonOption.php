@@ -12,8 +12,7 @@ class PersonOption
     public static function default(
         PersonRepository $personRepository,
         $personType = null
-    ): array
-    {
+    ): array {
         return [
             'choice_label' => function (Person $person) {
                 return $person->getFullName();

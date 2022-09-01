@@ -65,8 +65,7 @@ class MatchGameBill
         int $percentOfBaseEquivalent,
         int $taxDeductibleStakePercent,
         int $incomeTaxStakePercent
-    )
-    {
+    ) {
         $this->person                    = $person;
         $this->matchGame                 = $matchGame;
         $this->baseEquivalent            = $baseEquivalent;

@@ -11,16 +11,11 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 abstract class UserProfileAbstractController extends AbstractController
 {
-    protected RouterInterface $router;
-    protected EventDispatcherInterface $dispatcher;
-    protected Breadcrumbs $breadcrumbs;
-
     public function __construct(
-        RouterInterface $router,
-        EventDispatcherInterface $dispatcher,
-        Breadcrumbs $breadcrumbs
-    )
-    {
+        protected RouterInterface $router,
+        protected EventDispatcherInterface $dispatcher,
+        protected Breadcrumbs $breadcrumbs
+    ) {
         parent::__construct(
             $router,
             $dispatcher,

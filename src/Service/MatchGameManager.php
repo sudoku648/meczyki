@@ -17,19 +17,11 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class MatchGameManager implements ContentManagerInterface
 {
-    private EventDispatcherInterface $dispatcher;
-    private EntityManagerInterface $entityManager;
-    private MatchGameFactory $factory;
-
     public function __construct(
-        EventDispatcherInterface $dispatcher,
-        EntityManagerInterface $entityManager,
-        MatchGameFactory $factory
-    )
-    {
-        $this->dispatcher    = $dispatcher;
-        $this->entityManager = $entityManager;
-        $this->factory       = $factory;
+        private readonly EventDispatcherInterface $dispatcher,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly MatchGameFactory $factory
+    ) {
     }
 
     public function create(MatchGameDto $dto, User $user): MatchGame

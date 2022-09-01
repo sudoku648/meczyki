@@ -23,34 +23,20 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class ApiEventSubscriber implements EventSubscriberInterface
 {
-    private ClubFactory $clubFactory;
-    private GameTypeFactory $gameTypeFactory;
-    private ImageFactory $imageFactory;
-    private PersonFactory $personFactory;
-    private TeamFactory $teamFactory;
-    private UserFactory $userFactory;
-
     public function __construct(
-        ClubFactory $clubFactory,
-        GameTypeFactory $gameTypeFactory,
-        ImageFactory $imageFactory,
-        PersonFactory $personFactory,
-        TeamFactory $teamFactory,
-        UserFactory $userFactory
-    )
-    {
-        $this->clubFactory     = $clubFactory;
-        $this->gameTypeFactory = $gameTypeFactory;
-        $this->imageFactory    = $imageFactory;
-        $this->personFactory   = $personFactory;
-        $this->teamFactory     = $teamFactory;
-        $this->userFactory     = $userFactory;
+        private readonly ClubFactory $clubFactory,
+        private readonly GameTypeFactory $gameTypeFactory,
+        private readonly ImageFactory $imageFactory,
+        private readonly PersonFactory $personFactory,
+        private readonly TeamFactory $teamFactory,
+        private readonly UserFactory $userFactory
+    ) {
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::VIEW => ['transform', EventPriorities::PRE_VALIDATE,],
+            KernelEvents::VIEW => ['transform', EventPriorities::PRE_VALIDATE, ],
         ];
     }
 
@@ -63,21 +49,27 @@ final class ApiEventSubscriber implements EventSubscriberInterface
         switch ($dto = $event->getControllerResult()) {
             case $dto instanceof DtoPaginator:
                 $this->collection($dto);
+
                 break;
             case $dto instanceof ClubDto:
                 $this->club($dto);
+
                 break;
             case $dto instanceof GameTypeDto:
                 $this->gameType($dto);
+
                 break;
             case $dto instanceof MatchGameDto:
                 $this->matchGame($dto);
+
                 break;
             case $dto instanceof TeamDto:
                 $this->team($dto);
+
                 break;
             case $dto instanceof UserDto:
                 $this->user($dto);
+
                 break;
         }
     }
@@ -88,21 +80,27 @@ final class ApiEventSubscriber implements EventSubscriberInterface
             switch ($dto) {
                 case $dto instanceof DtoPaginator:
                     $this->collection($dto);
+
                     break;
                 case $dto instanceof ClubDto:
                     $this->club($dto);
+
                     break;
                 case $dto instanceof GameTypeDto:
                     $this->gameType($dto);
+
                     break;
                 case $dto instanceof MatchGameDto:
                     $this->matchGame($dto);
+
                     break;
                 case $dto instanceof TeamDto:
                     $this->team($dto);
+
                     break;
                 case $dto instanceof UserDto:
                     $this->user($dto);
+
                     break;
             }
         }

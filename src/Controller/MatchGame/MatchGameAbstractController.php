@@ -14,25 +14,17 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 abstract class MatchGameAbstractController extends AbstractController
 {
-    protected MatchGameManager $manager;
-    protected RouterInterface $router;
-    protected EventDispatcherInterface $dispatcher;
-    protected Breadcrumbs $breadcrumbs;
-
     public function __construct(
-        MatchGameManager $manager,
-        RouterInterface $router,
-        EventDispatcherInterface $dispatcher,
-        Breadcrumbs $breadcrumbs
-    )
-    {
+        protected MatchGameManager $manager,
+        protected RouterInterface $router,
+        protected EventDispatcherInterface $dispatcher,
+        protected Breadcrumbs $breadcrumbs
+    ) {
         parent::__construct(
             $router,
             $dispatcher,
             $breadcrumbs
         );
-
-        $this->manager = $manager;
 
         $this->breadcrumbs->addItem(
             'Mecze',

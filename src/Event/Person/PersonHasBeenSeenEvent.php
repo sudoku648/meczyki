@@ -8,11 +8,9 @@ use App\Entity\Person;
 
 class PersonHasBeenSeenEvent
 {
-    private Person $person;
-
-    public function __construct(Person $person)
-    {
-        $this->person = $person;
+    public function __construct(
+        private Person $person
+    ) {
     }
 
     public function getPerson(): Person

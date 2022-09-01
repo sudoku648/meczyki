@@ -8,11 +8,14 @@ use App\Entity\Person;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use LogicException;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\PagerfantaInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+use function ucfirst;
 
 /**
  * @method Person|null find($id, $lockMode = null, $lockVersion = null)
@@ -22,7 +25,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class PersonRepository extends ServiceEntityRepository
 {
-    const PER_PAGE = 10;
+    private const PER_PAGE = 10;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -36,8 +39,7 @@ class PersonRepository extends ServiceEntityRepository
         array $search,
         array $columns,
         ?string $otherConditions = null
-    ): array
-    {
+    ): array {
         $query = $this->createQueryBuilder('person');
         $query->addSelect('CONCAT(person.lastName, \' \', person.firstName) AS HIDDEN fullName');
         $query->addSelect('CONCAT(person.firstName, \' \', person.lastName) AS HIDDEN fullNameInversed');
@@ -55,40 +57,43 @@ class PersonRepository extends ServiceEntityRepository
 
         if ($search['value'] != '') {
             $query->andWhere(
-                'CONCAT(person.lastName, \' \', person.firstName) LIKE :search'.
-                ' OR '.
+                'CONCAT(person.lastName, \' \', person.firstName) LIKE :search' .
+                ' OR ' .
                 'CONCAT(person.firstName, \' \', person.lastName) LIKE :search'
             );
-            $query->setParameter('search', '%'.$search['value'].'%');
+            $query->setParameter('search', '%' . $search['value'] . '%');
         }
 
         foreach ($columns as $colKey => $column) {
             if ($column['search']['value'] != '') {
-                $searchItem = $column['search']['value'];
+                $searchItem  = $column['search']['value'];
                 $searchQuery = null;
 
                 switch ($column['name']) {
                     case 'fullName':
-                    {
-                        $searchQuery =
-                            'CONCAT(person.lastName, \' \', person.firstName) LIKE :item_'.$colKey.
-                            ' OR '.
-                            'CONCAT(person.firstName, \' \', person.lastName) LIKE :item_'.$colKey
-                        ;
-                        break;
-                    }
+                        {
+                            $searchQuery =
+                                'CONCAT(person.lastName, \' \', person.firstName) LIKE :item_' . $colKey .
+                                ' OR ' .
+                                'CONCAT(person.firstName, \' \', person.lastName) LIKE :item_' . $colKey
+                            ;
+
+                            break;
+                        }
                 }
 
                 if ($searchQuery !== null) {
                     $query->andWhere($searchQuery);
-                    $query->setParameter('item_'.$colKey, '%'.$searchItem.'%');
+                    $query->setParameter('item_' . $colKey, '%' . $searchItem . '%');
                     $countQuery->andWhere($searchQuery);
-                    $countQuery->setParameter('item_'.$colKey, '%'.$searchItem.'%');
+                    $countQuery->setParameter('item_' . $colKey, '%' . $searchItem . '%');
                 }
             }
         }
 
-        if ($length < 0) $length = null;
+        if ($length < 0) {
+            $length = null;
+        }
 
         $query->setFirstResult($start)->setMaxResults($length);
 
@@ -98,10 +103,11 @@ class PersonRepository extends ServiceEntityRepository
 
                 switch ($order['name']) {
                     case 'fullName':
-                    {
-                        $orderColumn = 'CONCAT(person.lastName, \' \', person.firstName)';
-                        break;
-                    }
+                        {
+                            $orderColumn = 'CONCAT(person.lastName, \' \', person.firstName)';
+
+                            break;
+                        }
                 }
 
                 if ($orderColumn !== null) {
@@ -112,7 +118,7 @@ class PersonRepository extends ServiceEntityRepository
 
         $query->addOrderBy('fullName', 'ASC');
 
-        $results = $query->getQuery()->getResult();
+        $results     = $query->getQuery()->getResult();
         $countResult = $countQuery->getQuery()->getSingleScalarResult();
 
         return [
@@ -129,9 +135,10 @@ class PersonRepository extends ServiceEntityRepository
             case 'delegate':
             case 'referee':
             case 'refereeObserver':
-                $property = 'is'.\ucfirst($type);
+                $property = 'is' . ucfirst($type);
+
                 break;
-            default: throw new \LogicException();
+            default: throw new LogicException();
         }
 
         $criteria = [];

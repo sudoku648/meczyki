@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Repository\ImageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use InvalidArgumentException;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 #[ORM\UniqueConstraint(name: 'images_file_name_idx', columns: ['file_name'])]
@@ -34,8 +35,7 @@ class Image
         string $filePath,
         ?int $width,
         ?int $height
-    )
-    {
+    ) {
         $this->filePath = $filePath;
         $this->fileName = $fileName;
 
@@ -45,18 +45,18 @@ class Image
     public function setDimensions(?int $width, ?int $height): void
     {
         if (null !== $width && $width <= 0) {
-            throw new \InvalidArgumentException('$width must be NULL or > 0');
+            throw new InvalidArgumentException('$width must be NULL or > 0');
         }
 
         if (null !== $height && $height <= 0) {
-            throw new \InvalidArgumentException('$height must be NULL or > 0');
+            throw new InvalidArgumentException('$height must be NULL or > 0');
         }
 
         if (($width && $height) || (!$width && !$height)) {
             $this->width  = $width;
             $this->height = $height;
         } else {
-            throw new \InvalidArgumentException('$width and $height must both be set or NULL');
+            throw new InvalidArgumentException('$width and $height must both be set or NULL');
         }
     }
 

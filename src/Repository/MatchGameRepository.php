@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class MatchGameRepository extends ServiceEntityRepository
 {
-    const PER_PAGE = 10;
+    private const PER_PAGE = 10;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -36,8 +36,7 @@ class MatchGameRepository extends ServiceEntityRepository
         array $search,
         array $columns,
         ?string $otherConditions = null
-    ): array
-    {
+    ): array {
         $query = $this->createQueryBuilder('matchGame');
 
         $countQuery = $this->createQueryBuilder('matchGame');
@@ -63,61 +62,66 @@ class MatchGameRepository extends ServiceEntityRepository
 
         if ($search['value'] != '') {
             $query->andWhere(
-                'DATE_FORMAT('.
-                    'matchGame.dateTime, '.
-                    '\'%d.%m.%Y, %H:%i\''.
-                ') LIKE :search'.
-                ' OR '.
-                '(gameType.group IS NULL AND gameType.name LIKE :search)'.
-                ' OR '.
-                'CONCAT(gameType.name, \' Grupa \', gameType.group) LIKE :search'.
-                ' OR '.
+                'DATE_FORMAT(' .
+                    'matchGame.dateTime, ' .
+                    '\'%d.%m.%Y, %H:%i\'' .
+                ') LIKE :search' .
+                ' OR ' .
+                '(gameType.group IS NULL AND gameType.name LIKE :search)' .
+                ' OR ' .
+                'CONCAT(gameType.name, \' Grupa \', gameType.group) LIKE :search' .
+                ' OR ' .
                 'CONCAT(COALESCE(homeTeam.fullName, \'\'), \' - \', COALESCE(awayTeam.fullName, \'\')) LIKE :search'
             );
-            $query->setParameter('search', '%'.$search['value'].'%');
+            $query->setParameter('search', '%' . $search['value'] . '%');
         }
 
         foreach ($columns as $colKey => $column) {
             if ($column['search']['value'] != '') {
-                $searchItem = $column['search']['value'];
+                $searchItem  = $column['search']['value'];
                 $searchQuery = null;
 
                 switch ($column['name']) {
                     case 'dateTime':
-                    {
-                        $searchQuery =
-                            'DATE_FORMAT('.
-                                'matchGame.dateTime, '.
-                                '\'%d.%m.%Y, %H:%i\''.
-                            ') LIKE :item_'.$colKey;
-                        break;
-                    }
+                        {
+                            $searchQuery =
+                                'DATE_FORMAT(' .
+                                    'matchGame.dateTime, ' .
+                                    '\'%d.%m.%Y, %H:%i\'' .
+                                ') LIKE :item_' . $colKey;
+
+                            break;
+                        }
                     case 'gameType':
-                    {
-                        $searchQuery =
-                            '(gameType.group IS NULL AND gameType.name LIKE :item_'.$colKey.')'.
-                            ' OR '.
-                            '(CONCAT(gameType.name, \' Grupa \', gameType.group) LIKE :item_'.$colKey.')';
-                        break;
-                    }
+                        {
+                            $searchQuery =
+                                '(gameType.group IS NULL AND gameType.name LIKE :item_' . $colKey . ')' .
+                                ' OR ' .
+                                '(CONCAT(gameType.name, \' Grupa \', gameType.group) LIKE :item_' . $colKey . ')';
+
+                            break;
+                        }
                     case 'teams':
-                    {
-                        $searchQuery =
-                            'CONCAT(homeTeam.fullName, \' - \', awayTeam.fullName) LIKE :item_'.$colKey;
-                        break;
-                    }
+                        {
+                            $searchQuery =
+                                'CONCAT(homeTeam.fullName, \' - \', awayTeam.fullName) LIKE :item_' . $colKey;
+
+                            break;
+                        }
                 }
 
                 if ($searchQuery !== null) {
                     $query->andWhere($searchQuery);
-                    $query->setParameter('item_'.$colKey, '%'.$searchItem.'%');
+                    $query->setParameter('item_' . $colKey, '%' . $searchItem . '%');
                     $countQuery->andWhere($searchQuery);
-                    $countQuery->setParameter('item_'.$colKey, '%'.$searchItem.'%');
+                    $countQuery->setParameter('item_' . $colKey, '%' . $searchItem . '%');
                 }
             }
         }
 
-        if ($length < 0) $length = null;
+        if ($length < 0) {
+            $length = null;
+        }
 
         $query->setFirstResult($start)->setMaxResults($length);
 
@@ -126,7 +130,6 @@ class MatchGameRepository extends ServiceEntityRepository
                 $orderColumn = null;
 
                 switch ($order['name']) {
-                    
                 }
 
                 if ($orderColumn !== null) {
@@ -137,7 +140,7 @@ class MatchGameRepository extends ServiceEntityRepository
 
         $query->addOrderBy('matchGame.dateTime', 'DESC');
 
-        $results = $query->getQuery()->getResult();
+        $results     = $query->getQuery()->getResult();
         $countResult = $countQuery->getQuery()->getSingleScalarResult();
 
         return [

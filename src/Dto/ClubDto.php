@@ -7,14 +7,15 @@ namespace App\Dto;
 use App\Entity\Club;
 use App\Entity\Image;
 use App\Validator\UniqueEntity;
+use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[UniqueEntity(options: [
     'entityClass' => Club::class,
-    'errorPaths' => 'name',
-    'fields' => ['name'],
-    'idFields' => 'id',
-    'message' => 'Nazwa jest już wykorzystywana.',
+    'errorPaths'  => 'name',
+    'fields'      => ['name'],
+    'idFields'    => 'id',
+    'message'     => 'Nazwa jest już wykorzystywana.',
 ])]
 class ClubDto
 {
@@ -24,11 +25,11 @@ class ClubDto
 
     public Image|ImageDto|null $emblem = null;
 
-    public ?\DateTimeImmutable $createdAt = null;
+    public ?DateTimeImmutable $createdAt = null;
 
     public ?string $createdAtAgo = null;
 
-    public ?\DateTimeImmutable $updatedAt = null;
+    public ?DateTimeImmutable $updatedAt = null;
 
     public ?string $updatedAtAgo = null;
 

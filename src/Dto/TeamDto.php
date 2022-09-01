@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Dto;
 
 use App\Entity\Club;
+use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class TeamDto
@@ -19,11 +20,11 @@ class TeamDto
 
     public Club|ClubDto|null $club = null;
 
-    public ?\DateTimeImmutable $createdAt = null;
+    public ?DateTimeImmutable $createdAt = null;
 
     public ?string $createdAtAgo = null;
 
-    public ?\DateTimeImmutable $updatedAt = null;
+    public ?DateTimeImmutable $updatedAt = null;
 
     public ?string $updatedAtAgo = null;
 

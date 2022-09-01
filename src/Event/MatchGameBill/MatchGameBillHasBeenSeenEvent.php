@@ -8,11 +8,9 @@ use App\Entity\MatchGameBill;
 
 class MatchGameBillHasBeenSeenEvent
 {
-    private MatchGameBill $matchGameBill;
-
-    public function __construct(MatchGameBill $matchGameBill)
-    {
-        $this->matchGameBill = $matchGameBill;
+    public function __construct(
+        private MatchGameBill $matchGameBill
+    ) {
     }
 
     public function getMatchGameBill(): MatchGameBill

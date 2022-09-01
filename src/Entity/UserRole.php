@@ -13,6 +13,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use function in_array;
+
 #[ORM\Entity(repositoryClass: UserRoleRepository::class)]
 class UserRole
 {
@@ -38,8 +40,7 @@ class UserRole
     public function __construct(
         string $name,
         array $permissions = []
-    )
-    {
+    ) {
         $this->name        = $name;
         $this->permissions = $permissions;
         $this->users       = new ArrayCollection();
@@ -73,7 +74,7 @@ class UserRole
 
     public function hasPermission(PermissionEnum $permission): bool
     {
-        return \in_array($permission, $this->permissions);
+        return in_array($permission, $this->permissions);
     }
 
     /**

@@ -9,26 +9,14 @@ use App\Dto\UserRoleDto;
 use App\Factory\UserRoleFactory;
 use App\Repository\UserRoleRepository;
 use App\Service\UserRoleManager;
-use Symfony\Component\Security\Core\Security;
 
 final class UserRoleDataPersister implements ContextAwareDataPersisterInterface
 {
-    private UserRoleManager $manager;
-    private UserRoleFactory $factory;
-    private UserRoleRepository $repository;
-    private Security $security;
-
     public function __construct(
-        UserRoleManager $manager,
-        UserRoleFactory $factory,
-        UserRoleRepository $repository,
-        Security $security
-    )
-    {
-        $this->manager    = $manager;
-        $this->factory    = $factory;
-        $this->repository = $repository;
-        $this->security   = $security;
+        private readonly UserRoleManager $manager,
+        private readonly UserRoleFactory $factory,
+        private readonly UserRoleRepository $repository
+    ) {
     }
 
     public function supports($data, array $context = []): bool

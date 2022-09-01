@@ -8,17 +8,15 @@ use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+use function str_replace;
+
 class UserFixtures extends BaseFixture
 {
-    const USERS_COUNT = 2;
-
-    private UserPasswordHasherInterface $hasher;
+    public const USERS_COUNT = 2;
 
     public function __construct(
-        UserPasswordHasherInterface $hasher
-    )
-    {
-        $this->hasher = $hasher;
+        private readonly UserPasswordHasherInterface $hasher
+    ) {
     }
 
     public function loadData(ObjectManager $manager): void
@@ -39,11 +37,10 @@ class UserFixtures extends BaseFixture
 
             $manager->persist($newUser);
 
-            $this->addReference('user'.'_'.$index, $newUser);
+            $this->addReference('user' . '_' . $index, $newUser);
 
             $manager->flush();
         }
-
     }
 
     private function provideRandomUsers(int $count = 1): iterable
@@ -62,7 +59,7 @@ class UserFixtures extends BaseFixture
 
         for ($i = 0; $i < $count; $i++) {
             yield [
-                'username' => \str_replace('.', '_', $this->faker->userName),
+                'username' => str_replace('.', '_', $this->faker->userName()),
                 'password' => 'secret',
                 'isSA'     => false,
             ];

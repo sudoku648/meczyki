@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class TeamRepository extends ServiceEntityRepository
 {
-    const PER_PAGE = 10;
+    private const PER_PAGE = 10;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -37,8 +37,7 @@ class TeamRepository extends ServiceEntityRepository
         array $search,
         array $columns,
         ?string $otherConditions = null
-    ): array
-    {
+    ): array {
         $query = $this->createQueryBuilder('team');
 
         $countQuery = $this->createQueryBuilder('team');
@@ -60,46 +59,50 @@ class TeamRepository extends ServiceEntityRepository
 
         if ($search['value'] != '') {
             $query->andWhere(
-                'team.fullName LIKE :search'.
-                ' OR '.
-                'team.shortName LIKE :search'.
-                ' OR '.
+                'team.fullName LIKE :search' .
+                ' OR ' .
+                'team.shortName LIKE :search' .
+                ' OR ' .
                 'club.name LIKE :search'
             );
-            $query->setParameter('search', '%'.$search['value'].'%');
+            $query->setParameter('search', '%' . $search['value'] . '%');
         }
 
         foreach ($columns as $colKey => $column) {
             if ($column['search']['value'] != '') {
-                $searchItem = $column['search']['value'];
+                $searchItem  = $column['search']['value'];
                 $searchQuery = null;
 
                 switch ($column['name']) {
                     case 'name':
-                    {
-                        $searchQuery =
-                            'team.fullName LIKE :item_'.$colKey.
-                            ' OR '.
-                            'team.shortName LIKE :item_'.$colKey;
-                        break;
-                    }
+                        {
+                            $searchQuery =
+                                'team.fullName LIKE :item_' . $colKey .
+                                ' OR ' .
+                                'team.shortName LIKE :item_' . $colKey;
+
+                            break;
+                        }
                     case 'club':
-                    {
-                        $searchQuery = 'club.name LIKE :item_'.$colKey;
-                        break;
-                    }
+                        {
+                            $searchQuery = 'club.name LIKE :item_' . $colKey;
+
+                            break;
+                        }
                 }
 
                 if ($searchQuery !== null) {
                     $query->andWhere($searchQuery);
-                    $query->setParameter('item_'.$colKey, '%'.$searchItem.'%');
+                    $query->setParameter('item_' . $colKey, '%' . $searchItem . '%');
                     $countQuery->andWhere($searchQuery);
-                    $countQuery->setParameter('item_'.$colKey, '%'.$searchItem.'%');
+                    $countQuery->setParameter('item_' . $colKey, '%' . $searchItem . '%');
                 }
             }
         }
 
-        if ($length < 0) $length = null;
+        if ($length < 0) {
+            $length = null;
+        }
 
         $query->setFirstResult($start)->setMaxResults($length);
 
@@ -109,15 +112,17 @@ class TeamRepository extends ServiceEntityRepository
 
                 switch ($order['name']) {
                     case 'name':
-                    {
-                        $orderColumn = 'team.shortName';
-                        break;
-                    }
+                        {
+                            $orderColumn = 'team.shortName';
+
+                            break;
+                        }
                     case 'club':
-                    {
-                        $orderColumn = 'club.name';
-                        break;
-                    }
+                        {
+                            $orderColumn = 'club.name';
+
+                            break;
+                        }
                 }
 
                 if ($orderColumn !== null) {
@@ -128,7 +133,7 @@ class TeamRepository extends ServiceEntityRepository
 
         $query->addOrderBy('team.shortName', 'ASC');
 
-        $results = $query->getQuery()->getResult();
+        $results     = $query->getQuery()->getResult();
         $countResult = $countQuery->getQuery()->getSingleScalarResult();
 
         return [

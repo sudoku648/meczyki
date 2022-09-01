@@ -13,22 +13,12 @@ use Symfony\Component\Security\Core\Security;
 
 final class MatchGameDataPersister implements ContextAwareDataPersisterInterface
 {
-    private MatchGameManager $manager;
-    private MatchGameFactory $factory;
-    private MatchGameRepository $repository;
-    private Security $security;
-
     public function __construct(
-        MatchGameManager $manager,
-        MatchGameFactory $factory,
-        MatchGameRepository $repository,
-        Security $security
-    )
-    {
-        $this->manager    = $manager;
-        $this->factory    = $factory;
-        $this->repository = $repository;
-        $this->security   = $security;
+        private readonly MatchGameManager $manager,
+        private readonly MatchGameFactory $factory,
+        private readonly MatchGameRepository $repository,
+        private readonly Security $security
+    ) {
     }
 
     public function supports($data, array $context = []): bool

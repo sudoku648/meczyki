@@ -8,11 +8,9 @@ use App\Entity\Club;
 
 class ClubHasBeenSeenEvent
 {
-    private Club $club;
-
-    public function __construct(Club $club)
-    {
-        $this->club = $club;
+    public function __construct(
+        private Club $club
+    ) {
     }
 
     public function getClub(): Club

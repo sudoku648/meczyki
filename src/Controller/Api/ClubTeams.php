@@ -10,26 +10,19 @@ use App\Entity\Club;
 use App\Factory\TeamFactory;
 use App\PageView\TeamPageView;
 use App\Repository\TeamRepository;
+use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
+
+use function array_map;
 
 class ClubTeams extends AbstractController
 {
-    private int $mgApiItemsPerPage;
-    private TeamRepository $repository;
-    private TeamFactory $factory;
-    private RequestStack $request;
-
     public function __construct(
-        int $mgApiItemsPerPage,
-        TeamRepository $repository,
-        TeamFactory $factory,
-        RequestStack $request
-    )
-    {
-        $this->mgApiItemsPerPage = $mgApiItemsPerPage;
-        $this->repository        = $repository;
-        $this->factory           = $factory;
-        $this->request           = $request;
+        private readonly int $mgApiItemsPerPage,
+        private readonly TeamRepository $repository,
+        private readonly TeamFactory $factory,
+        private readonly RequestStack $request
+    ) {
     }
 
     public function __invoke(Club $club)
@@ -43,17 +36,20 @@ class ClubTeams extends AbstractController
             $teams = $this->repository->findByCriteria($criteria);
 
             $this->repository->hydrate(...$teams);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return [];
         }
 
-        $dtos = \array_map(
-            fn($team) => $this->factory->createDto($team),
+        $dtos = array_map(
+            fn ($team) => $this->factory->createDto($team),
             (array) $teams->getCurrentPageResults()
         );
 
         return new DtoPaginator(
-            $dtos, 0, $this->mgApiItemsPerPage, $teams->getNbResults()
+            $dtos,
+            0,
+            $this->mgApiItemsPerPage,
+            $teams->getNbResults()
         );
     }
 }

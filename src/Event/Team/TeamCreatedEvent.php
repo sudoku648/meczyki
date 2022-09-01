@@ -8,11 +8,9 @@ use App\Entity\Team;
 
 class TeamCreatedEvent
 {
-    private Team $team;
-
-    public function __construct(Team $team)
-    {
-        $this->team = $team;
+    public function __construct(
+        private Team $team
+    ) {
     }
 
     public function getTeam(): Team

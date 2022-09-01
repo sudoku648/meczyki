@@ -17,19 +17,11 @@ use Webmozart\Assert\Assert;
 
 class TeamManager implements ContentManagerInterface
 {
-    private EventDispatcherInterface $dispatcher;
-    private EntityManagerInterface $entityManager;
-    private TeamFactory $factory;
-
     public function __construct(
-        EventDispatcherInterface $dispatcher,
-        EntityManagerInterface $entityManager,
-        TeamFactory $factory
-    )
-    {
-        $this->dispatcher    = $dispatcher;
-        $this->entityManager = $entityManager;
-        $this->factory       = $factory;
+        private readonly EventDispatcherInterface $dispatcher,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly TeamFactory $factory
+    ) {
     }
 
     public function create(TeamDto $dto): Team

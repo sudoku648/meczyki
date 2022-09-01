@@ -6,6 +6,9 @@ namespace App\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 
+use function strlen;
+use function substr;
+
 class PolishMobilePhoneTransformer implements DataTransformerInterface
 {
     public const POLISH_DIALLING_CODE = '+48';
@@ -21,7 +24,7 @@ class PolishMobilePhoneTransformer implements DataTransformerInterface
             return null;
         }
 
-        return \substr($codefullNumber, \strlen(self::POLISH_DIALLING_CODE));
+        return substr($codefullNumber, strlen(self::POLISH_DIALLING_CODE));
     }
 
     /**
@@ -35,6 +38,6 @@ class PolishMobilePhoneTransformer implements DataTransformerInterface
             return null;
         }
 
-        return self::POLISH_DIALLING_CODE.$codelessNumber;
+        return self::POLISH_DIALLING_CODE . $codelessNumber;
     }
 }

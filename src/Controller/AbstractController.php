@@ -7,7 +7,7 @@ namespace App\Controller;
 use App\Entity\Club;
 use App\Entity\MatchGame;
 use App\Entity\User;
-use App\Message\Contracts\FlashMessageInterface;
+use BadMethodCallException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseAbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
@@ -18,20 +18,18 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
+use function is_string;
+use function str_replace;
+
 abstract class AbstractController extends BaseAbstractController
 {
-    protected RouterInterface $router;
-    protected EventDispatcherInterface $dispatcher;
-    protected Breadcrumbs $breadcrumbs;
-
     public function __construct(
-        RouterInterface $router,
-        EventDispatcherInterface $dispatcher,
-        Breadcrumbs $breadcrumbs
-    )
-    {
-        $this->router = $router;
-        $this->dispatcher = $dispatcher;
+        protected RouterInterface $router,
+        protected EventDispatcherInterface $dispatcher,
+        protected Breadcrumbs $breadcrumbs
+    ) {
+        $this->router      = $router;
+        $this->dispatcher  = $dispatcher;
         $this->breadcrumbs = $breadcrumbs;
 
         $this->breadcrumbs->addItem(
@@ -45,7 +43,7 @@ abstract class AbstractController extends BaseAbstractController
         $user = $this->getUser();
 
         if (!$user) {
-            throw new \BadMethodCallException('User is not logged in.');
+            throw new BadMethodCallException('User is not logged in.');
         }
 
         return $user;
@@ -53,7 +51,7 @@ abstract class AbstractController extends BaseAbstractController
 
     protected function validateCsrf(string $id, $token): void
     {
-        if (!\is_string($token) || !$this->isCsrfTokenValid($id, $token)) {
+        if (!is_string($token) || !$this->isCsrfTokenValid($id, $token)) {
             throw new BadRequestHttpException('Invalid CSRF token.');
         }
     }
@@ -106,8 +104,7 @@ abstract class AbstractController extends BaseAbstractController
         FormInterface $form,
         string $template,
         ?array $variables = null
-    ): JsonResponse
-    {
+    ): JsonResponse {
         return new JsonResponse(
             [
                 'form' => $this->renderView(
@@ -120,17 +117,9 @@ abstract class AbstractController extends BaseAbstractController
         );
     }
 
-    protected function flash(
-        FlashMessageInterface $message,
-        string $type = 'success'
-    ): void
-    {
-        $this->addFlash($type, $message->getMessage());
-    }
-
     protected function escapeDTResponse(int|string $response): string
     {
-        return \str_replace(
+        return str_replace(
             ["\r\n", "\n", "\r", '"'],
             [' ', ' ', ' ', "'"],
             (string) $response

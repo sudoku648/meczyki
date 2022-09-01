@@ -27,13 +27,12 @@ class UserCommand extends Command
         EntityManagerInterface $entityManager,
         UserRepository $repository,
         UserManager $manager
-    )
-    {
+    ) {
         parent::__construct();
 
         $this->entityManager = $entityManager;
-        $this->repository = $repository;
-        $this->manager = $manager;
+        $this->repository    = $repository;
+        $this->manager       = $manager;
     }
 
     protected function configure(): void
@@ -76,7 +75,7 @@ class UserCommand extends Command
     {
         $dto = new UserDto();
 
-        $dto->username = $input->getArgument('username');
+        $dto->username      = $input->getArgument('username');
         $dto->plainPassword = $input->getArgument('password');
 
         $this->manager->create($dto);

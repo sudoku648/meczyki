@@ -8,8 +8,18 @@ use App\Entity\GameType;
 use App\Entity\Person;
 use App\Entity\Team;
 use App\Entity\User;
+use DateTimeImmutable;
+use LogicException;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+
+use function array_diff_assoc;
+use function array_intersect;
+use function array_keys;
+use function array_unique;
+use function count;
+use function explode;
+use function get_object_vars;
 
 class MatchGameDto
 {
@@ -22,7 +32,7 @@ class MatchGameDto
     public Team|TeamDto|null $awayTeam = null;
 
     #[Assert\NotBlank()]
-    public ?\DateTimeImmutable $dateTime = null;
+    public ?DateTimeImmutable $dateTime = null;
 
     #[Assert\NotBlank()]
     public GameType|GameTypeDto|null $gameType = null;
@@ -55,11 +65,11 @@ class MatchGameDto
 
     public ?string $moreInfo = null;
 
-    public ?\DateTimeImmutable $createdAt = null;
+    public ?DateTimeImmutable $createdAt = null;
 
     public ?string $createdAtAgo = null;
 
-    public ?\DateTimeImmutable $updatedAt = null;
+    public ?DateTimeImmutable $updatedAt = null;
 
     public ?string $updatedAtAgo = null;
 
@@ -69,8 +79,7 @@ class MatchGameDto
     public function validateSeasonWithDate(
         ExecutionContextInterface $context,
         $payload
-    )
-    {
+    ) {
         if (!$this->season) {
             return;
         }
@@ -94,8 +103,7 @@ class MatchGameDto
     public function validateSeasonAndRoundWithGameType(
         ExecutionContextInterface $context,
         $payload
-    )
-    {
+    ) {
         if ($this->gameType && !$this->gameType->isOfficial() && $this->season) {
             $context->buildViolation('Dla nieoficjalnych rozgrywek nie można podać sezonu.')
                 ->atPath('season')
@@ -113,21 +121,22 @@ class MatchGameDto
     public function validateChosenPeople(
         ExecutionContextInterface $context,
         $payload
-    )
-    {
+    ) {
         $allPeopleIds = [];
-        foreach (\get_object_vars($this) as $prop => $value) {
-            if (!$value instanceof Person) continue;
+        foreach (get_object_vars($this) as $prop => $value) {
+            if (!$value instanceof Person) {
+                continue;
+            }
 
             $allPeopleIds[$prop] = $value->getId();
         }
 
-        $duplicates = \array_keys(
-            \array_intersect(
+        $duplicates = array_keys(
+            array_intersect(
                 $allPeopleIds,
-                \array_diff_assoc(
+                array_diff_assoc(
                     $allPeopleIds,
-                    \array_unique($allPeopleIds)
+                    array_unique($allPeopleIds)
                 )
             )
         );
@@ -146,9 +155,10 @@ class MatchGameDto
     private function dateBoundaries(string $season): array
     {
         $years = $this->parseSeasonString($season);
+
         return [
-            $years[0].'-07-15',
-            $years[1].'-07-05',
+            $years[0] . '-07-15',
+            $years[1] . '-07-05',
         ];
     }
 
@@ -158,8 +168,10 @@ class MatchGameDto
      */
     private function parseSeasonString(string $season): array
     {
-        $years = \explode('/', $season);
-        if (\count($years) !== 2) throw new \LogicException();
+        $years = explode('/', $season);
+        if (count($years) !== 2) {
+            throw new LogicException();
+        }
 
         return $years;
     }

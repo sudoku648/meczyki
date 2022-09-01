@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class ClubRepository extends ServiceEntityRepository
 {
-    const PER_PAGE = 10;
+    private const PER_PAGE = 10;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -36,8 +36,7 @@ class ClubRepository extends ServiceEntityRepository
         array $search,
         array $columns,
         ?string $otherConditions = null
-    ): array
-    {
+    ): array {
         $query = $this->createQueryBuilder('club');
 
         $countQuery = $this->createQueryBuilder('club');
@@ -53,32 +52,35 @@ class ClubRepository extends ServiceEntityRepository
 
         if ($search['value'] != '') {
             $query->andWhere('club.name LIKE :search');
-            $query->setParameter('search', '%'.$search['value'].'%');
+            $query->setParameter('search', '%' . $search['value'] . '%');
         }
 
         foreach ($columns as $colKey => $column) {
             if ($column['search']['value'] != '') {
-                $searchItem = $column['search']['value'];
+                $searchItem  = $column['search']['value'];
                 $searchQuery = null;
 
                 switch ($column['name']) {
                     case 'name':
-                    {
-                        $searchQuery = 'club.name LIKE :item_'.$colKey;
-                        break;
-                    }
+                        {
+                            $searchQuery = 'club.name LIKE :item_' . $colKey;
+
+                            break;
+                        }
                 }
 
                 if ($searchQuery !== null) {
                     $query->andWhere($searchQuery);
-                    $query->setParameter('item_'.$colKey, '%'.$searchItem.'%');
+                    $query->setParameter('item_' . $colKey, '%' . $searchItem . '%');
                     $countQuery->andWhere($searchQuery);
-                    $countQuery->setParameter('item_'.$colKey, '%'.$searchItem.'%');
+                    $countQuery->setParameter('item_' . $colKey, '%' . $searchItem . '%');
                 }
             }
         }
 
-        if ($length < 0) $length = null;
+        if ($length < 0) {
+            $length = null;
+        }
 
         $query->setFirstResult($start)->setMaxResults($length);
 
@@ -88,10 +90,11 @@ class ClubRepository extends ServiceEntityRepository
 
                 switch ($order['name']) {
                     case 'name':
-                    {
-                        $orderColumn = 'club.name';
-                        break;
-                    }
+                        {
+                            $orderColumn = 'club.name';
+
+                            break;
+                        }
                 }
 
                 if ($orderColumn !== null) {
@@ -102,7 +105,7 @@ class ClubRepository extends ServiceEntityRepository
 
         $query->addOrderBy('club.name', 'ASC');
 
-        $results = $query->getQuery()->getResult();
+        $results     = $query->getQuery()->getResult();
         $countResult = $countQuery->getQuery()->getSingleScalarResult();
 
         return [

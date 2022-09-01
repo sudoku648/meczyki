@@ -16,11 +16,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GameTypeType extends AbstractType
 {
-    private ImageListener $imageListener;
-
-    public function __construct(ImageListener $imageListener)
-    {
-        $this->imageListener = $imageListener;
+    public function __construct(
+        private readonly ImageListener $imageListener
+    ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void

@@ -12,21 +12,17 @@ use App\Repository\GameTypeRepository;
 
 final class GameTypeItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
-    private GameTypeRepository $repository;
-    private GameTypeFactory $factory;
-
-    public function __construct(GameTypeRepository $repository, GameTypeFactory $factory)
-    {
-        $this->repository = $repository;
-        $this->factory    = $factory;
+    public function __construct(
+        private readonly GameTypeRepository $repository,
+        private readonly GameTypeFactory $factory
+    ) {
     }
 
     public function supports(
         string $resourceClass,
         string $operationName = null,
         array $context = []
-    ): bool
-    {
+    ): bool {
         return GameTypeDto::class === $resourceClass;
     }
 
@@ -35,8 +31,7 @@ final class GameTypeItemDataProvider implements ItemDataProviderInterface, Restr
         $id,
         string $operationName = null,
         array $context = []
-    ): ?GameTypeDto
-    {
+    ): ?GameTypeDto {
         $gameType = $this->repository->find($id);
 
         return $gameType ? $this->factory->createDto($gameType) : null;

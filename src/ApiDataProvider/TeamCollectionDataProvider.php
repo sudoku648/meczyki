@@ -11,37 +11,27 @@ use App\Factory\TeamFactory;
 use App\PageView\TeamPageView;
 use App\Repository\ClubRepository;
 use App\Repository\TeamRepository;
+use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
+
+use function array_map;
 
 final class TeamCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
-    private int $mgApiItemsPerPage;
-    private ClubRepository $clubRepository;
-    private TeamRepository $repository;
-    private TeamFactory $factory;
-    private RequestStack $request;
-
     public function __construct(
-        int $mgApiItemsPerPage,
-        ClubRepository $clubRepository,
-        TeamRepository $repository,
-        TeamFactory $factory,
-        RequestStack $request
-    )
-    {
-        $this->mgApiItemsPerPage = $mgApiItemsPerPage;
-        $this->clubRepository    = $clubRepository;
-        $this->repository        = $repository;
-        $this->factory           = $factory;
-        $this->request           = $request;
+        private readonly int $mgApiItemsPerPage,
+        private readonly ClubRepository $clubRepository,
+        private readonly TeamRepository $repository,
+        private readonly TeamFactory $factory,
+        private readonly RequestStack $request
+    ) {
     }
 
     public function supports(
         string $resourceClass,
         string $operationName = null,
         array $context = []
-    ): bool
-    {
+    ): bool {
         return TeamDto::class === $resourceClass;
     }
 
@@ -49,8 +39,7 @@ final class TeamCollectionDataProvider implements ContextAwareCollectionDataProv
         string $resourceClass,
         string $operationName = null,
         array $context = []
-    ): iterable
-    {
+    ): iterable {
         try {
             $criteria = new TeamPageView(
                 (int) $this->request->getCurrentRequest()->get('page', 1)
@@ -60,17 +49,20 @@ final class TeamCollectionDataProvider implements ContextAwareCollectionDataProv
                 $criteria->club = $this->clubRepository->find($id);
             }
             $teams = $this->repository->findByCriteria($criteria);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return [];
         }
 
-        $dtos = \array_map(
-            fn($team) => $this->factory->createDto($team),
+        $dtos = array_map(
+            fn ($team) => $this->factory->createDto($team),
             (array) $teams->getCurrentPageResults()
         );
 
         return new DtoPaginator(
-            $dtos, 0, $this->mgApiItemsPerPage, $teams->getNbResults()
+            $dtos,
+            0,
+            $this->mgApiItemsPerPage,
+            $teams->getNbResults()
         );
     }
 }

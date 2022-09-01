@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\MatchGame;
 
 use App\Entity\MatchGame;
-use App\Message\Flash\MatchGame\MatchGameDeletedBatchFlashMessage;
-use App\Message\Flash\MatchGame\MatchGameDeletedFlashMessage;
-use App\Message\Flash\MatchGame\MatchGameNotAllDeletedBatchFlashMessage;
 use App\Repository\MatchGameRepository;
 use App\Security\Voter\MatchGameVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -23,7 +20,7 @@ class MatchGameDeleteController extends MatchGameAbstractController
 
         $this->validateCsrf('match_game_delete', $request->request->get('_token'));
 
-        $this->flash(new MatchGameDeletedFlashMessage($matchGame->getId()));
+        $this->addFlash('success', 'Mecz został usunięty.');
 
         $this->manager->delete($matchGame);
 
@@ -44,6 +41,7 @@ class MatchGameDeleteController extends MatchGameAbstractController
             if ($matchGame) {
                 if ($this->isGranted(MatchGameVoter::DELETE, $matchGame)) {
                     $this->manager->delete($matchGame);
+
                     continue;
                 }
 
@@ -52,9 +50,9 @@ class MatchGameDeleteController extends MatchGameAbstractController
         }
 
         if ($notAllDeleted) {
-            $this->flash(new MatchGameNotAllDeletedBatchFlashMessage(), 'warning');
+            $this->addFlash('warning', 'Nie wszystkie mecze zostały usunięte.');
         } else {
-            $this->flash(new MatchGameDeletedBatchFlashMessage());
+            $this->addFlash('success', 'Mecze zostały usunięte.');
         }
 
         return $this->redirectToMatchGamesList();

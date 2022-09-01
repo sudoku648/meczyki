@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller\MatchGameBill;
 
-use App\Entity\MatchGameBill;
 use App\Entity\MatchGame;
+use App\Entity\MatchGameBill;
 use App\Form\MatchGameBillType;
-use App\Message\Flash\MatchGameBill\MatchGameBillUpdatedFlashMessage;
 use App\Security\Voter\MatchGameBillVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,7 +52,7 @@ class MatchGameBillEditController extends MatchGameBillAbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $matchGameBill = $this->manager->edit($matchGameBill, $dto);
 
-            $this->flash(new MatchGameBillUpdatedFlashMessage($matchGameBill->getId()));
+            $this->addFlash('success', 'Rachunek meczowy został zaktualizowany.');
 
             return $this->redirectToRoute(
                 'match_game_bill_single',

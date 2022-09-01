@@ -12,21 +12,17 @@ use App\Repository\ClubRepository;
 
 final class ClubItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
-    private ClubRepository $repository;
-    private ClubFactory $factory;
-
-    public function __construct(ClubRepository $repository, ClubFactory $factory)
-    {
-        $this->repository = $repository;
-        $this->factory    = $factory;
+    public function __construct(
+        private readonly ClubRepository $repository,
+        private readonly ClubFactory $factory
+    ) {
     }
 
     public function supports(
         string $resourceClass,
         string $operationName = null,
         array $context = []
-    ): bool
-    {
+    ): bool {
         return ClubDto::class === $resourceClass;
     }
 
@@ -35,8 +31,7 @@ final class ClubItemDataProvider implements ItemDataProviderInterface, Restricte
         $id,
         string $operationName = null,
         array $context = []
-    ): ?ClubDto
-    {
+    ): ?ClubDto {
         $club = $this->repository->find($id);
 
         return $club ? $this->factory->createDto($club) : null;

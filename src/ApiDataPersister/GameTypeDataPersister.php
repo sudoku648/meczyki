@@ -12,19 +12,11 @@ use App\Service\GameTypeManager;
 
 final class GameTypeDataPersister implements ContextAwareDataPersisterInterface
 {
-    private GameTypeManager $manager;
-    private GameTypeFactory $factory;
-    private GameTypeRepository $repository;
-
     public function __construct(
-        GameTypeManager $manager,
-        GameTypeFactory $factory,
-        GameTypeRepository $repository
-    )
-    {
-        $this->manager    = $manager;
-        $this->factory    = $factory;
-        $this->repository = $repository;
+        private readonly GameTypeManager $manager,
+        private readonly GameTypeFactory $factory,
+        private readonly GameTypeRepository $repository
+    ) {
     }
 
     public function supports($data, array $context = []): bool

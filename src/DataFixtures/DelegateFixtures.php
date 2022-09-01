@@ -9,7 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class DelegateFixtures extends BaseFixture
 {
-    const DELEGATES_COUNT = 8;
+    public const DELEGATES_COUNT = 8;
 
     public function loadData(ObjectManager $manager): void
     {
@@ -25,19 +25,18 @@ class DelegateFixtures extends BaseFixture
 
             $manager->persist($newDelegate);
 
-            $this->addReference('delegate'.'_'.$index, $newDelegate);
+            $this->addReference('delegate' . '_' . $index, $newDelegate);
 
             $manager->flush();
         }
-
     }
 
     private function provideRandomDelegates(int $count = 1): iterable
     {
         for ($i = 0; $i < $count; $i++) {
             yield [
-                'firstName'   => $this->faker->firstNameMale,
-                'lastName'    => $this->faker->lastNameMale,
+                'firstName'   => $this->faker->firstNameMale(),
+                'lastName'    => $this->faker->lastNameMale(),
                 'mobilePhone' => null,
             ];
         }

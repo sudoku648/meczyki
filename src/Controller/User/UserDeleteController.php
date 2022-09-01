@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\User;
 
 use App\Entity\User;
-use App\Message\Flash\User\UserDeletedBatchFlashMessage;
-use App\Message\Flash\User\UserDeletedFlashMessage;
-use App\Message\Flash\User\UserNotAllDeletedBatchFlashMessage;
 use App\Repository\UserRepository;
 use App\Security\Voter\UserVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -23,7 +20,7 @@ class UserDeleteController extends UserAbstractController
 
         $this->validateCsrf('user_delete', $request->request->get('_token'));
 
-        $this->flash(new UserDeletedFlashMessage($user->getId()));
+        $this->addFlash('success', 'Użytkownik został usunięty.');
 
         $this->manager->delete($user);
 
@@ -44,6 +41,7 @@ class UserDeleteController extends UserAbstractController
             if ($user) {
                 if ($this->isGranted(UserVoter::DELETE, $user)) {
                     $this->manager->delete($user);
+
                     continue;
                 }
 
@@ -52,9 +50,9 @@ class UserDeleteController extends UserAbstractController
         }
 
         if ($notAllDeleted) {
-            $this->flash(new UserNotAllDeletedBatchFlashMessage(), 'warning');
+            $this->addFlash('warning', 'Nie wszyscy użytkownicy zostali usunięci.');
         } else {
-            $this->flash(new UserDeletedBatchFlashMessage());
+            $this->addFlash('success', 'Użytkownicy zostali usunięci.');
         }
 
         return $this->redirectToUsersList();

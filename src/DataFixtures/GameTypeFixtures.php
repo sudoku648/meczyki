@@ -7,9 +7,12 @@ namespace App\DataFixtures;
 use App\Entity\GameType;
 use Doctrine\Persistence\ObjectManager;
 
+use function mt_rand;
+use function ucfirst;
+
 class GameTypeFixtures extends BaseFixture
 {
-    const GAME_TYPES_COUNT = 13;
+    public const GAME_TYPES_COUNT = 13;
 
     public function loadData(ObjectManager $manager): void
     {
@@ -22,23 +25,22 @@ class GameTypeFixtures extends BaseFixture
 
             $manager->persist($newGameType);
 
-            $this->addReference('game_type'.'_'.$index, $newGameType);
+            $this->addReference('game_type' . '_' . $index, $newGameType);
 
             $manager->flush();
         }
-
     }
 
     private function provideRandomGameTypes(int $count = 1): iterable
     {
         for ($i = 0; $i < $count; $i++) {
-            $group = null;
-            $hasGroup = \mt_rand(0, 1);
+            $group    = null;
+            $hasGroup = mt_rand(0, 1);
             if ($hasGroup) {
-                $group = (string) \mt_rand(1, 8);
+                $group = (string) mt_rand(1, 8);
             }
             yield [
-                'name'  => \ucfirst($this->faker->word),
+                'name'  => ucfirst($this->faker->word()),
                 'group' => $group,
             ];
         }

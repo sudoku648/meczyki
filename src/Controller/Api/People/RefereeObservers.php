@@ -9,26 +9,19 @@ use App\Controller\AbstractController;
 use App\Factory\PersonFactory;
 use App\PageView\PersonPageView;
 use App\Repository\PersonRepository;
+use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
+
+use function array_map;
 
 class RefereeObservers extends AbstractController
 {
-    private int $mgApiItemsPerPage;
-    private PersonRepository $repository;
-    private PersonFactory $factory;
-    private RequestStack $request;
-
     public function __construct(
-        int $mgApiItemsPerPage,
-        PersonRepository $repository,
-        PersonFactory $factory,
-        RequestStack $request
-    )
-    {
-        $this->mgApiItemsPerPage = $mgApiItemsPerPage;
-        $this->repository        = $repository;
-        $this->factory           = $factory;
-        $this->request           = $request;
+        private readonly int $mgApiItemsPerPage,
+        private readonly PersonRepository $repository,
+        private readonly PersonFactory $factory,
+        private readonly RequestStack $request
+    ) {
     }
 
     public function __invoke()
@@ -42,17 +35,20 @@ class RefereeObservers extends AbstractController
             $refereeObservers = $this->repository->findByCriteria($criteria);
 
             $this->repository->hydrate(...$refereeObservers);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return [];
         }
 
-        $dtos = \array_map(
-            fn($refereeObserver) => $this->factory->createDto($refereeObserver),
+        $dtos = array_map(
+            fn ($refereeObserver) => $this->factory->createDto($refereeObserver),
             (array) $refereeObservers->getCurrentPageResults()
         );
 
         return new DtoPaginator(
-            $dtos, 0, $this->mgApiItemsPerPage, $refereeObservers->getNbResults()
+            $dtos,
+            0,
+            $this->mgApiItemsPerPage,
+            $refereeObservers->getNbResults()
         );
     }
 }

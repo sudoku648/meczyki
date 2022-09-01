@@ -18,11 +18,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PersonPersonalInfoType extends AbstractType
 {
-    private IbanTransformer $ibanTransformer;
-
-    public function __construct(IbanTransformer $ibanTransformer)
-    {
-        $this->ibanTransformer = $ibanTransformer;
+    public function __construct(
+        private readonly IbanTransformer $ibanTransformer
+    ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void

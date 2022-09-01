@@ -17,8 +17,7 @@ class ImageDto
         ?int $width = null,
         ?int $height = null,
         ?int $id = null
-    ): self
-    {
+    ): self {
         $this->id       = $id;
         $this->filePath = $filePath;
         $this->width    = $width;

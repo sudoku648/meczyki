@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\GameType;
 
 use App\Entity\GameType;
-use App\Message\Flash\GameType\GameTypeDeletedBatchFlashMessage;
-use App\Message\Flash\GameType\GameTypeDeletedFlashMessage;
-use App\Message\Flash\GameType\GameTypeNotAllDeletedBatchFlashMessage;
 use App\Repository\GameTypeRepository;
 use App\Security\Voter\GameTypeVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -23,7 +20,7 @@ class GameTypeDeleteController extends GameTypeAbstractController
 
         $this->validateCsrf('game_type_delete', $request->request->get('_token'));
 
-        $this->flash(new GameTypeDeletedFlashMessage($gameType->getId()));
+        $this->addFlash('success', 'Typ rozgrywek został usunięty.');
 
         $this->manager->delete($gameType);
 
@@ -44,6 +41,7 @@ class GameTypeDeleteController extends GameTypeAbstractController
             if ($gameType) {
                 if ($this->isGranted(GameTypeVoter::DELETE, $gameType)) {
                     $this->manager->delete($gameType);
+
                     continue;
                 }
 
@@ -52,9 +50,9 @@ class GameTypeDeleteController extends GameTypeAbstractController
         }
 
         if ($notAllDeleted) {
-            $this->flash(new GameTypeNotAllDeletedBatchFlashMessage(), 'warning');
+            $this->addFlash('warning', 'Nie wszystkie typy rozgrywek zostały usunięte.');
         } else {
-            $this->flash(new GameTypeDeletedBatchFlashMessage());
+            $this->addFlash('success', 'Typy rozgrywek zostały usunięte.');
         }
 
         return $this->redirectToGameTypesList();

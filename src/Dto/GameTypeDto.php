@@ -7,15 +7,16 @@ namespace App\Dto;
 use App\Entity\GameType;
 use App\Entity\Image;
 use App\Validator\UniqueEntity;
+use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[UniqueEntity(options: [
-    'entityClass' => GameType::class,
-    'errorPaths' => 'group',
-    'fields' => ['name', 'group'],
-    'idFields' => 'id',
+    'entityClass'             => GameType::class,
+    'errorPaths'              => 'group',
+    'fields'                  => ['name', 'group'],
+    'idFields'                => 'id',
     'nullComparisonForFields' => ['group'],
-    'message' => 'Rozgrywki mają już tę grupę.',
+    'message'                 => 'Rozgrywki mają już tę grupę.',
 ])]
 class GameTypeDto
 {
@@ -33,11 +34,11 @@ class GameTypeDto
 
     public Image|ImageDto|null $image = null;
 
-    public ?\DateTimeImmutable $createdAt = null;
+    public ?DateTimeImmutable $createdAt = null;
 
     public ?string $createdAtAgo = null;
 
-    public ?\DateTimeImmutable $updatedAt = null;
+    public ?DateTimeImmutable $updatedAt = null;
 
     public ?string $updatedAtAgo = null;
 

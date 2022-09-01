@@ -12,21 +12,17 @@ use App\Repository\UserRepository;
 
 final class UserItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
-    private UserRepository $repository;
-    private UserFactory $factory;
-
-    public function __construct(UserRepository $repository, UserFactory $factory)
-    {
-        $this->repository = $repository;
-        $this->factory    = $factory;
+    public function __construct(
+        private readonly UserRepository $repository,
+        private readonly UserFactory $factory
+    ) {
     }
 
     public function supports(
         string $resourceClass,
         string $operationName = null,
         array $context = []
-    ): bool
-    {
+    ): bool {
         return UserDto::class === $resourceClass;
     }
 
@@ -35,8 +31,7 @@ final class UserItemDataProvider implements ItemDataProviderInterface, Restricte
         $id,
         string $operationName = null,
         array $context = []
-    ): ?UserDto
-    {
+    ): ?UserDto {
         $user = $this->repository->find($id);
 
         return $user ? $this->factory->createDto($user) : null;

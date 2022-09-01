@@ -18,22 +18,12 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class ClubManager implements ContentManagerInterface
 {
-    private EventDispatcherInterface $dispatcher;
-    private EntityManagerInterface $entityManager;
-    private ClubFactory $factory;
-    private MessageBusInterface $bus;
-
     public function __construct(
-        EventDispatcherInterface $dispatcher,
-        EntityManagerInterface $entityManager,
-        ClubFactory $factory,
-        MessageBusInterface $bus
-    )
-    {
-        $this->dispatcher    = $dispatcher;
-        $this->entityManager = $entityManager;
-        $this->factory       = $factory;
-        $this->bus           = $bus;
+        private readonly EventDispatcherInterface $dispatcher,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ClubFactory $factory,
+        private readonly MessageBusInterface $bus
+    ) {
     }
 
     public function create(ClubDto $dto): Club

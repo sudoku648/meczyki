@@ -10,9 +10,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[UniqueEntity(options: [
     'entityClass' => UserRole::class,
-    'errorPaths' => 'name',
-    'fields' => ['name'],
-    'idFields' => 'id',
+    'errorPaths'  => 'name',
+    'fields'      => ['name'],
+    'idFields'    => 'id',
 ])]
 class UserRoleDto
 {

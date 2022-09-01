@@ -13,25 +13,24 @@ use App\Event\MatchGameBill\MatchGameBillUpdatedEvent;
 use App\Factory\MatchGameBillFactory;
 use App\Service\Contracts\ContentManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use NumberFormatter;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Webmozart\Assert\Assert;
 
+use function dirname;
+use function in_array;
+use function round;
+use function strlen;
+use function substr;
+
 class MatchGameBillManager implements ContentManagerInterface
 {
-    private EventDispatcherInterface $dispatcher;
-    private EntityManagerInterface $entityManager;
-    private MatchGameBillFactory $factory;
-
     public function __construct(
-        EventDispatcherInterface $dispatcher,
-        EntityManagerInterface $entityManager,
-        MatchGameBillFactory $factory
-    )
-    {
-        $this->dispatcher    = $dispatcher;
-        $this->entityManager = $entityManager;
-        $this->factory       = $factory;
+        private readonly EventDispatcherInterface $dispatcher,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly MatchGameBillFactory $factory
+    ) {
     }
 
     public function create(MatchGameBillDto $dto, Person $person): MatchGameBill
@@ -78,11 +77,11 @@ class MatchGameBillManager implements ContentManagerInterface
     public function generateXlsx(MatchGameBill $matchGameBill)
     {
         $matchGame = $matchGameBill->getMatchGame();
-        $person = $matchGameBill->getPerson();
+        $person    = $matchGameBill->getPerson();
 
-        $pathToBaseFile = \dirname(__DIR__).'/Resource/blank-bill.xlsx';
+        $pathToBaseFile = dirname(__DIR__) . '/Resource/blank-bill.xlsx';
 
-        $reader = IOFactory::createReaderForFile($pathToBaseFile);
+        $reader      = IOFactory::createReaderForFile($pathToBaseFile);
         $spreadsheet = $reader->load($pathToBaseFile);
 
         $sheet = $spreadsheet->getSheet(0);
@@ -94,9 +93,13 @@ class MatchGameBillManager implements ContentManagerInterface
         $sheet->setCellValue('BH11', $matchGame->getAwayTeam() ? $matchGame->getAwayTeam()->getFullName() : '');
 
         $function = '';
-        if ($person->isReferee())             $function = 'sędzia';
-        elseif ($person->isRefereeObserver()) $function = 'obserwator';
-        elseif ($person->isDelegate())        $function = 'delegat';
+        if ($person->isReferee()) {
+            $function = 'sędzia';
+        } elseif ($person->isRefereeObserver()) {
+            $function = 'obserwator';
+        } elseif ($person->isDelegate()) {
+            $function = 'delegat';
+        }
 
         $sheet->setCellValue('A14', $function);
         $sheet->setCellValue('AK14', $person->getLastName());
@@ -111,7 +114,7 @@ class MatchGameBillManager implements ContentManagerInterface
 
         $taxOffice = '';
         if ($person->getTaxOfficeName() && $person->getTaxOfficeAddress()) {
-            $taxOffice = $person->getTaxOfficeName().', '.$person->getTaxOfficeAddress();
+            $taxOffice = $person->getTaxOfficeName() . ', ' . $person->getTaxOfficeAddress();
         }
 
         $sheet->setCellValue('A23', $taxOffice);
@@ -121,7 +124,7 @@ class MatchGameBillManager implements ContentManagerInterface
             $startCol = 6;
             $colWidth = 4;
 
-            for ($i = 0; $i < \strlen($pesel); $i++) {
+            for ($i = 0; $i < strlen($pesel); $i++) {
                 $col = $startCol + $i * $colWidth;
                 $sheet->setCellValueByColumnAndRow($col, 26, $pesel[$i]);
             }
@@ -132,7 +135,7 @@ class MatchGameBillManager implements ContentManagerInterface
             $startCol = 70;
             $colWidth = 4;
 
-            for ($i = 0; $i < \strlen($nip); $i++) {
+            for ($i = 0; $i < strlen($nip); $i++) {
                 $col = $startCol + $i * $colWidth;
                 $sheet->setCellValueByColumnAndRow($col, 26, $nip[$i]);
             }
@@ -149,8 +152,8 @@ class MatchGameBillManager implements ContentManagerInterface
         $sheet->setCellValue('BQ46', $matchGameBill->getIncomeTax());
         $sheet->setCellValue('BQ48', $matchGameBill->getEquivalentToWithdraw());
 
-        $numberFormatter = new \NumberFormatter('pl', \NumberFormatter::SPELLOUT);
-        $amountInWords = $numberFormatter->format($matchGameBill->getEquivalentToWithdraw()).' zł 00/100';
+        $numberFormatter = new NumberFormatter('pl', NumberFormatter::SPELLOUT);
+        $amountInWords   = $numberFormatter->format($matchGameBill->getEquivalentToWithdraw()) . ' zł 00/100';
 
         $sheet->setCellValue('O49', $amountInWords);
 
@@ -158,12 +161,14 @@ class MatchGameBillManager implements ContentManagerInterface
         if ($iban) {
             $startCol = 3;
             $colWidth = 4;
-            $offset = 0;
+            $offset   = 0;
 
-            $bankAccountNumber = \substr($iban, 2);
+            $bankAccountNumber = substr($iban, 2);
 
-            for ($i = 0; $i < \strlen($bankAccountNumber); $i++) {
-                if (\in_array($i, [2, 6, 10, 14, 18, 22])) $offset++;
+            for ($i = 0; $i < strlen($bankAccountNumber); $i++) {
+                if (in_array($i, [2, 6, 10, 14, 18, 22])) {
+                    $offset++;
+                }
 
                 $col = $startCol + $i * $colWidth + $offset;
                 $sheet->setCellValueByColumnAndRow($col, 53, $bankAccountNumber[$i]);
@@ -176,7 +181,7 @@ class MatchGameBillManager implements ContentManagerInterface
         if ($email && $person->allowsToSendPitByEmail()) {
             $startCol = 3;
             $colWidth = 3;
-            $length = \strlen($email);
+            $length   = strlen($email);
 
             for ($col = $startCol; $col < $startCol + $length * $colWidth; $col = $col + $colWidth) {
                 $sheet->setCellValueByColumnAndRow($col, 56, $email[($col - $startCol) / $colWidth]);
@@ -210,11 +215,11 @@ class MatchGameBillManager implements ContentManagerInterface
 
     private function calculateValues(MatchGameBill $matchGameBill): MatchGameBill
     {
-        $grossEquivalent = (int) \round($matchGameBill->getBaseEquivalent() * $matchGameBill->getPercentOfBaseEquivalent() / 100, 0);
-        $taxDeductibleExpenses = (int) \round($grossEquivalent * $matchGameBill->getTaxDeductibleStakePercent() / 100, 0);
-        $taxationBase = $grossEquivalent - $taxDeductibleExpenses;
-        $incomeTax = (int) \round($taxationBase * $matchGameBill->getIncomeTaxStakePercent() / 100, 0);
-        $equivalentToWithdraw = $grossEquivalent - $incomeTax;
+        $grossEquivalent       = (int) round($matchGameBill->getBaseEquivalent() * $matchGameBill->getPercentOfBaseEquivalent() / 100, 0);
+        $taxDeductibleExpenses = (int) round($grossEquivalent * $matchGameBill->getTaxDeductibleStakePercent() / 100, 0);
+        $taxationBase          = $grossEquivalent - $taxDeductibleExpenses;
+        $incomeTax             = (int) round($taxationBase * $matchGameBill->getIncomeTaxStakePercent() / 100, 0);
+        $equivalentToWithdraw  = $grossEquivalent - $incomeTax;
 
         $matchGameBill
             ->setGrossEquivalent($grossEquivalent)

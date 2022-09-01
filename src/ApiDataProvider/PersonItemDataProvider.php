@@ -12,21 +12,17 @@ use App\Repository\PersonRepository;
 
 final class PersonItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
-    private PersonRepository $repository;
-    private PersonFactory $factory;
-
-    public function __construct(PersonRepository $repository, PersonFactory $factory)
-    {
-        $this->repository = $repository;
-        $this->factory    = $factory;
+    public function __construct(
+        private readonly PersonRepository $repository,
+        private readonly PersonFactory $factory
+    ) {
     }
 
     public function supports(
         string $resourceClass,
         string $operationName = null,
         array $context = []
-    ): bool
-    {
+    ): bool {
         return PersonDto::class === $resourceClass;
     }
 
@@ -35,8 +31,7 @@ final class PersonItemDataProvider implements ItemDataProviderInterface, Restric
         $id,
         string $operationName = null,
         array $context = []
-    ): ?PersonDto
-    {
+    ): ?PersonDto {
         $person = $this->repository->find($id);
 
         return $person ? $this->factory->createDto($person) : null;

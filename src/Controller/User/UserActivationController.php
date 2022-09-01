@@ -5,12 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\User;
 
 use App\Entity\User;
-use App\Message\Flash\User\UserActivatedBatchFlashMessage;
-use App\Message\Flash\User\UserActivatedFlashMessage;
-use App\Message\Flash\User\UserDeactivatedBatchFlashMessage;
-use App\Message\Flash\User\UserDeactivatedFlashMessage;
-use App\Message\Flash\User\UserNotAllActivatedBatchFlashMessage;
-use App\Message\Flash\User\UserNotAllDeactivatedBatchFlashMessage;
 use App\Repository\UserRepository;
 use App\Security\Voter\UserVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -28,7 +22,7 @@ class UserActivationController extends UserAbstractController
 
         $this->manager->activate($user);
 
-        $this->flash(new UserActivatedFlashMessage($user->getId()));
+        $this->addFlash('success', 'Użytkownik został aktywowany.');
 
         return $this->redirectToRefererOrHome($request);
     }
@@ -42,7 +36,7 @@ class UserActivationController extends UserAbstractController
 
         $this->manager->deactivate($user);
 
-        $this->flash(new UserDeactivatedFlashMessage($user->getId()));
+        $this->addFlash('success', 'Użytkownik został dezaktywowany.');
 
         return $this->redirectToRefererOrHome($request);
     }
@@ -61,6 +55,7 @@ class UserActivationController extends UserAbstractController
             if ($user) {
                 if ($this->isGranted(UserVoter::ACTIVATE, $user)) {
                     $this->manager->activate($user);
+
                     continue;
                 }
 
@@ -69,9 +64,9 @@ class UserActivationController extends UserAbstractController
         }
 
         if ($notAllActivated) {
-            $this->flash(new UserNotAllActivatedBatchFlashMessage(), 'warning');
+            $this->addFlash('warning', 'Nie wszyscy użytkownicy zostali aktywowani.');
         } else {
-            $this->flash(new UserActivatedBatchFlashMessage());
+            $this->addFlash('success', 'Użytkownicy zostali aktywowani.');
         }
 
         return $this->redirectToUsersList();
@@ -91,6 +86,7 @@ class UserActivationController extends UserAbstractController
             if ($user) {
                 if ($this->isGranted(UserVoter::DEACTIVATE, $user)) {
                     $this->manager->deactivate($user);
+
                     continue;
                 }
 
@@ -99,9 +95,9 @@ class UserActivationController extends UserAbstractController
         }
 
         if ($notAllDeactivated) {
-            $this->flash(new UserNotAllDeactivatedBatchFlashMessage(), 'warning');
+            $this->addFlash('warning', 'Nie wszyscy użytkownicy zostali dezaktywowani.');
         } else {
-            $this->flash(new UserDeactivatedBatchFlashMessage());
+            $this->addFlash('success', 'Użytkownicy zostali dezaktywowani.');
         }
 
         return $this->redirectToUsersList();

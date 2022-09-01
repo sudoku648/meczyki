@@ -11,15 +11,19 @@ use App\Validator\Pesel;
 use App\Validator\PolishMobilePhone;
 use App\Validator\PolishZipCode;
 use App\Validator\UniqueEntity;
+use DateTime;
+use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
+use function substr;
+
 #[UniqueEntity(options: [
     'entityClass' => Person::class,
-    'errorPaths' => 'mobilePhone',
-    'fields' => ['mobilePhone'],
-    'idFields' => 'id',
-    'message' => 'Wartość jest już wykorzystywana.',
+    'errorPaths'  => 'mobilePhone',
+    'fields'      => ['mobilePhone'],
+    'idFields'    => 'id',
+    'message'     => 'Wartość jest już wykorzystywana.',
 ])]
 class PersonDto
 {
@@ -51,7 +55,7 @@ class PersonDto
     #[Assert\Email()]
     public ?string $email = null;
 
-    public ?\DateTimeImmutable $dateOfBirth = null;
+    public ?DateTimeImmutable $dateOfBirth = null;
 
     #[Assert\Length(min: 2, max: 100)]
     public ?string $placeOfBirth = null;
@@ -96,11 +100,11 @@ class PersonDto
     #[Assert\Type('boolean')]
     public ?bool $allowsToSendPitByEmail = null;
 
-    public ?\DateTimeImmutable $createdAt = null;
+    public ?DateTimeImmutable $createdAt = null;
 
     public ?string $createdAtAgo = null;
 
-    public ?\DateTimeImmutable $updatedAt = null;
+    public ?DateTimeImmutable $updatedAt = null;
 
     public ?string $updatedAtAgo = null;
 
@@ -110,13 +114,12 @@ class PersonDto
     public function validateDateOfBirth(
         ExecutionContextInterface $context,
         $payload
-    )
-    {
+    ) {
         if (!$this->dateOfBirth) {
             return;
         }
 
-        if ($this->dateOfBirth > new \DateTime()) {
+        if ($this->dateOfBirth > new DateTime()) {
             $context->buildViolation('Data urodzenia nie może być z przyszłości.')
                 ->atPath('dateOfBirth')
                 ->addViolation();
@@ -127,8 +130,7 @@ class PersonDto
     public function validateDateOfBirthWithPesel(
         ExecutionContextInterface $context,
         $payload
-    )
-    {
+    ) {
         if (!$this->dateOfBirth || !$this->pesel) {
             return;
         }
@@ -144,17 +146,25 @@ class PersonDto
                 ->addViolation();
         }
 
-        if ($year >= 1800 && $year <= 1899) $month = $month + 80;
-        if ($year >= 2000 && $year <= 2099) $month = $month + 20;
-        if ($year >= 2100 && $year <= 2199) $month = $month + 40;
-        if ($year >= 2200 && $year <= 2299) $month = $month + 60;
+        if ($year >= 1800 && $year <= 1899) {
+            $month = $month + 80;
+        }
+        if ($year >= 2000 && $year <= 2099) {
+            $month = $month + 20;
+        }
+        if ($year >= 2100 && $year <= 2199) {
+            $month = $month + 40;
+        }
+        if ($year >= 2200 && $year <= 2299) {
+            $month = $month + 60;
+        }
 
         $month = (string) $month;
 
         if (
-            $yearShort !== \substr($this->pesel, 0, 2) ||
-            $month !== \substr($this->pesel, 2, 2) ||
-            $day !== \substr($this->pesel, 4, 2)
+            $yearShort !== substr($this->pesel, 0, 2) ||
+            $month !== substr($this->pesel, 2, 2) ||
+            $day !== substr($this->pesel, 4, 2)
         ) {
             $context->buildViolation('Pesel nie zgadza się z datą urodzenia.')
                 ->atPath('pesel')

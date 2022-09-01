@@ -10,34 +10,26 @@ use App\Dto\ClubDto;
 use App\Factory\ClubFactory;
 use App\PageView\ClubPageView;
 use App\Repository\ClubRepository;
+use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
+
+use function array_map;
 
 final class ClubCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
-    private int $mgApiItemsPerPage;
-    private ClubRepository $repository;
-    private ClubFactory $factory;
-    private RequestStack $request;
-
     public function __construct(
-        int $mgApiItemsPerPage,
-        ClubRepository $repository,
-        ClubFactory $factory,
-        RequestStack $request
-    )
-    {
-        $this->mgApiItemsPerPage = $mgApiItemsPerPage;
-        $this->repository        = $repository;
-        $this->factory           = $factory;
-        $this->request           = $request;
+        private readonly int $mgApiItemsPerPage,
+        private readonly ClubRepository $repository,
+        private readonly ClubFactory $factory,
+        private readonly RequestStack $request
+    ) {
     }
 
     public function supports(
         string $resourceClass,
         string $operationName = null,
         array $context = []
-    ): bool
-    {
+    ): bool {
         return ClubDto::class === $resourceClass;
     }
 
@@ -45,25 +37,27 @@ final class ClubCollectionDataProvider implements ContextAwareCollectionDataProv
         string $resourceClass,
         string $operationName = null,
         array $context = []
-    ): iterable
-    {
+    ): iterable {
         try {
             $criteria = new ClubPageView(
                 (int) $this->request->getCurrentRequest()->get('page', 1)
             );
 
             $clubs = $this->repository->findByCriteria($criteria);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return [];
         }
 
-        $dtos = \array_map(
-            fn($club) => $this->factory->createDto($club),
+        $dtos = array_map(
+            fn ($club) => $this->factory->createDto($club),
             (array) $clubs->getCurrentPageResults()
         );
 
         return new DtoPaginator(
-            $dtos, 0, $this->mgApiItemsPerPage, $clubs->getNbResults()
+            $dtos,
+            0,
+            $this->mgApiItemsPerPage,
+            $clubs->getNbResults()
         );
     }
 }

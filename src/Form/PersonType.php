@@ -15,11 +15,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PersonType extends AbstractType
 {
-    private PolishMobilePhoneTransformer $mobilePhoneTransformer;
-
-    public function __construct(PolishMobilePhoneTransformer $mobilePhoneTransformer)
-    {
-        $this->mobilePhoneTransformer = $mobilePhoneTransformer;
+    public function __construct(
+        private readonly PolishMobilePhoneTransformer $mobilePhoneTransformer
+    ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void

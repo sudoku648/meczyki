@@ -6,27 +6,30 @@ namespace App\Security\Voter;
 
 use App\Entity\Enums\PermissionEnum;
 use App\Entity\User;
+use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
+use function in_array;
+
 class UserVoter extends Voter
 {
-    const LIST             = 'user_list';
-    const CREATE           = 'user_create';
-    const SHOW             = 'user_show';
-    const EDIT             = 'user_edit';
-    const ACTIVATE         = 'user_activate';
-    const DEACTIVATE       = 'user_deactivate';
-    const ACTIVATE_BATCH   = 'user_activate_batch';
-    const DEACTIVATE_BATCH = 'user_deactivate_batch';
-    const DELETE           = 'user_delete';
-    const DELETE_BATCH     = 'user_delete_batch';
-    const IMPERSONATE      = 'user_impersonate';
-    const BIND_WITH_PERSON = 'user_bind_with_person';
+    public const LIST             = 'user_list';
+    public const CREATE           = 'user_create';
+    public const SHOW             = 'user_show';
+    public const EDIT             = 'user_edit';
+    public const ACTIVATE         = 'user_activate';
+    public const DEACTIVATE       = 'user_deactivate';
+    public const ACTIVATE_BATCH   = 'user_activate_batch';
+    public const DEACTIVATE_BATCH = 'user_deactivate_batch';
+    public const DELETE           = 'user_delete';
+    public const DELETE_BATCH     = 'user_delete_batch';
+    public const IMPERSONATE      = 'user_impersonate';
+    public const BIND_WITH_PERSON = 'user_bind_with_person';
 
     protected function supports(string $attribute, $subject): bool
     {
-        return \in_array(
+        return in_array(
             $attribute,
             [
                 self::LIST,
@@ -67,7 +70,7 @@ class UserVoter extends Voter
             case self::DELETE_BATCH:     return $this->canDeleteBatch($user);
             case self::IMPERSONATE:      return $this->canImpersonate($subject, $user);
             case self::BIND_WITH_PERSON: return $this->canBindWithPerson($user);
-            default:                     throw new \LogicException();
+            default:                     throw new LogicException();
         }
     }
 

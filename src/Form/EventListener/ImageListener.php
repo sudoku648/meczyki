@@ -12,11 +12,10 @@ use Symfony\Component\Form\FormEvents;
 final class ImageListener implements EventSubscriberInterface
 {
     private string $fieldName;
-    private ImageRepository $images;
 
-    public function __construct(ImageRepository $images)
-    {
-        $this->images = $images;
+    public function __construct(
+        private readonly ImageRepository $images
+    ) {
     }
 
     public static function getSubscribedEvents(): array

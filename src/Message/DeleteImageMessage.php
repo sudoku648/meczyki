@@ -6,11 +6,9 @@ namespace App\Message;
 
 class DeleteImageMessage
 {
-    private string $path;
-
-    public function __construct(string $path)
-    {
-        $this->path  = $path;
+    public function __construct(
+        private readonly string $path
+    ) {
     }
 
     public function getPath(): string

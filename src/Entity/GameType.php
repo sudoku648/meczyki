@@ -40,8 +40,7 @@ class GameType
         string $name,
         ?string $group,
         bool $isOfficial
-    )
-    {
+    ) {
         $this->name       = $name;
         $this->group      = $group;
         $this->isOfficial = $isOfficial;
@@ -99,7 +98,7 @@ class GameType
 
     public function getFullName(): string
     {
-        return $this->name.($this->group ? ' Grupa '.$this->group : '');
+        return $this->name . ($this->group ? ' Grupa ' . $this->group : '');
     }
 
     public function getId(): int

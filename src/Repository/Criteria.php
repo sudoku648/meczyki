@@ -6,10 +6,8 @@ namespace App\Repository;
 
 abstract class Criteria
 {
-    public int $page = 1;
-
-    public function __construct(int $page)
-    {
-        $this->page = $page;
+    public function __construct(
+        public int $page = 1
+    ) {
     }
 }

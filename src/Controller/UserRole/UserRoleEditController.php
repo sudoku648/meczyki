@@ -6,7 +6,6 @@ namespace App\Controller\UserRole;
 
 use App\Entity\UserRole;
 use App\Form\UserRoleType;
-use App\Message\Flash\UserRole\UserRoleUpdatedFlashMessage;
 use App\Security\Voter\UserRoleVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,7 +36,7 @@ class UserRoleEditController extends UserRoleAbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $userRole = $this->manager->edit($userRole, $dto);
 
-            $this->flash(new UserRoleUpdatedFlashMessage($userRole->getId()));
+            $this->addFlash('success', 'Rola użytkowników została zaktualizowana.');
 
             /** @var ClickableInterface $continueButton */
             $continueButton = $form->get('saveAndContinue');

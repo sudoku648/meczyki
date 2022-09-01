@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\User;
 
 use App\Form\UserCreateType;
-use App\Message\Flash\User\UserCreatedFlashMessage;
 use App\Security\Voter\UserVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,9 +26,9 @@ class UserCreateController extends UserAbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $dto = $form->getData();
 
-            $user = $this->manager->create($dto);
+            $this->manager->create($dto);
 
-            $this->flash(new UserCreatedFlashMessage($user->getId()));
+            $this->addFlash('success', 'Użytkownik został dodany.');
 
             /** @var ClickableInterface $continueButton */
             $continueButton = $form->get('saveAndContinue');

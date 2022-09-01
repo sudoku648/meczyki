@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\Club;
 
 use App\Entity\Club;
-use App\Message\Flash\Club\ClubDeletedBatchFlashMessage;
-use App\Message\Flash\Club\ClubDeletedFlashMessage;
-use App\Message\Flash\Club\ClubNotAllDeletedBatchFlashMessage;
 use App\Repository\ClubRepository;
 use App\Security\Voter\ClubVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -23,7 +20,7 @@ class ClubDeleteController extends ClubAbstractController
 
         $this->validateCsrf('club_delete', $request->request->get('_token'));
 
-        $this->flash(new ClubDeletedFlashMessage($club->getId()));
+        $this->addFlash('success', 'Klub został usunięty.');
 
         $this->manager->delete($club);
 
@@ -44,6 +41,7 @@ class ClubDeleteController extends ClubAbstractController
             if ($club) {
                 if ($this->isGranted(ClubVoter::DELETE, $club)) {
                     $this->manager->delete($club);
+
                     continue;
                 }
 
@@ -52,9 +50,9 @@ class ClubDeleteController extends ClubAbstractController
         }
 
         if ($notAllDeleted) {
-            $this->flash(new ClubNotAllDeletedBatchFlashMessage(), 'warning');
+            $this->addFlash('warning', 'Nie wszystkie kluby zostały usunięte.');
         } else {
-            $this->flash(new ClubDeletedBatchFlashMessage());
+            $this->addFlash('success', 'Kluby zostały usunięte.');
         }
 
         return $this->redirectToClubsList();

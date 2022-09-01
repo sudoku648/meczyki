@@ -10,34 +10,26 @@ use App\Dto\UserDto;
 use App\Factory\UserFactory;
 use App\PageView\UserPageView;
 use App\Repository\UserRepository;
+use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
+
+use function array_map;
 
 final class UserCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
-    private int $mgApiItemsPerPage;
-    private UserRepository $repository;
-    private UserFactory $factory;
-    private RequestStack $request;
-
     public function __construct(
-        int $mgApiItemsPerPage,
-        UserRepository $repository,
-        UserFactory $factory,
-        RequestStack $request
-    )
-    {
-        $this->mgApiItemsPerPage = $mgApiItemsPerPage;
-        $this->repository        = $repository;
-        $this->factory           = $factory;
-        $this->request           = $request;
+        private readonly int $mgApiItemsPerPage,
+        private readonly UserRepository $repository,
+        private readonly UserFactory $factory,
+        private readonly RequestStack $request
+    ) {
     }
 
     public function supports(
         string $resourceClass,
         string $operationName = null,
         array $context = []
-    ): bool
-    {
+    ): bool {
         return UserDto::class === $resourceClass;
     }
 
@@ -45,25 +37,27 @@ final class UserCollectionDataProvider implements ContextAwareCollectionDataProv
         string $resourceClass,
         string $operationName = null,
         array $context = []
-    ): iterable
-    {
+    ): iterable {
         try {
             $criteria = new UserPageView(
                 (int) $this->request->getCurrentRequest()->get('page', 1)
             );
 
             $users = $this->repository->findByCriteria($criteria);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return [];
         }
 
-        $dtos = \array_map(
-            fn($user) => $this->factory->createDto($user),
+        $dtos = array_map(
+            fn ($user) => $this->factory->createDto($user),
             (array) $users->getCurrentPageResults()
         );
 
         return new DtoPaginator(
-            $dtos, 0, $this->mgApiItemsPerPage, $users->getNbResults()
+            $dtos,
+            0,
+            $this->mgApiItemsPerPage,
+            $users->getNbResults()
         );
     }
 }

@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Entity\Enums;
 
+use LogicException;
+
+use function sprintf;
+
 enum PermissionEnum: string
 {
     case MANAGE_CLUBS       = 'manage_clubs';
@@ -20,8 +24,8 @@ enum PermissionEnum: string
             self::MANAGE_MATCH_GAMES => 'Zarządzanie meczami',
             self::MANAGE_PEOPLE      => 'Zarządzanie osobami',
             self::MANAGE_USERS       => 'Zarządzanie użytkownikami',
-            default                  => throw new \LogicException(
-                \sprintf(
+            default                  => throw new LogicException(
+                sprintf(
                     'Permission "%s" has no label.',
                     $this->name
                 )

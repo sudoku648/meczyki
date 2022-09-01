@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class GameTypeRepository extends ServiceEntityRepository
 {
-    const PER_PAGE = 10;
+    private const PER_PAGE = 10;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -36,8 +36,7 @@ class GameTypeRepository extends ServiceEntityRepository
         array $search,
         array $columns,
         ?string $otherConditions = null
-    ): array
-    {
+    ): array {
         $query = $this->createQueryBuilder('gameType');
 
         $countQuery = $this->createQueryBuilder('gameType');
@@ -53,38 +52,41 @@ class GameTypeRepository extends ServiceEntityRepository
 
         if ($search['value'] != '') {
             $query->andWhere(
-                '(gameType.group IS NULL AND gameType.name LIKE :search)'.
-                ' OR '.
+                '(gameType.group IS NULL AND gameType.name LIKE :search)' .
+                ' OR ' .
                 '(CONCAT(gameType.name, \' Grupa \', gameType.group) LIKE :search)'
             );
-            $query->setParameter('search', '%'.$search['value'].'%');
+            $query->setParameter('search', '%' . $search['value'] . '%');
         }
 
         foreach ($columns as $colKey => $column) {
             if ($column['search']['value'] != '') {
-                $searchItem = $column['search']['value'];
+                $searchItem  = $column['search']['value'];
                 $searchQuery = null;
 
                 switch ($column['name']) {
                     case 'name':
-                    {
-                        $searchQuery = '(gameType.group IS NULL AND gameType.name LIKE :item_'.$colKey.')';
-                        $searchQuery .= ' OR ';
-                        $searchQuery .= '(CONCAT(gameType.name, \' Grupa \', gameType.group) LIKE :item_'.$colKey.')';
-                        break;
-                    }
+                        {
+                            $searchQuery = '(gameType.group IS NULL AND gameType.name LIKE :item_' . $colKey . ')';
+                            $searchQuery .= ' OR ';
+                            $searchQuery .= '(CONCAT(gameType.name, \' Grupa \', gameType.group) LIKE :item_' . $colKey . ')';
+
+                            break;
+                        }
                 }
 
                 if ($searchQuery !== null) {
                     $query->andWhere($searchQuery);
-                    $query->setParameter('item_'.$colKey, '%'.$searchItem.'%');
+                    $query->setParameter('item_' . $colKey, '%' . $searchItem . '%');
                     $countQuery->andWhere($searchQuery);
-                    $countQuery->setParameter('item_'.$colKey, '%'.$searchItem.'%');
+                    $countQuery->setParameter('item_' . $colKey, '%' . $searchItem . '%');
                 }
             }
         }
 
-        if ($length < 0) $length = null;
+        if ($length < 0) {
+            $length = null;
+        }
 
         $query->setFirstResult($start)->setMaxResults($length);
 
@@ -94,10 +96,11 @@ class GameTypeRepository extends ServiceEntityRepository
 
                 switch ($order['name']) {
                     case 'name':
-                    {
-                        $orderColumn = 'gameType.name';
-                        break;
-                    }
+                        {
+                            $orderColumn = 'gameType.name';
+
+                            break;
+                        }
                 }
 
                 if ($orderColumn !== null) {
@@ -109,7 +112,7 @@ class GameTypeRepository extends ServiceEntityRepository
         $query->addOrderBy('gameType.name', 'ASC');
         $query->addOrderBy('gameType.group + 0', 'ASC');
 
-        $results = $query->getQuery()->getResult();
+        $results     = $query->getQuery()->getResult();
         $countResult = $countQuery->getQuery()->getSingleScalarResult();
 
         return [

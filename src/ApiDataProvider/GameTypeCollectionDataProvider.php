@@ -10,34 +10,26 @@ use App\Dto\GameTypeDto;
 use App\Factory\GameTypeFactory;
 use App\PageView\GameTypePageView;
 use App\Repository\GameTypeRepository;
+use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
+
+use function array_map;
 
 final class GameTypeCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
-    private int $mgApiItemsPerPage;
-    private GameTypeRepository $repository;
-    private GameTypeFactory $factory;
-    private RequestStack $request;
-
     public function __construct(
-        int $mgApiItemsPerPage,
-        GameTypeRepository $repository,
-        GameTypeFactory $factory,
-        RequestStack $request
-    )
-    {
-        $this->mgApiItemsPerPage = $mgApiItemsPerPage;
-        $this->repository        = $repository;
-        $this->factory           = $factory;
-        $this->request           = $request;
+        private readonly int $mgApiItemsPerPage,
+        private readonly GameTypeRepository $repository,
+        private readonly GameTypeFactory $factory,
+        private readonly RequestStack $request
+    ) {
     }
 
     public function supports(
         string $resourceClass,
         string $operationName = null,
         array $context = []
-    ): bool
-    {
+    ): bool {
         return GameTypeDto::class === $resourceClass;
     }
 
@@ -45,25 +37,27 @@ final class GameTypeCollectionDataProvider implements ContextAwareCollectionData
         string $resourceClass,
         string $operationName = null,
         array $context = []
-    ): iterable
-    {
+    ): iterable {
         try {
             $criteria = new GameTypePageView(
                 (int) $this->request->getCurrentRequest()->get('page', 1)
             );
 
             $gameTypes = $this->repository->findByCriteria($criteria);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return [];
         }
 
-        $dtos = \array_map(
-            fn($gameType) => $this->factory->createDto($gameType),
+        $dtos = array_map(
+            fn ($gameType) => $this->factory->createDto($gameType),
             (array) $gameTypes->getCurrentPageResults()
         );
 
         return new DtoPaginator(
-            $dtos, 0, $this->mgApiItemsPerPage, $gameTypes->getNbResults()
+            $dtos,
+            0,
+            $this->mgApiItemsPerPage,
+            $gameTypes->getNbResults()
         );
     }
 }

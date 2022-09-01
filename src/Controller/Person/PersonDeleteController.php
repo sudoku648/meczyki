@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\Person;
 
 use App\Entity\Person;
-use App\Message\Flash\Person\PersonDeletedBatchFlashMessage;
-use App\Message\Flash\Person\PersonDeletedFlashMessage;
-use App\Message\Flash\Person\PersonNotAllDeletedBatchFlashMessage;
 use App\Repository\PersonRepository;
 use App\Security\Voter\PersonVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -23,7 +20,7 @@ class PersonDeleteController extends PersonAbstractController
 
         $this->validateCsrf('person_delete', $request->request->get('_token'));
 
-        $this->flash(new PersonDeletedFlashMessage($person->getId()));
+        $this->addFlash('success', 'Osoba została usunięta.');
 
         $this->manager->delete($person);
 
@@ -44,6 +41,7 @@ class PersonDeleteController extends PersonAbstractController
             if ($person) {
                 if ($this->isGranted(PersonVoter::DELETE, $person)) {
                     $this->manager->delete($person);
+
                     continue;
                 }
 
@@ -52,9 +50,9 @@ class PersonDeleteController extends PersonAbstractController
         }
 
         if ($notAllDeleted) {
-            $this->flash(new PersonNotAllDeletedBatchFlashMessage(), 'warning');
+            $this->addFlash('warning', 'Nie wszystkie osoby zostały usunięte.');
         } else {
-            $this->flash(new PersonDeletedBatchFlashMessage());
+            $this->addFlash('success', 'Osoby zostały usunięte.');
         }
 
         return $this->redirectToPeopleList();

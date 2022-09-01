@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\Person;
 
 use App\Form\PersonPersonalInfoType;
-use App\Message\Flash\Person\PersonPersonalInfoUpdatedFlashMessage;
 use App\Security\Voter\PersonVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,7 +33,7 @@ class PersonPersonalInfoEditController extends PersonAbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $person = $this->manager->editPersonalInfo($person, $dto);
 
-            $this->flash(new PersonPersonalInfoUpdatedFlashMessage($person->getId()));
+            $this->addFlash('success', 'Dane osobowe zostały zaktualizowane.');
 
             return $this->redirectToRoute(
                 'person_personal_info_edit',

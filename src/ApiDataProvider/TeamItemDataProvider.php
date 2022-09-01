@@ -12,21 +12,17 @@ use App\Repository\TeamRepository;
 
 final class TeamItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
-    private TeamRepository $repository;
-    private TeamFactory $factory;
-
-    public function __construct(TeamRepository $repository, TeamFactory $factory)
-    {
-        $this->repository = $repository;
-        $this->factory    = $factory;
+    public function __construct(
+        private readonly TeamRepository $repository,
+        private readonly TeamFactory $factory
+    ) {
     }
 
     public function supports(
         string $resourceClass,
         string $operationName = null,
         array $context = []
-    ): bool
-    {
+    ): bool {
         return TeamDto::class === $resourceClass;
     }
 
@@ -35,8 +31,7 @@ final class TeamItemDataProvider implements ItemDataProviderInterface, Restricte
         $id,
         string $operationName = null,
         array $context = []
-    ): ?TeamDto
-    {
+    ): ?TeamDto {
         $team = $this->repository->find($id);
 
         return $team ? $this->factory->createDto($team) : null;

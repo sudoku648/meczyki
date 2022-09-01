@@ -10,34 +10,26 @@ use App\Dto\PersonDto;
 use App\Factory\PersonFactory;
 use App\PageView\PersonPageView;
 use App\Repository\PersonRepository;
+use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
+
+use function array_map;
 
 final class PersonCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
-    private int $mgApiItemsPerPage;
-    private PersonRepository $repository;
-    private PersonFactory $factory;
-    private RequestStack $request;
-
     public function __construct(
-        int $mgApiItemsPerPage,
-        PersonRepository $repository,
-        PersonFactory $factory,
-        RequestStack $request
-    )
-    {
-        $this->mgApiItemsPerPage = $mgApiItemsPerPage;
-        $this->repository        = $repository;
-        $this->factory           = $factory;
-        $this->request           = $request;
+        private readonly int $mgApiItemsPerPage,
+        private readonly PersonRepository $repository,
+        private readonly PersonFactory $factory,
+        private readonly RequestStack $request
+    ) {
     }
 
     public function supports(
         string $resourceClass,
         string $operationName = null,
         array $context = []
-    ): bool
-    {
+    ): bool {
         return PersonDto::class === $resourceClass;
     }
 
@@ -45,8 +37,7 @@ final class PersonCollectionDataProvider implements ContextAwareCollectionDataPr
         string $resourceClass,
         string $operationName = null,
         array $context = []
-    ): iterable
-    {
+    ): iterable {
         try {
             $criteria = new PersonPageView(
                 (int) $this->request->getCurrentRequest()->get('page', 1)
@@ -63,17 +54,20 @@ final class PersonCollectionDataProvider implements ContextAwareCollectionDataPr
             }
 
             $people = $this->repository->findByCriteria($criteria);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return [];
         }
 
-        $dtos = \array_map(
-            fn($person) => $this->factory->createDto($person),
+        $dtos = array_map(
+            fn ($person) => $this->factory->createDto($person),
             (array) $people->getCurrentPageResults()
         );
 
         return new DtoPaginator(
-            $dtos, 0, $this->mgApiItemsPerPage, $people->getNbResults()
+            $dtos,
+            0,
+            $this->mgApiItemsPerPage,
+            $people->getNbResults()
         );
     }
 }

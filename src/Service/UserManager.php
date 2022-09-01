@@ -13,6 +13,7 @@ use App\Event\User\UserDeletedEvent;
 use App\Event\User\UserUnbindWithPersonEvent;
 use App\Factory\UserFactory;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -20,28 +21,14 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class UserManager
 {
-    private EventDispatcherInterface $dispatcher;
-    private UserFactory $factory;
-    private UserPasswordHasherInterface $passwordHasher;
-    private TokenStorageInterface $tokenStorage;
-    private RequestStack $requestStack;
-    private EntityManagerInterface $entityManager;
-
     public function __construct(
-        EventDispatcherInterface $dispatcher,
-        UserFactory $factory,
-        UserPasswordHasherInterface $passwordHasher,
-        TokenStorageInterface $tokenStorage,
-        RequestStack $requestStack,
-        EntityManagerInterface $entityManager
-    )
-    {
-        $this->dispatcher     = $dispatcher;
-        $this->factory        = $factory;
-        $this->passwordHasher = $passwordHasher;
-        $this->tokenStorage   = $tokenStorage;
-        $this->requestStack   = $requestStack;
-        $this->entityManager  = $entityManager;
+        private readonly EventDispatcherInterface $dispatcher,
+        private readonly UserFactory $factory,
+        private readonly UserPasswordHasherInterface $passwordHasher,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly RequestStack $requestStack,
+        private readonly EntityManagerInterface $entityManager
+    ) {
     }
 
     public function create(UserDto $dto, bool $isSuperAdmin = false): User
@@ -50,7 +37,7 @@ class UserManager
         $user->setOrRemoveSuperAdminRole(!$isSuperAdmin);
 
         $user->setPassword($this->passwordHasher->hashPassword($user, $dto->plainPassword));
-        
+
         foreach ($dto->userRoles as $userRole) {
             $user->addUserRole($userRole);
         }
@@ -78,8 +65,9 @@ class UserManager
 
             $this->entityManager->flush();
             $this->entityManager->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->entityManager->rollback();
+
             throw $e;
         }
 

@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Controller\GameType;
 
 use App\Entity\GameType;
-use App\Message\Flash\GameType\GameTypeDeletedImageFlashMessage;
 use App\Security\Voter\GameTypeVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
+use function str_replace;
 
 class GameTypeDeleteImageController extends GameTypeAbstractController
 {
@@ -22,15 +23,13 @@ class GameTypeDeleteImageController extends GameTypeAbstractController
         $this->manager->detachImage($gameType);
 
         if ($request->isXmlHttpRequest()) {
-            $flash = new GameTypeDeletedImageFlashMessage($gameType->getId());
-
-            $message = \str_replace(
+            $message = str_replace(
                 ["\r\n", "\n", "\r", '"'],
                 [' ', ' ', ' ', "'"],
                 $this->renderView(
                     '_flash_alert.html.twig',
                     [
-                        'message' => $flash->getMessage(),
+                        'message' => 'Obrazek został usunięty.',
                         'label'   => 'success',
                     ]
                 )

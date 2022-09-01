@@ -47,11 +47,11 @@ trait PersonTrait
 
     public function getFullName(): string
     {
-        return $this->lastName.' '.$this->firstName;
+        return $this->lastName . ' ' . $this->firstName;
     }
 
     public function getFullNameInversed(): string
     {
-        return $this->firstName.' '.$this->lastName;
+        return $this->firstName . ' ' . $this->lastName;
     }
 }

@@ -17,19 +17,11 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class PersonManager implements ContentManagerInterface
 {
-    private EventDispatcherInterface $dispatcher;
-    private EntityManagerInterface $entityManager;
-    private PersonFactory $factory;
-
     public function __construct(
-        EventDispatcherInterface $dispatcher,
-        EntityManagerInterface $entityManager,
-        PersonFactory $factory
-    )
-    {
-        $this->dispatcher    = $dispatcher;
-        $this->entityManager = $entityManager;
-        $this->factory       = $factory;
+        private readonly EventDispatcherInterface $dispatcher,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly PersonFactory $factory
+    ) {
     }
 
     public function create(PersonDto $dto): Person
