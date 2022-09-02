@@ -15,6 +15,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use function array_unique;
+use function in_array;
+use function is_null;
+
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -45,15 +49,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $userRoles;
 
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[ORM\Column(type: Types::INTEGER)]
-    private int $id;
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[ORM\Column(type: Types::GUID)]
+    private string $id;
 
     public function __construct(
         string $username,
         string $password
-    )
-    {
+    ) {
         $this->password  = $password;
         $this->username  = $username;
         $this->userRoles = new ArrayCollection();
@@ -99,7 +103,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function isPerson(): bool
     {
-        return !\is_null($this->person);
+        return !is_null($this->person);
     }
 
     public function getPerson(): ?Person
@@ -113,7 +117,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
-        return \array_unique($roles);
+        return array_unique($roles);
     }
 
     public function setRoles(array $roles): self
@@ -136,7 +140,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function isSuperAdmin(): bool
     {
-        return \in_array('ROLE_SUPER_ADMIN', $this->getRoles());
+        return in_array('ROLE_SUPER_ADMIN', $this->getRoles());
     }
 
     public function getUserRoles(): Collection
@@ -163,7 +167,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function isGranted(PermissionEnum $permission): bool
     {
         foreach ($this->userRoles as $role) {
-            if (\in_array($permission, $role->getPermissions())) return true;
+            if (in_array($permission, $role->getPermissions())) {
+                return true;
+            }
         }
 
         return false;
@@ -205,7 +211,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->username;
     }
 
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }

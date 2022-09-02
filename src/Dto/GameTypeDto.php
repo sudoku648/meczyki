@@ -20,6 +20,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 ])]
 class GameTypeDto
 {
+    private ?string $id = null;
+
     #[Assert\NotBlank()]
     #[Assert\Length(min: 2, max: 150)]
     public ?string $name = null;
@@ -42,14 +44,12 @@ class GameTypeDto
 
     public ?string $updatedAtAgo = null;
 
-    private ?int $id = null;
-
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
 
-    public function setId(int $id): void
+    public function setId(string $id): void
     {
         $this->id = $id;
     }

@@ -54,9 +54,10 @@ class MatchGameBill
     private int $equivalentToWithdraw;
 
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[ORM\Column(type: Types::INTEGER)]
-    private int $id;
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[ORM\Column(type: Types::GUID)]
+    private string $id;
 
     public function __construct(
         Person $person,
@@ -208,7 +209,7 @@ class MatchGameBill
         return $this;
     }
 
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }

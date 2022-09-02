@@ -87,9 +87,10 @@ class MatchGame
     private Collection $matchGameBills;
 
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[ORM\Column(type: Types::INTEGER)]
-    private int $id;
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[ORM\Column(type: Types::GUID)]
+    private string $id;
 
     public function __construct(
         User $user,
@@ -392,7 +393,7 @@ class MatchGame
         ;
     }
 
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }

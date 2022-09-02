@@ -28,6 +28,7 @@ return (new PhpCsFixer\Config())
         ],
         'concat_space'                    => ['spacing' => 'one'],
         'declare_equal_normalize'         => true,
+        'declare_strict_types'            => true,
         'function_typehint_space'         => true,
         'single_line_comment_style'       => ['comment_types' => ['hash']],
         'include'                         => true,

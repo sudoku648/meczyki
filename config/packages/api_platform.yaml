@@ -8,5 +8,5 @@ api_platform:
     swagger:
         versions: [3]
     formats:
-        html:   ['text/html']
+        json:   ['application/json']
         jsonld: ['application/ld+json']

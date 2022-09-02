@@ -23,6 +23,8 @@ use function get_object_vars;
 
 class MatchGameDto
 {
+    private ?string $id = null;
+
     public User|UserDto|null $user = null;
 
     #[Assert\NotBlank()]
@@ -72,8 +74,6 @@ class MatchGameDto
     public ?DateTimeImmutable $updatedAt = null;
 
     public ?string $updatedAtAgo = null;
-
-    private ?int $id = null;
 
     #[Assert\Callback]
     public function validateSeasonWithDate(
@@ -176,12 +176,12 @@ class MatchGameDto
         return $years;
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
 
-    public function setId(int $id): void
+    public function setId(string $id): void
     {
         $this->id = $id;
     }

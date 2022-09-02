@@ -142,7 +142,8 @@ final class ApiEventSubscriber implements EventSubscriberInterface
 
     private function team(TeamDto $dto): void
     {
-        $dto->club = $dto->club ? $this->clubFactory->createDto($dto->club) : null;
+        $dto->club         = $dto->club ? $this->clubFactory->createDto($dto->club) : null;
+        $dto->club->emblem = $dto->club->emblem ? $this->imageFactory->createDto($dto->club->emblem) : null;
     }
 
     private function user(UserDto $dto): void

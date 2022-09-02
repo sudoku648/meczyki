@@ -11,6 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class MatchGameBillDto
 {
+    private ?string $id = null;
+
     public Person|PersonDto|null $person = null;
 
     public MatchGame|MatchGameDto|null $matchGame = null;
@@ -39,14 +41,12 @@ class MatchGameBillDto
 
     public ?string $updatedAtAgo = null;
 
-    private ?int $id = null;
-
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
 
-    public function setId(int $id): void
+    public function setId(string $id): void
     {
         $this->id = $id;
     }

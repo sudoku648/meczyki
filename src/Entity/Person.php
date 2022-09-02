@@ -9,6 +9,7 @@ use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\PersonTrait;
 use App\Entity\Traits\UpdatedAtTrait;
 use App\Repository\PersonRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -25,7 +26,7 @@ class Person
         PersonTrait::__construct as personTraitConstruct;
     }
 
-    #[ORM\Column(type: Types::STRING, length: 12, unique: true, nullable: true, options: ['default' => null,])]
+    #[ORM\Column(type: Types::STRING, length: 12, unique: true, nullable: true, options: ['default' => null, ])]
     private ?string $mobilePhone;
 
     #[ORM\Column(type: Types::BOOLEAN)]
@@ -41,7 +42,7 @@ class Person
     private ?string $email = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
-    private ?\DateTimeImmutable $dateOfBirth = null;
+    private ?DateTimeImmutable $dateOfBirth = null;
 
     #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
     private ?string $placeOfBirth = null;
@@ -89,9 +90,10 @@ class Person
     private Collection $matchGameBills;
 
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[ORM\Column(type: Types::INTEGER)]
-    private int $id;
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[ORM\Column(type: Types::GUID)]
+    private string $id;
 
     public function __construct(
         string $firstName,
@@ -100,8 +102,7 @@ class Person
         ?bool $isDelegate = null,
         ?bool $isReferee = null,
         ?bool $isRefereeObserver = null
-    )
-    {
+    ) {
         $this->mobilePhone       = $mobilePhone;
         $this->isDelegate        = $isDelegate ?? false;
         $this->isReferee         = $isReferee ?? false;
@@ -173,12 +174,12 @@ class Person
         return $this;
     }
 
-    public function getDateOfBirth(): ?\DateTimeImmutable
+    public function getDateOfBirth(): ?DateTimeImmutable
     {
         return $this->dateOfBirth;
     }
 
-    public function setDateOfBirth(?\DateTimeImmutable $date): self
+    public function setDateOfBirth(?DateTimeImmutable $date): self
     {
         $this->dateOfBirth = $date;
 
@@ -253,15 +254,15 @@ class Person
             $address .= $this->addressTown;
         }
         if ($this->addressStreet) {
-            $address .= '' !== $address ? ', '.$this->addressStreet : $this->addressStreet;
+            $address .= '' !== $address ? ', ' . $this->addressStreet : $this->addressStreet;
         }
         if ($this->addressZipCode) {
-            $address .= '' !== $address ? ', '.$this->addressZipCode : $this->addressZipCode;
+            $address .= '' !== $address ? ', ' . $this->addressZipCode : $this->addressZipCode;
         }
         if ($this->addressPostOffice && $this->addressZipCode) {
             $address .= $this->addressPostOffice;
         } else {
-            $address .= '' !== $address ? ', '.$this->addressPostOffice : $this->addressPostOffice;
+            $address .= '' !== $address ? ', ' . $this->addressPostOffice : $this->addressPostOffice;
         }
 
         return $address;
@@ -408,25 +409,25 @@ class Person
     public function isInMatchGame(MatchGame $matchGame): bool
     {
         return
-            $matchGame->getReferee()                === $this ||
-            $matchGame->getFirstAssistantReferee()  === $this ||
+            $matchGame->getReferee() === $this ||
+            $matchGame->getFirstAssistantReferee() === $this ||
             $matchGame->getSecondAssistantReferee() === $this ||
-            $matchGame->getFourthOfficial()         === $this ||
-            $matchGame->getDelegate()               === $this ||
-            $matchGame->getRefereeObserver()        === $this
+            $matchGame->getFourthOfficial() === $this ||
+            $matchGame->getDelegate() === $this ||
+            $matchGame->getRefereeObserver() === $this
         ;
     }
 
     public function hasBillForMatchGame(MatchGame $matchGame): bool
     {
-        $bills = $this->matchGameBills->filter(function($element) use ($matchGame) {
+        $bills = $this->matchGameBills->filter(function ($element) use ($matchGame) {
             return $element->getMatchGame() === $matchGame;
         });
 
         return !$bills->isEmpty();
     }
 
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }

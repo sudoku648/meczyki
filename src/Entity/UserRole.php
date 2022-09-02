@@ -26,16 +26,17 @@ class UserRole
     #[ORM\Column(type: Types::STRING, length: 180, unique: true)]
     private string $name;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(type: Types::JSON, nullable: true)]
     private array $permissions = [];
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'userRoles')]
     private Collection $users;
 
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[ORM\Column(type: Types::INTEGER)]
-    private int $id;
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[ORM\Column(type: Types::GUID)]
+    private string $id;
 
     public function __construct(
         string $name,
@@ -104,7 +105,7 @@ class UserRole
         return $this;
     }
 
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }

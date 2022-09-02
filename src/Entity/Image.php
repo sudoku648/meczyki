@@ -26,9 +26,10 @@ class Image
     private ?int $height;
 
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[ORM\Column(type: Types::INTEGER)]
-    private int $id;
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[ORM\Column(type: Types::GUID)]
+    private string $id;
 
     public function __construct(
         string $fileName,
@@ -80,7 +81,7 @@ class Image
         return $this->height;
     }
 
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }

@@ -27,6 +27,8 @@ use function substr;
 ])]
 class PersonDto
 {
+    private ?string $id = null;
+
     #[Assert\NotBlank()]
     #[Assert\Length(min: 2, max: 100)]
     public ?string $firstName = null;
@@ -108,8 +110,6 @@ class PersonDto
 
     public ?string $updatedAtAgo = null;
 
-    private ?int $id = null;
-
     #[Assert\Callback]
     public function validateDateOfBirth(
         ExecutionContextInterface $context,
@@ -172,12 +172,12 @@ class PersonDto
         }
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
 
-    public function setId(int $id): void
+    public function setId(string $id): void
     {
         $this->id = $id;
     }

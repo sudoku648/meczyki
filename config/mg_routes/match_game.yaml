@@ -5,7 +5,9 @@ match_games_front:
 
 match_game_single:
     controller: App\Controller\MatchGame\MatchGameSingleController
-    path: /mecz/{match_game_id<\d+>}
+    path: /mecz/{match_game_id}
+    requirements:
+        match_game_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-6[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
     methods: [ GET ]
 
 match_game_create:
@@ -15,12 +17,16 @@ match_game_create:
 
 match_game_edit:
     controller: App\Controller\MatchGame\MatchGameEditController
-    path: /mecz/{match_game_id<\d+>}/edytuj
+    path: /mecz/{match_game_id}/edytuj
+    requirements:
+        match_game_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-6[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
     methods: [ GET, POST ]
 
 match_game_delete:
     controller: App\Controller\MatchGame\MatchGameDeleteController::delete
-    path: /mecz/{match_game_id<\d+>}/usun
+    path: /mecz/{match_game_id}/usun
+    requirements:
+        match_game_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-6[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
     methods: [ POST ]
 
 match_game_delete_batch:

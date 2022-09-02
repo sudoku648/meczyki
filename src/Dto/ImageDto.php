@@ -6,6 +6,8 @@ namespace App\Dto;
 
 class ImageDto
 {
+    private ?string $id = null;
+
     public ?string $filePath = null;
 
     public ?int $width = null;
@@ -16,7 +18,7 @@ class ImageDto
         string $filePath,
         ?int $width = null,
         ?int $height = null,
-        ?int $id = null
+        ?string $id = null
     ): self {
         $this->id       = $id;
         $this->filePath = $filePath;
@@ -26,7 +28,7 @@ class ImageDto
         return $this;
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }

@@ -20,6 +20,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 ])]
 class UserDto implements UserDtoInterface
 {
+    private ?string $id = null;
+
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 35)]
     #[Assert\Regex(pattern: '/^[a-zA-Z0-9_]{2,35}$/', match: true)]
@@ -43,14 +45,12 @@ class UserDto implements UserDtoInterface
 
     public ?string $updatedAtAgo = null;
 
-    private ?int $id = null;
-
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
 
-    public function setId(int $id): void
+    public function setId(string $id): void
     {
         $this->id = $id;
     }
