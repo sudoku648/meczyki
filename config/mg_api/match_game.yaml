@@ -50,9 +50,10 @@ resources:
         itemOperations:
             get:
                 method: GET
-                path: /match-game/{id}
+                path: /match-games/{id}
                 normalization_context:
                     groups: [ 'matchGame:item:get' ]
         attributes:
             denormalization_context:
                 groups: [ 'matchGame:write' ]
+                api_allow_update: true

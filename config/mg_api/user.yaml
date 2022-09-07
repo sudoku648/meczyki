@@ -16,12 +16,14 @@ resources:
                     groups: [ 'user:collection:get' ]
             post:
                 method: POST
+                path: /users
         itemOperations:
             get:
                 method: GET
-                path: /user/{id}
+                path: /users/{id}
                 normalization_context:
                     groups: [ 'user:item:get' ]
         attributes:
             denormalization_context:
                 groups: [ 'user:write' ]
+                api_allow_update: true

@@ -23,7 +23,8 @@ resources:
                 normalization_context:
                     groups: [ 'person:collection:get' ]
             post:
-                method: POST
+                methods: POST
+                path: /people
             delegates:
                 method: GET
                 path: /people/delegates.{_format}
@@ -45,9 +46,10 @@ resources:
         itemOperations:
             get:
                 method: GET
-                path: /person/{id}
+                path: /people/{id}
                 normalization_context:
                     groups: [ 'person:item:get' ]
         attributes:
             denormalization_context:
                 groups: [ 'person:write' ]
+                api_allow_update: true

@@ -7,8 +7,6 @@ resources:
         collectionOperations:
             get:
                 method: GET
-            post:
-                method: POST
         itemOperations:
             get:
                 method: GET

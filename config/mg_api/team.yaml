@@ -18,12 +18,14 @@ resources:
                     groups: [ 'team:collection:get' ]
             post:
                 method: POST
+                path: /teams
         itemOperations:
             get:
                 method: GET
-                path: /team/{id}
+                path: /teams/{id}
                 normalization_context:
                     groups: [ 'team:item:get' ]
         attributes:
             denormalization_context:
                 groups: [ 'club:team:write' ]
+                api_allow_update: true

@@ -15,25 +15,21 @@ resources:
                 normalization_context:
                     groups: [ 'club:collection:get' ]
             post:
-                method: POST
+                methods: POST
+                path: /clubs
             teams:
                 method: GET
-                path: /club/{id}/teams.{_format}
+                path: /clubs/{id}/teams.{_format}
                 controller: App\Controller\Api\ClubTeams
                 normalization_context:
                     groups: [ 'single:club:team:collection:get' ]
         itemOperations:
             get:
                 method: GET
-                path: /club/{id}
+                path: /clubs/{id}
                 normalization_context:
                     groups: [ 'club:item:get' ]
-            put:
-                method: PUT
-                path: /club/{id}
-            delete:
-                method: DELETE
-                path: /club/{id}
         attributes:
             denormalization_context:
                 groups: [ 'club:write' ]
+                api_allow_update: true

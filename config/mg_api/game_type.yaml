@@ -24,9 +24,10 @@ resources:
         itemOperations:
             get:
                 method: GET
-                path: /game-type/{id}
+                path: /game-types/{id}
                 normalization_context:
                     groups: [ 'gameType:item:get' ]
         attributes:
             denormalization_context:
                 groups: [ 'gameType:write' ]
+                api_allow_update: true
