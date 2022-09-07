@@ -6,21 +6,24 @@ namespace App\Security\Voter;
 
 use App\Entity\Enums\PermissionEnum;
 use App\Entity\User;
+use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
+use function in_array;
+
 class TeamVoter extends Voter
 {
-    const LIST         = 'team_list';
-    const CREATE       = 'team_create';
-    const SHOW         = 'team_show';
-    const EDIT         = 'team_edit';
-    const DELETE       = 'team_delete';
-    const DELETE_BATCH = 'team_delete_batch';
+    public const LIST         = 'team_list';
+    public const CREATE       = 'team_create';
+    public const SHOW         = 'team_show';
+    public const EDIT         = 'team_edit';
+    public const DELETE       = 'team_delete';
+    public const DELETE_BATCH = 'team_delete_batch';
 
     protected function supports(string $attribute, $subject): bool
     {
-        return \in_array(
+        return in_array(
             $attribute,
             [
                 self::LIST,
@@ -42,17 +45,19 @@ class TeamVoter extends Voter
             return false;
         }
 
-        if ($user->isSuperAdmin()) return true;
-
-        switch ($attribute) {
-            case self::LIST:         return $this->canList();
-            case self::CREATE:       return $this->canCreate($user);
-            case self::SHOW:         return $this->canSee();
-            case self::EDIT:         return $this->canEdit($user);
-            case self::DELETE:       return $this->canDelete($user);
-            case self::DELETE_BATCH: return $this->canDeleteBatch($user);
-            default:                 throw new \LogicException();
+        if ($user->isSuperAdmin()) {
+            return true;
         }
+
+        return match ($attribute) {
+            self::LIST         => $this->canList(),
+            self::CREATE       => $this->canCreate($user),
+            self::SHOW         => $this->canSee(),
+            self::EDIT         => $this->canEdit($user),
+            self::DELETE       => $this->canDelete($user),
+            self::DELETE_BATCH => $this->canDeleteBatch($user),
+            default            => throw new LogicException(),
+        };
     }
 
     private function canList(): bool

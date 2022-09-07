@@ -6,22 +6,25 @@ namespace App\Security\Voter;
 
 use App\Entity\MatchGameBill;
 use App\Entity\User;
+use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+
+use function in_array;
 
 /**
  * @todo
  */
 class MatchGameBillVoter extends Voter
 {
-    const SHOW     = 'match_game_bill_show';
-    const EDIT     = 'match_game_bill_edit';
-    const DELETE   = 'match_game_bill_delete';
-    const DOWNLOAD = 'match_game_bill_download';
+    public const SHOW     = 'match_game_bill_show';
+    public const EDIT     = 'match_game_bill_edit';
+    public const DELETE   = 'match_game_bill_delete';
+    public const DOWNLOAD = 'match_game_bill_download';
 
     protected function supports(string $attribute, $subject): bool
     {
-        return \in_array(
+        return in_array(
             $attribute,
             [
                 self::SHOW,
@@ -45,57 +48,75 @@ class MatchGameBillVoter extends Voter
             return false;
         }
 
-        if ($user->isSuperAdmin()) return true;
-
-        switch ($attribute) {
-            case self::SHOW:     return $this->canSee($subject, $user);
-            case self::EDIT:     return $this->canEdit($subject, $user);
-            case self::DELETE:   return $this->canDelete($subject, $user);
-            case self::DOWNLOAD: return $this->canDownload($subject, $user);
-            default:             throw new \LogicException();
+        if ($user->isSuperAdmin()) {
+            return true;
         }
+
+        return match ($attribute) {
+            self::SHOW     => $this->canSee($subject, $user),
+            self::EDIT     => $this->canEdit($subject, $user),
+            self::DELETE   => $this->canDelete($subject, $user),
+            self::DOWNLOAD => $this->canDownload($subject, $user),
+            default        => throw new LogicException(),
+        };
     }
 
     private function canSee(MatchGameBill $matchGameBill, User $user): bool
     {
-        if (!$user->isPerson()) return false;
+        if (!$user->isPerson()) {
+            return false;
+        }
 
         $person = $user->getPerson();
 
-        if ($matchGameBill->getPerson() !== $person) return false;
+        if ($matchGameBill->getPerson() !== $person) {
+            return false;
+        }
 
         return true;
     }
 
     private function canEdit(MatchGameBill $matchGameBill, User $user): bool
     {
-        if (!$user->isPerson()) return false;
+        if (!$user->isPerson()) {
+            return false;
+        }
 
         $person = $user->getPerson();
 
-        if ($matchGameBill->getPerson() !== $person) return false;
+        if ($matchGameBill->getPerson() !== $person) {
+            return false;
+        }
 
         return true;
     }
 
     private function canDelete(MatchGameBill $matchGameBill, User $user): bool
     {
-        if (!$user->isPerson()) return false;
+        if (!$user->isPerson()) {
+            return false;
+        }
 
         $person = $user->getPerson();
 
-        if ($matchGameBill->getPerson() !== $person) return false;
+        if ($matchGameBill->getPerson() !== $person) {
+            return false;
+        }
 
         return true;
     }
 
     private function canDownload(MatchGameBill $matchGameBill, User $user): bool
     {
-        if (!$user->isPerson()) return false;
+        if (!$user->isPerson()) {
+            return false;
+        }
 
         $person = $user->getPerson();
 
-        if ($matchGameBill->getPerson() !== $person) return false;
+        if ($matchGameBill->getPerson() !== $person) {
+            return false;
+        }
 
         return true;
     }

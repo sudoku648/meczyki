@@ -6,22 +6,25 @@ namespace App\Security\Voter;
 
 use App\Entity\Enums\PermissionEnum;
 use App\Entity\User;
+use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
+use function in_array;
+
 class PersonVoter extends Voter
 {
-    const LIST               = 'person_list';
-    const CREATE             = 'person_create';
-    const SHOW               = 'person_show';
-    const EDIT               = 'person_edit';
-    const DELETE             = 'person_delete';
-    const DELETE_BATCH       = 'person_delete_batch';
-    const EDIT_PERSONAL_INFO = 'person_personal_info_edit';
+    public const LIST               = 'person_list';
+    public const CREATE             = 'person_create';
+    public const SHOW               = 'person_show';
+    public const EDIT               = 'person_edit';
+    public const DELETE             = 'person_delete';
+    public const DELETE_BATCH       = 'person_delete_batch';
+    public const EDIT_PERSONAL_INFO = 'person_personal_info_edit';
 
     protected function supports(string $attribute, $subject): bool
     {
-        return \in_array(
+        return in_array(
             $attribute,
             [
                 self::LIST,
@@ -44,16 +47,16 @@ class PersonVoter extends Voter
             return false;
         }
 
-        switch ($attribute) {
-            case self::LIST:               return $this->canList($user);
-            case self::CREATE:             return $this->canCreate($user);
-            case self::SHOW:               return $this->canSee($user);
-            case self::EDIT:               return $this->canEdit($user);
-            case self::DELETE:             return $this->canDelete($user);
-            case self::DELETE_BATCH:       return $this->canDeleteBatch($user);
-            case self::EDIT_PERSONAL_INFO: return $this->canEditPersonalInfo($user);
-            default:                       throw new \LogicException();
-        }
+        return match ($attribute) {
+            self::LIST               => $this->canList($user),
+            self::CREATE             => $this->canCreate($user),
+            self::SHOW               => $this->canSee($user),
+            self::EDIT               => $this->canEdit($user),
+            self::DELETE             => $this->canDelete($user),
+            self::DELETE_BATCH       => $this->canDeleteBatch($user),
+            self::EDIT_PERSONAL_INFO => $this->canEditPersonalInfo($user),
+            default                  => throw new LogicException(),
+        };
     }
 
     private function canList(User $user): bool

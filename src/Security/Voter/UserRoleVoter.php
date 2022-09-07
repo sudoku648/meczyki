@@ -5,20 +5,23 @@ declare(strict_types=1);
 namespace App\Security\Voter;
 
 use App\Entity\User;
+use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
+use function in_array;
+
 class UserRoleVoter extends Voter
 {
-    const LIST         = 'user_role_list';
-    const CREATE       = 'user_role_create';
-    const EDIT         = 'user_role_edit';
-    const DELETE       = 'user_role_delete';
-    const DELETE_BATCH = 'user_role_delete_batch';
+    public const LIST         = 'user_role_list';
+    public const CREATE       = 'user_role_create';
+    public const EDIT         = 'user_role_edit';
+    public const DELETE       = 'user_role_delete';
+    public const DELETE_BATCH = 'user_role_delete_batch';
 
     protected function supports(string $attribute, $subject): bool
     {
-        return \in_array(
+        return in_array(
             $attribute,
             [
                 self::LIST,
@@ -39,14 +42,14 @@ class UserRoleVoter extends Voter
             return false;
         }
 
-        switch ($attribute) {
-            case self::LIST:         return $this->canList($user);
-            case self::CREATE:       return $this->canCreate($user);
-            case self::EDIT:         return $this->canEdit($user);
-            case self::DELETE:       return $this->canDelete($user);
-            case self::DELETE_BATCH: return $this->canDeleteBatch($user);
-            default:                 throw new \LogicException();
-        }
+        return match ($attribute) {
+            self::LIST         => $this->canList($user),
+            self::CREATE       => $this->canCreate($user),
+            self::EDIT         => $this->canEdit($user),
+            self::DELETE       => $this->canDelete($user),
+            self::DELETE_BATCH => $this->canDeleteBatch($user),
+            default            => throw new LogicException(),
+        };
     }
 
     private function canList(User $user): bool

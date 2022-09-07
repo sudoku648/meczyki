@@ -57,21 +57,21 @@ class UserVoter extends Voter
             return false;
         }
 
-        switch ($attribute) {
-            case self::LIST:             return $this->canList($user);
-            case self::CREATE:           return $this->canCreate($user);
-            case self::SHOW:             return $this->canSee($user);
-            case self::EDIT:             return $this->canEdit($user);
-            case self::ACTIVATE:         return $this->canActivate($subject, $user);
-            case self::DEACTIVATE:       return $this->canDeactivate($subject, $user);
-            case self::ACTIVATE_BATCH:   return $this->canActivateBatch($user);
-            case self::DEACTIVATE_BATCH: return $this->canDeactivateBatch($user);
-            case self::DELETE:           return $this->canDelete($subject, $user);
-            case self::DELETE_BATCH:     return $this->canDeleteBatch($user);
-            case self::IMPERSONATE:      return $this->canImpersonate($subject, $user);
-            case self::BIND_WITH_PERSON: return $this->canBindWithPerson($user);
-            default:                     throw new LogicException();
-        }
+        return match ($attribute) {
+            self::LIST             => $this->canList($user),
+            self::CREATE           => $this->canCreate($user),
+            self::SHOW             => $this->canSee($user),
+            self::EDIT             => $this->canEdit($user),
+            self::ACTIVATE         => $this->canActivate($subject, $user),
+            self::DEACTIVATE       => $this->canDeactivate($subject, $user),
+            self::ACTIVATE_BATCH   => $this->canActivateBatch($user),
+            self::DEACTIVATE_BATCH => $this->canDeactivateBatch($user),
+            self::DELETE           => $this->canDelete($subject, $user),
+            self::DELETE_BATCH     => $this->canDeleteBatch($user),
+            self::IMPERSONATE      => $this->canImpersonate($subject, $user),
+            self::BIND_WITH_PERSON => $this->canBindWithPerson($user),
+            default                => throw new LogicException(),
+        };
     }
 
     private function canList(User $user): bool

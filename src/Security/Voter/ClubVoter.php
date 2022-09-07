@@ -48,16 +48,16 @@ class ClubVoter extends Voter
             return false;
         }
 
-        switch ($attribute) {
-            case self::LIST:          return $this->canList();
-            case self::CREATE:        return $this->canCreate($user);
-            case self::SHOW:          return $this->canSee();
-            case self::EDIT:          return $this->canEdit($user);
-            case self::DELETE:        return $this->canDelete($user);
-            case self::DELETE_BATCH:  return $this->canDeleteBatch($user);
-            case self::DELETE_EMBLEM: return $this->canDeleteEmblem($subject, $user);
-            default:                  throw new LogicException();
-        }
+        return match ($attribute) {
+            self::LIST          => $this->canList(),
+            self::CREATE        => $this->canCreate($user),
+            self::SHOW          => $this->canSee(),
+            self::EDIT          => $this->canEdit($user),
+            self::DELETE        => $this->canDelete($user),
+            self::DELETE_BATCH  => $this->canDeleteBatch($user),
+            self::DELETE_EMBLEM => $this->canDeleteEmblem($subject, $user),
+            default             => throw new LogicException(),
+        };
     }
 
     private function canList(): bool

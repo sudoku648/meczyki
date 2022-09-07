@@ -7,22 +7,25 @@ namespace App\Security\Voter;
 use App\Entity\Enums\PermissionEnum;
 use App\Entity\MatchGame;
 use App\Entity\User;
+use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
+use function in_array;
+
 class MatchGameVoter extends Voter
 {
-    const LIST         = 'match_game_list';
-    const CREATE       = 'match_game_create';
-    const SHOW         = 'match_game_show';
-    const EDIT         = 'match_game_edit';
-    const DELETE       = 'match_game_delete';
-    const DELETE_BATCH = 'match_game_delete_batch';
-    const CREATE_BILL  = 'match_game_bill_create';
+    public const LIST         = 'match_game_list';
+    public const CREATE       = 'match_game_create';
+    public const SHOW         = 'match_game_show';
+    public const EDIT         = 'match_game_edit';
+    public const DELETE       = 'match_game_delete';
+    public const DELETE_BATCH = 'match_game_delete_batch';
+    public const CREATE_BILL  = 'match_game_bill_create';
 
     protected function supports(string $attribute, $subject): bool
     {
-        return \in_array(
+        return in_array(
             $attribute,
             [
                 self::LIST,
@@ -45,16 +48,16 @@ class MatchGameVoter extends Voter
             return false;
         }
 
-        switch ($attribute) {
-            case self::LIST:         return $this->canList();
-            case self::CREATE:       return $this->canCreate($user);
-            case self::SHOW:         return $this->canSee($user);
-            case self::EDIT:         return $this->canEdit($subject, $user);
-            case self::DELETE:       return $this->canDelete($user);
-            case self::DELETE_BATCH: return $this->canDeleteBatch($user);
-            case self::CREATE_BILL:  return $this->canCreateBill($subject, $user);
-            default:                 throw new \LogicException();
-        }
+        return match ($attribute) {
+            self::LIST         => $this->canList(),
+            self::CREATE       => $this->canCreate($user),
+            self::SHOW         => $this->canSee($user),
+            self::EDIT         => $this->canEdit($subject, $user),
+            self::DELETE       => $this->canDelete($user),
+            self::DELETE_BATCH => $this->canDeleteBatch($user),
+            self::CREATE_BILL  => $this->canCreateBill($subject, $user),
+            default            => throw new LogicException(),
+        };
     }
 
     private function canList(): bool
@@ -119,7 +122,9 @@ class MatchGameVoter extends Voter
 
     private function canCreateBill(MatchGame $matchGame, User $user): bool
     {
-        if (!$user->isPerson()) return false;
+        if (!$user->isPerson()) {
+            return false;
+        }
 
         $person = $user->getPerson();
 
