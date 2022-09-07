@@ -139,6 +139,18 @@ class ClubRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('c')
             ->addOrderBy('c.name', 'ASC');
 
+        $this->filter($qb, $criteria);
+
+        return $qb;
+    }
+
+    private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
+    {
+        if ($criteria->nameLike) {
+            $qb->andWhere('c.name LIKE :name')
+                ->setParameter('name', '%' . $criteria->nameLike . '%');
+        }
+
         return $qb;
     }
 

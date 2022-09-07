@@ -8,4 +8,5 @@ use App\Repository\Criteria;
 
 class ClubPageView extends Criteria
 {
+    public ?string $nameLike = null;
 }

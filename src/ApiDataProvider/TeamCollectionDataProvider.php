@@ -44,10 +44,16 @@ final class TeamCollectionDataProvider implements ContextAwareCollectionDataProv
             $criteria = new TeamPageView(
                 (int) $this->request->getCurrentRequest()->get('page', 1)
             );
-
             if ($id = $this->request->getCurrentRequest()->get('club')) {
                 $criteria->club = $this->clubRepository->find($id);
             }
+            if ($nameLike = $this->request->getCurrentRequest()->get('name')) {
+                $criteria->nameLike = $nameLike;
+            }
+            if ($clubNameLike = $this->request->getCurrentRequest()->get('clubname')) {
+                $criteria->clubNameLike = $clubNameLike;
+            }
+
             $teams = $this->repository->findByCriteria($criteria);
         } catch (Exception $e) {
             return [];

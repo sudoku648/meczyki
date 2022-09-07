@@ -8,4 +8,5 @@ use App\Repository\Criteria;
 
 class UserRolePageView extends Criteria
 {
+    public ?string $nameLike = null;
 }

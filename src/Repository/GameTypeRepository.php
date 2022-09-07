@@ -155,7 +155,22 @@ class GameTypeRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('gt')
             ->addOrderBy('gt.name', 'ASC')
-            ->addOrderBy('gt.group', 'ASC');
+            ->addOrderBy('gt.group + 0', 'ASC');
+
+        $this->filter($qb, $criteria);
+
+        return $qb;
+    }
+
+    private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
+    {
+        if ($criteria->nameLike) {
+            $qb->andWhere(
+                'gt.group IS NULL AND gt.name LIKE :name' .
+                ' OR ' .
+                'CONCAT(gt.name, \' Grupa \', gt.group) LIKE :name'
+            )->setParameter('name', '%' . $criteria->nameLike . '%');
+        }
 
         return $qb;
     }

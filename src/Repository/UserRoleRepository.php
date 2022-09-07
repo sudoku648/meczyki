@@ -148,6 +148,18 @@ class UserRoleRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('ur')
             ->addOrderBy('ur.name', 'ASC');
 
+        $this->filter($qb, $criteria);
+
+        return $qb;
+    }
+
+    private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
+    {
+        if ($criteria->nameLike) {
+            $qb->andWhere('ur.name LIKE :name')
+                ->setParameter('name', '%' . $criteria->nameLike . '%');
+        }
+
         return $qb;
     }
 

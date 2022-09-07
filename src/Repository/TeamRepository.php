@@ -175,6 +175,7 @@ class TeamRepository extends ServiceEntityRepository
     private function getTeamQueryBuilder(Criteria $criteria): QueryBuilder
     {
         $qb = $this->createQueryBuilder('t')
+            ->join('t.club', 'c')
             ->addOrderBy('t.shortName', 'ASC');
 
         $this->filter($qb, $criteria);
@@ -188,6 +189,17 @@ class TeamRepository extends ServiceEntityRepository
             $qb->andWhere('t.club = :club')
                 ->setParameter('club', $criteria->club);
         }
+        if ($criteria->nameLike) {
+            $qb->andWhere(
+                't.fullName LIKE :name' .
+                ' OR ' .
+                't.shortName LIKE :name'
+            )->setParameter('name', '%' . $criteria->nameLike . '%');
+        }
+        if ($criteria->clubNameLike) {
+            $qb->andWhere('c.name LIKE :clubName')
+                ->setParameter('clubName', '%' . $criteria->clubNameLike . '%');
+        }
 
         return $qb;
     }
@@ -197,6 +209,7 @@ class TeamRepository extends ServiceEntityRepository
         $this->_em->createQueryBuilder()
             ->select('t')
             ->from(Team::class, 't')
+            ->join('t.club', 'c')
             ->where('t IN (?1)')
             ->setParameter(1, $teams)
             ->getQuery()

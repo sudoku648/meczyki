@@ -182,6 +182,18 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         $qb = $this->createQueryBuilder('u')
             ->addOrderBy('u.username', 'ASC');
 
+        $this->filter($qb, $criteria);
+
+        return $qb;
+    }
+
+    private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
+    {
+        if ($criteria->usernameLike) {
+            $qb->andWhere('u.username LIKE :username')
+                ->setParameter('username', '%' . $criteria->usernameLike . '%');
+        }
+
         return $qb;
     }
 

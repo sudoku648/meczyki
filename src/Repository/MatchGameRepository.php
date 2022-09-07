@@ -172,7 +172,38 @@ class MatchGameRepository extends ServiceEntityRepository
     private function getMatchGameQueryBuilder(Criteria $criteria): QueryBuilder
     {
         $qb = $this->createQueryBuilder('mg')
+            ->leftJoin('mg.homeTeam', 't1')
+            ->leftJoin('mg.awayTeam', 't2')
+            ->leftJoin('mg.gameType', 'gt')
             ->addOrderBy('mg.dateTime', 'DESC');
+
+        $this->filter($qb, $criteria);
+
+        return $qb;
+    }
+
+    private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
+    {
+        if ($criteria->dateTimeLike) {
+            $qb->andWhere(
+                'DATE_FORMAT(' .
+                    'mg.dateTime, ' .
+                    '\'%d.%m.%Y, %H:%i\'' .
+                ') LIKE :dateTime'
+            )->setParameter('dateTime', '%' . $criteria->dateTimeLike . '%');
+        }
+        if ($criteria->gameTypeLike) {
+            $qb->andWhere(
+                'gt.group IS NULL AND gt.name LIKE :gameType' .
+                ' OR ' .
+                'CONCAT(gt.name, \' Grupa \', gt.group) LIKE :gameType'
+            )->setParameter('gameType', '%' . $criteria->gameTypeLike . '%');
+        }
+        if ($criteria->teamsLike) {
+            $qb->andWhere(
+                'CONCAT(t1.fullName, \' - \', t2.fullName) LIKE :teams'
+            )->setParameter('teams', '%' . $criteria->teamsLike . '%');
+        }
 
         return $qb;
     }

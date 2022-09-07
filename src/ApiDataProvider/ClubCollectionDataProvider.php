@@ -42,6 +42,9 @@ final class ClubCollectionDataProvider implements ContextAwareCollectionDataProv
             $criteria = new ClubPageView(
                 (int) $this->request->getCurrentRequest()->get('page', 1)
             );
+            if ($nameLike = $this->request->getCurrentRequest()->get('name')) {
+                $criteria->nameLike = $nameLike;
+            }
 
             $clubs = $this->repository->findByCriteria($criteria);
         } catch (Exception $e) {

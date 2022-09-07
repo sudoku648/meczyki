@@ -9,5 +9,7 @@ use App\Repository\Criteria;
 
 class TeamPageView extends Criteria
 {
-    public ?Club $club = null;
+    public ?Club $club           = null;
+    public ?string $nameLike     = null;
+    public ?string $clubNameLike = null;
 }

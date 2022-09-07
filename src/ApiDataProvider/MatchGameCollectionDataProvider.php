@@ -42,6 +42,15 @@ final class MatchGameCollectionDataProvider implements ContextAwareCollectionDat
             $criteria = new MatchGamePageView(
                 (int) $this->request->getCurrentRequest()->get('page', 1)
             );
+            if ($dateTimeLike = $this->request->getCurrentRequest()->get('datetime')) {
+                $criteria->dateTimeLike = $dateTimeLike;
+            }
+            if ($gameTypeLike = $this->request->getCurrentRequest()->get('gametype')) {
+                $criteria->gameTypeLike = $gameTypeLike;
+            }
+            if ($teamsLike = $this->request->getCurrentRequest()->get('teams')) {
+                $criteria->teamsLike = $teamsLike;
+            }
 
             $matchGames = $this->repository->findByCriteria($criteria);
         } catch (Exception $e) {

@@ -42,6 +42,9 @@ final class UserCollectionDataProvider implements ContextAwareCollectionDataProv
             $criteria = new UserPageView(
                 (int) $this->request->getCurrentRequest()->get('page', 1)
             );
+            if ($usernameLike = $this->request->getCurrentRequest()->get('username')) {
+                $criteria->usernameLike = $usernameLike;
+            }
 
             $users = $this->repository->findByCriteria($criteria);
         } catch (Exception $e) {

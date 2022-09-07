@@ -8,4 +8,5 @@ use App\Repository\Criteria;
 
 class GameTypePageView extends Criteria
 {
+    public ?string $nameLike = null;
 }

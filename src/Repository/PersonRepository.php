@@ -201,6 +201,13 @@ class PersonRepository extends ServiceEntityRepository
             $qb->andWhere('p.isRefereeObserver = :isRefereeObserver')
                 ->setParameter('isRefereeObserver', $criteria->isRefereeObserver);
         }
+        if ($criteria->fullNameLike) {
+            $qb->andWhere(
+                'CONCAT(p.lastName, \' \', p.firstName) LIKE :fullName' .
+                ' OR ' .
+                'CONCAT(p.firstName, \' \', p.lastName) LIKE :fullName'
+            )->setParameter('fullName', '%' . $criteria->fullNameLike . '%');
+        }
 
         return $qb;
     }

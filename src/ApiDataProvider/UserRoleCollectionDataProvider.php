@@ -42,6 +42,9 @@ final class UserRoleCollectionDataProvider implements ContextAwareCollectionData
             $criteria = new UserRolePageView(
                 (int) $this->request->getCurrentRequest()->get('page', 1)
             );
+            if ($nameLike = $this->request->getCurrentRequest()->get('name')) {
+                $criteria->nameLike = $nameLike;
+            }
 
             $userRoles = $this->repository->findByCriteria($criteria);
         } catch (Exception $e) {

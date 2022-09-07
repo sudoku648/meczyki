@@ -52,6 +52,9 @@ final class PersonCollectionDataProvider implements ContextAwareCollectionDataPr
             if ($this->request->getCurrentRequest()->get('referee-observers')) {
                 $criteria->isRefereeObserver = true;
             }
+            if ($fullNameLike = $this->request->getCurrentRequest()->get('fullname')) {
+                $criteria->fullNameLike = $fullNameLike;
+            }
 
             $people = $this->repository->findByCriteria($criteria);
         } catch (Exception $e) {

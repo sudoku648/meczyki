@@ -42,6 +42,9 @@ final class GameTypeCollectionDataProvider implements ContextAwareCollectionData
             $criteria = new GameTypePageView(
                 (int) $this->request->getCurrentRequest()->get('page', 1)
             );
+            if ($nameLike = $this->request->getCurrentRequest()->get('name')) {
+                $criteria->nameLike = $nameLike;
+            }
 
             $gameTypes = $this->repository->findByCriteria($criteria);
         } catch (Exception $e) {
