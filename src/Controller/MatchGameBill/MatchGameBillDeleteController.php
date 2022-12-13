@@ -7,16 +7,17 @@ namespace App\Controller\MatchGameBill;
 use App\Entity\MatchGame;
 use App\Entity\MatchGameBill;
 use App\Security\Voter\MatchGameBillVoter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class MatchGameBillDeleteController extends MatchGameBillAbstractController
 {
-    #[ParamConverter('matchGame', options: ['mapping' => ['match_game_id' => 'id']])]
-    #[ParamConverter('matchGameBill', options: ['mapping' => ['match_game_bill_id' => 'id']])]
-    public function delete(MatchGame $matchGame, MatchGameBill $matchGameBill, Request $request): Response
-    {
+    public function delete(
+        #[MapEntity(mapping: ['match_game_id' => 'id'])] MatchGame $matchGame,
+        #[MapEntity(mapping: ['match_game_bill_id' => 'id'])] MatchGameBill $matchGameBill,
+        Request $request
+    ): Response {
         $this->denyAccessUnlessGranted(MatchGameBillVoter::DELETE, $matchGameBill);
 
         $this->validateCsrf('match_game_bill_delete', $request->request->get('_token'));

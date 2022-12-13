@@ -7,14 +7,14 @@ namespace App\Controller\MatchGame;
 use App\Entity\MatchGame;
 use App\Event\MatchGame\MatchGameHasBeenSeenEvent;
 use App\Security\Voter\MatchGameVoter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Response;
 
 class MatchGameSingleController extends MatchGameAbstractController
 {
-    #[ParamConverter('matchGame', options: ['mapping' => ['match_game_id' => 'id']])]
-    public function __invoke(MatchGame $matchGame): Response
-    {
+    public function __invoke(
+        #[MapEntity(mapping: ['match_game_id' => 'id'])] MatchGame $matchGame
+    ): Response {
         $this->denyAccessUnlessGranted(MatchGameVoter::SHOW, $matchGame);
 
         $this->breadcrumbs->addItem(

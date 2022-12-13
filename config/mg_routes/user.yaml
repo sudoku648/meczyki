@@ -7,7 +7,7 @@ user_single:
     controller: App\Controller\User\UserSingleController
     path: /uzytkownik/{user_id}
     requirements:
-        user_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-6[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
+        user_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[6-7][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
     methods: [ GET ]
 
 user_create:
@@ -19,14 +19,14 @@ user_activate:
     controller: App\Controller\User\UserActivationController::activate
     path: /uzytkownik/{user_id}/aktywuj
     requirements:
-        user_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-6[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
+        user_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[6-7][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
     methods: [ POST ]
 
 user_deactivate:
     controller: App\Controller\User\UserActivationController::deactivate
     path: /uzytkownik/{user_id}/dezaktywuj
     requirements:
-        user_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-6[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
+        user_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[6-7][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
     methods: [ POST ]
 
 user_activate_batch:
@@ -43,14 +43,14 @@ user_edit:
     controller: App\Controller\User\UserEditController
     path: /uzytkownik/{user_id}/edytuj
     requirements:
-        user_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-6[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
+        user_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[6-7][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
     methods: [ GET, POST ]
 
 user_delete:
     controller: App\Controller\User\UserDeleteController::delete
     path: /uzytkownik/{user_id}/usun
     requirements:
-        user_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-6[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
+        user_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[6-7][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
     methods: [ POST ]
 
 user_delete_batch:
@@ -67,5 +67,5 @@ user_bind_with_person:
     controller: App\Controller\User\UserBindWithPersonController
     path: /uzytkownik/{user_id}/polacz-z-osoba
     requirements:
-        user_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-6[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
+        user_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[6-7][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
     methods: [ GET, POST ]

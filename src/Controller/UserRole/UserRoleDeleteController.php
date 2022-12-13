@@ -7,15 +7,16 @@ namespace App\Controller\UserRole;
 use App\Entity\UserRole;
 use App\Repository\UserRoleRepository;
 use App\Security\Voter\UserRoleVoter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserRoleDeleteController extends UserRoleAbstractController
 {
-    #[ParamConverter('userRole', options: ['mapping' => ['user_role_id' => 'id']])]
-    public function delete(UserRole $userRole, Request $request): Response
-    {
+    public function delete(
+        #[MapEntity(mapping: ['user_role_id' => 'id'])] UserRole $userRole,
+        Request $request
+    ): Response {
         $this->denyAccessUnlessGranted(UserRoleVoter::DELETE, $userRole);
 
         $this->validateCsrf('user_role_delete', $request->request->get('_token'));

@@ -8,16 +8,17 @@ use App\Entity\Club;
 use App\Entity\Team;
 use App\Form\TeamType;
 use App\Security\Voter\TeamVoter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class TeamEditController extends TeamAbstractController
 {
-    #[ParamConverter('club', options: ['mapping' => ['club_id' => 'id']])]
-    #[ParamConverter('team', options: ['mapping' => ['team_id' => 'id']])]
-    public function __invoke(Club $club, Team $team, Request $request): Response
-    {
+    public function __invoke(
+        #[MapEntity(mapping: ['club_id' => 'id'])] Club $club,
+        #[MapEntity(mapping: ['team_id' => 'id'])] Team $team,
+        Request $request
+    ): Response {
         $this->denyAccessUnlessGranted(TeamVoter::EDIT, $team);
 
         $this->breadcrumbs->addItem(

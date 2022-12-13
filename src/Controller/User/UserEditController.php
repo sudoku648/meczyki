@@ -10,16 +10,17 @@ use App\Form\UserBasicType;
 use App\Form\UserPasswordType;
 use App\Security\Voter\UserVoter;
 use App\Service\UserManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserEditController extends UserAbstractController
 {
-    #[ParamConverter('user', options: ['mapping' => ['user_id' => 'id']])]
-    public function __invoke(User $user, Request $request): Response
-    {
+    public function __invoke(
+        #[MapEntity(mapping: ['user_id' => 'id'])] User $user,
+        Request $request
+    ): Response {
         $this->denyAccessUnlessGranted(UserVoter::EDIT, $user);
 
         $this->breadcrumbs->addItem(

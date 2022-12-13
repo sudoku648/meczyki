@@ -7,15 +7,16 @@ namespace App\Controller\User;
 use App\Entity\User;
 use App\Form\UserBindWithPersonType;
 use App\Security\Voter\UserVoter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserBindWithPersonController extends UserAbstractController
 {
-    #[ParamConverter('user', options: ['mapping' => ['user_id' => 'id']])]
-    public function __invoke(User $user, Request $request): Response
-    {
+    public function __invoke(
+        #[MapEntity(mapping: ['user_id' => 'id'])] User $user,
+        Request $request
+    ): Response {
         $this->denyAccessUnlessGranted(UserVoter::BIND_WITH_PERSON, $user);
 
         $this->breadcrumbs

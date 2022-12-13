@@ -7,7 +7,7 @@ person_single:
     controller: App\Controller\Person\PersonSingleController
     path: /osoba/{person_id}
     requirements:
-        person_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-6[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
+        person_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[6-7][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
     methods: [ GET ]
 
 person_create:
@@ -19,14 +19,14 @@ person_edit:
     controller: App\Controller\Person\PersonEditController
     path: /osoba/{person_id}/edytuj
     requirements:
-        person_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-6[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
+        person_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[6-7][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
     methods: [ GET, POST ]
 
 person_delete:
     controller: App\Controller\Person\PersonDeleteController::delete
     path: /osoba/{person_id}/usun
     requirements:
-        person_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-6[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
+        person_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[6-7][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
     methods: [ POST ]
 
 person_delete_batch:

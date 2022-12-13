@@ -7,15 +7,16 @@ namespace App\Controller\UserRole;
 use App\Entity\UserRole;
 use App\Form\UserRoleType;
 use App\Security\Voter\UserRoleVoter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserRoleEditController extends UserRoleAbstractController
 {
-    #[ParamConverter('userRole', options: ['mapping' => ['user_role_id' => 'id']])]
-    public function __invoke(UserRole $userRole, Request $request): Response
-    {
+    public function __invoke(
+        #[MapEntity(mapping: ['user_role_id' => 'id'])] UserRole $userRole,
+        Request $request
+    ): Response {
         $this->denyAccessUnlessGranted(UserRoleVoter::EDIT, $userRole);
 
         $this->breadcrumbs->addItem(

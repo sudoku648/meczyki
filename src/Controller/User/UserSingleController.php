@@ -7,14 +7,14 @@ namespace App\Controller\User;
 use App\Entity\User;
 use App\Event\User\UserHasBeenSeenEvent;
 use App\Security\Voter\UserVoter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserSingleController extends UserAbstractController
 {
-    #[ParamConverter('user', options: ['mapping' => ['user_id' => 'id']])]
-    public function __invoke(User $user): Response
-    {
+    public function __invoke(
+        #[MapEntity(mapping: ['user_id' => 'id'])] User $user
+    ): Response {
         $this->denyAccessUnlessGranted(UserVoter::SHOW, $user);
 
         $this->breadcrumbs->addItem(

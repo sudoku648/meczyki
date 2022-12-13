@@ -8,7 +8,7 @@ use App\Entity\MatchGame;
 use App\Entity\MatchGameBill;
 use App\Security\Voter\MatchGameBillVoter;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -18,10 +18,11 @@ use function tempnam;
 
 class MatchGameBillDownloadController extends MatchGameBillAbstractController
 {
-    #[ParamConverter('matchGame', options: ['mapping' => ['match_game_id' => 'id']])]
-    #[ParamConverter('matchGameBill', options: ['mapping' => ['match_game_bill_id' => 'id']])]
-    public function __invoke(MatchGame $matchGame, MatchGameBill $matchGameBill, SluggerInterface $slugger): Response
-    {
+    public function __invoke(
+        #[MapEntity(mapping: ['match_game_id' => 'id'])] MatchGame $matchGame,
+        #[MapEntity(mapping: ['match_game_bill_id' => 'id'])] MatchGameBill $matchGameBill, 
+        SluggerInterface $slugger
+    ): Response {
         $this->denyAccessUnlessGranted(MatchGameBillVoter::DOWNLOAD, $matchGameBill);
 
         $spreadsheet = $this->manager->generateXlsx($matchGameBill);

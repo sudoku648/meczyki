@@ -7,14 +7,14 @@ namespace App\Controller\Club;
 use App\Entity\Club;
 use App\Event\Club\ClubHasBeenSeenEvent;
 use App\Security\Voter\ClubVoter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Response;
 
 class ClubSingleController extends ClubAbstractController
 {
-    #[ParamConverter('club', options: ['mapping' => ['club_id' => 'id']])]
-    public function __invoke(Club $club): Response
-    {
+    public function __invoke(
+        #[MapEntity(mapping: ['club_id' => 'id'])] Club $club
+    ): Response {
         $this->denyAccessUnlessGranted(ClubVoter::SHOW, $club);
 
         $this->breadcrumbs->addItem(

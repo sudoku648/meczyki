@@ -8,16 +8,17 @@ use App\Entity\Club;
 use App\Entity\Team;
 use App\Repository\TeamRepository;
 use App\Security\Voter\TeamVoter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class TeamDeleteController extends TeamAbstractController
 {
-    #[ParamConverter('club', options: ['mapping' => ['club_id' => 'id']])]
-    #[ParamConverter('team', options: ['mapping' => ['team_id' => 'id']])]
-    public function delete(Club $club, Team $team, Request $request): Response
-    {
+    public function delete(
+        #[MapEntity(mapping: ['club_id' => 'id'])] Club $club,
+        #[MapEntity(mapping: ['team_id' => 'id'])] Team $team,
+        Request $request
+    ): Response {
         $this->denyAccessUnlessGranted(TeamVoter::DELETE, $team);
 
         $this->validateCsrf('team_delete', $request->request->get('_token'));

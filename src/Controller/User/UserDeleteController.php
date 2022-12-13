@@ -7,15 +7,16 @@ namespace App\Controller\User;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Security\Voter\UserVoter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserDeleteController extends UserAbstractController
 {
-    #[ParamConverter('user', options: ['mapping' => ['user_id' => 'id']])]
-    public function delete(User $user, Request $request): Response
-    {
+    public function delete(
+        #[MapEntity(mapping: ['user_id' => 'id'])] User $user,
+        Request $request
+    ): Response {
         $this->denyAccessUnlessGranted(UserVoter::DELETE, $user);
 
         $this->validateCsrf('user_delete', $request->request->get('_token'));

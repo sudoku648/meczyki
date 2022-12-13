@@ -7,14 +7,14 @@ namespace App\Controller\GameType;
 use App\Entity\GameType;
 use App\Event\GameType\GameTypeHasBeenSeenEvent;
 use App\Security\Voter\GameTypeVoter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Response;
 
 class GameTypeSingleController extends GameTypeAbstractController
 {
-    #[ParamConverter('gameType', options: ['mapping' => ['game_type_id' => 'id']])]
-    public function __invoke(GameType $gameType): Response
-    {
+    public function __invoke(
+        #[MapEntity(mapping: ['game_type_id' => 'id'])] GameType $gameType
+    ): Response {
         $this->denyAccessUnlessGranted(GameTypeVoter::SHOW, $gameType);
 
         $this->breadcrumbs->addItem(

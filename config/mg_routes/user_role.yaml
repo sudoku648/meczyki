@@ -12,14 +12,14 @@ user_role_edit:
     controller: App\Controller\UserRole\UserRoleEditController
     path: /rola-uzytkownikow/{user_role_id}/edytuj
     requirements:
-        user_role_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-6[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
+        user_role_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[6-7][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
     methods: [ GET, POST ]
 
 user_role_delete:
     controller: App\Controller\UserRole\UserRoleDeleteController::delete
     path: /rola-uzytkownikow/{user_role_id}/usun
     requirements:
-        user_role_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-6[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
+        user_role_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[6-7][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
     methods: [ POST ]
 
 user_role_delete_batch:

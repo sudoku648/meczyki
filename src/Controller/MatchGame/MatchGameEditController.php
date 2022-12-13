@@ -7,15 +7,16 @@ namespace App\Controller\MatchGame;
 use App\Entity\MatchGame;
 use App\Form\MatchGameType;
 use App\Security\Voter\MatchGameVoter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class MatchGameEditController extends MatchGameAbstractController
 {
-    #[ParamConverter('matchGame', options: ['mapping' => ['match_game_id' => 'id']])]
-    public function __invoke(MatchGame $matchGame, Request $request): Response
-    {
+    public function __invoke(
+        #[MapEntity(mapping: ['match_game_id' => 'id'])] MatchGame $matchGame,
+        Request $request
+    ): Response {
         $this->denyAccessUnlessGranted(MatchGameVoter::EDIT, $matchGame);
 
         $this->breadcrumbs->addItem(

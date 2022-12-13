@@ -7,15 +7,16 @@ namespace App\Controller\GameType;
 use App\Entity\GameType;
 use App\Repository\GameTypeRepository;
 use App\Security\Voter\GameTypeVoter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class GameTypeDeleteController extends GameTypeAbstractController
 {
-    #[ParamConverter('gameType', options: ['mapping' => ['game_type_id' => 'id']])]
-    public function delete(GameType $gameType, Request $request): Response
-    {
+    public function delete(
+        #[MapEntity(mapping: ['game_type_id' => 'id'])] GameType $gameType,
+        Request $request
+    ): Response {
         $this->denyAccessUnlessGranted(GameTypeVoter::DELETE, $gameType);
 
         $this->validateCsrf('game_type_delete', $request->request->get('_token'));

@@ -7,15 +7,16 @@ namespace App\Controller\User;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Security\Voter\UserVoter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserActivationController extends UserAbstractController
 {
-    #[ParamConverter('user', options: ['mapping' => ['user_id' => 'id']])]
-    public function activate(User $user, Request $request): Response
-    {
+    public function activate(
+        #[MapEntity(mapping: ['user_id' => 'id'])] User $user,
+        Request $request
+    ): Response {
         $this->denyAccessUnlessGranted(UserVoter::ACTIVATE, $user);
 
         $this->validateCsrf('user_activate', $request->request->get('_token'));
@@ -27,9 +28,10 @@ class UserActivationController extends UserAbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
-    #[ParamConverter('user', options: ['mapping' => ['user_id' => 'id']])]
-    public function deactivate(User $user, Request $request): Response
-    {
+    public function deactivate(
+        #[MapEntity(mapping: ['user_id' => 'id'])] User $user,
+        Request $request
+    ): Response {
         $this->denyAccessUnlessGranted(UserVoter::DEACTIVATE, $user);
 
         $this->validateCsrf('user_deactivate', $request->request->get('_token'));

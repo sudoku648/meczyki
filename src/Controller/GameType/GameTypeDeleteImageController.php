@@ -6,7 +6,7 @@ namespace App\Controller\GameType;
 
 use App\Entity\GameType;
 use App\Security\Voter\GameTypeVoter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,9 +15,10 @@ use function str_replace;
 
 class GameTypeDeleteImageController extends GameTypeAbstractController
 {
-    #[ParamConverter('gameType', options: ['mapping' => ['game_type_id' => 'id']])]
-    public function __invoke(GameType $gameType, Request $request): Response
-    {
+    public function __invoke(
+        #[MapEntity(mapping: ['game_type_id' => 'id'])] GameType $gameType,
+        Request $request
+    ): Response {
         $this->denyAccessUnlessGranted(GameTypeVoter::DELETE_IMAGE, $gameType);
 
         $this->manager->detachImage($gameType);

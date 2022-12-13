@@ -7,7 +7,7 @@ club_single:
     controller: App\Controller\Club\ClubSingleController
     path: /klub/{club_id}
     requirements:
-        club_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-6[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
+        club_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[6-7][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
     methods: [ GET ]
 
 club_create:
@@ -19,14 +19,14 @@ club_edit:
     controller: App\Controller\Club\ClubEditController
     path: /klub/{club_id}/edytuj
     requirements:
-        club_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-6[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
+        club_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[6-7][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
     methods: [ GET, POST ]
 
 club_delete:
     controller: App\Controller\Club\ClubDeleteController::delete
     path: /klub/{club_id}/usun
     requirements:
-        club_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-6[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
+        club_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[6-7][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
     methods: [ POST ]
 
 club_delete_batch:
@@ -38,5 +38,5 @@ club_emblem_delete:
     controller: App\Controller\Club\ClubDeleteEmblemController
     path: /klub/{club_id}/usun-herb
     requirements:
-        club_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-6[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
+        club_id: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[6-7][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'
     methods: [ POST ]

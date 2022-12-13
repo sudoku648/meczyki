@@ -8,16 +8,17 @@ use App\Entity\MatchGame;
 use App\Entity\MatchGameBill;
 use App\Form\MatchGameBillType;
 use App\Security\Voter\MatchGameBillVoter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class MatchGameBillEditController extends MatchGameBillAbstractController
 {
-    #[ParamConverter('matchGame', options: ['mapping' => ['match_game_id' => 'id']])]
-    #[ParamConverter('matchGameBill', options: ['mapping' => ['match_game_bill_id' => 'id']])]
-    public function __invoke(MatchGame $matchGame, MatchGameBill $matchGameBill, Request $request): Response
-    {
+    public function __invoke(
+        #[MapEntity(mapping: ['match_game_id' => 'id'])] MatchGame $matchGame,
+        #[MapEntity(mapping: ['match_game_bill_id' => 'id'])] MatchGameBill $matchGameBill,
+        Request $request
+    ): Response {
         $this->denyAccessUnlessGranted(MatchGameBillVoter::EDIT, $matchGameBill);
 
         $this->breadcrumbs
