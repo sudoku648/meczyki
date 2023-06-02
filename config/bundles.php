@@ -16,4 +16,5 @@ return [
     Knp\Bundle\MenuBundle\KnpMenuBundle::class => ['all' => true],
     WhiteOctober\BreadcrumbsBundle\WhiteOctoberBreadcrumbsBundle::class => ['all' => true],
     League\FlysystemBundle\FlysystemBundle::class => ['all' => true],
+    Symfony\UX\Autocomplete\AutocompleteBundle::class => ['all' => true],
 ];

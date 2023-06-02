@@ -7,7 +7,6 @@ namespace App\Form;
 use App\Dto\MatchGameDto;
 use App\Entity\GameType;
 use App\Entity\Team;
-use App\Entity\User;
 use App\Form\Option\PersonOption;
 use App\Repository\GameTypeRepository;
 use App\Repository\PersonRepository;
@@ -41,6 +40,7 @@ class MatchGameType extends AbstractType
                 'homeTeam',
                 EntityType::class,
                 [
+                    'autocomplete' => true,
                     'choice_label' => function (Team $team) {
                         return $team->getFullName();
                     },
@@ -52,6 +52,7 @@ class MatchGameType extends AbstractType
                 'awayTeam',
                 EntityType::class,
                 [
+                    'autocomplete' => true,
                     'choice_label' => function (Team $team) {
                         return $team->getFullName();
                     },
@@ -111,7 +112,9 @@ class MatchGameType extends AbstractType
                 EntityType::class,
                 array_merge(
                     PersonOption::default($this->personRepository, 'referee'),
-                    []
+                    [
+                        'autocomplete' => true,
+                    ]
                 ),
             )
             ->add(
@@ -120,7 +123,8 @@ class MatchGameType extends AbstractType
                 array_merge(
                     PersonOption::default($this->personRepository, 'referee'),
                     [
-                        'required' => false,
+                        'autocomplete' => true,
+                        'required'     => false,
                     ]
                 ),
             )
@@ -137,7 +141,8 @@ class MatchGameType extends AbstractType
                 array_merge(
                     PersonOption::default($this->personRepository, 'referee'),
                     [
-                        'required' => false,
+                        'autocomplete' => true,
+                        'required'     => false,
                     ]
                 ),
             )
@@ -154,7 +159,8 @@ class MatchGameType extends AbstractType
                 array_merge(
                     PersonOption::default($this->personRepository, 'referee'),
                     [
-                        'required' => false,
+                        'autocomplete' => true,
+                        'required'     => false,
                     ]
                 ),
             )
@@ -164,7 +170,8 @@ class MatchGameType extends AbstractType
                 array_merge(
                     PersonOption::default($this->personRepository, 'refereeObserver'),
                     [
-                        'required' => false,
+                        'autocomplete' => true,
+                        'required'     => false,
                     ]
                 ),
             )
@@ -174,7 +181,8 @@ class MatchGameType extends AbstractType
                 array_merge(
                     PersonOption::default($this->personRepository, 'delegate'),
                     [
-                        'required' => false,
+                        'autocomplete' => true,
+                        'required'     => false,
                     ]
                 ),
             )

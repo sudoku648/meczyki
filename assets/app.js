@@ -12,6 +12,8 @@ import './styles/style.css';
 import './styles/my.css';
 import './styles/bootstrap-dataTables.css';
 
+import './bootstrap';
+
 import 'datatables';
 import './js/dataTables-defaults.js';
 import './js/layout.js';
@@ -30,12 +32,3 @@ import './js/user.js';
 import './js/userRole.js';
 import './js/bootstrap-dataTables.js';
 import './js/dataTables.js';
-
-import 'bootstrap-select/dist/css/bootstrap-select.min.css';
-
-const bootstrap = window.bootstrap = require('bootstrap'); // without this bootstrap-select crashes with `undefined bootstrap`
-require('bootstrap-select/js/bootstrap-select'); // we have to manually require the working js file
-
-$(function() {
-    $('select[data-live-search=true]').selectpicker();
-});
