@@ -4,7 +4,7 @@ $(function() {
     $($.fn.dataTable.tables()).each(function() {
         var table = $(this);
 
-        table.find('thead th').each(function() {
+        table.find('tfoot th').each(function() {
             if ($(this).hasClass('s')) {
                 var title = $(this).text();
                 var search = table.dataTable().api().column(pos - 1).search();

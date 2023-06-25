@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Club;
+use App\PageView\ClubPageView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -12,7 +13,6 @@ use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\PagerfantaInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Club|null find($id, $lockMode = null, $lockVersion = null)
@@ -22,99 +22,36 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class ClubRepository extends ServiceEntityRepository
 {
-    private const PER_PAGE = 10;
+    public const SORT_NAME     = 'name';
+    public const SORT_DIR_ASC  = 'ASC';
+    public const SORT_DIR_DESC = 'DESC';
+
+    public const SORT_DEFAULT     = self::SORT_NAME;
+    public const SORT_DIR_DEFAULT = self::SORT_DIR_ASC;
+    public const PER_PAGE         = 10;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Club::class);
     }
 
-    public function getRequiredDTData(
-        string $start,
-        string $length,
-        array $orders,
-        array $search,
-        array $columns,
-        ?string $otherConditions = null
-    ): array {
-        $query = $this->createQueryBuilder('club');
-
-        $countQuery = $this->createQueryBuilder('club');
-        $countQuery->select('COUNT(club)');
-
-        if ($otherConditions === null) {
-            $query->where('1=1');
-            $countQuery->where('1=1');
-        } else {
-            $query->where($otherConditions);
-            $countQuery->where($otherConditions);
-        }
-
-        if ($search['value'] != '') {
-            $query->andWhere('club.name LIKE :search');
-            $query->setParameter('search', '%' . $search['value'] . '%');
-        }
-
-        foreach ($columns as $colKey => $column) {
-            if ($column['search']['value'] != '') {
-                $searchItem  = $column['search']['value'];
-                $searchQuery = null;
-
-                switch ($column['name']) {
-                    case 'name':
-                        {
-                            $searchQuery = 'club.name LIKE :item_' . $colKey;
-
-                            break;
-                        }
-                }
-
-                if ($searchQuery !== null) {
-                    $query->andWhere($searchQuery);
-                    $query->setParameter('item_' . $colKey, '%' . $searchItem . '%');
-                    $countQuery->andWhere($searchQuery);
-                    $countQuery->setParameter('item_' . $colKey, '%' . $searchItem . '%');
-                }
-            }
-        }
-
-        if ($length < 0) {
-            $length = null;
-        }
-
-        $query->setFirstResult($start)->setMaxResults($length);
-
-        foreach ($orders as $key => $order) {
-            if ($order['name'] != '') {
-                $orderColumn = null;
-
-                switch ($order['name']) {
-                    case 'name':
-                        {
-                            $orderColumn = 'club.name';
-
-                            break;
-                        }
-                }
-
-                if ($orderColumn !== null) {
-                    $query->orderBy($orderColumn, $order['dir']);
-                }
-            }
-        }
-
-        $query->addOrderBy('club.name', 'ASC');
-
-        $results     = $query->getQuery()->getResult();
-        $countResult = $countQuery->getQuery()->getSingleScalarResult();
-
-        return [
-            'results'     => $results,
-            'countResult' => $countResult,
-        ];
+    public function getTotalCount(): int
+    {
+        return $this->createQueryBuilder('club')
+            ->select('COUNT(club)')
+            ->getQuery()->getSingleScalarResult();
     }
 
-    public function findByCriteria(Criteria $criteria): PagerfantaInterface
+    public function countByCriteria(ClubPageView|Criteria $criteria): int
+    {
+        $qb = $this->getClubQueryBuilder($criteria);
+
+        $qb->select('COUNT(club)');
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function findByCriteria(ClubPageView|Criteria $criteria): PagerfantaInterface
     {
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
@@ -126,43 +63,56 @@ class ClubRepository extends ServiceEntityRepository
             $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
             $pagerfanta->setCurrentPage($criteria->page);
         } catch (NotValidCurrentPageException $e) {
-            throw new NotFoundHttpException();
+            $pagerfanta->setCurrentPage(1);
         }
 
-        $this->hydrate(...$pagerfanta);
+        $this->hydrate(...$pagerfanta->getCurrentPageResults());
 
         return $pagerfanta;
     }
 
-    private function getClubQueryBuilder(Criteria $criteria): QueryBuilder
+    private function getClubQueryBuilder(ClubPageView $criteria): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('c')
-            ->addOrderBy('c.name', 'ASC');
+        $qb = $this->createQueryBuilder('club');
 
         $this->filter($qb, $criteria);
 
         return $qb;
     }
 
-    private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
+    private function filter(QueryBuilder $qb, ClubPageView $criteria): QueryBuilder
     {
-        if ($criteria->nameLike) {
-            $qb->andWhere('c.name LIKE :name')
-                ->setParameter('name', '%' . $criteria->nameLike . '%');
+        if ('' !== $criteria->globalSearch) {
+            $qb->andWhere(
+                'club.name LIKE :search'
+            )->setParameter('search', '%' . $criteria->globalSearch . '%');
         }
+        if ('' !== $criteria->nameLike) {
+            $qb->andWhere(
+                'club.name LIKE :name'
+            )->setParameter('name', '%' . $criteria->nameLike . '%');
+        }
+
+        switch ($criteria->sortColumn) {
+            default:
+            case self::SORT_NAME:
+                $sortColumn = 'club.name';
+
+                break;
+        }
+
+        $qb->addOrderBy($sortColumn, $criteria->sortDirection);
 
         return $qb;
     }
 
-    public function hydrate(Club ...$clubs): void
+    public function hydrate(Club ...$club): void
     {
-        $this->_em->createQueryBuilder()
-            ->select('c')
-            ->addSelect('i')
-            ->from(Club::class, 'c')
-            ->leftJoin('c.emblem', 'i')
-            ->where('c IN (?1)')
-            ->setParameter(1, $clubs)
+        $this->createQueryBuilder('club')
+            ->addSelect('image')
+            ->leftJoin('club.emblem', 'image')
+            ->where('club IN (?1)')
+            ->setParameter(1, $club)
             ->getQuery()
             ->getResult();
     }

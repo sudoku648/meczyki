@@ -1,5 +1,0 @@
-ajax_fetch_match_games:
-    controller: App\Controller\MatchGame\MatchGameAjaxController::fetchMatchGames
-    defaults: { _format: json }
-    path: /ajax/fetch_match_games
-    methods: [ POST ]

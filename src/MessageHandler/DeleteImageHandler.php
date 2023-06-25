@@ -10,9 +10,10 @@ use App\Service\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class DeleteImageHandler implements MessageHandlerInterface
+#[AsMessageHandler()]
+class DeleteImageHandler
 {
     public function __construct(
         private readonly ImageRepository $imageRepository,

@@ -3,6 +3,11 @@ people_front:
     path: /osoby
     methods: [ GET ]
 
+person_fetch:
+    controller: App\Controller\Person\PersonFrontController::fetch
+    path: /people/fetch
+    methods: [ POST ]
+
 person_single:
     controller: App\Controller\Person\PersonSingleController
     path: /osoba/{person_id}

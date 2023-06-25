@@ -3,6 +3,11 @@ referees_front:
     path: /osoby/sedziowie
     methods: [ GET ]
 
+referee_fetch:
+    controller: App\Controller\Person\Referee\RefereeFrontController::fetch
+    path: /people/referees/fetch
+    methods: [ POST ]
+
 referee_create:
     controller: App\Controller\Person\Referee\RefereeCreateController
     path: /osoby/sedzia/nowy

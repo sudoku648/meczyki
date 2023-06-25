@@ -14,9 +14,9 @@ use App\Security\Voter\UserRoleVoter;
 use App\Security\Voter\UserVoter;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
-final class MenuBuilder
+class MenuBuilder
 {
     public function __construct(
         private readonly FactoryInterface $factory,

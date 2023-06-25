@@ -4,14 +4,19 @@ declare(strict_types=1);
 
 namespace App\Validator;
 
+use Stringable;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
+use function ctype_digit;
+use function is_scalar;
+use function strlen;
+
 class NipValidator extends ConstraintValidator
 {
-    public function validate(mixed $value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof Nip) {
             throw new UnexpectedTypeException($constraint, Nip::class);
@@ -21,13 +26,13 @@ class NipValidator extends ConstraintValidator
             return;
         }
 
-        if (!\is_scalar($value) && !$value instanceof \Stringable) {
+        if (!is_scalar($value) && !$value instanceof Stringable) {
             throw new UnexpectedValueException($value, 'string');
         }
 
         $value = (string) $value;
 
-        $length = \strlen($value);
+        $length = strlen($value);
 
         if ($length < 10) {
             $this->context->buildViolation($constraint->message)
@@ -47,7 +52,7 @@ class NipValidator extends ConstraintValidator
             return;
         }
 
-        if (!\ctype_digit($value)) {
+        if (!ctype_digit($value)) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $this->formatValue($value))
                 ->setCode(Nip::INVALID_CHARACTERS_ERROR)
@@ -57,7 +62,7 @@ class NipValidator extends ConstraintValidator
         }
 
         $weights = [6, 5, 7, 2, 3, 4, 5, 6, 7];
-        $sum = 0;
+        $sum     = 0;
         for ($i = 0; $i < 9; $i++) {
             $sum += $weights[$i] * $value[$i];
         }

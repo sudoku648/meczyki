@@ -4,18 +4,118 @@ declare(strict_types=1);
 
 namespace App\Controller\MatchGame;
 
+use App\Controller\Traits\DataTableTrait;
+use App\DataTable\DataTable;
+use App\DataTable\DataTableMatchGameRow;
+use App\Entity\MatchGame;
+use App\PageView\MatchGamePageView;
+use App\Repository\MatchGameRepository;
 use App\Security\Voter\MatchGameVoter;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class MatchGameFrontController extends MatchGameAbstractController
 {
+    use DataTableTrait;
+
     public function front(): Response
     {
         $this->denyAccessUnlessGranted(MatchGameVoter::LIST);
 
-        return $this->render(
-            'match_game/index.html.twig',
-            []
+        return $this->render('match_game/index.html.twig');
+    }
+
+    public function fetch(
+        MatchGameRepository $repository,
+        Request $request
+    ): JsonResponse {
+        $this->denyAccessUnlessGranted(MatchGameVoter::LIST);
+
+        $params = $this->prepareDataTableAjaxRequest($request);
+
+        $criteria                = new MatchGamePageView($params['page']);
+        $criteria->sortColumn    = $params['order']['column'] ?? MatchGameRepository::SORT_DEFAULT;
+        $criteria->sortDirection = $params['order']['dir'] ?? MatchGameRepository::SORT_DIR_DEFAULT;
+        $criteria->perPage       = (int) $params['length'];
+
+        $criteria->globalSearch  = $params['search'];
+
+        $criteria->dateTimeLike = $params['searches']['dateTime'];
+        $criteria->gameTypeLike = $params['searches']['gameType'];
+        $criteria->teamsLike    = $params['searches']['teams'];
+
+        $objects = $repository->findByCriteria($criteria);
+
+        $rows = [];
+
+        /** @var MatchGame $matchGame */
+        foreach ($objects as $objKey => $matchGame) {
+            $rows[] = new DataTableMatchGameRow(
+                $this->getOrdinalNumberForDataTable($objKey, $criteria),
+                $this->renderView(
+                    'match_game/_datatable_checkbox.html.twig',
+                    [
+                        'matchGameId' => $matchGame->getId(),
+                    ]
+                ),
+                $matchGame->getDateTime()->format('d.m.Y H:i'),
+                $matchGame->getGameType() ? $matchGame->getGameType()->getName() : '',
+                ($matchGame->getHomeTeam()?->getFullName() ?? '<em class="text-black-50">nieznany</em>') .
+                ' - ' .
+                ($matchGame->getAwayTeam()?->getFullName() ?? '<em class="text-black-50">nieznany</em>'),
+                $this->getButtonsForDataTable($matchGame)
+            );
+        }
+
+        $dataTable = new DataTable(
+            $params['draw'],
+            $repository->getTotalCount(),
+            $repository->countByCriteria($criteria),
+            $rows
         );
+
+        return new JsonResponse($dataTable);
+    }
+
+    private function getButtonsForDataTable(MatchGame $matchGame): string
+    {
+        $buttons = '';
+
+        if ($this->isGranted(MatchGameVoter::SHOW, $matchGame)) {
+            $buttons .= $this->renderView(
+                'buttons/show.html.twig',
+                [
+                    'btn_size'   => 'table',
+                    'path'       => 'match_game_single',
+                    'parameters' => [
+                        'match_game_id' => $matchGame->getId(),
+                    ],
+                ]
+            );
+        }
+        if ($this->isGranted(MatchGameVoter::EDIT, $matchGame)) {
+            $buttons .= $this->renderView(
+                'buttons/edit.html.twig',
+                [
+                    'btn_size'   => 'table',
+                    'path'       => 'match_game_edit',
+                    'parameters' => [
+                        'match_game_id' => $matchGame->getId(),
+                    ],
+                ]
+            );
+        }
+        if ($this->isGranted(MatchGameVoter::DELETE, $matchGame)) {
+            $buttons .= $this->renderView(
+                'match_game/_delete_form.html.twig',
+                [
+                    'btn_size'  => 'table',
+                    'matchGame' => $matchGame,
+                ]
+            );
+        }
+
+        return $buttons;
     }
 }

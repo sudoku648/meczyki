@@ -4,18 +4,126 @@ declare(strict_types=1);
 
 namespace App\Controller\Person;
 
+use App\Controller\Traits\DataTableTrait;
+use App\DataTable\DataTable;
+use App\DataTable\DataTablePersonRow;
+use App\Entity\Person;
+use App\PageView\PersonPageView;
+use App\Repository\PersonRepository;
 use App\Security\Voter\PersonVoter;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
+use function implode;
 
 class PersonFrontController extends PersonAbstractController
 {
+    use DataTableTrait;
+
     public function front(): Response
     {
         $this->denyAccessUnlessGranted(PersonVoter::LIST);
 
-        return $this->render(
-            'person/index.html.twig',
-            []
+        return $this->render('person/index.html.twig');
+    }
+
+    public function fetch(
+        PersonRepository $repository,
+        Request $request
+    ): JsonResponse {
+        $this->denyAccessUnlessGranted(PersonVoter::LIST);
+
+        $params = $this->prepareDataTableAjaxRequest($request);
+
+        $criteria                = new PersonPageView($params['page']);
+        $criteria->sortColumn    = $params['order']['column'] ?? PersonRepository::SORT_DEFAULT;
+        $criteria->sortDirection = $params['order']['dir'] ?? PersonRepository::SORT_DIR_DEFAULT;
+        $criteria->perPage       = (int) $params['length'];
+
+        $criteria->globalSearch  = $params['search'];
+
+        $criteria->fullNameLike = $params['searches']['fullName'];
+
+        $objects = $repository->findByCriteria($criteria);
+
+        $rows = [];
+
+        /** @var Person $person */
+        foreach ($objects as $objKey => $person) {
+            $functions = [];
+            if ($person->isDelegate()) {
+                $functions[] = 'delegat';
+            }
+            if ($person->isReferee()) {
+                $functions[] = 'sędzia';
+            }
+            if ($person->isRefereeObserver()) {
+                $functions[] = 'obserwator';
+            }
+
+            $rows[] = new DataTablePersonRow(
+                $this->getOrdinalNumberForDataTable($objKey, $criteria),
+                $this->renderView(
+                    'person/_datatable_checkbox.html.twig',
+                    [
+                        'personId' => $person->getId(),
+                    ]
+                ),
+                $person->getFullName(),
+                implode(', ', $functions),
+                $this->getButtonsForDataTable($person)
+            );
+        }
+
+        $dataTable = new DataTable(
+            $params['draw'],
+            $repository->getTotalCount(),
+            $repository->countByCriteria($criteria),
+            $rows
         );
+
+        return new JsonResponse($dataTable);
+    }
+
+    private function getButtonsForDataTable(Person $person): string
+    {
+        $buttons = '';
+
+        if ($this->isGranted(PersonVoter::SHOW, $person)) {
+            $buttons .= $this->renderView(
+                'buttons/show.html.twig',
+                [
+                    'btn_size'   => 'table',
+                    'path'       => 'person_single',
+                    'parameters' => [
+                        'person_id' => $person->getId(),
+                    ],
+                ]
+            );
+        }
+        if ($this->isGranted(PersonVoter::EDIT, $person)) {
+            $buttons .= $this->renderView(
+                'buttons/edit.html.twig',
+                [
+                    'btn_size'   => 'table',
+                    'path'       => 'person_edit',
+                    'parameters' => [
+                        'person_id' => $person->getId(),
+                    ],
+                ]
+            );
+        }
+        if ($this->isGranted(PersonVoter::DELETE, $person)) {
+            $buttons .= $this->renderView(
+                'person/_delete_form.html.twig',
+                [
+                    'btn_size' => 'table',
+                    'person'   => $person,
+                ]
+            );
+        }
+
+        return $buttons;
     }
 }

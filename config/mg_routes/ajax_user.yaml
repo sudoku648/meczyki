@@ -1,5 +1,0 @@
-ajax_fetch_users:
-    controller: App\Controller\User\UserAjaxController::fetchUsers
-    defaults: { _format: json }
-    path: /ajax/fetch_users
-    methods: [ POST ]

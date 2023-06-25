@@ -3,6 +3,11 @@ clubs_front:
     path: /kluby
     methods: [ GET ]
 
+club_fetch:
+    controller: App\Controller\Club\ClubFrontController::fetch
+    path: /clubs/fetch
+    methods: [ POST ]
+
 club_single:
     controller: App\Controller\Club\ClubSingleController
     path: /klub/{club_id}

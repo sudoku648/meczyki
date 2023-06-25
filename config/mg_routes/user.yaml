@@ -3,6 +3,11 @@ users_front:
     path: /uzytkownicy
     methods: [ GET ]
 
+user_fetch:
+    controller: App\Controller\User\UserFrontController::fetch
+    path: /users/fetch
+    methods: [ POST ]
+
 user_single:
     controller: App\Controller\User\UserSingleController
     path: /uzytkownik/{user_id}

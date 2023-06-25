@@ -26,7 +26,7 @@ class UniqueEntity extends Constraint
 {
     public const NOT_UNIQUE_ERROR = 'eec1b008-c55b-4d91-b5ad-f0b201eb8ada';
 
-    protected static $errorNames = [
+    protected const ERROR_NAMES = [
         self::NOT_UNIQUE_ERROR => 'NOT_UNIQUE_ERROR',
     ];
 

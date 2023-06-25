@@ -13,7 +13,6 @@ use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\PagerfantaInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Team|null find($id, $lockMode = null, $lockVersion = null)
@@ -23,123 +22,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class TeamRepository extends ServiceEntityRepository
 {
-    private const PER_PAGE = 10;
+    public const SORT_SHORT_NAME = 'shortName';
+    public const SORT_CLUB_NAME  = 'club'; // @todo check
+    public const SORT_DIR_ASC    = 'ASC';
+    public const SORT_DIR_DESC   = 'DESC';
+
+    public const SORT_DEFAULT     = self::SORT_SHORT_NAME;
+    public const SORT_DIR_DEFAULT = self::SORT_DIR_ASC;
+    public const PER_PAGE         = 10;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Team::class);
-    }
-
-    public function getRequiredDTData(
-        string $start,
-        string $length,
-        array $orders,
-        array $search,
-        array $columns,
-        ?string $otherConditions = null
-    ): array {
-        $query = $this->createQueryBuilder('team');
-
-        $countQuery = $this->createQueryBuilder('team');
-        $countQuery->select('COUNT(team)');
-
-        $query
-            ->join('team.club', 'club');
-
-        $countQuery
-            ->join('team.club', 'club');
-
-        if ($otherConditions === null) {
-            $query->where('1=1');
-            $countQuery->where('1=1');
-        } else {
-            $query->where($otherConditions);
-            $countQuery->where($otherConditions);
-        }
-
-        if ($search['value'] != '') {
-            $query->andWhere(
-                'team.fullName LIKE :search' .
-                ' OR ' .
-                'team.shortName LIKE :search' .
-                ' OR ' .
-                'club.name LIKE :search'
-            );
-            $query->setParameter('search', '%' . $search['value'] . '%');
-        }
-
-        foreach ($columns as $colKey => $column) {
-            if ($column['search']['value'] != '') {
-                $searchItem  = $column['search']['value'];
-                $searchQuery = null;
-
-                switch ($column['name']) {
-                    case 'name':
-                        {
-                            $searchQuery =
-                                'team.fullName LIKE :item_' . $colKey .
-                                ' OR ' .
-                                'team.shortName LIKE :item_' . $colKey;
-
-                            break;
-                        }
-                    case 'club':
-                        {
-                            $searchQuery = 'club.name LIKE :item_' . $colKey;
-
-                            break;
-                        }
-                }
-
-                if ($searchQuery !== null) {
-                    $query->andWhere($searchQuery);
-                    $query->setParameter('item_' . $colKey, '%' . $searchItem . '%');
-                    $countQuery->andWhere($searchQuery);
-                    $countQuery->setParameter('item_' . $colKey, '%' . $searchItem . '%');
-                }
-            }
-        }
-
-        if ($length < 0) {
-            $length = null;
-        }
-
-        $query->setFirstResult($start)->setMaxResults($length);
-
-        foreach ($orders as $key => $order) {
-            if ($order['name'] != '') {
-                $orderColumn = null;
-
-                switch ($order['name']) {
-                    case 'name':
-                        {
-                            $orderColumn = 'team.shortName';
-
-                            break;
-                        }
-                    case 'club':
-                        {
-                            $orderColumn = 'club.name';
-
-                            break;
-                        }
-                }
-
-                if ($orderColumn !== null) {
-                    $query->orderBy($orderColumn, $order['dir']);
-                }
-            }
-        }
-
-        $query->addOrderBy('team.shortName', 'ASC');
-
-        $results     = $query->getQuery()->getResult();
-        $countResult = $countQuery->getQuery()->getSingleScalarResult();
-
-        return [
-            'results'     => $results,
-            'countResult' => $countResult,
-        ];
     }
 
     public function allOrderedByName(): array
@@ -150,6 +44,22 @@ class TeamRepository extends ServiceEntityRepository
                 'shortName' => 'ASC',
             ]
         );
+    }
+
+    public function getTotalCount(): int
+    {
+        return $this->createQueryBuilder('team')
+            ->select('COUNT(team)')
+            ->getQuery()->getSingleScalarResult();
+    }
+
+    public function countByCriteria(TeamPageView|Criteria $criteria): int
+    {
+        $qb = $this->getTeamQueryBuilder($criteria);
+
+        $qb->select('COUNT(team)');
+
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
     public function findByCriteria(TeamPageView $criteria): PagerfantaInterface
@@ -164,54 +74,75 @@ class TeamRepository extends ServiceEntityRepository
             $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
             $pagerfanta->setCurrentPage($criteria->page);
         } catch (NotValidCurrentPageException $e) {
-            throw new NotFoundHttpException();
+            $pagerfanta->setCurrentPage(1);
         }
 
-        $this->hydrate(...$pagerfanta);
+        $this->hydrate(...$pagerfanta->getCurrentPageResults());
 
         return $pagerfanta;
     }
 
     private function getTeamQueryBuilder(Criteria $criteria): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('t')
-            ->join('t.club', 'c')
-            ->addOrderBy('t.shortName', 'ASC');
+        $qb = $this->createQueryBuilder('team')
+            ->join('team.club', 'club');
 
         $this->filter($qb, $criteria);
 
         return $qb;
     }
 
-    private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
+    private function filter(QueryBuilder $qb, TeamPageView $criteria): QueryBuilder
     {
+        if ('' !== $criteria->globalSearch) {
+            $qb->andWhere(
+                'team.fullName LIKE :search' .
+                ' OR ' .
+                'team.shortName LIKE :search' .
+                ' OR ' .
+                'club.name LIKE :search'
+            )->setParameter('search', '%' . $criteria->globalSearch . '%');
+        }
         if ($criteria->club) {
-            $qb->andWhere('t.club = :club')
+            $qb->andWhere('team.club = :club')
                 ->setParameter('club', $criteria->club);
         }
-        if ($criteria->nameLike) {
+        if ('' !== $criteria->nameLike) {
             $qb->andWhere(
-                't.fullName LIKE :name' .
+                'team.fullName LIKE :name' .
                 ' OR ' .
-                't.shortName LIKE :name'
+                'team.shortName LIKE :name'
             )->setParameter('name', '%' . $criteria->nameLike . '%');
         }
         if ($criteria->clubNameLike) {
-            $qb->andWhere('c.name LIKE :clubName')
+            $qb->andWhere('club.name LIKE :clubName')
                 ->setParameter('clubName', '%' . $criteria->clubNameLike . '%');
         }
+
+        switch ($criteria->sortColumn) {
+            default:
+            case self::SORT_SHORT_NAME:
+                $sortColumn = 'team.shortName';
+
+                break;
+            case self::SORT_CLUB_NAME:
+                $sortColumn = 'club.name';
+
+                break;
+        }
+
+        $qb->addOrderBy($sortColumn, $criteria->sortDirection);
 
         return $qb;
     }
 
-    public function hydrate(Team ...$teams): void
+    public function hydrate(Team ...$team): void
     {
-        $this->_em->createQueryBuilder()
-            ->select('t')
-            ->from(Team::class, 't')
-            ->join('t.club', 'c')
-            ->where('t IN (?1)')
-            ->setParameter(1, $teams)
+        $this->createQueryBuilder('team')
+            ->addSelect('club')
+            ->join('team.club', 'club')
+            ->where('team IN (?1)')
+            ->setParameter(1, $team)
             ->getQuery()
             ->getResult();
     }

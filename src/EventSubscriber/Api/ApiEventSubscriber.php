@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber\Api;
 
-use ApiPlatform\Core\EventListener\EventPriorities;
+use ApiPlatform\Symfony\EventListener\EventPriorities;
 use App\ApiDataProvider\DtoPaginator;
 use App\Dto\ClubDto;
 use App\Dto\GameTypeDto;
@@ -21,7 +21,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final class ApiEventSubscriber implements EventSubscriberInterface
+class ApiEventSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private readonly ClubFactory $clubFactory,

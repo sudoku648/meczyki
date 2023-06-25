@@ -1,5 +1,0 @@
-ajax_fetch_referee_observers:
-    controller: App\Controller\Person\RefereeObserver\RefereeObserverAjaxController::fetchRefereeObservers
-    defaults: { _format: json }
-    path: /ajax/fetch_referee_observers
-    methods: [ POST ]

@@ -3,6 +3,11 @@ delegates_front:
     path: /osoby/delegaci
     methods: [ GET ]
 
+delegate_fetch:
+    controller: App\Controller\Person\Delegate\DelegateFrontController::fetch
+    path: /people/delegates/fetch
+    methods: [ POST ]
+
 delegate_create:
     controller: App\Controller\Person\Delegate\DelegateCreateController
     path: /osoby/delegat/nowy

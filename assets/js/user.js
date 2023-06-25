@@ -5,10 +5,10 @@ $(function() {
 
     $dataTable.dataTable({
         columnDefs: $.fn.dataTable.defaults.columnDefs.concat([
-            { "name": "username", "targets": 2, "orderable": false },
+            { "data": "username", "name": "username", "targets": 2, "orderable": true },
         ]),
         ajax: {
-            url: "/ajax/fetch_users",
+            url: "/users/fetch",
         }
     });
 

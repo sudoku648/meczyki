@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\GameType;
+use App\PageView\GameTypePageView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -12,7 +13,6 @@ use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\PagerfantaInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method GameType|null find($id, $lockMode = null, $lockVersion = null)
@@ -22,103 +22,17 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class GameTypeRepository extends ServiceEntityRepository
 {
-    private const PER_PAGE = 10;
+    public const SORT_NAME     = 'name';
+    public const SORT_DIR_ASC  = 'ASC';
+    public const SORT_DIR_DESC = 'DESC';
+
+    public const SORT_DEFAULT     = self::SORT_NAME;
+    public const SORT_DIR_DEFAULT = self::SORT_DIR_ASC;
+    public const PER_PAGE         = 10;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, GameType::class);
-    }
-
-    public function getRequiredDTData(
-        string $start,
-        string $length,
-        array $orders,
-        array $search,
-        array $columns,
-        ?string $otherConditions = null
-    ): array {
-        $query = $this->createQueryBuilder('gameType');
-
-        $countQuery = $this->createQueryBuilder('gameType');
-        $countQuery->select('COUNT(gameType)');
-
-        if ($otherConditions === null) {
-            $query->where('1=1');
-            $countQuery->where('1=1');
-        } else {
-            $query->where($otherConditions);
-            $countQuery->where($otherConditions);
-        }
-
-        if ($search['value'] != '') {
-            $query->andWhere(
-                '(gameType.group IS NULL AND gameType.name LIKE :search)' .
-                ' OR ' .
-                '(CONCAT(gameType.name, \' Grupa \', gameType.group) LIKE :search)'
-            );
-            $query->setParameter('search', '%' . $search['value'] . '%');
-        }
-
-        foreach ($columns as $colKey => $column) {
-            if ($column['search']['value'] != '') {
-                $searchItem  = $column['search']['value'];
-                $searchQuery = null;
-
-                switch ($column['name']) {
-                    case 'name':
-                        {
-                            $searchQuery = '(gameType.group IS NULL AND gameType.name LIKE :item_' . $colKey . ')';
-                            $searchQuery .= ' OR ';
-                            $searchQuery .= '(CONCAT(gameType.name, \' Grupa \', gameType.group) LIKE :item_' . $colKey . ')';
-
-                            break;
-                        }
-                }
-
-                if ($searchQuery !== null) {
-                    $query->andWhere($searchQuery);
-                    $query->setParameter('item_' . $colKey, '%' . $searchItem . '%');
-                    $countQuery->andWhere($searchQuery);
-                    $countQuery->setParameter('item_' . $colKey, '%' . $searchItem . '%');
-                }
-            }
-        }
-
-        if ($length < 0) {
-            $length = null;
-        }
-
-        $query->setFirstResult($start)->setMaxResults($length);
-
-        foreach ($orders as $key => $order) {
-            if ($order['name'] != '') {
-                $orderColumn = null;
-
-                switch ($order['name']) {
-                    case 'name':
-                        {
-                            $orderColumn = 'gameType.name';
-
-                            break;
-                        }
-                }
-
-                if ($orderColumn !== null) {
-                    $query->orderBy($orderColumn, $order['dir']);
-                }
-            }
-        }
-
-        $query->addOrderBy('gameType.name', 'ASC');
-        $query->addOrderBy('gameType.group + 0', 'ASC');
-
-        $results     = $query->getQuery()->getResult();
-        $countResult = $countQuery->getQuery()->getSingleScalarResult();
-
-        return [
-            'results'     => $results,
-            'countResult' => $countResult,
-        ];
     }
 
     public function allOrderedByName(): array
@@ -131,7 +45,23 @@ class GameTypeRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
-    public function findByCriteria(Criteria $criteria): PagerfantaInterface
+    public function getTotalCount(): int
+    {
+        return $this->createQueryBuilder('gameType')
+            ->select('COUNT(gameType)')
+            ->getQuery()->getSingleScalarResult();
+    }
+
+    public function countByCriteria(GameTypePageView|Criteria $criteria): int
+    {
+        $qb = $this->getGameTypeQueryBuilder($criteria);
+
+        $qb->select('COUNT(gameType)');
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function findByCriteria(GameTypePageView|Criteria $criteria): PagerfantaInterface
     {
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
@@ -143,47 +73,58 @@ class GameTypeRepository extends ServiceEntityRepository
             $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
             $pagerfanta->setCurrentPage($criteria->page);
         } catch (NotValidCurrentPageException $e) {
-            throw new NotFoundHttpException();
+            $pagerfanta->setCurrentPage(1);
         }
 
-        $this->hydrate(...$pagerfanta);
+        $this->hydrate(...$pagerfanta->getCurrentPageResults());
 
         return $pagerfanta;
     }
 
-    private function getGameTypeQueryBuilder(Criteria $criteria): QueryBuilder
+    private function getGameTypeQueryBuilder(GameTypePageView $criteria): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('gt')
-            ->addOrderBy('gt.name', 'ASC')
-            ->addOrderBy('gt.group + 0', 'ASC');
+        $qb = $this->createQueryBuilder('gameType');
 
         $this->filter($qb, $criteria);
 
         return $qb;
     }
 
-    private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
+    private function filter(QueryBuilder $qb, GameTypePageView $criteria): QueryBuilder
     {
-        if ($criteria->nameLike) {
+        if ('' !== $criteria->globalSearch) {
             $qb->andWhere(
-                'gt.group IS NULL AND gt.name LIKE :name' .
+                'gameType.group IS NULL AND gameType.name LIKE :search' .
                 ' OR ' .
-                'CONCAT(gt.name, \' Grupa \', gt.group) LIKE :name'
+                'CONCAT(gameType.name, \' Grupa \', gameType.group) LIKE :search'
+            )->setParameter('search', '%' . $criteria->globalSearch . '%');
+        }
+        if ('' !== $criteria->nameLike) {
+            $qb->andWhere(
+                'gameType.group IS NULL AND gameType.name LIKE :name' .
+                ' OR ' .
+                'CONCAT(gameType.name, \' Grupa \', gameType.group) LIKE :name'
             )->setParameter('name', '%' . $criteria->nameLike . '%');
+        }
+
+        switch ($criteria->sortColumn) {
+            default:
+            case self::SORT_NAME:
+                $qb->addOrderBy('gameType.name', $criteria->sortDirection)->addOrderBy('gameType.group + 0', $criteria->sortDirection);
+
+                break;
         }
 
         return $qb;
     }
 
-    public function hydrate(GameType ...$gameTypes): void
+    public function hydrate(GameType ...$gameType): void
     {
-        $this->_em->createQueryBuilder()
-            ->select('gt')
-            ->addSelect('i')
-            ->from(GameType::class, 'gt')
-            ->leftJoin('gt.image', 'i')
-            ->where('gt IN (?1)')
-            ->setParameter(1, $gameTypes)
+        $this->createQueryBuilder('gameType')
+            ->addSelect('image')
+            ->leftJoin('gameType.image', 'image')
+            ->where('gameType IN (?1)')
+            ->setParameter(1, $gameType)
             ->getQuery()
             ->getResult();
     }

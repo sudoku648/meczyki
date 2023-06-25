@@ -3,6 +3,11 @@ user_roles_front:
     path: /role-uzytkownikow
     methods: [ GET ]
 
+user_role_fetch:
+    controller: App\Controller\UserRole\UserRoleFrontController::fetch
+    path: /user_roles/fetch
+    methods: [ POST ]
+
 user_role_create:
     controller: App\Controller\UserRole\UserRoleCreateController
     path: /rola-uzytkownikow/nowa

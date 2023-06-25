@@ -3,6 +3,11 @@ referee_observers_front:
     path: /osoby/obserwatorzy
     methods: [ GET ]
 
+referee_observer_fetch:
+    controller: App\Controller\Person\RefereeObserver\RefereeObserverFrontController::fetch
+    path: /people/referee_observers/fetch
+    methods: [ POST ]
+
 referee_observer_create:
     controller: App\Controller\Person\RefereeObserver\RefereeObserverCreateController
     path: /osoby/obserwator/nowy

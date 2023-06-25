@@ -3,6 +3,11 @@ match_games_front:
     path: /mecze
     methods: [ GET ]
 
+match_game_fetch:
+    controller: App\Controller\MatchGame\MatchGameFrontController::fetch
+    path: /match_games/fetch
+    methods: [ POST ]
+
 match_game_single:
     controller: App\Controller\MatchGame\MatchGameSingleController
     path: /mecz/{match_game_id}

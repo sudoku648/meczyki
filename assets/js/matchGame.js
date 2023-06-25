@@ -5,13 +5,14 @@ $(function() {
 
     $dataTable.dataTable({
         columnDefs: $.fn.dataTable.defaults.columnDefs.concat([
-            { "name": "dateTime", "targets": 2, "orderable": false },
-            { "name": "gameType", "targets": 3, "orderable": false },
-            { "name": "teams", "targets": 4, "orderable": false },
+            { "data": "dateTime", "name": "dateTime", "targets": 2, "orderable": true },
+            { "data": "gameType", "name": "gameType", "targets": 3, "orderable": false },
+            { "data": "teams", "name": "teams", "targets": 4, "orderable": false },
         ]),
         ajax: {
-            url: "/ajax/fetch_match_games",
-        }
+            url: "/match_games/fetch",
+        },
+        order: [[2, 'desc']]
     });
 
     const inputName           = 'matchGames[]';

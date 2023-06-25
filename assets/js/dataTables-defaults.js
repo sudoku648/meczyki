@@ -31,9 +31,9 @@ $.extend($.fn.dataTable.defaults, {
     lengthMenu: [[5, 10, 20, 50, -1], [5, 10, 20, 50, 'Wszystko']],
     paginationType: 'full_numbers',
     columnDefs: [
-        { "name": "lp", "targets": 0, "searchable": false, "orderable": false, "width": "1px" },
-        { "name": "checkbox", "targets": 1, "searchable": false, "orderable": false, "width": "1px" },
-        { "name": "buttons", "targets": -1, "searchable": false, "orderable": false, "class": "buttons" }
+        { "data": "ordinalNumber", "name": "ordinalNumber", "targets": 0, "searchable": false, "orderable": false, "width": "1px" },
+        { "data": "checkbox", "name": "checkbox", "targets": 1, "searchable": false, "orderable": false, "width": "1px" },
+        { "data": "actions", "name": "actions", "targets": -1, "searchable": false, "orderable": false, "class": "buttons" }
     ],
     processing: true,
     serverSide: true,
@@ -41,5 +41,5 @@ $.extend($.fn.dataTable.defaults, {
         type: "POST"
     },
     searching: true,
-    order: [[1, 'asc']]
+    order: [[2, 'asc']]
 });

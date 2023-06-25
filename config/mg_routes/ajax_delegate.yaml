@@ -1,5 +1,0 @@
-ajax_fetch_delegates:
-    controller: App\Controller\Person\Delegate\DelegateAjaxController::fetchDelegates
-    defaults: { _format: json }
-    path: /ajax/fetch_delegates
-    methods: [ POST ]

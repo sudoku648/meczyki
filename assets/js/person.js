@@ -5,11 +5,11 @@ $(function() {
 
     $dataTable.dataTable({
         columnDefs: $.fn.dataTable.defaults.columnDefs.concat([
-            { "name": "fullName", "targets": 2, "orderable": false },
-            { "name": "functions", "targets": 3, "orderable": false },
+            { "data": "fullName", "name": "fullName", "targets": 2, "orderable": true },
+            { "data": "functions", "name": "functions", "targets": 3, "orderable": false },
         ]),
         ajax: {
-            url: "/ajax/fetch_people",
+            url: "/people/fetch",
         }
     });
 

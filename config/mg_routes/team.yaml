@@ -3,6 +3,11 @@ teams_front:
     path: /kluby/druzyny
     methods: [ GET ]
 
+team_fetch:
+    controller: App\Controller\Team\TeamFrontController::fetch
+    path: /clubs/teams/fetch
+    methods: [ POST ]
+
 team_single:
     controller: App\Controller\Team\TeamSingleController
     path: /klub/{club_id}/druzyna/{team_id}

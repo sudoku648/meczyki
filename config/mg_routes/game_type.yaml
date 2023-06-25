@@ -3,6 +3,11 @@ game_types_front:
     path: /typy-rozgrywek
     methods: [ GET ]
 
+game_type_fetch:
+    controller: App\Controller\GameType\GameTypeFrontController::fetch
+    path: /game_types/fetch
+    methods: [ POST ]
+
 game_type_single:
     controller: App\Controller\GameType\GameTypeSingleController
     path: /typ-rozgrywek/{game_type_id}

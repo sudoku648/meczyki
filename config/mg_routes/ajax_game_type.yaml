@@ -1,5 +1,0 @@
-ajax_fetch_gate_types:
-    controller: App\Controller\GameType\GameTypeAjaxController::fetchGameTypes
-    defaults: { _format: json }
-    path: /ajax/fetch_game_types
-    methods: [ POST ]

@@ -9,7 +9,7 @@ use App\Dto\MatchGameDto;
 use App\Factory\MatchGameFactory;
 use App\Repository\MatchGameRepository;
 use App\Service\MatchGameManager;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 final class MatchGameDataPersister implements ContextAwareDataPersisterInterface
 {

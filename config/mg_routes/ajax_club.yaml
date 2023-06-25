@@ -1,5 +1,0 @@
-ajax_fetch_clubs:
-    controller: App\Controller\Club\ClubAjaxController::fetchClubs
-    defaults: { _format: json }
-    path: /ajax/fetch_clubs
-    methods: [ POST ]
