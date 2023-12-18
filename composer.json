@@ -4,17 +4,27 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "doctrine/annotations": "*",
+        "doctrine/doctrine-bundle": "^2.11",
+        "doctrine/doctrine-migrations-bundle": "^3.3",
+        "doctrine/orm": "^2.17",
         "symfony/console": "7.0.*",
         "symfony/dotenv": "7.0.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "7.0.*",
         "symfony/runtime": "7.0.*",
-        "symfony/yaml": "7.0.*"
+        "symfony/uid": "7.0.*",
+        "symfony/validator": "7.0.*",
+        "symfony/yaml": "7.0.*",
+        "webmozart/assert": "*"
     },
     "require-dev": {
+        "phpstan/phpstan": "*",
+        "phpunit/phpunit": "^9.5",
+        "symfony/phpunit-bridge": "^7.0"
     },
     "config": {
         "allow-plugins": {
@@ -54,7 +64,8 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "phpstan": "vendor/bin/phpstan analyze src/"
     },
     "conflict": {
         "symfony/symfony": "*"
