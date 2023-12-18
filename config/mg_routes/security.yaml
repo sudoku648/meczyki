@@ -1,9 +1,0 @@
-app_login:
-    controller: App\Controller\Security\LoginController
-    path: /zaloguj
-    methods: [ GET, POST ]
-
-app_logout:
-    controller: App\Controller\Security\LogoutController::logout
-    path: /wyloguj
-    methods: [ GET ]
