@@ -1,15 +1,11 @@
 # This file is the entry point to configure your own services.
 # Files in the packages/ subdirectory configure your dependencies.
 framework:
-    serializer:
-        mapping:
-            paths: [ '%kernel.project_dir%/config/mg_serialization' ]
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     html5_validation: '%env(bool:HTML5_VALIDATION)%'
-    mg_api_items_per_page: '%env(int:MG_API_ITEMS_PER_PAGE)%'
     uploads_dir_name: 'upload'
 
 services:
@@ -19,7 +15,6 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $html5Validation: '%html5_validation%'
-            $mgApiItemsPerPage: '%mg_api_items_per_page%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
