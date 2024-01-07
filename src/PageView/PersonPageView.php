@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\PageView;
 
 use App\Repository\Criteria;
-use App\Repository\PersonRepository;
+use App\Repository\DoctrinePersonRepository;
 
 class PersonPageView extends Criteria
 {
-    public string $sortColumn = PersonRepository::SORT_DEFAULT;
+    public string $sortColumn = DoctrinePersonRepository::SORT_DEFAULT;
 
-    public string $sortDirection = PersonRepository::SORT_DIR_DEFAULT;
+    public string $sortDirection = DoctrinePersonRepository::SORT_DIR_DEFAULT;
 
     public ?string $globalSearch = null;
 

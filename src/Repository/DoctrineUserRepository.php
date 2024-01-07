@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use App\PageView\UserPageView;
+use App\Repository\Contracts\UserRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -28,7 +29,7 @@ use function sprintf;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository implements UserLoaderInterface, PasswordUpgraderInterface
+class DoctrineUserRepository extends ServiceEntityRepository implements UserLoaderInterface, PasswordUpgraderInterface, UserRepositoryInterface
 {
     public const SORT_USERNAME = 'username';
     public const SORT_DIR_ASC  = 'ASC';
@@ -43,7 +44,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         parent::__construct($registry, User::class);
     }
 
-    public function loadUserByUsername(string $username)
+    public function loadUserByUsername(string $username): ?UserInterface
     {
         return $this->loadUserByIdentifier($username);
     }

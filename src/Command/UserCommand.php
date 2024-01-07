@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Dto\UserDto;
-use App\Repository\UserRepository;
+use App\Repository\Contracts\UserRepositoryInterface;
 use App\Service\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -19,20 +19,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[AsCommand('app:user:create')]
 class UserCommand extends Command
 {
-    private EntityManagerInterface $entityManager;
-    private UserRepository $repository;
-    private UserManager $manager;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        UserRepository $repository,
-        UserManager $manager
+        private readonly EntityManagerInterface $entityManager,
+        private readonly UserRepositoryInterface $repository,
+        private readonly UserManager $manager,
     ) {
         parent::__construct();
-
-        $this->entityManager = $entityManager;
-        $this->repository    = $repository;
-        $this->manager       = $manager;
     }
 
     protected function configure(): void

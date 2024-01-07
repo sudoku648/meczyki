@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\User;
 
 use App\Entity\User;
-use App\Repository\UserRepository;
+use App\Repository\Contracts\UserRepositoryInterface;
 use App\Security\Voter\UserVoter;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +15,7 @@ class UserDeleteController extends UserAbstractController
 {
     public function delete(
         #[MapEntity(mapping: ['user_id' => 'id'])] User $user,
-        Request $request
+        Request $request,
     ): Response {
         $this->denyAccessUnlessGranted(UserVoter::DELETE, $user);
 
@@ -28,7 +28,7 @@ class UserDeleteController extends UserAbstractController
         return $this->redirectToUsersList();
     }
 
-    public function deleteBatch(UserRepository $repository, Request $request): Response
+    public function deleteBatch(UserRepositoryInterface $repository, Request $request): Response
     {
         $this->denyAccessUnlessGranted(UserVoter::DELETE_BATCH);
 

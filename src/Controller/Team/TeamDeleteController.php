@@ -6,7 +6,7 @@ namespace App\Controller\Team;
 
 use App\Entity\Club;
 use App\Entity\Team;
-use App\Repository\TeamRepository;
+use App\Repository\Contracts\TeamRepositoryInterface;
 use App\Security\Voter\TeamVoter;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +17,7 @@ class TeamDeleteController extends TeamAbstractController
     public function delete(
         #[MapEntity(mapping: ['club_id' => 'id'])] Club $club,
         #[MapEntity(mapping: ['team_id' => 'id'])] Team $team,
-        Request $request
+        Request $request,
     ): Response {
         $this->denyAccessUnlessGranted(TeamVoter::DELETE, $team);
 
@@ -34,7 +34,7 @@ class TeamDeleteController extends TeamAbstractController
         return $this->redirectToTeamsList();
     }
 
-    public function deleteBatch(TeamRepository $repository, Request $request): Response
+    public function deleteBatch(TeamRepositoryInterface $repository, Request $request): Response
     {
         $this->denyAccessUnlessGranted(TeamVoter::DELETE_BATCH);
 

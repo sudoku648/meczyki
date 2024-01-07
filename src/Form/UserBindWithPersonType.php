@@ -6,7 +6,7 @@ namespace App\Form;
 
 use App\Dto\UserDto;
 use App\Entity\Person;
-use App\Repository\PersonRepository;
+use App\Repository\Contracts\PersonRepositoryInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -16,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class UserBindWithPersonType extends AbstractType
 {
     public function __construct(
-        private readonly PersonRepository $personRepository
+        private readonly PersonRepositoryInterface $personRepository
     ) {
     }
 

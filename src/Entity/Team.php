@@ -6,11 +6,11 @@ namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
-use App\Repository\TeamRepository;
+use App\Repository\DoctrineTeamRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: TeamRepository::class)]
+#[ORM\Entity(repositoryClass: DoctrineTeamRepository::class)]
 class Team
 {
     use CreatedAtTrait {

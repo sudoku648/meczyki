@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\User;
 
 use App\Entity\User;
-use App\Repository\UserRepository;
+use App\Repository\Contracts\UserRepositoryInterface;
 use App\Security\Voter\UserVoter;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +15,7 @@ class UserActivationController extends UserAbstractController
 {
     public function activate(
         #[MapEntity(mapping: ['user_id' => 'id'])] User $user,
-        Request $request
+        Request $request,
     ): Response {
         $this->denyAccessUnlessGranted(UserVoter::ACTIVATE, $user);
 
@@ -30,7 +30,7 @@ class UserActivationController extends UserAbstractController
 
     public function deactivate(
         #[MapEntity(mapping: ['user_id' => 'id'])] User $user,
-        Request $request
+        Request $request,
     ): Response {
         $this->denyAccessUnlessGranted(UserVoter::DEACTIVATE, $user);
 
@@ -43,7 +43,7 @@ class UserActivationController extends UserAbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
-    public function activateBatch(UserRepository $repository, Request $request): Response
+    public function activateBatch(UserRepositoryInterface $repository, Request $request): Response
     {
         $this->denyAccessUnlessGranted(UserVoter::ACTIVATE_BATCH);
 
@@ -74,7 +74,7 @@ class UserActivationController extends UserAbstractController
         return $this->redirectToUsersList();
     }
 
-    public function deactivateBatch(UserRepository $repository, Request $request): Response
+    public function deactivateBatch(UserRepositoryInterface $repository, Request $request): Response
     {
         $this->denyAccessUnlessGranted(UserVoter::DEACTIVATE_BATCH);
 

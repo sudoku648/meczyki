@@ -8,14 +8,14 @@ use App\Entity\Enums\VoivodeshipEnum;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\PersonTrait;
 use App\Entity\Traits\UpdatedAtTrait;
-use App\Repository\PersonRepository;
+use App\Repository\DoctrinePersonRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: PersonRepository::class)]
+#[ORM\Entity(repositoryClass: DoctrinePersonRepository::class)]
 class Person
 {
     use CreatedAtTrait {

@@ -6,13 +6,13 @@ namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
-use App\Repository\ClubRepository;
+use App\Repository\DoctrineClubRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ClubRepository::class)]
+#[ORM\Entity(repositoryClass: DoctrineClubRepository::class)]
 class Club
 {
     use CreatedAtTrait {

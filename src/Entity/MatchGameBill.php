@@ -6,11 +6,11 @@ namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
-use App\Repository\MatchGameBillRepository;
+use App\Repository\DoctrineMatchGameBillRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: MatchGameBillRepository::class)]
+#[ORM\Entity(repositoryClass: DoctrineMatchGameBillRepository::class)]
 class MatchGameBill
 {
     use CreatedAtTrait {

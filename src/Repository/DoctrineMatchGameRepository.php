@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\MatchGame;
 use App\PageView\MatchGamePageView;
+use App\Repository\Contracts\MatchGameRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -20,7 +21,7 @@ use Pagerfanta\PagerfantaInterface;
  * @method MatchGame[]    findAll()
  * @method MatchGame[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MatchGameRepository extends ServiceEntityRepository
+class DoctrineMatchGameRepository extends ServiceEntityRepository implements MatchGameRepositoryInterface
 {
     public const SORT_DATETIME = 'dateTime';
     public const SORT_DIR_ASC  = 'ASC';

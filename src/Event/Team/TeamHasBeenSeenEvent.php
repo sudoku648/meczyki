@@ -9,12 +9,7 @@ use App\Entity\Team;
 class TeamHasBeenSeenEvent
 {
     public function __construct(
-        private Team $team
+        public readonly Team $team,
     ) {
-    }
-
-    public function getTeam(): Team
-    {
-        return $this->team;
     }
 }

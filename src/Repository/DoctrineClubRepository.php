@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Club;
 use App\PageView\ClubPageView;
+use App\Repository\Contracts\ClubRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -20,7 +21,7 @@ use Pagerfanta\PagerfantaInterface;
  * @method Club[]    findAll()
  * @method Club[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ClubRepository extends ServiceEntityRepository
+class DoctrineClubRepository extends ServiceEntityRepository implements ClubRepositoryInterface
 {
     public const SORT_NAME     = 'name';
     public const SORT_DIR_ASC  = 'ASC';

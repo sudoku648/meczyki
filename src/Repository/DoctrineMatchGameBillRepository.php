@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\MatchGameBill;
+use App\Repository\Contracts\MatchGameBillRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method MatchGameBill[]    findAll()
  * @method MatchGameBill[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MatchGameBillRepository extends ServiceEntityRepository
+class DoctrineMatchGameBillRepository extends ServiceEntityRepository implements MatchGameBillRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

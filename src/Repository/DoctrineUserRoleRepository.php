@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\UserRole;
 use App\PageView\UserRolePageView;
+use App\Repository\Contracts\UserRoleRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -20,7 +21,7 @@ use Pagerfanta\PagerfantaInterface;
  * @method UserRole[]    findAll()
  * @method UserRole[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRoleRepository extends ServiceEntityRepository
+class DoctrineUserRoleRepository extends ServiceEntityRepository implements UserRoleRepositoryInterface
 {
     public const SORT_NAME     = 'name';
     public const SORT_DIR_ASC  = 'ASC';

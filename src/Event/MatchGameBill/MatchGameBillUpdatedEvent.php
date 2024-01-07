@@ -9,12 +9,7 @@ use App\Entity\MatchGameBill;
 class MatchGameBillUpdatedEvent
 {
     public function __construct(
-        private MatchGameBill $matchGameBill
+        public readonly MatchGameBill $matchGameBill,
     ) {
-    }
-
-    public function getMatchGameBill(): MatchGameBill
-    {
-        return $this->matchGameBill;
     }
 }

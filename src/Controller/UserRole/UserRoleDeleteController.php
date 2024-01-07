@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\UserRole;
 
 use App\Entity\UserRole;
-use App\Repository\UserRoleRepository;
+use App\Repository\Contracts\UserRoleRepositoryInterface;
 use App\Security\Voter\UserRoleVoter;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +15,7 @@ class UserRoleDeleteController extends UserRoleAbstractController
 {
     public function delete(
         #[MapEntity(mapping: ['user_role_id' => 'id'])] UserRole $userRole,
-        Request $request
+        Request $request,
     ): Response {
         $this->denyAccessUnlessGranted(UserRoleVoter::DELETE, $userRole);
 
@@ -28,7 +28,7 @@ class UserRoleDeleteController extends UserRoleAbstractController
         return $this->redirectToUserRolesList();
     }
 
-    public function deleteBatch(UserRoleRepository $repository, Request $request): Response
+    public function deleteBatch(UserRoleRepositoryInterface $repository, Request $request): Response
     {
         $this->denyAccessUnlessGranted(UserRoleVoter::DELETE_BATCH);
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\GameType;
 
 use App\Entity\GameType;
-use App\Repository\GameTypeRepository;
+use App\Repository\Contracts\GameTypeRepositoryInterface;
 use App\Security\Voter\GameTypeVoter;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +15,7 @@ class GameTypeDeleteController extends GameTypeAbstractController
 {
     public function delete(
         #[MapEntity(mapping: ['game_type_id' => 'id'])] GameType $gameType,
-        Request $request
+        Request $request,
     ): Response {
         $this->denyAccessUnlessGranted(GameTypeVoter::DELETE, $gameType);
 
@@ -28,7 +28,7 @@ class GameTypeDeleteController extends GameTypeAbstractController
         return $this->redirectToGameTypesList();
     }
 
-    public function deleteBatch(GameTypeRepository $repository, Request $request): Response
+    public function deleteBatch(GameTypeRepositoryInterface $repository, Request $request): Response
     {
         $this->denyAccessUnlessGranted(GameTypeVoter::DELETE_BATCH);
 

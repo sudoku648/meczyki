@@ -9,12 +9,7 @@ use App\Entity\Person;
 class PersonUpdatedEvent
 {
     public function __construct(
-        private Person $person
+        public readonly Person $person,
     ) {
-    }
-
-    public function getPerson(): Person
-    {
-        return $this->person;
     }
 }

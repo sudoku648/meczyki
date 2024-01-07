@@ -9,12 +9,7 @@ use App\Entity\Club;
 class ClubDeletedEvent
 {
     public function __construct(
-        private Club $club
+        public readonly Club $club,
     ) {
-    }
-
-    public function getClub(): Club
-    {
-        return $this->club;
     }
 }

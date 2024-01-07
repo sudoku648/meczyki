@@ -6,13 +6,13 @@ namespace App\PageView;
 
 use App\Entity\Club;
 use App\Repository\Criteria;
-use App\Repository\TeamRepository;
+use App\Repository\DoctrineTeamRepository;
 
 class TeamPageView extends Criteria
 {
-    public string $sortColumn = TeamRepository::SORT_DEFAULT;
+    public string $sortColumn = DoctrineTeamRepository::SORT_DEFAULT;
 
-    public string $sortDirection = TeamRepository::SORT_DIR_DEFAULT;
+    public string $sortDirection = DoctrineTeamRepository::SORT_DIR_DEFAULT;
 
     public ?string $globalSearch = null;
 

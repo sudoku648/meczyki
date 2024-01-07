@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\GameType;
 use App\PageView\GameTypePageView;
+use App\Repository\Contracts\GameTypeRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -20,7 +21,7 @@ use Pagerfanta\PagerfantaInterface;
  * @method GameType[]    findAll()
  * @method GameType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class GameTypeRepository extends ServiceEntityRepository
+class DoctrineGameTypeRepository extends ServiceEntityRepository implements GameTypeRepositoryInterface
 {
     public const SORT_NAME     = 'name';
     public const SORT_DIR_ASC  = 'ASC';

@@ -9,7 +9,8 @@ use App\DataTable\DataTable;
 use App\DataTable\DataTableMatchGameRow;
 use App\Entity\MatchGame;
 use App\PageView\MatchGamePageView;
-use App\Repository\MatchGameRepository;
+use App\Repository\Contracts\MatchGameRepositoryInterface;
+use App\Repository\DoctrineMatchGameRepository;
 use App\Security\Voter\MatchGameVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,16 +28,16 @@ class MatchGameFrontController extends MatchGameAbstractController
     }
 
     public function fetch(
-        MatchGameRepository $repository,
-        Request $request
+        MatchGameRepositoryInterface $repository,
+        Request $request,
     ): JsonResponse {
         $this->denyAccessUnlessGranted(MatchGameVoter::LIST);
 
         $params = $this->prepareDataTableAjaxRequest($request);
 
         $criteria                = new MatchGamePageView($params['page']);
-        $criteria->sortColumn    = $params['order']['column'] ?? MatchGameRepository::SORT_DEFAULT;
-        $criteria->sortDirection = $params['order']['dir'] ?? MatchGameRepository::SORT_DIR_DEFAULT;
+        $criteria->sortColumn    = $params['order']['column'] ?? DoctrineMatchGameRepository::SORT_DEFAULT;
+        $criteria->sortDirection = $params['order']['dir'] ?? DoctrineMatchGameRepository::SORT_DIR_DEFAULT;
         $criteria->perPage       = (int) $params['length'];
 
         $criteria->globalSearch  = $params['search'];

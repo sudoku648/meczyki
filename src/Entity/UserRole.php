@@ -7,7 +7,7 @@ namespace App\Entity;
 use App\Entity\Enums\PermissionEnum;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
-use App\Repository\UserRoleRepository;
+use App\Repository\DoctrineUserRoleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 use function in_array;
 
-#[ORM\Entity(repositoryClass: UserRoleRepository::class)]
+#[ORM\Entity(repositoryClass: DoctrineUserRoleRepository::class)]
 class UserRole
 {
     use CreatedAtTrait {

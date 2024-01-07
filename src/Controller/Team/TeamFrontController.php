@@ -9,7 +9,8 @@ use App\DataTable\DataTable;
 use App\DataTable\DataTableTeamRow;
 use App\Entity\Team;
 use App\PageView\TeamPageView;
-use App\Repository\TeamRepository;
+use App\Repository\Contracts\TeamRepositoryInterface;
+use App\Repository\DoctrineTeamRepository;
 use App\Security\Voter\TeamVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,16 +28,16 @@ class TeamFrontController extends TeamAbstractController
     }
 
     public function fetch(
-        TeamRepository $repository,
-        Request $request
+        TeamRepositoryInterface $repository,
+        Request $request,
     ): JsonResponse {
         $this->denyAccessUnlessGranted(TeamVoter::LIST);
 
         $params = $this->prepareDataTableAjaxRequest($request);
 
         $criteria                = new TeamPageView($params['page']);
-        $criteria->sortColumn    = $params['order']['column'] ?? TeamRepository::SORT_DEFAULT;
-        $criteria->sortDirection = $params['order']['dir'] ?? TeamRepository::SORT_DIR_DEFAULT;
+        $criteria->sortColumn    = $params['order']['column'] ?? DoctrineTeamRepository::SORT_DEFAULT;
+        $criteria->sortDirection = $params['order']['dir'] ?? DoctrineTeamRepository::SORT_DIR_DEFAULT;
         $criteria->perPage       = (int) $params['length'];
 
         $criteria->globalSearch  = $params['search'];

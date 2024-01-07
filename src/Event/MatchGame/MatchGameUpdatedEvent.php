@@ -9,12 +9,7 @@ use App\Entity\MatchGame;
 class MatchGameUpdatedEvent
 {
     public function __construct(
-        private MatchGame $matchGame
+        public readonly MatchGame $matchGame,
     ) {
-    }
-
-    public function getMatchGame(): MatchGame
-    {
-        return $this->matchGame;
     }
 }

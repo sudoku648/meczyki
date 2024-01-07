@@ -9,7 +9,8 @@ use App\DataTable\DataTable;
 use App\DataTable\DataTablePersonRow;
 use App\Entity\Person;
 use App\PageView\PersonPageView;
-use App\Repository\PersonRepository;
+use App\Repository\Contracts\PersonRepositoryInterface;
+use App\Repository\DoctrinePersonRepository;
 use App\Security\Voter\PersonVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,16 +30,16 @@ class PersonFrontController extends PersonAbstractController
     }
 
     public function fetch(
-        PersonRepository $repository,
-        Request $request
+        PersonRepositoryInterface $repository,
+        Request $request,
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PersonVoter::LIST);
 
         $params = $this->prepareDataTableAjaxRequest($request);
 
         $criteria                = new PersonPageView($params['page']);
-        $criteria->sortColumn    = $params['order']['column'] ?? PersonRepository::SORT_DEFAULT;
-        $criteria->sortDirection = $params['order']['dir'] ?? PersonRepository::SORT_DIR_DEFAULT;
+        $criteria->sortColumn    = $params['order']['column'] ?? DoctrinePersonRepository::SORT_DEFAULT;
+        $criteria->sortDirection = $params['order']['dir'] ?? DoctrinePersonRepository::SORT_DIR_DEFAULT;
         $criteria->perPage       = (int) $params['length'];
 
         $criteria->globalSearch  = $params['search'];

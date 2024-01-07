@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Club;
 
 use App\Entity\Club;
-use App\Repository\ClubRepository;
+use App\Repository\Contracts\ClubRepositoryInterface;
 use App\Security\Voter\ClubVoter;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +15,7 @@ class ClubDeleteController extends ClubAbstractController
 {
     public function delete(
         #[MapEntity(mapping: ['club_id' => 'id'])] Club $club,
-        Request $request
+        Request $request,
     ): Response {
         $this->denyAccessUnlessGranted(ClubVoter::DELETE, $club);
 
@@ -28,7 +28,7 @@ class ClubDeleteController extends ClubAbstractController
         return $this->redirectToClubsList();
     }
 
-    public function deleteBatch(ClubRepository $repository, Request $request): Response
+    public function deleteBatch(ClubRepositoryInterface $repository, Request $request): Response
     {
         $this->denyAccessUnlessGranted(ClubVoter::DELETE_BATCH);
 

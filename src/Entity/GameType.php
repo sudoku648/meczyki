@@ -6,11 +6,11 @@ namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
-use App\Repository\GameTypeRepository;
+use App\Repository\DoctrineGameTypeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: GameTypeRepository::class)]
+#[ORM\Entity(repositoryClass: DoctrineGameTypeRepository::class)]
 class GameType
 {
     use CreatedAtTrait {

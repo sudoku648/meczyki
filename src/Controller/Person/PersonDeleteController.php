@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Person;
 
 use App\Entity\Person;
-use App\Repository\PersonRepository;
+use App\Repository\Contracts\PersonRepositoryInterface;
 use App\Security\Voter\PersonVoter;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +15,7 @@ class PersonDeleteController extends PersonAbstractController
 {
     public function delete(
         #[MapEntity(mapping: ['person_id' => 'id'])] Person $person,
-        Request $request
+        Request $request,
     ): Response {
         $this->denyAccessUnlessGranted(PersonVoter::DELETE, $person);
 
@@ -28,7 +28,7 @@ class PersonDeleteController extends PersonAbstractController
         return $this->redirectToPeopleList();
     }
 
-    public function deleteBatch(PersonRepository $repository, Request $request): Response
+    public function deleteBatch(PersonRepositoryInterface $repository, Request $request): Response
     {
         $this->denyAccessUnlessGranted(PersonVoter::DELETE_BATCH);
 

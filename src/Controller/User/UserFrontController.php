@@ -9,7 +9,8 @@ use App\DataTable\DataTable;
 use App\DataTable\DataTableUserRow;
 use App\Entity\User;
 use App\PageView\UserPageView;
-use App\Repository\UserRepository;
+use App\Repository\Contracts\UserRepositoryInterface;
+use App\Repository\DoctrineUserRepository;
 use App\Security\Voter\UserVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,7 @@ class UserFrontController extends UserAbstractController
     }
 
     public function fetch(
-        UserRepository $repository,
+        UserRepositoryInterface $repository,
         Request $request
     ): JsonResponse {
         $this->denyAccessUnlessGranted(UserVoter::LIST);
@@ -35,8 +36,8 @@ class UserFrontController extends UserAbstractController
         $params = $this->prepareDataTableAjaxRequest($request);
 
         $criteria                = new UserPageView($params['page']);
-        $criteria->sortColumn    = $params['order']['column'] ?? UserRepository::SORT_DEFAULT;
-        $criteria->sortDirection = $params['order']['dir'] ?? UserRepository::SORT_DIR_DEFAULT;
+        $criteria->sortColumn    = $params['order']['column'] ?? DoctrineUserRepository::SORT_DEFAULT;
+        $criteria->sortDirection = $params['order']['dir'] ?? DoctrineUserRepository::SORT_DIR_DEFAULT;
         $criteria->perPage       = (int) $params['length'];
 
         $criteria->globalSearch  = $params['search'];

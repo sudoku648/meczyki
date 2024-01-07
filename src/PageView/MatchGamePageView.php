@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\PageView;
 
 use App\Repository\Criteria;
-use App\Repository\MatchGameRepository;
+use App\Repository\DoctrineMatchGameRepository;
 
 class MatchGamePageView extends Criteria
 {
-    public string $sortColumn = MatchGameRepository::SORT_DEFAULT;
+    public string $sortColumn = DoctrineMatchGameRepository::SORT_DEFAULT;
 
-    public string $sortDirection = MatchGameRepository::SORT_DIR_DEFAULT;
+    public string $sortDirection = DoctrineMatchGameRepository::SORT_DIR_DEFAULT;
 
     public ?string $globalSearch = null;
 

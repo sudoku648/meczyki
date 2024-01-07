@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Repository\UserRepository;
+use App\Repository\Contracts\UserRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -17,17 +17,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[AsCommand('app:user:sa')]
 class SuperAdminCommand extends Command
 {
-    private readonly EntityManagerInterface $entityManager;
-    private readonly UserRepository $repository;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        UserRepository $repository
+        private readonly EntityManagerInterface $entityManager,
+        private readonly UserRepositoryInterface $repository,
     ) {
         parent::__construct();
-
-        $this->entityManager = $entityManager;
-        $this->repository    = $repository;
     }
 
     protected function configure(): void

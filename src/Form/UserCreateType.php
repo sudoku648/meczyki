@@ -6,7 +6,7 @@ namespace App\Form;
 
 use App\Dto\UserDto;
 use App\Entity\UserRole;
-use App\Repository\UserRoleRepository;
+use App\Repository\Contracts\UserRoleRepositoryInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -18,7 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class UserCreateType extends AbstractType
 {
     public function __construct(
-        private readonly UserRoleRepository $userRoleRepository
+        private readonly UserRoleRepositoryInterface $userRoleRepository
     ) {
     }
 

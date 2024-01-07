@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Person;
 use App\PageView\PersonPageView;
+use App\Repository\Contracts\PersonRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -23,7 +24,7 @@ use function ucfirst;
  * @method Person[]    findAll()
  * @method Person[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PersonRepository extends ServiceEntityRepository
+class DoctrinePersonRepository extends ServiceEntityRepository implements PersonRepositoryInterface
 {
     public const SORT_FULLNAME = 'fullName';
     public const SORT_DIR_ASC  = 'ASC';

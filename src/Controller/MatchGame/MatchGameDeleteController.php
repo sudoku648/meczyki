@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\MatchGame;
 
 use App\Entity\MatchGame;
-use App\Repository\MatchGameRepository;
+use App\Repository\Contracts\MatchGameRepositoryInterface;
 use App\Security\Voter\MatchGameVoter;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +15,7 @@ class MatchGameDeleteController extends MatchGameAbstractController
 {
     public function delete(
         #[MapEntity(mapping: ['match_game_id' => 'id'])] MatchGame $matchGame,
-        Request $request
+        Request $request,
     ): Response {
         $this->denyAccessUnlessGranted(MatchGameVoter::DELETE, $matchGame);
 
@@ -28,7 +28,7 @@ class MatchGameDeleteController extends MatchGameAbstractController
         return $this->redirectToMatchGamesList();
     }
 
-    public function deleteBatch(MatchGameRepository $repository, Request $request): Response
+    public function deleteBatch(MatchGameRepositoryInterface $repository, Request $request): Response
     {
         $this->denyAccessUnlessGranted(MatchGameVoter::DELETE_BATCH);
 

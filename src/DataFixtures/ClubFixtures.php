@@ -18,11 +18,8 @@ class ClubFixtures extends BaseFixture
 {
     public const CLUBS_COUNT = 13;
 
-    private ImageRepository $imageRepository;
-
-    public function __construct(ImageRepository $imageRepository)
+    public function __construct(private readonly ImageRepository $imageRepository)
     {
-        $this->imageRepository = $imageRepository;
     }
 
     public function loadData(ObjectManager $manager): void

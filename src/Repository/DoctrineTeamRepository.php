@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Team;
 use App\PageView\TeamPageView;
+use App\Repository\Contracts\TeamRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -20,7 +21,7 @@ use Pagerfanta\PagerfantaInterface;
  * @method Team[]    findAll()
  * @method Team[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TeamRepository extends ServiceEntityRepository
+class DoctrineTeamRepository extends ServiceEntityRepository implements TeamRepositoryInterface
 {
     public const SORT_SHORT_NAME = 'shortName';
     public const SORT_CLUB_NAME  = 'club'; // @todo check

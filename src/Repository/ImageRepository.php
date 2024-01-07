@@ -20,12 +20,9 @@ use function getimagesize;
  */
 class ImageRepository extends ServiceEntityRepository
 {
-    private ImageManager $imageManager;
-
-    public function __construct(ManagerRegistry $registry, ImageManager $imageManager)
+    public function __construct(ManagerRegistry $registry, private readonly ImageManager $imageManager)
     {
         parent::__construct($registry, Image::class);
-        $this->imageManager = $imageManager;
     }
 
     public function createFromUpload($upload): ?Image

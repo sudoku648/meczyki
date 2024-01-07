@@ -8,9 +8,9 @@ use App\Dto\MatchGameDto;
 use App\Entity\GameType;
 use App\Entity\Team;
 use App\Form\Option\PersonOption;
-use App\Repository\GameTypeRepository;
-use App\Repository\PersonRepository;
-use App\Repository\TeamRepository;
+use App\Repository\Contracts\GameTypeRepositoryInterface;
+use App\Repository\Contracts\PersonRepositoryInterface;
+use App\Repository\Contracts\TeamRepositoryInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -27,9 +27,9 @@ use function array_merge;
 class MatchGameType extends AbstractType
 {
     public function __construct(
-        private readonly GameTypeRepository $gameTypeRepository,
-        private readonly PersonRepository $personRepository,
-        private readonly TeamRepository $teamRepository
+        private readonly GameTypeRepositoryInterface $gameTypeRepository,
+        private readonly PersonRepositoryInterface $personRepository,
+        private readonly TeamRepositoryInterface $teamRepository
     ) {
     }
 

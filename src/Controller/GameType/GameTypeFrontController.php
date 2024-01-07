@@ -9,7 +9,8 @@ use App\DataTable\DataTable;
 use App\DataTable\DataTableGameTypeRow;
 use App\Entity\GameType;
 use App\PageView\GameTypePageView;
-use App\Repository\GameTypeRepository;
+use App\Repository\Contracts\GameTypeRepositoryInterface;
+use App\Repository\DoctrineGameTypeRepository;
 use App\Security\Voter\GameTypeVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,7 @@ class GameTypeFrontController extends GameTypeAbstractController
     }
 
     public function fetch(
-        GameTypeRepository $repository,
+        GameTypeRepositoryInterface $repository,
         Request $request
     ): JsonResponse {
         $this->denyAccessUnlessGranted(GameTypeVoter::LIST);
@@ -35,8 +36,8 @@ class GameTypeFrontController extends GameTypeAbstractController
         $params = $this->prepareDataTableAjaxRequest($request);
 
         $criteria                = new GameTypePageView($params['page']);
-        $criteria->sortColumn    = $params['order']['column'] ?? GameTypeRepository::SORT_DEFAULT;
-        $criteria->sortDirection = $params['order']['dir'] ?? GameTypeRepository::SORT_DIR_DEFAULT;
+        $criteria->sortColumn    = $params['order']['column'] ?? DoctrineGameTypeRepository::SORT_DEFAULT;
+        $criteria->sortDirection = $params['order']['dir'] ?? DoctrineGameTypeRepository::SORT_DIR_DEFAULT;
         $criteria->perPage       = (int) $params['length'];
 
         $criteria->globalSearch  = $params['search'];

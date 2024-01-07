@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Form\Option;
 
 use App\Entity\Person;
-use App\Repository\PersonRepository;
+use App\Repository\Contracts\PersonRepositoryInterface;
 
 class PersonOption
 {
     public static function default(
-        PersonRepository $personRepository,
+        PersonRepositoryInterface $personRepository,
         $personType = null
     ): array {
         return [

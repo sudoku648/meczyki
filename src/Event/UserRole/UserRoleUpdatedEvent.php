@@ -9,12 +9,7 @@ use App\Entity\UserRole;
 class UserRoleUpdatedEvent
 {
     public function __construct(
-        private UserRole $userRole
+        public readonly UserRole $userRole,
     ) {
-    }
-
-    public function getUserRole(): UserRole
-    {
-        return $this->userRole;
     }
 }

@@ -9,7 +9,8 @@ use App\DataTable\DataTable;
 use App\DataTable\DataTableUserRoleRow;
 use App\Entity\UserRole;
 use App\PageView\UserRolePageView;
-use App\Repository\UserRoleRepository;
+use App\Repository\Contracts\UserRoleRepositoryInterface;
+use App\Repository\DoctrineUserRoleRepository;
 use App\Security\Voter\UserRoleVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,16 +28,16 @@ class UserRoleFrontController extends UserRoleAbstractController
     }
 
     public function fetch(
-        UserRoleRepository $repository,
-        Request $request
+        UserRoleRepositoryInterface $repository,
+        Request $request,
     ): JsonResponse {
         $this->denyAccessUnlessGranted(UserRoleVoter::LIST);
 
         $params = $this->prepareDataTableAjaxRequest($request);
 
         $criteria                = new UserRolePageView($params['page']);
-        $criteria->sortColumn    = $params['order']['column'] ?? UserRoleRepository::SORT_DEFAULT;
-        $criteria->sortDirection = $params['order']['dir'] ?? UserRoleRepository::SORT_DIR_DEFAULT;
+        $criteria->sortColumn    = $params['order']['column'] ?? DoctrineUserRoleRepository::SORT_DEFAULT;
+        $criteria->sortDirection = $params['order']['dir'] ?? DoctrineUserRoleRepository::SORT_DIR_DEFAULT;
         $criteria->perPage       = (int) $params['length'];
 
         $criteria->globalSearch  = $params['search'];

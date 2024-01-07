@@ -9,12 +9,7 @@ use App\Entity\GameType;
 class GameTypeCreatedEvent
 {
     public function __construct(
-        private GameType $gameType
+        public readonly GameType $gameType,
     ) {
-    }
-
-    public function getGameType(): GameType
-    {
-        return $this->gameType;
     }
 }

@@ -9,12 +9,7 @@ use App\Entity\User;
 class UserProfileHasBeenSeenEvent
 {
     public function __construct(
-        private User $user
+        public readonly User $user,
     ) {
-    }
-
-    public function getUser(): User
-    {
-        return $this->user;
     }
 }

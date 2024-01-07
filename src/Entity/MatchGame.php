@@ -6,7 +6,7 @@ namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
-use App\Repository\MatchGameRepository;
+use App\Repository\DoctrineMatchGameRepository;
 use DateTimeImmutable;
 use DateTimeZone;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -14,7 +14,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: MatchGameRepository::class)]
+#[ORM\Entity(repositoryClass: DoctrineMatchGameRepository::class)]
 class MatchGame
 {
     use CreatedAtTrait {

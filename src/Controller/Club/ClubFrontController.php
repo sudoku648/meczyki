@@ -9,7 +9,8 @@ use App\DataTable\DataTable;
 use App\DataTable\DataTableClubRow;
 use App\Entity\Club;
 use App\PageView\ClubPageView;
-use App\Repository\ClubRepository;
+use App\Repository\Contracts\ClubRepositoryInterface;
+use App\Repository\DoctrineClubRepository;
 use App\Security\Voter\ClubVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,7 @@ class ClubFrontController extends ClubAbstractController
     }
 
     public function fetch(
-        ClubRepository $repository,
+        ClubRepositoryInterface $repository,
         Request $request
     ): JsonResponse {
         $this->denyAccessUnlessGranted(ClubVoter::LIST);
@@ -35,8 +36,8 @@ class ClubFrontController extends ClubAbstractController
         $params = $this->prepareDataTableAjaxRequest($request);
 
         $criteria                = new ClubPageView($params['page']);
-        $criteria->sortColumn    = $params['order']['column'] ?? ClubRepository::SORT_DEFAULT;
-        $criteria->sortDirection = $params['order']['dir'] ?? ClubRepository::SORT_DIR_DEFAULT;
+        $criteria->sortColumn    = $params['order']['column'] ?? DoctrineClubRepository::SORT_DEFAULT;
+        $criteria->sortDirection = $params['order']['dir'] ?? DoctrineClubRepository::SORT_DIR_DEFAULT;
         $criteria->perPage       = (int) $params['length'];
 
         $criteria->globalSearch  = $params['search'];
