@@ -11,10 +11,11 @@ use App\Event\MatchGameBill\MatchGameBillCreatedEvent;
 use App\Event\MatchGameBill\MatchGameBillDeletedEvent;
 use App\Event\MatchGameBill\MatchGameBillUpdatedEvent;
 use App\Factory\MatchGameBillFactory;
-use App\Service\Contracts\ContentManagerInterface;
+use App\Service\Contracts\MatchGameBillManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use NumberFormatter;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Webmozart\Assert\Assert;
 
@@ -24,12 +25,12 @@ use function round;
 use function strlen;
 use function substr;
 
-class MatchGameBillManager implements ContentManagerInterface
+readonly class MatchGameBillManager implements MatchGameBillManagerInterface
 {
     public function __construct(
-        private readonly EventDispatcherInterface $dispatcher,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly MatchGameBillFactory $factory
+        private EventDispatcherInterface $dispatcher,
+        private EntityManagerInterface $entityManager,
+        private MatchGameBillFactory $factory,
     ) {
     }
 
@@ -74,7 +75,7 @@ class MatchGameBillManager implements ContentManagerInterface
         $this->entityManager->flush();
     }
 
-    public function generateXlsx(MatchGameBill $matchGameBill)
+    public function generateXlsx(MatchGameBill $matchGameBill): Spreadsheet
     {
         $matchGame = $matchGameBill->getMatchGame();
         $person    = $matchGameBill->getPerson();

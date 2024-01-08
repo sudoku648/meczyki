@@ -11,18 +11,18 @@ use App\Event\GameType\GameTypeDeletedEvent;
 use App\Event\GameType\GameTypeUpdatedEvent;
 use App\Factory\GameTypeFactory;
 use App\Message\DeleteImageMessage;
-use App\Service\Contracts\ContentManagerInterface;
+use App\Service\Contracts\GameTypeManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class GameTypeManager implements ContentManagerInterface
+readonly class GameTypeManager implements GameTypeManagerInterface
 {
     public function __construct(
-        private readonly EventDispatcherInterface $dispatcher,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly MessageBusInterface $bus,
-        private readonly GameTypeFactory $factory
+        private EventDispatcherInterface $dispatcher,
+        private EntityManagerInterface $entityManager,
+        private MessageBusInterface $bus,
+        private GameTypeFactory $factory,
     ) {
     }
 

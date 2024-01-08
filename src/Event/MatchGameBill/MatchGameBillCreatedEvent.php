@@ -6,10 +6,10 @@ namespace App\Event\MatchGameBill;
 
 use App\Entity\MatchGameBill;
 
-class MatchGameBillCreatedEvent
+readonly class MatchGameBillCreatedEvent
 {
     public function __construct(
-        public readonly MatchGameBill $matchGameBill,
+        public MatchGameBill $matchGameBill,
     ) {
     }
 }

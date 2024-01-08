@@ -6,10 +6,10 @@ namespace App\Event\User;
 
 use App\Entity\User;
 
-class UserHasBeenSeenEvent
+readonly class UserHasBeenSeenEvent
 {
     public function __construct(
-        public readonly User $user,
+        public User $user,
     ) {
     }
 }

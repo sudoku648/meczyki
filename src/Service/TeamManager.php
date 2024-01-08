@@ -10,17 +10,17 @@ use App\Event\Team\TeamCreatedEvent;
 use App\Event\Team\TeamDeletedEvent;
 use App\Event\Team\TeamUpdatedEvent;
 use App\Factory\TeamFactory;
-use App\Service\Contracts\ContentManagerInterface;
+use App\Service\Contracts\TeamManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Webmozart\Assert\Assert;
 
-class TeamManager implements ContentManagerInterface
+readonly class TeamManager implements TeamManagerInterface
 {
     public function __construct(
-        private readonly EventDispatcherInterface $dispatcher,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly TeamFactory $factory
+        private EventDispatcherInterface $dispatcher,
+        private EntityManagerInterface $entityManager,
+        private TeamFactory $factory,
     ) {
     }
 

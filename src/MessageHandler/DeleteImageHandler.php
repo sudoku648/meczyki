@@ -13,13 +13,13 @@ use Exception;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler()]
-class DeleteImageHandler
+readonly class DeleteImageHandler
 {
     public function __construct(
-        private readonly ImageRepository $imageRepository,
-        private readonly ImageManager $imageManager,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly ManagerRegistry $managerRegistry
+        private ImageRepository $imageRepository,
+        private ImageManager $imageManager,
+        private EntityManagerInterface $entityManager,
+        private ManagerRegistry $managerRegistry,
     ) {
     }
 

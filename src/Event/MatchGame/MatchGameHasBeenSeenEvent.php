@@ -6,10 +6,10 @@ namespace App\Event\MatchGame;
 
 use App\Entity\MatchGame;
 
-class MatchGameHasBeenSeenEvent
+readonly class MatchGameHasBeenSeenEvent
 {
     public function __construct(
-        public readonly MatchGame $matchGame,
+        public MatchGame $matchGame,
     ) {
     }
 }

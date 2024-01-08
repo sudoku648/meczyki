@@ -11,16 +11,16 @@ use App\Event\Person\PersonDeletedEvent;
 use App\Event\Person\PersonPersonalInfoUpdatedEvent;
 use App\Event\Person\PersonUpdatedEvent;
 use App\Factory\PersonFactory;
-use App\Service\Contracts\ContentManagerInterface;
+use App\Service\Contracts\PersonManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class PersonManager implements ContentManagerInterface
+readonly class PersonManager implements PersonManagerInterface
 {
     public function __construct(
-        private readonly EventDispatcherInterface $dispatcher,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly PersonFactory $factory
+        private EventDispatcherInterface $dispatcher,
+        private EntityManagerInterface $entityManager,
+        private PersonFactory $factory,
     ) {
     }
 

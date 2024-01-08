@@ -12,6 +12,7 @@ use App\Event\User\UserBindWithPersonEvent;
 use App\Event\User\UserDeletedEvent;
 use App\Event\User\UserUnbindWithPersonEvent;
 use App\Factory\UserFactory;
+use App\Service\Contracts\UserManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -19,15 +20,15 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class UserManager
+readonly class UserManager implements UserManagerInterface
 {
     public function __construct(
-        private readonly EventDispatcherInterface $dispatcher,
-        private readonly UserFactory $factory,
-        private readonly UserPasswordHasherInterface $passwordHasher,
-        private readonly TokenStorageInterface $tokenStorage,
-        private readonly RequestStack $requestStack,
-        private readonly EntityManagerInterface $entityManager
+        private EventDispatcherInterface $dispatcher,
+        private UserFactory $factory,
+        private UserPasswordHasherInterface $passwordHasher,
+        private TokenStorageInterface $tokenStorage,
+        private RequestStack $requestStack,
+        private EntityManagerInterface $entityManager
     ) {
     }
 

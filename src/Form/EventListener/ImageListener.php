@@ -14,7 +14,7 @@ class ImageListener implements EventSubscriberInterface
     private string $fieldName;
 
     public function __construct(
-        private readonly ImageRepository $images
+        private readonly ImageRepository $images,
     ) {
     }
 

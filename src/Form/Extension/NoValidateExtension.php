@@ -14,7 +14,7 @@ use function array_merge;
 class NoValidateExtension extends AbstractTypeExtension
 {
     public function __construct(
-        private readonly bool $html5Validation
+        private readonly bool $html5Validation,
     ) {
     }
 

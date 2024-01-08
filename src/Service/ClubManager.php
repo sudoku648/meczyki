@@ -11,18 +11,18 @@ use App\Event\Club\ClubDeletedEvent;
 use App\Event\Club\ClubUpdatedEvent;
 use App\Factory\ClubFactory;
 use App\Message\DeleteImageMessage;
-use App\Service\Contracts\ContentManagerInterface;
+use App\Service\Contracts\ClubManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class ClubManager implements ContentManagerInterface
+readonly class ClubManager implements ClubManagerInterface
 {
     public function __construct(
-        private readonly EventDispatcherInterface $dispatcher,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly ClubFactory $factory,
-        private readonly MessageBusInterface $bus
+        private EventDispatcherInterface $dispatcher,
+        private EntityManagerInterface $entityManager,
+        private ClubFactory $factory,
+        private MessageBusInterface $bus,
     ) {
     }
 

@@ -6,10 +6,10 @@ namespace App\Event\UserRole;
 
 use App\Entity\UserRole;
 
-class UserRoleCreatedEvent
+readonly class UserRoleCreatedEvent
 {
     public function __construct(
-        public readonly UserRole $userRole,
+        public UserRole $userRole,
     ) {
     }
 }

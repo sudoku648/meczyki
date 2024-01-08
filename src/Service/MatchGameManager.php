@@ -11,16 +11,16 @@ use App\Event\MatchGame\MatchGameCreatedEvent;
 use App\Event\MatchGame\MatchGameDeletedEvent;
 use App\Event\MatchGame\MatchGameUpdatedEvent;
 use App\Factory\MatchGameFactory;
-use App\Service\Contracts\ContentManagerInterface;
+use App\Service\Contracts\MatchGameManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class MatchGameManager implements ContentManagerInterface
+readonly class MatchGameManager implements MatchGameManagerInterface
 {
     public function __construct(
-        private readonly EventDispatcherInterface $dispatcher,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly MatchGameFactory $factory
+        private EventDispatcherInterface $dispatcher,
+        private EntityManagerInterface $entityManager,
+        private MatchGameFactory $factory,
     ) {
     }
 

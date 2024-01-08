@@ -6,10 +6,10 @@ namespace App\Event\Club;
 
 use App\Entity\Club;
 
-class ClubCreatedEvent
+readonly class ClubCreatedEvent
 {
     public function __construct(
-        public readonly Club $club,
+        public Club $club,
     ) {
     }
 }

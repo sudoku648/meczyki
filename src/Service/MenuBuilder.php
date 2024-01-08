@@ -16,11 +16,11 @@ use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 
-class MenuBuilder
+readonly class MenuBuilder
 {
     public function __construct(
-        private readonly FactoryInterface $factory,
-        private readonly Security $security
+        private FactoryInterface $factory,
+        private Security $security,
     ) {
     }
 

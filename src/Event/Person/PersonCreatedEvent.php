@@ -6,10 +6,10 @@ namespace App\Event\Person;
 
 use App\Entity\Person;
 
-class PersonCreatedEvent
+readonly class PersonCreatedEvent
 {
     public function __construct(
-        public readonly Person $person,
+        public Person $person,
     ) {
     }
 }

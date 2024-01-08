@@ -6,10 +6,10 @@ namespace App\Event\Team;
 
 use App\Entity\Team;
 
-class TeamUpdatedEvent
+readonly class TeamUpdatedEvent
 {
     public function __construct(
-        public readonly Team $team,
+        public Team $team,
     ) {
     }
 }

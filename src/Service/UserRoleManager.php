@@ -5,22 +5,21 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Dto\UserRoleDto;
-use App\Entity\User;
 use App\Entity\UserRole;
 use App\Event\UserRole\UserRoleCreatedEvent;
 use App\Event\UserRole\UserRoleDeletedEvent;
 use App\Event\UserRole\UserRoleUpdatedEvent;
 use App\Factory\UserRoleFactory;
-use App\Service\Contracts\ContentManagerInterface;
+use App\Service\Contracts\UserRoleManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class UserRoleManager implements ContentManagerInterface
+readonly class UserRoleManager implements UserRoleManagerInterface
 {
     public function __construct(
-        private readonly EventDispatcherInterface $dispatcher,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly UserRoleFactory $factory
+        private EventDispatcherInterface $dispatcher,
+        private EntityManagerInterface $entityManager,
+        private UserRoleFactory $factory,
     ) {
     }
 

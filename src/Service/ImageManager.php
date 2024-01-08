@@ -35,16 +35,16 @@ use function substr;
 use function tempnam;
 use function unlink;
 
-class ImageManager
+readonly class ImageManager
 {
     public const IMAGE_MIMETYPES  = ['image/jpeg', 'image/jpg', 'image/gif', 'image/png', ];
     private const MAX_IMAGE_BYTES = 12000000;
 
     public function __construct(
-        private readonly FilesystemOperator $defaultStorage,
-        private readonly HttpClientInterface $httpClient,
-        private readonly MimeTypesInterface $mimeTypeGuesser,
-        private readonly ValidatorInterface $validator
+        private FilesystemOperator $defaultStorage,
+        private HttpClientInterface $httpClient,
+        private MimeTypesInterface $mimeTypeGuesser,
+        private ValidatorInterface $validator,
     ) {
     }
 
