@@ -7,9 +7,8 @@ namespace App\Factory;
 use App\Dto\MatchGameBillDto;
 use App\Entity\MatchGameBill;
 use App\Entity\Person;
-use App\Factory\Contracts\ContentFactoryInterface;
 
-class MatchGameBillFactory implements ContentFactoryInterface
+class MatchGameBillFactory
 {
     public function createFromDto(MatchGameBillDto $dto, Person $person): MatchGameBill
     {

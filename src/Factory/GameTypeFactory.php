@@ -6,9 +6,8 @@ namespace App\Factory;
 
 use App\Dto\GameTypeDto;
 use App\Entity\GameType;
-use App\Factory\Contracts\ContentFactoryInterface;
 
-class GameTypeFactory implements ContentFactoryInterface
+class GameTypeFactory
 {
     public function createFromDto(GameTypeDto $dto): GameType
     {

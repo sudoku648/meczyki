@@ -6,9 +6,8 @@ namespace App\Factory;
 
 use App\Dto\TeamDto;
 use App\Entity\Team;
-use App\Factory\Contracts\ContentFactoryInterface;
 
-class TeamFactory implements ContentFactoryInterface
+class TeamFactory
 {
     public function createFromDto(TeamDto $dto): Team
     {

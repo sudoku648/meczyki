@@ -6,9 +6,8 @@ namespace App\Factory;
 
 use App\Dto\PersonDto;
 use App\Entity\Person;
-use App\Factory\Contracts\ContentFactoryInterface;
 
-class PersonFactory implements ContentFactoryInterface
+class PersonFactory
 {
     public function createFromDto(PersonDto $dto): Person
     {
