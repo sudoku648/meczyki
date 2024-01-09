@@ -20,8 +20,14 @@ class Club
     }
     use UpdatedAtTrait;
 
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[ORM\Column(type: Types::GUID)]
+    private string $id;
+
     #[ORM\Column(type: Types::STRING, length: 150, unique: true)]
-    private string $name = '';
+    private string $name;
 
     #[ORM\ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: true)]
@@ -30,18 +36,17 @@ class Club
     #[ORM\OneToMany(targetEntity: Team::class, mappedBy: 'club')]
     private Collection $teams;
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[ORM\Column(type: Types::GUID)]
-    private string $id;
-
     public function __construct(string $name)
     {
         $this->name  = $name;
         $this->teams = new ArrayCollection();
 
         $this->createdAtTraitConstruct();
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     public function getName(): string
@@ -96,11 +101,6 @@ class Club
         }
 
         return $this;
-    }
-
-    public function getId(): string
-    {
-        return $this->id;
     }
 
     public function __sleep(): array

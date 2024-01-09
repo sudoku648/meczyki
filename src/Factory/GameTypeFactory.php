@@ -14,7 +14,7 @@ class GameTypeFactory
         return new GameType(
             $dto->name,
             $dto->group,
-            $dto->isOfficial
+            $dto->isOfficial,
         );
     }
 
@@ -22,15 +22,11 @@ class GameTypeFactory
     {
         $dto = new GameTypeDto();
 
-        $dto->name         = $gameType->getName();
-        $dto->group        = $gameType->getGroup();
-        $dto->fullName     = $gameType->getFullName();
-        $dto->isOfficial   = $gameType->isOfficial();
-        $dto->image        = $gameType->getImage();
-        $dto->createdAt    = $gameType->getCreatedAt();
-        $dto->createdAtAgo = $gameType->getCreatedAtAgo();
-        $dto->updatedAt    = $gameType->getUpdatedAt();
-        $dto->updatedAtAgo = $gameType->getUpdatedAtAgo();
+        $dto->name       = $gameType->getName();
+        $dto->group      = $gameType->getGroup();
+        $dto->fullName   = $gameType->getFullName();
+        $dto->isOfficial = $gameType->isOfficial();
+        $dto->image      = $gameType->getImage();
         $dto->setId($gameType->getId());
 
         return $dto;

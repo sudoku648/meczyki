@@ -7,7 +7,6 @@ namespace App\Dto;
 use App\Entity\GameType;
 use App\Entity\Image;
 use App\Validator\UniqueEntity;
-use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[UniqueEntity(options: [
@@ -34,15 +33,7 @@ class GameTypeDto
     #[Assert\Type('boolean')]
     public ?bool $isOfficial = null;
 
-    public Image|ImageDto|null $image = null;
-
-    public ?DateTimeImmutable $createdAt = null;
-
-    public ?string $createdAtAgo = null;
-
-    public ?DateTimeImmutable $updatedAt = null;
-
-    public ?string $updatedAtAgo = null;
+    public ?Image $image = null;
 
     public function getId(): ?string
     {

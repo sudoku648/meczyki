@@ -23,30 +23,35 @@ class UserRole
     }
     use UpdatedAtTrait;
 
-    #[ORM\Column(type: Types::STRING, length: 180, unique: true)]
-    private string $name;
-
-    #[ORM\Column(type: Types::JSON, nullable: true)]
-    private array $permissions = [];
-
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'userRoles')]
-    private Collection $users;
-
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     #[ORM\Column(type: Types::GUID)]
     private string $id;
 
+    #[ORM\Column(type: Types::STRING, length: 180, unique: true)]
+    private string $name;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private array $permissions;
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'userRoles')]
+    private Collection $users;
+
     public function __construct(
         string $name,
-        array $permissions = []
+        array $permissions = [],
     ) {
         $this->name        = $name;
         $this->permissions = $permissions;
         $this->users       = new ArrayCollection();
 
         $this->createdAtTraitConstruct();
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     public function getName(): string
@@ -103,11 +108,6 @@ class UserRole
         }
 
         return $this;
-    }
-
-    public function getId(): string
-    {
-        return $this->id;
     }
 
     public function __sleep()

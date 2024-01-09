@@ -8,7 +8,6 @@ use App\Dto\Contracts\UserDtoInterface;
 use App\Entity\Person;
 use App\Entity\User;
 use App\Validator\UniqueEntity;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -33,17 +32,9 @@ class UserDto implements UserDtoInterface
     #[Assert\Type('boolean')]
     public ?bool $isActive = null;
 
-    public Person|PersonDto|null $person = null;
+    public ?Person $person = null;
 
     public ?Collection $userRoles = null;
-
-    public ?DateTimeImmutable $createdAt = null;
-
-    public ?string $createdAtAgo = null;
-
-    public ?DateTimeImmutable $updatedAt = null;
-
-    public ?string $updatedAtAgo = null;
 
     public function getId(): ?string
     {

@@ -11,21 +11,15 @@ class ClubFactory
 {
     public function createFromDto(ClubDto $dto): Club
     {
-        return new Club(
-            $dto->name
-        );
+        return new Club($dto->name);
     }
 
     public function createDto(Club $club): ClubDto
     {
         $dto = new ClubDto();
 
-        $dto->name         = $club->getName();
-        $dto->emblem       = $club->getEmblem();
-        $dto->createdAt    = $club->getCreatedAt();
-        $dto->createdAtAgo = $club->getCreatedAtAgo();
-        $dto->updatedAt    = $club->getUpdatedAt();
-        $dto->updatedAtAgo = $club->getUpdatedAtAgo();
+        $dto->name   = $club->getName();
+        $dto->emblem = $club->getEmblem();
         $dto->setId($club->getId());
 
         return $dto;

@@ -14,7 +14,7 @@ class TeamFactory
         return new Team(
             $dto->fullName,
             $dto->shortName,
-            $dto->club
+            $dto->club,
         );
     }
 
@@ -22,13 +22,9 @@ class TeamFactory
     {
         $dto = new TeamDto();
 
-        $dto->fullName     = $team->getFullName();
-        $dto->shortName    = $team->getShortName();
-        $dto->club         = $team->getClub();
-        $dto->createdAt    = $team->getCreatedAt();
-        $dto->createdAtAgo = $team->getCreatedAtAgo();
-        $dto->updatedAt    = $team->getUpdatedAt();
-        $dto->updatedAtAgo = $team->getUpdatedAtAgo();
+        $dto->fullName  = $team->getFullName();
+        $dto->shortName = $team->getShortName();
+        $dto->club      = $team->getClub();
         $dto->setId($team->getId());
 
         return $dto;

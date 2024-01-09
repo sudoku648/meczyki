@@ -13,7 +13,7 @@ class UserRoleFactory
     {
         return new UserRole(
             $dto->name,
-            $dto->permissions ?? []
+            $dto->permissions ?? [],
         );
     }
 
@@ -21,12 +21,8 @@ class UserRoleFactory
     {
         $dto = new UserRoleDto();
 
-        $dto->name         = $userRole->getName();
-        $dto->permissions  = $userRole->getPermissions();
-        $dto->createdAt    = $userRole->getCreatedAt();
-        $dto->createdAtAgo = $userRole->getCreatedAtAgo();
-        $dto->updatedAt    = $userRole->getUpdatedAt();
-        $dto->updatedAtAgo = $userRole->getUpdatedAtAgo();
+        $dto->name        = $userRole->getName();
+        $dto->permissions = $userRole->getPermissions();
         $dto->setId($userRole->getId());
 
         return $dto;

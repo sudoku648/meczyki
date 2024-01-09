@@ -28,6 +28,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
     use UpdatedAtTrait;
 
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[ORM\Column(type: Types::GUID)]
+    private string $id;
+
     #[ORM\Column(type: Types::STRING, length: 180, unique: true)]
     private string $username;
 
@@ -48,21 +54,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinTable(name: 'user_to_role')]
     private Collection $userRoles;
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[ORM\Column(type: Types::GUID)]
-    private string $id;
-
     public function __construct(
         string $username,
-        string $password
+        string $password,
     ) {
         $this->password  = $password;
         $this->username  = $username;
         $this->userRoles = new ArrayCollection();
 
         $this->createdAtTraitConstruct();
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     public function getUsername(): string
@@ -209,10 +214,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUserIdentifier(): string
     {
         return $this->username;
-    }
-
-    public function getId(): string
-    {
-        return $this->id;
     }
 }

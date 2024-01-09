@@ -18,6 +18,12 @@ class MatchGameBill
     }
     use UpdatedAtTrait;
 
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[ORM\Column(type: Types::GUID)]
+    private string $id;
+
     #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'matchGameBills')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     private ?Person $person;
@@ -53,19 +59,13 @@ class MatchGameBill
     #[ORM\Column(type: Types::INTEGER)]
     private int $equivalentToWithdraw;
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[ORM\Column(type: Types::GUID)]
-    private string $id;
-
     public function __construct(
         Person $person,
         MatchGame $matchGame,
         int $baseEquivalent,
         int $percentOfBaseEquivalent,
         int $taxDeductibleStakePercent,
-        int $incomeTaxStakePercent
+        int $incomeTaxStakePercent,
     ) {
         $this->person                    = $person;
         $this->matchGame                 = $matchGame;
@@ -75,6 +75,11 @@ class MatchGameBill
         $this->incomeTaxStakePercent     = $incomeTaxStakePercent;
 
         $this->createdAtTraitConstruct();
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     public function getPerson(): ?Person
@@ -207,11 +212,6 @@ class MatchGameBill
         $this->equivalentToWithdraw = $amount;
 
         return $this;
-    }
-
-    public function getId(): string
-    {
-        return $this->id;
     }
 
     public function __sleep(): array

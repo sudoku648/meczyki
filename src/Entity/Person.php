@@ -26,6 +26,12 @@ class Person
         PersonTrait::__construct as personTraitConstruct;
     }
 
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[ORM\Column(type: Types::GUID)]
+    private string $id;
+
     #[ORM\Column(type: Types::STRING, length: 12, unique: true, nullable: true, options: ['default' => null, ])]
     private ?string $mobilePhone;
 
@@ -89,19 +95,13 @@ class Person
     #[ORM\OneToMany(targetEntity: MatchGameBill::class, mappedBy: 'person')]
     private Collection $matchGameBills;
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[ORM\Column(type: Types::GUID)]
-    private string $id;
-
     public function __construct(
         string $firstName,
         string $lastName,
         ?string $mobilePhone = null,
         ?bool $isDelegate = null,
         ?bool $isReferee = null,
-        ?bool $isRefereeObserver = null
+        ?bool $isRefereeObserver = null,
     ) {
         $this->mobilePhone       = $mobilePhone;
         $this->isDelegate        = $isDelegate ?? false;
@@ -112,6 +112,11 @@ class Person
         $this->personTraitConstruct($firstName, $lastName);
 
         $this->createdAtTraitConstruct();
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     public function getMobilePhone(): ?string
@@ -425,10 +430,5 @@ class Person
         });
 
         return !$bills->isEmpty();
-    }
-
-    public function getId(): string
-    {
-        return $this->id;
     }
 }

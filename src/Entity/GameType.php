@@ -18,8 +18,14 @@ class GameType
     }
     use UpdatedAtTrait;
 
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[ORM\Column(type: Types::GUID)]
+    private string $id;
+
     #[ORM\Column(type: Types::STRING, length: 150)]
-    private string $name = '';
+    private string $name;
 
     #[ORM\Column(type: Types::STRING, length: 150, nullable: true, name: '`group`')]
     private ?string $group;
@@ -31,22 +37,21 @@ class GameType
     #[ORM\JoinColumn(nullable: true)]
     private ?Image $image = null;
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[ORM\Column(type: Types::GUID)]
-    private string $id;
-
     public function __construct(
         string $name,
         ?string $group,
-        bool $isOfficial
+        bool $isOfficial,
     ) {
         $this->name       = $name;
         $this->group      = $group;
         $this->isOfficial = $isOfficial;
 
         $this->createdAtTraitConstruct();
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     public function getName(): string
@@ -100,11 +105,6 @@ class GameType
     public function getFullName(): string
     {
         return $this->name . ($this->group ? ' Grupa ' . $this->group : '');
-    }
-
-    public function getId(): string
-    {
-        return $this->id;
     }
 
     public function __sleep(): array

@@ -13,7 +13,7 @@ class UserFactory
     {
         return new User(
             $dto->username,
-            $dto->plainPassword
+            $dto->plainPassword,
         );
     }
 
@@ -21,14 +21,10 @@ class UserFactory
     {
         $dto = new UserDto();
 
-        $dto->username     = $user->getUsername();
-        $dto->isActive     = $user->isActive();
-        $dto->person       = $user->getPerson();
-        $dto->userRoles    = $user->getUserRoles();
-        $dto->createdAt    = $user->getCreatedAt();
-        $dto->createdAtAgo = $user->getCreatedAtAgo();
-        $dto->updatedAt    = $user->getUpdatedAt();
-        $dto->updatedAtAgo = $user->getUpdatedAtAgo();
+        $dto->username  = $user->getUsername();
+        $dto->isActive  = $user->isActive();
+        $dto->person    = $user->getPerson();
+        $dto->userRoles = $user->getUserRoles();
         $dto->setId($user->getId());
 
         return $dto;

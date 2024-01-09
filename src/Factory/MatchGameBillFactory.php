@@ -18,7 +18,7 @@ class MatchGameBillFactory
             $dto->baseEquivalent,
             $dto->percentOfBaseEquivalent,
             $dto->taxDeductibleStakePercent,
-            $dto->incomeTaxStakePercent
+            $dto->incomeTaxStakePercent,
         );
     }
 
@@ -37,10 +37,6 @@ class MatchGameBillFactory
         $dto->incomeTaxStakePercent     = $matchGameBill->getIncomeTaxStakePercent();
         $dto->incomeTax                 = $matchGameBill->getIncomeTax();
         $dto->equivalentToWithdraw      = $matchGameBill->getEquivalentToWithdraw();
-        $dto->createdAt                 = $matchGameBill->getCreatedAt();
-        $dto->createdAtAgo              = $matchGameBill->getCreatedAtAgo();
-        $dto->updatedAt                 = $matchGameBill->getUpdatedAt();
-        $dto->updatedAtAgo              = $matchGameBill->getUpdatedAtAgo();
         $dto->setId($matchGameBill->getId());
 
         return $dto;

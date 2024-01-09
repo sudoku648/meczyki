@@ -6,16 +6,15 @@ namespace App\Dto;
 
 use App\Entity\MatchGame;
 use App\Entity\Person;
-use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class MatchGameBillDto
 {
     private ?string $id = null;
 
-    public Person|PersonDto|null $person = null;
+    public ?Person $person = null;
 
-    public MatchGame|MatchGameDto|null $matchGame = null;
+    public ?MatchGame $matchGame = null;
 
     #[Assert\NotBlank()]
     #[Assert\GreaterThanOrEqual(value: 0)]
@@ -32,14 +31,6 @@ class MatchGameBillDto
     #[Assert\NotBlank()]
     #[Assert\Range(min: 0, max: 100)]
     public ?int $incomeTaxStakePercent = null;
-
-    public ?DateTimeImmutable $createdAt = null;
-
-    public ?string $createdAtAgo = null;
-
-    public ?DateTimeImmutable $updatedAt = null;
-
-    public ?string $updatedAtAgo = null;
 
     public function getId(): ?string
     {

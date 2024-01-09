@@ -102,14 +102,6 @@ class PersonDto
     #[Assert\Type('boolean')]
     public ?bool $allowsToSendPitByEmail = null;
 
-    public ?DateTimeImmutable $createdAt = null;
-
-    public ?string $createdAtAgo = null;
-
-    public ?DateTimeImmutable $updatedAt = null;
-
-    public ?string $updatedAtAgo = null;
-
     #[Assert\Callback]
     public function validateDateOfBirth(
         ExecutionContextInterface $context,

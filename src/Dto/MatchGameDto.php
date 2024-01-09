@@ -25,19 +25,19 @@ class MatchGameDto
 {
     private ?string $id = null;
 
-    public User|UserDto|null $user = null;
+    public ?User $user = null;
 
     #[Assert\NotBlank()]
-    public Team|TeamDto|null $homeTeam = null;
+    public ?Team $homeTeam = null;
 
     #[Assert\NotBlank()]
-    public Team|TeamDto|null $awayTeam = null;
+    public ?Team $awayTeam = null;
 
     #[Assert\NotBlank()]
     public ?DateTimeImmutable $dateTime = null;
 
     #[Assert\NotBlank()]
-    public GameType|GameTypeDto|null $gameType = null;
+    public ?GameType $gameType = null;
 
     public ?string $season = null;
 
@@ -49,31 +49,23 @@ class MatchGameDto
     public ?string $venue = null;
 
     #[Assert\NotBlank()]
-    public Person|PersonDto|null $referee = null;
+    public ?Person $referee = null;
 
-    public Person|PersonDto|null $firstAssistantReferee = null;
+    public ?Person $firstAssistantReferee = null;
 
     public ?bool $isFirstAssistantNonProfitable = null;
 
-    public Person|PersonDto|null $secondAssistantReferee = null;
+    public ?Person $secondAssistantReferee = null;
 
     public ?bool $isSecondAssistantNonProfitable = null;
 
-    public Person|PersonDto|null $fourthOfficial = null;
+    public ?Person $fourthOfficial = null;
 
-    public Person|PersonDto|null $refereeObserver = null;
+    public ?Person $refereeObserver = null;
 
-    public Person|PersonDto|null $delegate = null;
+    public ?Person $delegate = null;
 
     public ?string $moreInfo = null;
-
-    public ?DateTimeImmutable $createdAt = null;
-
-    public ?string $createdAtAgo = null;
-
-    public ?DateTimeImmutable $updatedAt = null;
-
-    public ?string $updatedAtAgo = null;
 
     #[Assert\Callback]
     public function validateSeasonWithDate(

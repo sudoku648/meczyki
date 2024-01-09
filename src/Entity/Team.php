@@ -18,32 +18,37 @@ class Team
     }
     use UpdatedAtTrait;
 
-    #[ORM\Column(type: Types::STRING, length: 200)]
-    private string $fullName = '';
-
-    #[ORM\Column(type: Types::STRING, length: 150)]
-    private string $shortName = '';
-
-    #[ORM\ManyToOne(targetEntity: Club::class, inversedBy: 'teams')]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
-    private Club $club;
-
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     #[ORM\Column(type: Types::GUID)]
     private string $id;
 
+    #[ORM\Column(type: Types::STRING, length: 200)]
+    private string $fullName;
+
+    #[ORM\Column(type: Types::STRING, length: 150)]
+    private string $shortName;
+
+    #[ORM\ManyToOne(targetEntity: Club::class, inversedBy: 'teams')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
+    private Club $club;
+
     public function __construct(
         string $fullName,
         string $shortName,
-        Club $club
+        Club $club,
     ) {
         $this->fullName  = $fullName;
         $this->shortName = $shortName;
         $this->club      = $club;
 
         $this->createdAtTraitConstruct();
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     public function getFullName(): string
@@ -80,11 +85,6 @@ class Team
         $this->club = $club;
 
         return $this;
-    }
-
-    public function getId(): string
-    {
-        return $this->id;
     }
 
     public function __sleep()

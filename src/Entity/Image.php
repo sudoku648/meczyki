@@ -13,6 +13,12 @@ use InvalidArgumentException;
 #[ORM\UniqueConstraint(name: 'images_file_name_idx', columns: ['file_name'])]
 class Image
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[ORM\Column(type: Types::GUID)]
+    private string $id;
+
     #[ORM\Column(type: Types::STRING)]
     private string $filePath;
 
@@ -25,17 +31,11 @@ class Image
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $height;
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[ORM\Column(type: Types::GUID)]
-    private string $id;
-
     public function __construct(
         string $fileName,
         string $filePath,
         ?int $width,
-        ?int $height
+        ?int $height,
     ) {
         $this->filePath = $filePath;
         $this->fileName = $fileName;
@@ -61,6 +61,11 @@ class Image
         }
     }
 
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
     public function getFilePath(): string
     {
         return $this->filePath;
@@ -79,11 +84,6 @@ class Image
     public function getHeight(): ?int
     {
         return $this->height;
-    }
-
-    public function getId(): string
-    {
-        return $this->id;
     }
 
     public function __toString(): string

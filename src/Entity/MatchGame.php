@@ -22,6 +22,12 @@ class MatchGame
     }
     use UpdatedAtTrait;
 
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[ORM\Column(type: Types::GUID)]
+    private string $id;
+
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $user;
@@ -81,16 +87,10 @@ class MatchGame
     private ?Person $delegate;
 
     #[ORM\Column(type: Types::STRING, length: 2000)]
-    private string $moreInfo = '';
+    private string $moreInfo;
 
     #[ORM\OneToMany(targetEntity: MatchGameBill::class, mappedBy: 'matchGame')]
     private Collection $matchGameBills;
-
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[ORM\Column(type: Types::GUID)]
-    private string $id;
 
     public function __construct(
         User $user,
@@ -109,7 +109,7 @@ class MatchGame
         ?Person $fourthOfficial,
         ?Person $refereeObserver,
         ?Person $delegate,
-        ?string $moreInfo
+        ?string $moreInfo,
     ) {
         $this->user                                    = $user;
         $this->homeTeam                                = $homeTeam;
@@ -131,6 +131,11 @@ class MatchGame
         $this->matchGameBills                          = new ArrayCollection();
 
         $this->createdAtTraitConstruct();
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     public function getUser(): ?User
@@ -391,11 +396,6 @@ class MatchGame
             ' - ' .
             ($this->awayTeam ? $this->awayTeam->getFullName() : '')
         ;
-    }
-
-    public function getId(): string
-    {
-        return $this->id;
     }
 
     public function __sleep(): array

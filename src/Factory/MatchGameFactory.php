@@ -29,7 +29,7 @@ class MatchGameFactory
             $dto->fourthOfficial,
             $dto->refereeObserver,
             $dto->delegate,
-            $dto->moreInfo
+            $dto->moreInfo,
         );
     }
 
@@ -54,10 +54,6 @@ class MatchGameFactory
         $dto->refereeObserver                = $matchGame->getRefereeObserver();
         $dto->delegate                       = $matchGame->getDelegate();
         $dto->moreInfo                       = $matchGame->getMoreInfo();
-        $dto->createdAt                      = $matchGame->getCreatedAt();
-        $dto->createdAtAgo                   = $matchGame->getCreatedAtAgo();
-        $dto->updatedAt                      = $matchGame->getUpdatedAt();
-        $dto->updatedAtAgo                   = $matchGame->getUpdatedAtAgo();
         $dto->setId($matchGame->getId());
 
         return $dto;

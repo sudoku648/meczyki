@@ -17,7 +17,7 @@ class PersonFactory
             $dto->mobilePhone,
             $dto->isDelegate,
             $dto->isReferee,
-            $dto->isRefereeObserver
+            $dto->isRefereeObserver,
         );
     }
 
@@ -49,10 +49,6 @@ class PersonFactory
         $dto->nip                    = $person->getNip();
         $dto->iban                   = $person->getIban();
         $dto->allowsToSendPitByEmail = $person->allowsToSendPitByEmail();
-        $dto->createdAt              = $person->getCreatedAt();
-        $dto->createdAtAgo           = $person->getCreatedAtAgo();
-        $dto->updatedAt              = $person->getUpdatedAt();
-        $dto->updatedAtAgo           = $person->getUpdatedAtAgo();
         $dto->setId($person->getId());
 
         return $dto;
