@@ -21,6 +21,10 @@ abstract class UserAbstractController extends AbstractController
         protected UserManagerInterface $manager,
     ) {
         $this->breadcrumbs->addItem(
+            'Panel',
+            $this->router->generate('dashboard')
+        );
+        $this->breadcrumbs->addItem(
             'Użytkownicy',
             $this->router->generate('users_list')
         );

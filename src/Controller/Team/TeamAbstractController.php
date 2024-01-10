@@ -21,6 +21,10 @@ abstract class TeamAbstractController extends AbstractController
         protected TeamManagerInterface $manager,
     ) {
         $this->breadcrumbs->addItem(
+            'Panel',
+            $this->router->generate('dashboard')
+        );
+        $this->breadcrumbs->addItem(
             'Drużyny',
             $this->router->generate('teams_list')
         );

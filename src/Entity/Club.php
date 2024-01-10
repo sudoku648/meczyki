@@ -6,13 +6,9 @@ namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
-use App\Repository\DoctrineClubRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: DoctrineClubRepository::class)]
 class Club
 {
     use CreatedAtTrait {
@@ -20,20 +16,12 @@ class Club
     }
     use UpdatedAtTrait;
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[ORM\Column(type: Types::GUID)]
     private string $id;
 
-    #[ORM\Column(type: Types::STRING, length: 150, unique: true)]
     private string $name;
 
-    #[ORM\ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
-    #[ORM\JoinColumn(nullable: true)]
     private ?Image $emblem = null;
 
-    #[ORM\OneToMany(targetEntity: Team::class, mappedBy: 'club')]
     private Collection $teams;
 
     public function __construct(string $name)

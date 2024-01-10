@@ -21,6 +21,10 @@ abstract class UserRoleAbstractController extends AbstractController
         protected UserRoleManagerInterface $manager,
     ) {
         $this->breadcrumbs->addItem(
+            'Panel',
+            $this->router->generate('dashboard')
+        );
+        $this->breadcrumbs->addItem(
             'Role użytkowników',
             $this->router->generate('user_roles_list')
         );

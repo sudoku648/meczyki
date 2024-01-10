@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          vendor/doctrine/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Entity\MatchGameBill" table="match_game_bill" repository-class="App\Repository\DoctrineMatchGameBillRepository">
+        <id name="id" type="guid" column="id" length="36">
+            <generator strategy="CUSTOM" />
+            <custom-id-generator class="doctrine.uuid_generator" />
+        </id>
+
+        <field name="baseEquivalent" type="integer" column="base_equivalent" />
+        <field name="percentOfBaseEquivalent" type="integer" column="percent_of_base_equivalent" />
+        <field name="grossEquivalent" type="integer" column="gross_equivalent" />
+        <field name="taxDeductibleStakePercent" type="integer" column="tax_deductible_stake_percent" />
+        <field name="taxDeductibleExpenses" type="integer" column="tax_deductible_expenses" />
+        <field name="taxationBase" type="integer" column="taxation_base" />
+        <field name="incomeTaxStakePercent" type="integer" column="income_tax_stake_percent" />
+        <field name="incomeTax" type="integer" column="income_tax" />
+        <field name="equivalentToWithdraw" type="integer" column="equivalent_to_withdraw" />
+
+        <field name="createdAt" type="datetimetz_immutable" column="created_at" />
+        <field name="updatedAt" type="datetimetz_immutable" column="updated_at" nullable="true" />
+
+        <many-to-one field="person" target-entity="Person" inversed-by="matchGameBills">
+            <join-column name="person_id" nullable="false" on-delete="cascade" />
+        </many-to-one>
+
+        <many-to-one field="matchGame" target-entity="MatchGame" inversed-by="matchGameBills">
+            <join-column name="match_game_id" nullable="false" on-delete="cascade" />
+        </many-to-one>
+    </entity>
+
+</doctrine-mapping>

@@ -8,14 +8,10 @@ use App\Entity\Enums\VoivodeshipEnum;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\PersonTrait;
 use App\Entity\Traits\UpdatedAtTrait;
-use App\Repository\DoctrinePersonRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: DoctrinePersonRepository::class)]
 class Person
 {
     use CreatedAtTrait {
@@ -26,73 +22,48 @@ class Person
         PersonTrait::__construct as personTraitConstruct;
     }
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[ORM\Column(type: Types::GUID)]
     private string $id;
 
-    #[ORM\Column(type: Types::STRING, length: 12, unique: true, nullable: true, options: ['default' => null, ])]
     private ?string $mobilePhone;
 
-    #[ORM\Column(type: Types::BOOLEAN)]
     private bool $isDelegate = false;
 
-    #[ORM\Column(type: Types::BOOLEAN)]
     private bool $isReferee = false;
 
-    #[ORM\Column(type: Types::BOOLEAN)]
     private bool $isRefereeObserver = false;
 
-    #[ORM\Column(type: Types::STRING, length: 150, nullable: true)]
     private ?string $email = null;
 
-    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $dateOfBirth = null;
 
-    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
     private ?string $placeOfBirth = null;
 
-    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
     private ?string $addressTown = null;
 
-    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
     private ?string $addressStreet = null;
 
-    #[ORM\Column(type: Types::STRING, length: 6, nullable: true)]
     private ?string $addressZipCode = null;
 
-    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
     private ?string $addressPostOffice = null;
 
-    #[ORM\Column(type: Types::STRING, enumType: VoivodeshipEnum::class, length: 100, nullable: true)]
     private ?VoivodeshipEnum $addressVoivodeship = null;
 
-    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
     private ?string $addressPowiat = null;
 
-    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
     private ?string $addressGmina = null;
 
-    #[ORM\Column(type: Types::STRING, length: 150, nullable: true)]
     private ?string $taxOfficeName = null;
 
-    #[ORM\Column(type: Types::STRING, length: 150, nullable: true)]
     private ?string $taxOfficeAddress = null;
 
-    #[ORM\Column(type: Types::STRING, length: 11, nullable: true)]
     private ?string $pesel = null;
 
-    #[ORM\Column(type: Types::STRING, length: 10, nullable: true)]
     private ?string $nip = null;
 
-    #[ORM\Column(type: Types::STRING, length: 28, nullable: true)]
     private ?string $iban = null;
 
-    #[ORM\Column(type: Types::BOOLEAN)]
     private bool $allowsToSendPitByEmail = false;
 
-    #[ORM\OneToMany(targetEntity: MatchGameBill::class, mappedBy: 'person')]
     private Collection $matchGameBills;
 
     public function __construct(

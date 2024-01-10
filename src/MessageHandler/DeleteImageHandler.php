@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\MessageHandler;
 
 use App\Message\DeleteImageMessage;
-use App\Repository\ImageRepository;
+use App\Repository\Contracts\ImageRepositoryInterface;
 use App\Service\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -16,7 +16,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 readonly class DeleteImageHandler
 {
     public function __construct(
-        private ImageRepository $imageRepository,
+        private ImageRepositoryInterface $imageRepository,
         private ImageManager $imageManager,
         private EntityManagerInterface $entityManager,
         private ManagerRegistry $managerRegistry,

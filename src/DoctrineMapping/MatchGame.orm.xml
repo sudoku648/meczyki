@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          vendor/doctrine/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Entity\MatchGame" table="match_game" repository-class="App\Repository\DoctrineMatchGameRepository">
+        <id name="id" type="guid" column="id" length="36">
+            <generator strategy="CUSTOM" />
+            <custom-id-generator class="doctrine.uuid_generator" />
+        </id>
+
+        <field name="dateTime" type="datetimetz_immutable" column="date_time" nullable="false" />
+        <field name="season" column="season" length="10" nullable="true" />
+        <field name="round" type="integer" column="round" nullable="true" />
+        <field name="venue" column="venue" length="150" />
+        <field name="isFirstAssistantNonProfitable" type="boolean" column="is_first_assistant_non_profitable"
+            nullable="true" />
+        <field name="isSecondAssistantNonProfitable" type="boolean" column="is_second_assistant_non_profitable"
+            nullable="true" />
+        <field name="moreInfo" column="more_info" length="2000" />
+
+        <field name="createdAt" type="datetimetz_immutable" column="created_at" />
+        <field name="updatedAt" type="datetimetz_immutable" column="updated_at" nullable="true" />
+
+        <many-to-one field="user" target-entity="User">
+            <join-column name="user_id" nullable="true" on-delete="SET NULL" />
+        </many-to-one>
+
+        <many-to-one field="homeTeam" target-entity="Team">
+            <cascade>
+                <cascade-persist />
+            </cascade>
+            <join-column name="home_team_id" nullable="true" on-delete="SET NULL" />
+        </many-to-one>
+
+        <many-to-one field="awayTeam" target-entity="Team">
+            <cascade>
+                <cascade-persist />
+            </cascade>
+            <join-column name="away_team_id" nullable="true" on-delete="SET NULL" />
+        </many-to-one>
+
+        <many-to-one field="gameType" target-entity="GameType">
+            <cascade>
+                <cascade-persist />
+            </cascade>
+            <join-column name="game_type_id" nullable="true" on-delete="SET NULL" />
+        </many-to-one>
+
+        <many-to-one field="referee" target-entity="Person">
+            <cascade>
+                <cascade-persist />
+            </cascade>
+            <join-column name="referee_id" nullable="true" on-delete="SET NULL" />
+        </many-to-one>
+
+        <many-to-one field="firstAssistantReferee" target-entity="Person">
+            <cascade>
+                <cascade-persist />
+            </cascade>
+            <join-column name="first_assistant_referee_id" nullable="true" on-delete="SET NULL" />
+        </many-to-one>
+
+        <many-to-one field="secondAssistantReferee" target-entity="Person">
+            <cascade>
+                <cascade-persist />
+            </cascade>
+            <join-column name="second_assistant_referee_id" nullable="true" on-delete="SET NULL" />
+        </many-to-one>
+
+        <many-to-one field="fourthOfficial" target-entity="Person">
+            <cascade>
+                <cascade-persist />
+            </cascade>
+            <join-column name="fourth_official_id" nullable="true" on-delete="SET NULL" />
+        </many-to-one>
+
+        <many-to-one field="refereeObserver" target-entity="Person">
+            <cascade>
+                <cascade-persist />
+            </cascade>
+            <join-column name="referee_observer_id" nullable="true" on-delete="SET NULL" />
+        </many-to-one>
+
+        <many-to-one field="delegate" target-entity="Person">
+            <cascade>
+                <cascade-persist />
+            </cascade>
+            <join-column name="delegate_id" nullable="true" on-delete="SET NULL" />
+        </many-to-one>
+
+        <one-to-many field="matchGameBills" target-entity="MatchGameBill" mapped-by="matchGame" />
+    </entity>
+
+</doctrine-mapping>

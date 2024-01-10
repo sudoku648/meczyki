@@ -7,11 +7,8 @@ namespace App\Entity;
 use App\Entity\Enums\PermissionEnum;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
-use App\Repository\DoctrineUserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -19,8 +16,6 @@ use function array_unique;
 use function in_array;
 use function is_null;
 
-#[ORM\Entity(repositoryClass: DoctrineUserRepository::class)]
-#[ORM\Table(name: '`user`')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use CreatedAtTrait {
@@ -28,30 +23,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
     use UpdatedAtTrait;
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[ORM\Column(type: Types::GUID)]
     private string $id;
 
-    #[ORM\Column(type: Types::STRING, length: 180, unique: true)]
     private string $username;
 
-    #[ORM\Column(type: Types::STRING)]
     private string $password;
 
-    #[ORM\Column(type: Types::JSON)]
     private array $roles = [];
 
-    #[ORM\Column(type: Types::BOOLEAN)]
     private bool $isActive = true;
 
-    #[ORM\OneToOne(targetEntity: Person::class)]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Person $person;
 
-    #[ORM\ManyToMany(targetEntity: UserRole::class, inversedBy: 'users')]
-    #[ORM\JoinTable(name: 'user_to_role')]
     private Collection $userRoles;
 
     public function __construct(

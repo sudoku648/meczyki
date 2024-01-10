@@ -4,16 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity\Traits;
 
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-
 trait PersonTrait
 {
-    #[ORM\Column(type: Types::STRING, length: 100)]
-    private string $firstName = '';
+    private string $firstName;
 
-    #[ORM\Column(type: Types::STRING, length: 100)]
-    private string $lastName = '';
+    private string $lastName;
 
     public function __construct(string $firstName, string $lastName)
     {

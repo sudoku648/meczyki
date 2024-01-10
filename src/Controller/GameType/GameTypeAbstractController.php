@@ -21,6 +21,10 @@ abstract class GameTypeAbstractController extends AbstractController
         protected GameTypeManagerInterface $manager,
     ) {
         $this->breadcrumbs->addItem(
+            'Panel',
+            $this->router->generate('dashboard')
+        );
+        $this->breadcrumbs->addItem(
             'Typy rozgrywek',
             $this->router->generate('game_types_list')
         );

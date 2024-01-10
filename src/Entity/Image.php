@@ -4,31 +4,18 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\ImageRepository;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 
-#[ORM\Entity(repositoryClass: ImageRepository::class)]
-#[ORM\UniqueConstraint(name: 'images_file_name_idx', columns: ['file_name'])]
 class Image
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[ORM\Column(type: Types::GUID)]
     private string $id;
 
-    #[ORM\Column(type: Types::STRING)]
     private string $filePath;
 
-    #[ORM\Column(type: Types::STRING, length: 180)]
     private string $fileName;
 
-    #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $width;
 
-    #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $height;
 
     public function __construct(

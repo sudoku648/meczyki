@@ -6,12 +6,9 @@ namespace App\Entity\Traits;
 
 use Carbon\Carbon;
 use DateTimeImmutable;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
 
 trait CreatedAtTrait
 {
-    #[ORM\Column(type: Types::DATETIMETZ_IMMUTABLE)]
     private DateTimeImmutable $createdAt;
 
     public function __construct()

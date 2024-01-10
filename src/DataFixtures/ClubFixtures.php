@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\Entity\Club;
-use App\Repository\ImageRepository;
+use App\Repository\Contracts\ImageRepositoryInterface;
 use Doctrine\Persistence\ObjectManager;
 
 use function array_flip;
@@ -18,7 +18,7 @@ class ClubFixtures extends BaseFixture
 {
     public const CLUBS_COUNT = 13;
 
-    public function __construct(private readonly ImageRepository $imageRepository)
+    public function __construct(private readonly ImageRepositoryInterface $imageRepository)
     {
     }
 

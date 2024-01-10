@@ -6,15 +6,11 @@ namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
-use App\Repository\DoctrineMatchGameRepository;
 use DateTimeImmutable;
 use DateTimeZone;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: DoctrineMatchGameRepository::class)]
 class MatchGame
 {
     use CreatedAtTrait {
@@ -22,74 +18,42 @@ class MatchGame
     }
     use UpdatedAtTrait;
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[ORM\Column(type: Types::GUID)]
     private string $id;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $user;
 
-    #[ORM\ManyToOne(targetEntity: Team::class, cascade: ['persist', ])]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Team $homeTeam;
 
-    #[ORM\ManyToOne(targetEntity: Team::class, cascade: ['persist', ])]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Team $awayTeam;
 
-    #[ORM\Column(type: Types::DATETIMETZ_IMMUTABLE, nullable: false)]
     private DateTimeImmutable $dateTime;
 
-    #[ORM\ManyToOne(targetEntity: GameType::class, cascade: ['persist', ])]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?GameType $gameType;
 
-    #[ORM\Column(type: Types::STRING, length: 10, nullable: true)]
     private ?string $season;
 
-    #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $round;
 
-    #[ORM\Column(type: Types::STRING, length: 150)]
     private string $venue;
 
-    #[ORM\ManyToOne(targetEntity: Person::class, cascade: ['persist', ])]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Person $referee;
 
-    #[ORM\ManyToOne(targetEntity: Person::class, cascade: ['persist', ])]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Person $firstAssistantReferee;
 
-    #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
     private ?bool $isFirstAssistantNonProfitable;
 
-    #[ORM\ManyToOne(targetEntity: Person::class, cascade: ['persist', ])]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Person $secondAssistantReferee;
 
-    #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
     private ?bool $isSecondAssistantNonProfitable;
 
-    #[ORM\ManyToOne(targetEntity: Person::class, cascade: ['persist', ])]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Person $fourthOfficial;
 
-    #[ORM\ManyToOne(targetEntity: Person::class, cascade: ['persist', ])]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Person $refereeObserver;
 
-    #[ORM\ManyToOne(targetEntity: Person::class, cascade: ['persist', ])]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Person $delegate;
 
-    #[ORM\Column(type: Types::STRING, length: 2000)]
     private string $moreInfo;
 
-    #[ORM\OneToMany(targetEntity: MatchGameBill::class, mappedBy: 'matchGame')]
     private Collection $matchGameBills;
 
     public function __construct(
@@ -111,24 +75,24 @@ class MatchGame
         ?Person $delegate,
         ?string $moreInfo,
     ) {
-        $this->user                                    = $user;
-        $this->homeTeam                                = $homeTeam;
-        $this->awayTeam                                = $awayTeam;
-        $this->dateTime                                = $dateTime;
-        $this->gameType                                = $gameType;
-        $this->season                                  = $season;
-        $this->round                                   = $round;
-        $this->venue                                   = $venue;
-        $this->referee                                 = $referee;
-        $this->firstAssistantReferee                   = $firstAssistantReferee;
-        $this->isFirstAssistantNonProfitable           = $isFirstAssistantNonProfitable;
-        $this->secondAssistantReferee                  = $secondAssistantReferee;
-        $this->isSecondAssistantNonProfitable          = $isSecondAssistantNonProfitable;
-        $this->fourthOfficial                          = $fourthOfficial;
-        $this->refereeObserver                         = $refereeObserver;
-        $this->delegate                                = $delegate;
-        $this->moreInfo                                = $moreInfo ?? '';
-        $this->matchGameBills                          = new ArrayCollection();
+        $this->user                           = $user;
+        $this->homeTeam                       = $homeTeam;
+        $this->awayTeam                       = $awayTeam;
+        $this->dateTime                       = $dateTime;
+        $this->gameType                       = $gameType;
+        $this->season                         = $season;
+        $this->round                          = $round;
+        $this->venue                          = $venue;
+        $this->referee                        = $referee;
+        $this->firstAssistantReferee          = $firstAssistantReferee;
+        $this->isFirstAssistantNonProfitable  = $isFirstAssistantNonProfitable;
+        $this->secondAssistantReferee         = $secondAssistantReferee;
+        $this->isSecondAssistantNonProfitable = $isSecondAssistantNonProfitable;
+        $this->fourthOfficial                 = $fourthOfficial;
+        $this->refereeObserver                = $refereeObserver;
+        $this->delegate                       = $delegate;
+        $this->moreInfo                       = $moreInfo ?? '';
+        $this->matchGameBills                 = new ArrayCollection();
 
         $this->createdAtTraitConstruct();
     }

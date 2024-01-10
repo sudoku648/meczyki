@@ -6,11 +6,7 @@ namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
-use App\Repository\DoctrineMatchGameBillRepository;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: DoctrineMatchGameBillRepository::class)]
 class MatchGameBill
 {
     use CreatedAtTrait {
@@ -18,45 +14,28 @@ class MatchGameBill
     }
     use UpdatedAtTrait;
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[ORM\Column(type: Types::GUID)]
     private string $id;
 
-    #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'matchGameBills')]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     private ?Person $person;
 
-    #[ORM\ManyToOne(targetEntity: MatchGame::class, inversedBy: 'matchGameBills')]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     private ?MatchGame $matchGame;
 
-    #[ORM\Column(type: Types::INTEGER)]
     private int $baseEquivalent;
 
-    #[ORM\Column(type: Types::INTEGER)]
     private int $percentOfBaseEquivalent;
 
-    #[ORM\Column(type: Types::INTEGER)]
     private int $grossEquivalent;
 
-    #[ORM\Column(type: Types::INTEGER)]
     private int $taxDeductibleStakePercent;
 
-    #[ORM\Column(type: Types::INTEGER)]
     private int $taxDeductibleExpenses;
 
-    #[ORM\Column(type: Types::INTEGER)]
     private int $taxationBase;
 
-    #[ORM\Column(type: Types::INTEGER)]
     private int $incomeTaxStakePercent;
 
-    #[ORM\Column(type: Types::INTEGER)]
     private int $incomeTax;
 
-    #[ORM\Column(type: Types::INTEGER)]
     private int $equivalentToWithdraw;
 
     public function __construct(

@@ -7,15 +7,11 @@ namespace App\Entity;
 use App\Entity\Enums\PermissionEnum;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
-use App\Repository\DoctrineUserRoleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
 
 use function in_array;
 
-#[ORM\Entity(repositoryClass: DoctrineUserRoleRepository::class)]
 class UserRole
 {
     use CreatedAtTrait {
@@ -23,19 +19,12 @@ class UserRole
     }
     use UpdatedAtTrait;
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[ORM\Column(type: Types::GUID)]
     private string $id;
 
-    #[ORM\Column(type: Types::STRING, length: 180, unique: true)]
     private string $name;
 
-    #[ORM\Column(type: Types::JSON, nullable: true)]
     private array $permissions;
 
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'userRoles')]
     private Collection $users;
 
     public function __construct(

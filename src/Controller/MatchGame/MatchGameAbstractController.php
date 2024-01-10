@@ -21,6 +21,10 @@ abstract class MatchGameAbstractController extends AbstractController
         protected MatchGameManagerInterface $manager,
     ) {
         $this->breadcrumbs->addItem(
+            'Panel',
+            $this->router->generate('dashboard')
+        );
+        $this->breadcrumbs->addItem(
             'Mecze',
             $this->router->generate('match_games_list')
         );

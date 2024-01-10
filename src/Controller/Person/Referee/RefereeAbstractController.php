@@ -26,6 +26,10 @@ abstract class RefereeAbstractController extends PersonAbstractController
         );
 
         $this->breadcrumbs->addItem(
+            'Panel',
+            $this->router->generate('dashboard')
+        );
+        $this->breadcrumbs->addItem(
             'Sędziowie',
             $this->router->generate('referees_list')
         );

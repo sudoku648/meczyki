@@ -1,10 +1,6 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
-
-        # IMPORTANT: You MUST configure your server version,
-        # either here or in the DATABASE_URL env var (see .env file)
-        #server_version: '14'
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
@@ -13,8 +9,8 @@ doctrine:
         mappings:
             App:
                 is_bundle: false
-                type: attribute
-                dir: '%kernel.project_dir%/src/Entity'
+                type: xml
+                dir: '%kernel.project_dir%/src/DoctrineMapping'
                 prefix: 'App\Entity'
                 alias: App
         dql:
@@ -24,7 +20,6 @@ doctrine:
 when@test:
     doctrine:
         dbal:
-            # "TEST_TOKEN" is typically set by ParaTest
             dbname_suffix: '_test%env(default::TEST_TOKEN)%'
 
 when@prod:

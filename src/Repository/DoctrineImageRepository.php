@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Image;
+use App\Repository\Contracts\ImageRepositoryInterface;
 use App\Service\ImageManager;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -18,7 +19,7 @@ use function getimagesize;
  * @method Image[]    findAll()
  * @method Image[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ImageRepository extends ServiceEntityRepository
+class DoctrineImageRepository extends ServiceEntityRepository implements ImageRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry, private readonly ImageManager $imageManager)
     {

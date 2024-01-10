@@ -21,6 +21,10 @@ abstract class ClubAbstractController extends AbstractController
         protected ClubManagerInterface $manager,
     ) {
         $this->breadcrumbs->addItem(
+            'Panel',
+            $this->router->generate('dashboard')
+        );
+        $this->breadcrumbs->addItem(
             'Kluby',
             $this->router->generate('clubs_list')
         );

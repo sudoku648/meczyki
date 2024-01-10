@@ -6,11 +6,7 @@ namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
-use App\Repository\DoctrineTeamRepository;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: DoctrineTeamRepository::class)]
 class Team
 {
     use CreatedAtTrait {
@@ -18,20 +14,12 @@ class Team
     }
     use UpdatedAtTrait;
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[ORM\Column(type: Types::GUID)]
     private string $id;
 
-    #[ORM\Column(type: Types::STRING, length: 200)]
     private string $fullName;
 
-    #[ORM\Column(type: Types::STRING, length: 150)]
     private string $shortName;
 
-    #[ORM\ManyToOne(targetEntity: Club::class, inversedBy: 'teams')]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     private Club $club;
 
     public function __construct(
