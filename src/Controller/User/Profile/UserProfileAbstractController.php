@@ -14,14 +14,8 @@ abstract class UserProfileAbstractController extends AbstractController
     public function __construct(
         protected RouterInterface $router,
         protected EventDispatcherInterface $dispatcher,
-        protected Breadcrumbs $breadcrumbs
+        protected Breadcrumbs $breadcrumbs,
     ) {
-        parent::__construct(
-            $router,
-            $dispatcher,
-            $breadcrumbs
-        );
-
         $this->breadcrumbs->addItem(
             'Profil',
             $this->router->generate('user_profile')

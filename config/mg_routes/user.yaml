@@ -1,10 +1,10 @@
-users_front:
-    controller: App\Controller\User\UserFrontController::front
+users_list:
+    controller: App\Controller\User\UserListController::list
     path: /uzytkownicy
     methods: [ GET ]
 
 user_fetch:
-    controller: App\Controller\User\UserFrontController::fetch
+    controller: App\Controller\User\UserListController::fetch
     path: /users/fetch
     methods: [ POST ]
 

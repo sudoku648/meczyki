@@ -1,10 +1,10 @@
-user_roles_front:
-    controller: App\Controller\UserRole\UserRoleFrontController::front
+user_roles_list:
+    controller: App\Controller\UserRole\UserRoleListController::list
     path: /role-uzytkownikow
     methods: [ GET ]
 
 user_role_fetch:
-    controller: App\Controller\UserRole\UserRoleFrontController::fetch
+    controller: App\Controller\UserRole\UserRoleListController::fetch
     path: /user_roles/fetch
     methods: [ POST ]
 

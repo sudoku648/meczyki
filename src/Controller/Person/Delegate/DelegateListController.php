@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Person\Referee;
+namespace App\Controller\Person\Delegate;
 
 use App\Controller\Traits\DataTableTrait;
 use App\DataTable\DataTable;
-use App\DataTable\DataTableRefereeRow;
+use App\DataTable\DataTableDelegateRow;
 use App\Entity\Person;
 use App\PageView\PersonPageView;
 use App\Repository\Contracts\PersonRepositoryInterface;
@@ -16,15 +16,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class RefereeFrontController extends RefereeAbstractController
+class DelegateListController extends DelegateAbstractController
 {
     use DataTableTrait;
 
-    public function front(): Response
+    public function list(): Response
     {
         $this->denyAccessUnlessGranted(PersonVoter::LIST);
 
-        return $this->render('person/referee/index.html.twig');
+        return $this->render('person/delegate/list.html.twig');
     }
 
     public function fetch(
@@ -44,7 +44,7 @@ class RefereeFrontController extends RefereeAbstractController
 
         $criteria->fullNameLike = $params['searches']['fullName'];
 
-        $criteria->isReferee = true;
+        $criteria->isDelegate = true;
 
         $objects = $repository->findByCriteria($criteria);
 
@@ -52,7 +52,7 @@ class RefereeFrontController extends RefereeAbstractController
 
         /** @var Person $person */
         foreach ($objects as $objKey => $person) {
-            $rows[] = new DataTableRefereeRow(
+            $rows[] = new DataTableDelegateRow(
                 $this->getOrdinalNumberForDataTable($objKey, $criteria),
                 $this->renderView(
                     'person/_datatable_checkbox.html.twig',
@@ -65,8 +65,8 @@ class RefereeFrontController extends RefereeAbstractController
             );
         }
 
-        $countCriteria            = new PersonPageView();
-        $countCriteria->isReferee = true;
+        $countCriteria             = new PersonPageView();
+        $countCriteria->isDelegate = true;
 
         $dataTable = new DataTable(
             $params['draw'],

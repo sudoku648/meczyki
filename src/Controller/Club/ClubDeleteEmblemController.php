@@ -17,7 +17,7 @@ class ClubDeleteEmblemController extends ClubAbstractController
 {
     public function __invoke(
         #[MapEntity(mapping: ['club_id' => 'id'])] Club $club,
-        Request $request
+        Request $request,
     ): Response {
         $this->denyAccessUnlessGranted(ClubVoter::DELETE_EMBLEM, $club);
 

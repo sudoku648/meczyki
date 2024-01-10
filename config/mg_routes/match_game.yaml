@@ -1,10 +1,10 @@
-match_games_front:
-    controller: App\Controller\MatchGame\MatchGameFrontController::front
+match_games_list:
+    controller: App\Controller\MatchGame\MatchGameListController::list
     path: /mecze
     methods: [ GET ]
 
 match_game_fetch:
-    controller: App\Controller\MatchGame\MatchGameFrontController::fetch
+    controller: App\Controller\MatchGame\MatchGameListController::fetch
     path: /match_games/fetch
     methods: [ POST ]
 

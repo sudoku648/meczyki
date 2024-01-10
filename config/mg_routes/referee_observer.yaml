@@ -1,10 +1,10 @@
-referee_observers_front:
-    controller: App\Controller\Person\RefereeObserver\RefereeObserverFrontController::front
+referee_observers_list:
+    controller: App\Controller\Person\RefereeObserver\RefereeObserverListController::list
     path: /osoby/obserwatorzy
     methods: [ GET ]
 
 referee_observer_fetch:
-    controller: App\Controller\Person\RefereeObserver\RefereeObserverFrontController::fetch
+    controller: App\Controller\Person\RefereeObserver\RefereeObserverListController::fetch
     path: /people/referee_observers/fetch
     methods: [ POST ]
 

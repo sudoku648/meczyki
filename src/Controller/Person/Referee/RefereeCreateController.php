@@ -6,6 +6,7 @@ namespace App\Controller\Person\Referee;
 
 use App\Form\RefereeType;
 use App\Security\Voter\PersonVoter;
+use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -38,7 +39,7 @@ class RefereeCreateController extends RefereeAbstractController
             }
 
             return $this->redirectToRoute(
-                'referees_front',
+                'referees_list',
                 [],
                 Response::HTTP_SEE_OTHER
             );

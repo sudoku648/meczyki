@@ -6,7 +6,7 @@ namespace App\Controller\GameType;
 
 use App\Controller\AbstractController;
 use App\Entity\GameType;
-use App\Service\GameTypeManager;
+use App\Service\Contracts\GameTypeManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
@@ -15,27 +15,21 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 abstract class GameTypeAbstractController extends AbstractController
 {
     public function __construct(
-        protected GameTypeManager $manager,
         protected RouterInterface $router,
         protected EventDispatcherInterface $dispatcher,
-        protected Breadcrumbs $breadcrumbs
+        protected Breadcrumbs $breadcrumbs,
+        protected GameTypeManagerInterface $manager,
     ) {
-        parent::__construct(
-            $router,
-            $dispatcher,
-            $breadcrumbs
-        );
-
         $this->breadcrumbs->addItem(
             'Typy rozgrywek',
-            $this->router->generate('game_types_front')
+            $this->router->generate('game_types_list')
         );
     }
 
     protected function redirectToGameTypesList(): Response
     {
         return $this->redirectToRoute(
-            'game_types_front',
+            'game_types_list',
             [],
             Response::HTTP_SEE_OTHER
         );

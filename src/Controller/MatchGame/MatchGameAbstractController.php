@@ -6,7 +6,7 @@ namespace App\Controller\MatchGame;
 
 use App\Controller\AbstractController;
 use App\Entity\MatchGame;
-use App\Service\MatchGameManager;
+use App\Service\Contracts\MatchGameManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
@@ -15,27 +15,21 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 abstract class MatchGameAbstractController extends AbstractController
 {
     public function __construct(
-        protected MatchGameManager $manager,
         protected RouterInterface $router,
         protected EventDispatcherInterface $dispatcher,
-        protected Breadcrumbs $breadcrumbs
+        protected Breadcrumbs $breadcrumbs,
+        protected MatchGameManagerInterface $manager,
     ) {
-        parent::__construct(
-            $router,
-            $dispatcher,
-            $breadcrumbs
-        );
-
         $this->breadcrumbs->addItem(
             'Mecze',
-            $this->router->generate('match_games_front')
+            $this->router->generate('match_games_list')
         );
     }
 
     protected function redirectToMatchGamesList(): Response
     {
         return $this->redirectToRoute(
-            'match_games_front',
+            'match_games_list',
             [],
             Response::HTTP_SEE_OTHER
         );

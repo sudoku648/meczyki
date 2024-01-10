@@ -6,7 +6,7 @@ namespace App\Controller\User;
 
 use App\Controller\AbstractController;
 use App\Entity\User;
-use App\Service\UserManager;
+use App\Service\Contracts\UserManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
@@ -15,27 +15,21 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 abstract class UserAbstractController extends AbstractController
 {
     public function __construct(
-        protected UserManager $manager,
         protected RouterInterface $router,
         protected EventDispatcherInterface $dispatcher,
-        protected Breadcrumbs $breadcrumbs
+        protected Breadcrumbs $breadcrumbs,
+        protected UserManagerInterface $manager,
     ) {
-        parent::__construct(
-            $router,
-            $dispatcher,
-            $breadcrumbs
-        );
-
         $this->breadcrumbs->addItem(
             'Użytkownicy',
-            $this->router->generate('users_front')
+            $this->router->generate('users_list')
         );
     }
 
     protected function redirectToUsersList(): Response
     {
         return $this->redirectToRoute(
-            'users_front',
+            'users_list',
             [],
             Response::HTTP_SEE_OTHER
         );

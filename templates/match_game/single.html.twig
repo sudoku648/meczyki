@@ -105,7 +105,7 @@
     </table>
 
     {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameVoter::LIST')) %}
-        <a href="{{ path('match_games_front') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
+        <a href="{{ path('match_games_list') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
     {% endif %}
 
     {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameVoter::EDIT'), matchGame) %}

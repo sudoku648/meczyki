@@ -16,20 +16,20 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class UserFrontController extends UserAbstractController
+class UserListController extends UserAbstractController
 {
     use DataTableTrait;
 
-    public function front(): Response
+    public function list(): Response
     {
         $this->denyAccessUnlessGranted(UserVoter::LIST);
 
-        return $this->render('user/index.html.twig');
+        return $this->render('user/list.html.twig');
     }
 
     public function fetch(
         UserRepositoryInterface $repository,
-        Request $request
+        Request $request,
     ): JsonResponse {
         $this->denyAccessUnlessGranted(UserVoter::LIST);
 
@@ -67,7 +67,7 @@ class UserFrontController extends UserAbstractController
             $params['draw'],
             $repository->getTotalCount(),
             $repository->countByCriteria($criteria),
-            $rows
+            $rows,
         );
 
         return new JsonResponse($dataTable);
@@ -135,7 +135,7 @@ class UserFrontController extends UserAbstractController
                 'user/_buttons/impersonate.html.twig',
                 [
                     'btn_size'   => 'table',
-                    'path'       => 'front',
+                    'path'       => 'dashboard',
                     'parameters' => [
                         '_switch_user' => $user->getUserIdentifier(),
                     ],

@@ -6,6 +6,7 @@ namespace App\Controller\Person\Delegate;
 
 use App\Form\DelegateType;
 use App\Security\Voter\PersonVoter;
+use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -38,7 +39,7 @@ class DelegateCreateController extends DelegateAbstractController
             }
 
             return $this->redirectToRoute(
-                'delegates_front',
+                'delegates_list',
                 [],
                 Response::HTTP_SEE_OTHER
             );

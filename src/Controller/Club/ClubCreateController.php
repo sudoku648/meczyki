@@ -6,6 +6,7 @@ namespace App\Controller\Club;
 
 use App\Form\ClubType;
 use App\Security\Voter\ClubVoter;
+use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

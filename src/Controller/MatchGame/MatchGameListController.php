@@ -16,15 +16,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class MatchGameFrontController extends MatchGameAbstractController
+class MatchGameListController extends MatchGameAbstractController
 {
     use DataTableTrait;
 
-    public function front(): Response
+    public function list(): Response
     {
         $this->denyAccessUnlessGranted(MatchGameVoter::LIST);
 
-        return $this->render('match_game/index.html.twig');
+        return $this->render('match_game/list.html.twig');
     }
 
     public function fetch(
@@ -73,7 +73,7 @@ class MatchGameFrontController extends MatchGameAbstractController
             $params['draw'],
             $repository->getTotalCount(),
             $repository->countByCriteria($criteria),
-            $rows
+            $rows,
         );
 
         return new JsonResponse($dataTable);

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Person\RefereeObserver;
+namespace App\Controller\Person;
 
 use App\Controller\Traits\DataTableTrait;
 use App\DataTable\DataTable;
-use App\DataTable\DataTableRefereeObserverRow;
+use App\DataTable\DataTablePersonRow;
 use App\Entity\Person;
 use App\PageView\PersonPageView;
 use App\Repository\Contracts\PersonRepositoryInterface;
@@ -16,15 +16,17 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class RefereeObserverFrontController extends RefereeObserverAbstractController
+use function implode;
+
+class PersonListController extends PersonAbstractController
 {
     use DataTableTrait;
 
-    public function front(): Response
+    public function list(): Response
     {
         $this->denyAccessUnlessGranted(PersonVoter::LIST);
 
-        return $this->render('person/referee_observer/index.html.twig');
+        return $this->render('person/list.html.twig');
     }
 
     public function fetch(
@@ -44,15 +46,24 @@ class RefereeObserverFrontController extends RefereeObserverAbstractController
 
         $criteria->fullNameLike = $params['searches']['fullName'];
 
-        $criteria->isRefereeObserver = true;
-
         $objects = $repository->findByCriteria($criteria);
 
         $rows = [];
 
         /** @var Person $person */
         foreach ($objects as $objKey => $person) {
-            $rows[] = new DataTableRefereeObserverRow(
+            $functions = [];
+            if ($person->isDelegate()) {
+                $functions[] = 'delegat';
+            }
+            if ($person->isReferee()) {
+                $functions[] = 'sędzia';
+            }
+            if ($person->isRefereeObserver()) {
+                $functions[] = 'obserwator';
+            }
+
+            $rows[] = new DataTablePersonRow(
                 $this->getOrdinalNumberForDataTable($objKey, $criteria),
                 $this->renderView(
                     'person/_datatable_checkbox.html.twig',
@@ -61,18 +72,16 @@ class RefereeObserverFrontController extends RefereeObserverAbstractController
                     ]
                 ),
                 $person->getFullName(),
+                implode(', ', $functions),
                 $this->getButtonsForDataTable($person)
             );
         }
 
-        $countCriteria                    = new PersonPageView();
-        $countCriteria->isRefereeObserver = true;
-
         $dataTable = new DataTable(
             $params['draw'],
-            $repository->countByCriteria($countCriteria),
+            $repository->getTotalCount(),
             $repository->countByCriteria($criteria),
-            $rows
+            $rows,
         );
 
         return new JsonResponse($dataTable);

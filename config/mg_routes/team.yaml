@@ -1,10 +1,10 @@
-teams_front:
-    controller: App\Controller\Team\TeamFrontController::front
+teams_list:
+    controller: App\Controller\Team\TeamListController::list
     path: /kluby/druzyny
     methods: [ GET ]
 
 team_fetch:
-    controller: App\Controller\Team\TeamFrontController::fetch
+    controller: App\Controller\Team\TeamListController::fetch
     path: /clubs/teams/fetch
     methods: [ POST ]
 

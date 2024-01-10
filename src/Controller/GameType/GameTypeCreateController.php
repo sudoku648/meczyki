@@ -6,6 +6,7 @@ namespace App\Controller\GameType;
 
 use App\Form\GameTypeType;
 use App\Security\Voter\GameTypeVoter;
+use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

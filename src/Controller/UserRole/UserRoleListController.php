@@ -16,15 +16,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class UserRoleFrontController extends UserRoleAbstractController
+class UserRoleListController extends UserRoleAbstractController
 {
     use DataTableTrait;
 
-    public function front(): Response
+    public function list(): Response
     {
         $this->denyAccessUnlessGranted(UserRoleVoter::LIST);
 
-        return $this->render('user_role/index.html.twig');
+        return $this->render('user_role/list.html.twig');
     }
 
     public function fetch(
@@ -67,7 +67,7 @@ class UserRoleFrontController extends UserRoleAbstractController
             $params['draw'],
             $repository->getTotalCount(),
             $repository->countByCriteria($criteria),
-            $rows
+            $rows,
         );
 
         return new JsonResponse($dataTable);

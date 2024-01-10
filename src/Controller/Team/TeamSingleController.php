@@ -15,7 +15,7 @@ class TeamSingleController extends TeamAbstractController
 {
     public function __invoke(
         #[MapEntity(mapping: ['club_id' => 'id'])] Club $club,
-        #[MapEntity(mapping: ['team_id' => 'id'])] Team $team
+        #[MapEntity(mapping: ['team_id' => 'id'])] Team $team,
     ): Response {
         $this->denyAccessUnlessGranted(TeamVoter::SHOW, $team);
 

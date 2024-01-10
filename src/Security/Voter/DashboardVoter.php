@@ -11,16 +11,16 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 use function in_array;
 
-class FrontVoter extends Voter
+class DashboardVoter extends Voter
 {
-    public const FRONT = 'front_front';
+    public const DASHBOARD = 'dashboard_dashboard';
 
     protected function supports(string $attribute, $subject): bool
     {
         return in_array(
             $attribute,
             [
-                self::FRONT,
+                self::DASHBOARD,
             ],
             true
         );
@@ -35,12 +35,12 @@ class FrontVoter extends Voter
         }
 
         return match ($attribute) {
-            self::FRONT => $this->canSeeFront(),
-            default     => throw new LogicException(),
+            self::DASHBOARD => $this->canSeeDashboard(),
+            default         => throw new LogicException(),
         };
     }
 
-    private function canSeeFront(): bool
+    private function canSeeDashboard(): bool
     {
         return true;
     }

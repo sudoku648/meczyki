@@ -1,10 +1,10 @@
-delegates_front:
-    controller: App\Controller\Person\Delegate\DelegateFrontController::front
+delegates_list:
+    controller: App\Controller\Person\Delegate\DelegateListController::list
     path: /osoby/delegaci
     methods: [ GET ]
 
 delegate_fetch:
-    controller: App\Controller\Person\Delegate\DelegateFrontController::fetch
+    controller: App\Controller\Person\Delegate\DelegateListController::fetch
     path: /people/delegates/fetch
     methods: [ POST ]
 

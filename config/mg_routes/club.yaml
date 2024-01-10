@@ -1,10 +1,10 @@
-clubs_front:
-    controller: App\Controller\Club\ClubFrontController::front
+clubs_list:
+    controller: App\Controller\Club\ClubListController::list
     path: /kluby
     methods: [ GET ]
 
 club_fetch:
-    controller: App\Controller\Club\ClubFrontController::fetch
+    controller: App\Controller\Club\ClubListController::fetch
     path: /clubs/fetch
     methods: [ POST ]
 

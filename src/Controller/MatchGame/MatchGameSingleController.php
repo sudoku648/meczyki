@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 class MatchGameSingleController extends MatchGameAbstractController
 {
     public function __invoke(
-        #[MapEntity(mapping: ['match_game_id' => 'id'])] MatchGame $matchGame
+        #[MapEntity(mapping: ['match_game_id' => 'id'])] MatchGame $matchGame,
     ): Response {
         $this->denyAccessUnlessGranted(MatchGameVoter::SHOW, $matchGame);
 

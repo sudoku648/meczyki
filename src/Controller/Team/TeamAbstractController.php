@@ -6,7 +6,7 @@ namespace App\Controller\Team;
 
 use App\Controller\AbstractController;
 use App\Entity\Team;
-use App\Service\TeamManager;
+use App\Service\Contracts\TeamManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
@@ -15,27 +15,21 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 abstract class TeamAbstractController extends AbstractController
 {
     public function __construct(
-        protected TeamManager $manager,
         protected RouterInterface $router,
         protected EventDispatcherInterface $dispatcher,
-        protected Breadcrumbs $breadcrumbs
+        protected Breadcrumbs $breadcrumbs,
+        protected TeamManagerInterface $manager,
     ) {
-        parent::__construct(
-            $router,
-            $dispatcher,
-            $breadcrumbs
-        );
-
         $this->breadcrumbs->addItem(
             'Drużyny',
-            $this->router->generate('teams_front')
+            $this->router->generate('teams_list')
         );
     }
 
     protected function redirectToTeamsList(): Response
     {
         return $this->redirectToRoute(
-            'teams_front',
+            'teams_list',
             [],
             Response::HTTP_SEE_OTHER
         );

@@ -9,6 +9,7 @@ use App\Entity\Team;
 use App\Form\TeamType;
 use App\Security\Voter\TeamVoter;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,7 +18,7 @@ class TeamEditController extends TeamAbstractController
     public function __invoke(
         #[MapEntity(mapping: ['club_id' => 'id'])] Club $club,
         #[MapEntity(mapping: ['team_id' => 'id'])] Team $team,
-        Request $request
+        Request $request,
     ): Response {
         $this->denyAccessUnlessGranted(TeamVoter::EDIT, $team);
 

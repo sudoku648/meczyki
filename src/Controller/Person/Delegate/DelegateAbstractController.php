@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Person\Delegate;
 
 use App\Controller\Person\PersonAbstractController;
-use App\Service\PersonManager;
+use App\Service\Contracts\PersonManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Routing\RouterInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
@@ -13,21 +13,21 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 abstract class DelegateAbstractController extends PersonAbstractController
 {
     public function __construct(
-        protected PersonManager $manager,
         protected RouterInterface $router,
         protected EventDispatcherInterface $dispatcher,
-        protected Breadcrumbs $breadcrumbs
+        protected Breadcrumbs $breadcrumbs,
+        protected PersonManagerInterface $manager,
     ) {
         parent::__construct(
-            $manager,
             $router,
             $dispatcher,
-            $breadcrumbs
+            $breadcrumbs,
+            $manager,
         );
 
         $this->breadcrumbs->addItem(
             'Delegaci',
-            $this->router->generate('delegates_front')
+            $this->router->generate('delegates_list')
         );
     }
 }

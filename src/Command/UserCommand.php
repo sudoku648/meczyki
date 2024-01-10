@@ -6,7 +6,7 @@ namespace App\Command;
 
 use App\Dto\UserDto;
 use App\Repository\Contracts\UserRepositoryInterface;
-use App\Service\UserManager;
+use App\Service\Contracts\UserManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -22,7 +22,7 @@ class UserCommand extends Command
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly UserRepositoryInterface $repository,
-        private readonly UserManager $manager,
+        private readonly UserManagerInterface $manager,
     ) {
         parent::__construct();
     }

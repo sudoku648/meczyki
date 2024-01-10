@@ -14,7 +14,7 @@ class LoginController extends AbstractController
     {
         if ($this->getUser()) {
             return $this->redirectToRoute(
-                'front',
+                'dashboard',
                 [],
                 Response::HTTP_SEE_OTHER
             );

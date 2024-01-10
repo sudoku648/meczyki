@@ -6,7 +6,7 @@ namespace App\Controller\Person;
 
 use App\Controller\AbstractController;
 use App\Entity\Person;
-use App\Service\PersonManager;
+use App\Service\Contracts\PersonManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
@@ -15,27 +15,21 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 abstract class PersonAbstractController extends AbstractController
 {
     public function __construct(
-        protected PersonManager $manager,
         protected RouterInterface $router,
         protected EventDispatcherInterface $dispatcher,
-        protected Breadcrumbs $breadcrumbs
+        protected Breadcrumbs $breadcrumbs,
+        protected PersonManagerInterface $manager,
     ) {
-        parent::__construct(
-            $router,
-            $dispatcher,
-            $breadcrumbs
-        );
-
         $this->breadcrumbs->addItem(
             'Osoby',
-            $this->router->generate('people_front')
+            $this->router->generate('people_list')
         );
     }
 
     protected function redirectToPeopleList(): Response
     {
         return $this->redirectToRoute(
-            'people_front',
+            'people_list',
             [],
             Response::HTTP_SEE_OTHER
         );
@@ -44,7 +38,7 @@ abstract class PersonAbstractController extends AbstractController
     protected function redirectToDelegatesList(): Response
     {
         return $this->redirectToRoute(
-            'delegates_front',
+            'delegates_list',
             [],
             Response::HTTP_SEE_OTHER
         );
@@ -53,7 +47,7 @@ abstract class PersonAbstractController extends AbstractController
     protected function redirectToRefereesList(): Response
     {
         return $this->redirectToRoute(
-            'referees_front',
+            'referees_list',
             [],
             Response::HTTP_SEE_OTHER
         );
@@ -62,7 +56,7 @@ abstract class PersonAbstractController extends AbstractController
     protected function redirectToRefereeObserversList(): Response
     {
         return $this->redirectToRoute(
-            'referee_observers_front',
+            'referee_observers_list',
             [],
             Response::HTTP_SEE_OTHER
         );

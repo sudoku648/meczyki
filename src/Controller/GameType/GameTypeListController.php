@@ -16,20 +16,20 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class GameTypeFrontController extends GameTypeAbstractController
+class GameTypeListController extends GameTypeAbstractController
 {
     use DataTableTrait;
 
-    public function front(): Response
+    public function list(): Response
     {
         $this->denyAccessUnlessGranted(GameTypeVoter::LIST);
 
-        return $this->render('game_type/index.html.twig');
+        return $this->render('game_type/list.html.twig');
     }
 
     public function fetch(
         GameTypeRepositoryInterface $repository,
-        Request $request
+        Request $request,
     ): JsonResponse {
         $this->denyAccessUnlessGranted(GameTypeVoter::LIST);
 
@@ -67,7 +67,7 @@ class GameTypeFrontController extends GameTypeAbstractController
             $params['draw'],
             $repository->getTotalCount(),
             $repository->countByCriteria($criteria),
-            $rows
+            $rows,
         );
 
         return new JsonResponse($dataTable);

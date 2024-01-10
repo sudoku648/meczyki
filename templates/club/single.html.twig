@@ -57,7 +57,7 @@
     </table>
 
     {% if is_granted(constant('\\App\\Security\\Voter\\ClubVoter::LIST')) %}
-        <a href="{{ path('clubs_front') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
+        <a href="{{ path('clubs_list') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
     {% endif %}
 
     {% if is_granted(constant('\\App\\Security\\Voter\\ClubVoter::EDIT'), club) %}

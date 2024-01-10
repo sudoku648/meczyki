@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Security\Voter\ClubVoter;
-use App\Security\Voter\FrontVoter;
+use App\Security\Voter\DashboardVoter;
 use App\Security\Voter\GameTypeVoter;
 use App\Security\Voter\MatchGameVoter;
 use App\Security\Voter\PersonVoter;
@@ -28,11 +28,11 @@ readonly class MenuBuilder
     {
         $menu = $this->factory->createItem('root');
 
-        if ($this->security->isGranted(FrontVoter::FRONT)) {
+        if ($this->security->isGranted(DashboardVoter::DASHBOARD)) {
             $menu->addChild(
                 'panel',
                 [
-                    'route' => 'front',
+                    'route' => 'dashboard',
                     'label' => 'Panel',
                 ]
             );
@@ -41,7 +41,7 @@ readonly class MenuBuilder
             $menu->addChild(
                 'users',
                 [
-                    'route' => 'users_front',
+                    'route' => 'users_list',
                     'label' => 'Użytkownicy',
                 ]
             );
@@ -50,7 +50,7 @@ readonly class MenuBuilder
             $menu->addChild(
                 'userRoles',
                 [
-                    'route' => 'user_roles_front',
+                    'route' => 'user_roles_list',
                     'label' => 'Role użytkowników',
                 ]
             );
@@ -59,7 +59,7 @@ readonly class MenuBuilder
             $menu->addChild(
                 'people',
                 [
-                    'route' => 'people_front',
+                    'route' => 'people_list',
                     'label' => 'Osoby',
                 ]
             );
@@ -68,7 +68,7 @@ readonly class MenuBuilder
             $menu->addChild(
                 'gameTypes',
                 [
-                    'route' => 'game_types_front',
+                    'route' => 'game_types_list',
                     'label' => 'Typy rozgrywek',
                 ]
             );
@@ -77,7 +77,7 @@ readonly class MenuBuilder
             $menu->addChild(
                 'clubs',
                 [
-                    'route' => 'clubs_front',
+                    'route' => 'clubs_list',
                     'label' => 'Kluby',
                 ]
             );
@@ -86,7 +86,7 @@ readonly class MenuBuilder
             $menu->addChild(
                 'teams',
                 [
-                    'route' => 'teams_front',
+                    'route' => 'teams_list',
                     'label' => 'Drużyny',
                 ]
             );
@@ -95,7 +95,7 @@ readonly class MenuBuilder
             $menu->addChild(
                 'matchGames',
                 [
-                    'route' => 'match_games_front',
+                    'route' => 'match_games_list',
                     'label' => 'Mecze',
                 ]
             );
@@ -127,7 +127,7 @@ readonly class MenuBuilder
                 ->addChild(
                     'exit_impersonator',
                     [
-                        'route'           => 'users_front',
+                        'route'           => 'users_list',
                         'routeParameters' => [
                             '_switch_user' => '_exit',
                         ],

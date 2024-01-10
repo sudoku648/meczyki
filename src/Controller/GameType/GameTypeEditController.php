@@ -8,6 +8,7 @@ use App\Entity\GameType;
 use App\Form\GameTypeType;
 use App\Security\Voter\GameTypeVoter;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,7 +16,7 @@ class GameTypeEditController extends GameTypeAbstractController
 {
     public function __invoke(
         #[MapEntity(mapping: ['game_type_id' => 'id'])] GameType $gameType,
-        Request $request
+        Request $request,
     ): Response {
         $this->denyAccessUnlessGranted(GameTypeVoter::EDIT, $gameType);
 

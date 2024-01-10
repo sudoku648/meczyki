@@ -29,7 +29,7 @@
     </table>
 
     {% if is_granted(constant('\\App\\Security\\Voter\\GameTypeVoter::LIST')) %}
-        <a href="{{ path('game_types_front') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
+        <a href="{{ path('game_types_list') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
     {% endif %}
 
     {% if is_granted(constant('\\App\\Security\\Voter\\GameTypeVoter::EDIT'), gameType) %}

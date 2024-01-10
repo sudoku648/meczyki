@@ -1,10 +1,10 @@
-people_front:
-    controller: App\Controller\Person\PersonFrontController::front
+people_list:
+    controller: App\Controller\Person\PersonListController::list
     path: /osoby
     methods: [ GET ]
 
 person_fetch:
-    controller: App\Controller\Person\PersonFrontController::fetch
+    controller: App\Controller\Person\PersonListController::fetch
     path: /people/fetch
     methods: [ POST ]
 

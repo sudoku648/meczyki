@@ -6,7 +6,7 @@ namespace App\Controller\UserRole;
 
 use App\Controller\AbstractController;
 use App\Entity\UserRole;
-use App\Service\UserRoleManager;
+use App\Service\Contracts\UserRoleManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
@@ -15,27 +15,21 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 abstract class UserRoleAbstractController extends AbstractController
 {
     public function __construct(
-        protected UserRoleManager $manager,
         protected RouterInterface $router,
         protected EventDispatcherInterface $dispatcher,
-        protected Breadcrumbs $breadcrumbs
+        protected Breadcrumbs $breadcrumbs,
+        protected UserRoleManagerInterface $manager,
     ) {
-        parent::__construct(
-            $router,
-            $dispatcher,
-            $breadcrumbs
-        );
-
         $this->breadcrumbs->addItem(
             'Role użytkowników',
-            $this->router->generate('user_roles_front')
+            $this->router->generate('user_roles_list')
         );
     }
 
     protected function redirectToUserRolesList(): Response
     {
         return $this->redirectToRoute(
-            'user_roles_front',
+            'user_roles_list',
             [],
             Response::HTTP_SEE_OTHER
         );

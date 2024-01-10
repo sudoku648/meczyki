@@ -16,15 +16,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class TeamFrontController extends TeamAbstractController
+class TeamListController extends TeamAbstractController
 {
     use DataTableTrait;
 
-    public function front(): Response
+    public function list(): Response
     {
         $this->denyAccessUnlessGranted(TeamVoter::LIST);
 
-        return $this->render('team/index.html.twig');
+        return $this->render('team/list.html.twig');
     }
 
     public function fetch(
@@ -69,7 +69,7 @@ class TeamFrontController extends TeamAbstractController
             $params['draw'],
             $repository->getTotalCount(),
             $repository->countByCriteria($criteria),
-            $rows
+            $rows,
         );
 
         return new JsonResponse($dataTable);

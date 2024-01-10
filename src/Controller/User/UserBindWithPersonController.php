@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Form\UserBindWithPersonType;
 use App\Security\Voter\UserVoter;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,7 +16,7 @@ class UserBindWithPersonController extends UserAbstractController
 {
     public function __invoke(
         #[MapEntity(mapping: ['user_id' => 'id'])] User $user,
-        Request $request
+        Request $request,
     ): Response {
         $this->denyAccessUnlessGranted(UserVoter::BIND_WITH_PERSON, $user);
 

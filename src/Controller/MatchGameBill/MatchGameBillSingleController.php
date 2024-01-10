@@ -15,7 +15,7 @@ class MatchGameBillSingleController extends MatchGameBillAbstractController
 {
     public function __invoke(
         #[MapEntity(mapping: ['match_game_id' => 'id'])] MatchGame $matchGame,
-        #[MapEntity(mapping: ['match_game_bill_id' => 'id'])] MatchGameBill $matchGameBill
+        #[MapEntity(mapping: ['match_game_bill_id' => 'id'])] MatchGameBill $matchGameBill,
     ): Response {
         $this->denyAccessUnlessGranted(MatchGameBillVoter::SHOW, $matchGameBill);
 

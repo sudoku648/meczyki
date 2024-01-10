@@ -6,6 +6,7 @@ namespace App\Controller\Person;
 
 use App\Form\PersonType;
 use App\Security\Voter\PersonVoter;
+use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -37,7 +38,7 @@ class PersonCreateController extends PersonAbstractController
             }
 
             return $this->redirectToRoute(
-                'people_front',
+                'people_list',
                 [],
                 Response::HTTP_SEE_OTHER
             );

@@ -6,6 +6,7 @@ namespace App\Controller\Person\RefereeObserver;
 
 use App\Form\RefereeObserverType;
 use App\Security\Voter\PersonVoter;
+use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -38,7 +39,7 @@ class RefereeObserverCreateController extends RefereeObserverAbstractController
             }
 
             return $this->redirectToRoute(
-                'referee_observers_front',
+                'referee_observers_list',
                 [],
                 Response::HTTP_SEE_OTHER
             );

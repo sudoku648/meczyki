@@ -1,16 +1,16 @@
 <div class="mb-3 row">
     {% if is_granted(constant('\\App\\Security\\Voter\\PersonVoter::LIST')) %}
         <div class="col">
-            <a class="btn btn-secondary d-block" href="{{ path('people_front') }}">Wszyscy</a>
+            <a class="btn btn-secondary d-block" href="{{ path('people_list') }}">Wszyscy</a>
         </div>
         <div class="col">
-            <a class="btn btn-secondary d-block" href="{{ path('delegates_front') }}">Delegaci</a>
+            <a class="btn btn-secondary d-block" href="{{ path('delegates_list') }}">Delegaci</a>
         </div>
         <div class="col">
-            <a class="btn btn-secondary d-block" href="{{ path('referees_front') }}">Sędziowie</a>
+            <a class="btn btn-secondary d-block" href="{{ path('referees_list') }}">Sędziowie</a>
         </div>
         <div class="col">
-            <a class="btn btn-secondary d-block" href="{{ path('referee_observers_front') }}">Obserwatorzy</a>
+            <a class="btn btn-secondary d-block" href="{{ path('referee_observers_list') }}">Obserwatorzy</a>
         </div>
     {% endif %}
 </div>

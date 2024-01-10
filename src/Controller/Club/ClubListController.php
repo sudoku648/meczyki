@@ -16,20 +16,20 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ClubFrontController extends ClubAbstractController
+class ClubListController extends ClubAbstractController
 {
     use DataTableTrait;
 
-    public function front(): Response
+    public function list(): Response
     {
         $this->denyAccessUnlessGranted(ClubVoter::LIST);
 
-        return $this->render('club/index.html.twig');
+        return $this->render('club/list.html.twig');
     }
 
     public function fetch(
         ClubRepositoryInterface $repository,
-        Request $request
+        Request $request,
     ): JsonResponse {
         $this->denyAccessUnlessGranted(ClubVoter::LIST);
 
@@ -67,7 +67,7 @@ class ClubFrontController extends ClubAbstractController
             $params['draw'],
             $repository->getTotalCount(),
             $repository->countByCriteria($criteria),
-            $rows
+            $rows,
         );
 
         return new JsonResponse($dataTable);

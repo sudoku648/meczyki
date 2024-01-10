@@ -1,10 +1,10 @@
-game_types_front:
-    controller: App\Controller\GameType\GameTypeFrontController::front
+game_types_list:
+    controller: App\Controller\GameType\GameTypeListController::list
     path: /typy-rozgrywek
     methods: [ GET ]
 
 game_type_fetch:
-    controller: App\Controller\GameType\GameTypeFrontController::fetch
+    controller: App\Controller\GameType\GameTypeListController::fetch
     path: /game_types/fetch
     methods: [ POST ]
 

@@ -17,7 +17,7 @@ class GameTypeDeleteImageController extends GameTypeAbstractController
 {
     public function __invoke(
         #[MapEntity(mapping: ['game_type_id' => 'id'])] GameType $gameType,
-        Request $request
+        Request $request,
     ): Response {
         $this->denyAccessUnlessGranted(GameTypeVoter::DELETE_IMAGE, $gameType);
 

@@ -8,6 +8,7 @@ use App\Entity\Person;
 use App\Form\PersonType;
 use App\Security\Voter\PersonVoter;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,7 +16,7 @@ class PersonEditController extends PersonAbstractController
 {
     public function __invoke(
         #[MapEntity(mapping: ['person_id' => 'id'])] Person $person,
-        Request $request
+        Request $request,
     ): Response {
         $this->denyAccessUnlessGranted(PersonVoter::EDIT, $person);
 
@@ -46,7 +47,7 @@ class PersonEditController extends PersonAbstractController
             }
 
             return $this->redirectToRoute(
-                'people_front',
+                'people_list',
                 [],
                 Response::HTTP_SEE_OTHER
             );

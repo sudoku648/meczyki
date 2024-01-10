@@ -9,8 +9,9 @@ use App\Entity\User;
 use App\Form\UserBasicType;
 use App\Form\UserPasswordType;
 use App\Security\Voter\UserVoter;
-use App\Service\UserManager;
+use App\Service\Contracts\UserManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +20,7 @@ class UserEditController extends UserAbstractController
 {
     public function __invoke(
         #[MapEntity(mapping: ['user_id' => 'id'])] User $user,
-        Request $request
+        Request $request,
     ): Response {
         $this->denyAccessUnlessGranted(UserVoter::EDIT, $user);
 
@@ -40,7 +41,7 @@ class UserEditController extends UserAbstractController
             $user,
             $dto,
             $this->manager,
-            $request
+            $request,
         );
         if (!$basicForm instanceof FormInterface) {
             return $basicForm;
@@ -51,7 +52,7 @@ class UserEditController extends UserAbstractController
             $user,
             $dto,
             $this->manager,
-            $request
+            $request,
         );
         if (!$passwordForm instanceof FormInterface) {
             return $passwordForm;
@@ -77,8 +78,8 @@ class UserEditController extends UserAbstractController
         FormInterface $form,
         User $user,
         UserDto $dto,
-        UserManager $manager,
-        Request $request
+        UserManagerInterface $manager,
+        Request $request,
     ): FormInterface|Response {
         $form->handleRequest($request);
 

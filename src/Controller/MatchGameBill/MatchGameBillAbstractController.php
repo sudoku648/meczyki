@@ -6,7 +6,7 @@ namespace App\Controller\MatchGameBill;
 
 use App\Controller\AbstractController;
 use App\Entity\MatchGameBill;
-use App\Service\MatchGameBillManager;
+use App\Service\Contracts\MatchGameBillManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
@@ -15,16 +15,11 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 abstract class MatchGameBillAbstractController extends AbstractController
 {
     public function __construct(
-        protected MatchGameBillManager $manager,
         protected RouterInterface $router,
         protected EventDispatcherInterface $dispatcher,
-        protected Breadcrumbs $breadcrumbs
+        protected Breadcrumbs $breadcrumbs,
+        protected MatchGameBillManagerInterface $manager,
     ) {
-        parent::__construct(
-            $router,
-            $dispatcher,
-            $breadcrumbs
-        );
     }
 
     protected function redirectToEditBill(MatchGameBill $matchGameBill): Response

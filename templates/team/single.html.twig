@@ -21,7 +21,7 @@
     </table>
 
     {% if is_granted(constant('\\App\\Security\\Voter\\TeamVoter::LIST')) %}
-        <a href="{{ path('teams_front') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
+        <a href="{{ path('teams_list') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
     {% endif %}
 
     {% if is_granted(constant('\\App\\Security\\Voter\\TeamVoter::EDIT'), team) %}

@@ -8,6 +8,7 @@ use App\Entity\UserRole;
 use App\Form\UserRoleType;
 use App\Security\Voter\UserRoleVoter;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,7 +16,7 @@ class UserRoleEditController extends UserRoleAbstractController
 {
     public function __invoke(
         #[MapEntity(mapping: ['user_role_id' => 'id'])] UserRole $userRole,
-        Request $request
+        Request $request,
     ): Response {
         $this->denyAccessUnlessGranted(UserRoleVoter::EDIT, $userRole);
 

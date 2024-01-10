@@ -20,8 +20,8 @@ class MatchGameBillDownloadController extends MatchGameBillAbstractController
 {
     public function __invoke(
         #[MapEntity(mapping: ['match_game_id' => 'id'])] MatchGame $matchGame,
-        #[MapEntity(mapping: ['match_game_bill_id' => 'id'])] MatchGameBill $matchGameBill, 
-        SluggerInterface $slugger
+        #[MapEntity(mapping: ['match_game_bill_id' => 'id'])] MatchGameBill $matchGameBill,
+        SluggerInterface $slugger,
     ): Response {
         $this->denyAccessUnlessGranted(MatchGameBillVoter::DOWNLOAD, $matchGameBill);
 

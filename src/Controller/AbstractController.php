@@ -23,21 +23,6 @@ use function str_replace;
 
 abstract class AbstractController extends BaseAbstractController
 {
-    public function __construct(
-        protected RouterInterface $router,
-        protected EventDispatcherInterface $dispatcher,
-        protected Breadcrumbs $breadcrumbs
-    ) {
-        $this->router      = $router;
-        $this->dispatcher  = $dispatcher;
-        $this->breadcrumbs = $breadcrumbs;
-
-        $this->breadcrumbs->addItem(
-            'Panel',
-            $this->router->generate('front')
-        );
-    }
-
     protected function getUserOrThrow(): User
     {
         $user = $this->getUser();
@@ -60,7 +45,7 @@ abstract class AbstractController extends BaseAbstractController
     {
         if (!$request->headers->has('Referer')) {
             return $this->redirectToRoute(
-                'front',
+                'dashboard',
                 [],
                 Response::HTTP_SEE_OTHER
             );

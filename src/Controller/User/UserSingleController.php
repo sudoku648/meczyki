@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 class UserSingleController extends UserAbstractController
 {
     public function __invoke(
-        #[MapEntity(mapping: ['user_id' => 'id'])] User $user
+        #[MapEntity(mapping: ['user_id' => 'id'])] User $user,
     ): Response {
         $this->denyAccessUnlessGranted(UserVoter::SHOW, $user);
 
