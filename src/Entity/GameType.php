@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
+use App\ValueObject\GameTypeId;
 
 class GameType
 {
@@ -14,7 +15,7 @@ class GameType
     }
     use UpdatedAtTrait;
 
-    private string $id;
+    private GameTypeId $id;
 
     private string $name;
 
@@ -29,6 +30,7 @@ class GameType
         ?string $group,
         bool $isOfficial,
     ) {
+        $this->id         = GameTypeId::generate();
         $this->name       = $name;
         $this->group      = $group;
         $this->isOfficial = $isOfficial;
@@ -36,7 +38,7 @@ class GameType
         $this->createdAtTraitConstruct();
     }
 
-    public function getId(): string
+    public function getId(): GameTypeId
     {
         return $this->id;
     }

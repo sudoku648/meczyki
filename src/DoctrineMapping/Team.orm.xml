@@ -5,9 +5,8 @@
                           vendor/doctrine/orm/doctrine-mapping.xsd">
 
     <entity name="App\Entity\Team" table="team" repository-class="App\Repository\DoctrineTeamRepository">
-        <id name="id" type="guid" column="id" length="36">
-            <generator strategy="CUSTOM" />
-            <custom-id-generator class="doctrine.uuid_generator" />
+        <id name="id" type="TeamId" column="id" length="36">
+            <generator strategy="NONE" />
         </id>
 
         <field name="fullName" column="full_name" length="200" />

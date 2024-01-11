@@ -5,9 +5,8 @@
                           vendor/doctrine/orm/doctrine-mapping.xsd">
 
     <entity name="App\Entity\GameType" table="game_type" repository-class="App\Repository\DoctrineGameTypeRepository">
-        <id name="id" type="guid" column="id" length="36">
-            <generator strategy="CUSTOM" />
-            <custom-id-generator class="doctrine.uuid_generator" />
+        <id name="id" type="GameTypeId" column="id" length="36">
+            <generator strategy="NONE" />
         </id>
 
         <field name="name" column="name" length="150" />

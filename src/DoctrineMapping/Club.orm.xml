@@ -5,9 +5,8 @@
                           vendor/doctrine/orm/doctrine-mapping.xsd">
 
     <entity name="App\Entity\Club" table="club" repository-class="App\Repository\DoctrineClubRepository">
-        <id name="id" type="guid" column="id" length="36">
-            <generator strategy="CUSTOM" />
-            <custom-id-generator class="doctrine.uuid_generator" />
+        <id name="id" type="ClubId" column="id" length="36">
+            <generator strategy="NONE" />
         </id>
 
         <field name="name" column="name" length="150" unique="true" />

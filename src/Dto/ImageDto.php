@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
+use App\ValueObject\ImageId;
+
 class ImageDto
 {
-    private ?string $id = null;
+    private ?ImageId $id = null;
 
     public ?string $filePath = null;
 
@@ -18,7 +20,7 @@ class ImageDto
         string $filePath,
         ?int $width = null,
         ?int $height = null,
-        ?string $id = null
+        ?ImageId $id = null,
     ): self {
         $this->id       = $id;
         $this->filePath = $filePath;
@@ -28,7 +30,7 @@ class ImageDto
         return $this;
     }
 
-    public function getId(): ?string
+    public function getId(): ?ImageId
     {
         return $this->id;
     }

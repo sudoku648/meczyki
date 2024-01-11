@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\ValueObject\ImageId;
 use InvalidArgumentException;
 
 class Image
 {
-    private string $id;
+    private ImageId $id;
 
     private string $filePath;
 
@@ -24,6 +25,7 @@ class Image
         ?int $width,
         ?int $height,
     ) {
+        $this->id       = ImageId::generate();
         $this->filePath = $filePath;
         $this->fileName = $fileName;
 
@@ -48,7 +50,7 @@ class Image
         }
     }
 
-    public function getId(): string
+    public function getId(): ImageId
     {
         return $this->id;
     }

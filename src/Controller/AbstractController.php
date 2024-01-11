@@ -9,14 +9,11 @@ use App\Entity\MatchGame;
 use App\Entity\User;
 use BadMethodCallException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseAbstractController;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Routing\RouterInterface;
-use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 use function is_string;
 use function str_replace;

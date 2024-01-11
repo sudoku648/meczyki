@@ -7,6 +7,7 @@ namespace App\Dto;
 use App\Entity\GameType;
 use App\Entity\Image;
 use App\Validator\UniqueEntity;
+use App\ValueObject\GameTypeId;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[UniqueEntity(options: [
@@ -19,7 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 ])]
 class GameTypeDto
 {
-    private ?string $id = null;
+    private ?GameTypeId $id = null;
 
     #[Assert\NotBlank()]
     #[Assert\Length(min: 2, max: 150)]
@@ -35,12 +36,12 @@ class GameTypeDto
 
     public ?Image $image = null;
 
-    public function getId(): ?string
+    public function getId(): ?GameTypeId
     {
         return $this->id;
     }
 
-    public function setId(string $id): void
+    public function setId(GameTypeId $id): void
     {
         $this->id = $id;
     }

@@ -8,6 +8,7 @@ use App\Entity\GameType;
 use App\Entity\Person;
 use App\Entity\Team;
 use App\Entity\User;
+use App\ValueObject\MatchGameId;
 use DateTimeImmutable;
 use LogicException;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -23,7 +24,7 @@ use function get_object_vars;
 
 class MatchGameDto
 {
-    private ?string $id = null;
+    private ?MatchGameId $id = null;
 
     public ?User $user = null;
 
@@ -168,12 +169,12 @@ class MatchGameDto
         return $years;
     }
 
-    public function getId(): ?string
+    public function getId(): ?MatchGameId
     {
         return $this->id;
     }
 
-    public function setId(string $id): void
+    public function setId(MatchGameId $id): void
     {
         $this->id = $id;
     }

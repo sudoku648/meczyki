@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Entity\Enums\PermissionEnum;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
+use App\ValueObject\UserRoleId;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -19,7 +20,7 @@ class UserRole
     }
     use UpdatedAtTrait;
 
-    private string $id;
+    private UserRoleId $id;
 
     private string $name;
 
@@ -31,6 +32,7 @@ class UserRole
         string $name,
         array $permissions = [],
     ) {
+        $this->id          = UserRoleId::generate();
         $this->name        = $name;
         $this->permissions = $permissions;
         $this->users       = new ArrayCollection();
@@ -38,7 +40,7 @@ class UserRole
         $this->createdAtTraitConstruct();
     }
 
-    public function getId(): string
+    public function getId(): UserRoleId
     {
         return $this->id;
     }

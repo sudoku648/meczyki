@@ -6,11 +6,12 @@ namespace App\Dto;
 
 use App\Entity\MatchGame;
 use App\Entity\Person;
+use App\ValueObject\MatchGameBillId;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class MatchGameBillDto
 {
-    private ?string $id = null;
+    private ?MatchGameBillId $id = null;
 
     public ?Person $person = null;
 
@@ -32,12 +33,12 @@ class MatchGameBillDto
     #[Assert\Range(min: 0, max: 100)]
     public ?int $incomeTaxStakePercent = null;
 
-    public function getId(): ?string
+    public function getId(): ?MatchGameBillId
     {
         return $this->id;
     }
 
-    public function setId(string $id): void
+    public function setId(MatchGameBillId $id): void
     {
         $this->id = $id;
     }

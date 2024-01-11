@@ -11,6 +11,7 @@ use App\Validator\Pesel;
 use App\Validator\PolishMobilePhone;
 use App\Validator\PolishZipCode;
 use App\Validator\UniqueEntity;
+use App\ValueObject\PersonId;
 use DateTime;
 use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -27,7 +28,7 @@ use function substr;
 ])]
 class PersonDto
 {
-    private ?string $id = null;
+    private ?PersonId $id = null;
 
     #[Assert\NotBlank()]
     #[Assert\Length(min: 2, max: 100)]
@@ -164,12 +165,12 @@ class PersonDto
         }
     }
 
-    public function getId(): ?string
+    public function getId(): ?PersonId
     {
         return $this->id;
     }
 
-    public function setId(string $id): void
+    public function setId(PersonId $id): void
     {
         $this->id = $id;
     }

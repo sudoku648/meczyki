@@ -5,9 +5,8 @@
                           vendor/doctrine/orm/doctrine-mapping.xsd">
 
     <entity name="App\Entity\MatchGameBill" table="match_game_bill" repository-class="App\Repository\DoctrineMatchGameBillRepository">
-        <id name="id" type="guid" column="id" length="36">
-            <generator strategy="CUSTOM" />
-            <custom-id-generator class="doctrine.uuid_generator" />
+        <id name="id" type="MatchGameBillId" column="id" length="36">
+            <generator strategy="NONE" />
         </id>
 
         <field name="baseEquivalent" type="integer" column="base_equivalent" />

@@ -8,6 +8,7 @@ use App\Dto\Contracts\UserDtoInterface;
 use App\Entity\Person;
 use App\Entity\User;
 use App\Validator\UniqueEntity;
+use App\ValueObject\UserId;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -19,7 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 ])]
 class UserDto implements UserDtoInterface
 {
-    private ?string $id = null;
+    private ?UserId $id = null;
 
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 35)]
@@ -36,12 +37,12 @@ class UserDto implements UserDtoInterface
 
     public ?Collection $userRoles = null;
 
-    public function getId(): ?string
+    public function getId(): ?UserId
     {
         return $this->id;
     }
 
-    public function setId(string $id): void
+    public function setId(UserId $id): void
     {
         $this->id = $id;
     }

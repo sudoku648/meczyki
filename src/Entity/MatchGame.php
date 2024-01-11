@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
+use App\ValueObject\MatchGameId;
 use DateTimeImmutable;
 use DateTimeZone;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -18,7 +19,7 @@ class MatchGame
     }
     use UpdatedAtTrait;
 
-    private string $id;
+    private MatchGameId $id;
 
     private ?User $user;
 
@@ -75,6 +76,7 @@ class MatchGame
         ?Person $delegate,
         ?string $moreInfo,
     ) {
+        $this->id                             = MatchGameId::generate();
         $this->user                           = $user;
         $this->homeTeam                       = $homeTeam;
         $this->awayTeam                       = $awayTeam;
@@ -97,7 +99,7 @@ class MatchGame
         $this->createdAtTraitConstruct();
     }
 
-    public function getId(): string
+    public function getId(): MatchGameId
     {
         return $this->id;
     }

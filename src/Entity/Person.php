@@ -8,6 +8,7 @@ use App\Entity\Enums\VoivodeshipEnum;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\PersonTrait;
 use App\Entity\Traits\UpdatedAtTrait;
+use App\ValueObject\PersonId;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,7 +23,7 @@ class Person
         PersonTrait::__construct as personTraitConstruct;
     }
 
-    private string $id;
+    private PersonId $id;
 
     private ?string $mobilePhone;
 
@@ -74,6 +75,7 @@ class Person
         ?bool $isReferee = null,
         ?bool $isRefereeObserver = null,
     ) {
+        $this->id                = PersonId::generate();
         $this->mobilePhone       = $mobilePhone;
         $this->isDelegate        = $isDelegate ?? false;
         $this->isReferee         = $isReferee ?? false;
@@ -85,7 +87,7 @@ class Person
         $this->createdAtTraitConstruct();
     }
 
-    public function getId(): string
+    public function getId(): PersonId
     {
         return $this->id;
     }

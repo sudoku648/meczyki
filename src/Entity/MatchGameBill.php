@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
+use App\ValueObject\MatchGameBillId;
 
 class MatchGameBill
 {
@@ -14,7 +15,7 @@ class MatchGameBill
     }
     use UpdatedAtTrait;
 
-    private string $id;
+    private MatchGameBillId $id;
 
     private ?Person $person;
 
@@ -46,6 +47,7 @@ class MatchGameBill
         int $taxDeductibleStakePercent,
         int $incomeTaxStakePercent,
     ) {
+        $this->id                        = MatchGameBillId::generate();
         $this->person                    = $person;
         $this->matchGame                 = $matchGame;
         $this->baseEquivalent            = $baseEquivalent;
@@ -56,7 +58,7 @@ class MatchGameBill
         $this->createdAtTraitConstruct();
     }
 
-    public function getId(): string
+    public function getId(): MatchGameBillId
     {
         return $this->id;
     }

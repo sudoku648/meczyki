@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Entity\Enums\PermissionEnum;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
+use App\ValueObject\UserId;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -23,7 +24,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
     use UpdatedAtTrait;
 
-    private string $id;
+    private UserId $id;
 
     private string $username;
 
@@ -41,6 +42,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         string $username,
         string $password,
     ) {
+        $this->id        = UserId::generate();
         $this->password  = $password;
         $this->username  = $username;
         $this->userRoles = new ArrayCollection();
@@ -48,7 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->createdAtTraitConstruct();
     }
 
-    public function getId(): string
+    public function getId(): UserId
     {
         return $this->id;
     }

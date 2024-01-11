@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
+use App\ValueObject\ClubId;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -16,7 +17,7 @@ class Club
     }
     use UpdatedAtTrait;
 
-    private string $id;
+    private ClubId $id;
 
     private string $name;
 
@@ -26,13 +27,14 @@ class Club
 
     public function __construct(string $name)
     {
+        $this->id    = ClubId::generate();
         $this->name  = $name;
         $this->teams = new ArrayCollection();
 
         $this->createdAtTraitConstruct();
     }
 
-    public function getId(): string
+    public function getId(): ClubId
     {
         return $this->id;
     }

@@ -7,6 +7,7 @@ namespace App\Dto;
 use App\Entity\Club;
 use App\Entity\Image;
 use App\Validator\UniqueEntity;
+use App\ValueObject\ClubId;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[UniqueEntity(options: [
@@ -18,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 ])]
 class ClubDto
 {
-    private ?string $id = null;
+    private ?ClubId $id = null;
 
     #[Assert\NotBlank()]
     #[Assert\Length(min: 2, max: 150)]
@@ -26,12 +27,12 @@ class ClubDto
 
     public ?Image $emblem = null;
 
-    public function getId(): ?string
+    public function getId(): ?ClubId
     {
         return $this->id;
     }
 
-    public function setId(string $id): void
+    public function setId(ClubId $id): void
     {
         $this->id = $id;
     }

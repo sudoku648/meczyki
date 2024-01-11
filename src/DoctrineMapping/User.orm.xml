@@ -5,9 +5,8 @@
                           vendor/doctrine/orm/doctrine-mapping.xsd">
 
     <entity name="App\Entity\User" table="`user`" repository-class="App\Repository\DoctrineUserRepository">
-        <id name="id" type="guid" column="id" length="36">
-            <generator strategy="CUSTOM" />
-            <custom-id-generator class="doctrine.uuid_generator" />
+        <id name="id" type="UserId" column="id" length="36">
+            <generator strategy="NONE" />
         </id>
 
         <field name="username" column="username" length="180" unique="true" />

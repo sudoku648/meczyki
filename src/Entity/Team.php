@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
+use App\ValueObject\TeamId;
 
 class Team
 {
@@ -14,7 +15,7 @@ class Team
     }
     use UpdatedAtTrait;
 
-    private string $id;
+    private TeamId $id;
 
     private string $fullName;
 
@@ -27,6 +28,7 @@ class Team
         string $shortName,
         Club $club,
     ) {
+        $this->id        = TeamId::generate();
         $this->fullName  = $fullName;
         $this->shortName = $shortName;
         $this->club      = $club;
@@ -34,7 +36,7 @@ class Team
         $this->createdAtTraitConstruct();
     }
 
-    public function getId(): string
+    public function getId(): TeamId
     {
         return $this->id;
     }

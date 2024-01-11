@@ -6,6 +6,7 @@ namespace App\Dto;
 
 use App\Entity\UserRole;
 use App\Validator\UniqueEntity;
+use App\ValueObject\UserRoleId;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[UniqueEntity(options: [
@@ -16,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 ])]
 class UserRoleDto
 {
-    private ?string $id = null;
+    private ?UserRoleId $id = null;
 
     #[Assert\NotBlank()]
     #[Assert\Length(min: 2, max: 180)]
@@ -24,12 +25,12 @@ class UserRoleDto
 
     public ?array $permissions = null;
 
-    public function getId(): ?string
+    public function getId(): ?UserRoleId
     {
         return $this->id;
     }
 
-    public function setId(string $id): void
+    public function setId(UserRoleId $id): void
     {
         $this->id = $id;
     }

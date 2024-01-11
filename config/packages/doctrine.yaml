@@ -1,6 +1,16 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
+        types:
+            ClubId: App\Dbal\Types\ClubIdType
+            GameTypeId: App\Dbal\Types\GameTypeIdType
+            ImageId: App\Dbal\Types\ImageIdType
+            MatchGameBillId: App\Dbal\Types\MatchGameBillIdType
+            MatchGameId: App\Dbal\Types\MatchGameIdType
+            PersonId: App\Dbal\Types\PersonIdType
+            TeamId: App\Dbal\Types\TeamIdType
+            UserId: App\Dbal\Types\UserIdType
+            UserRoleId: App\Dbal\Types\UserRoleIdType
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
