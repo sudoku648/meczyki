@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\Enums\VoivodeshipEnum;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\PersonTrait;
 use App\Entity\Traits\UpdatedAtTrait;
+use App\ValueObject\Address;
+use App\ValueObject\FirstName;
+use App\ValueObject\Iban;
+use App\ValueObject\LastName;
+use App\ValueObject\Nip;
 use App\ValueObject\PersonId;
+use App\ValueObject\Pesel;
+use App\ValueObject\PhoneNumber;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -25,7 +31,7 @@ class Person
 
     private PersonId $id;
 
-    private ?string $mobilePhone;
+    private ?PhoneNumber $mobilePhone;
 
     private bool $isDelegate = false;
 
@@ -39,38 +45,26 @@ class Person
 
     private ?string $placeOfBirth = null;
 
-    private ?string $addressTown = null;
-
-    private ?string $addressStreet = null;
-
-    private ?string $addressZipCode = null;
-
-    private ?string $addressPostOffice = null;
-
-    private ?VoivodeshipEnum $addressVoivodeship = null;
-
-    private ?string $addressPowiat = null;
-
-    private ?string $addressGmina = null;
+    private Address $address;
 
     private ?string $taxOfficeName = null;
 
     private ?string $taxOfficeAddress = null;
 
-    private ?string $pesel = null;
+    private ?Pesel $pesel = null;
 
-    private ?string $nip = null;
+    private ?Nip $nip = null;
 
-    private ?string $iban = null;
+    private ?Iban $iban = null;
 
     private bool $allowsToSendPitByEmail = false;
 
     private Collection $matchGameBills;
 
     public function __construct(
-        string $firstName,
-        string $lastName,
-        ?string $mobilePhone = null,
+        FirstName $firstName,
+        LastName $lastName,
+        ?PhoneNumber $mobilePhone = null,
         ?bool $isDelegate = null,
         ?bool $isReferee = null,
         ?bool $isRefereeObserver = null,
@@ -80,6 +74,7 @@ class Person
         $this->isDelegate        = $isDelegate ?? false;
         $this->isReferee         = $isReferee ?? false;
         $this->isRefereeObserver = $isRefereeObserver ?? false;
+        $this->address           = new Address();
         $this->matchGameBills    = new ArrayCollection();
 
         $this->personTraitConstruct($firstName, $lastName);
@@ -92,12 +87,12 @@ class Person
         return $this->id;
     }
 
-    public function getMobilePhone(): ?string
+    public function getMobilePhone(): ?PhoneNumber
     {
         return $this->mobilePhone;
     }
 
-    public function setMobilePhone(?string $mobilePhone): self
+    public function setMobilePhone(?PhoneNumber $mobilePhone): self
     {
         $this->mobilePhone = $mobilePhone;
 
@@ -176,108 +171,14 @@ class Person
         return $this;
     }
 
-    public function getAddressTown(): ?string
+    public function getAddress(): Address
     {
-        return $this->addressTown;
+        return $this->address;
     }
 
-    public function setAddressTown(?string $town): self
+    public function setAddress(Address $address): self
     {
-        $this->addressTown = $town;
-
-        return $this;
-    }
-
-    public function getAddressStreet(): ?string
-    {
-        return $this->addressStreet;
-    }
-
-    public function setAddressStreet(?string $streetWithNumber): self
-    {
-        $this->addressStreet = $streetWithNumber;
-
-        return $this;
-    }
-
-    public function getAddressZipCode(): ?string
-    {
-        return $this->addressZipCode;
-    }
-
-    public function setAddressZipCode(?string $zipCode): self
-    {
-        $this->addressZipCode = $zipCode;
-
-        return $this;
-    }
-
-    public function getAddressPostOffice(): ?string
-    {
-        return $this->addressPostOffice;
-    }
-
-    public function setAddressPostOffice(?string $postOffice): self
-    {
-        $this->addressPostOffice = $postOffice;
-
-        return $this;
-    }
-
-    public function getAddress(): string
-    {
-        $address = '';
-
-        if ($this->addressTown) {
-            $address .= $this->addressTown;
-        }
-        if ($this->addressStreet) {
-            $address .= '' !== $address ? ', ' . $this->addressStreet : $this->addressStreet;
-        }
-        if ($this->addressZipCode) {
-            $address .= '' !== $address ? ', ' . $this->addressZipCode : $this->addressZipCode;
-        }
-        if ($this->addressPostOffice && $this->addressZipCode) {
-            $address .= $this->addressPostOffice;
-        } else {
-            $address .= '' !== $address ? ', ' . $this->addressPostOffice : $this->addressPostOffice;
-        }
-
-        return $address;
-    }
-
-    public function getAddressVoivodeship(): ?VoivodeshipEnum
-    {
-        return $this->addressVoivodeship;
-    }
-
-    public function setAddressVoivodeship(?VoivodeshipEnum $voivodeship): self
-    {
-        $this->addressVoivodeship = $voivodeship;
-
-        return $this;
-    }
-
-    public function getAddressPowiat(): ?string
-    {
-        return $this->addressPowiat;
-    }
-
-    public function setAddressPowiat(?string $powiat): self
-    {
-        $this->addressPowiat = $powiat;
-
-        return $this;
-    }
-
-    public function getAddressGmina(): ?string
-    {
-        return $this->addressGmina;
-    }
-
-    public function setAddressGmina(?string $gmina): self
-    {
-        $this->addressGmina = $gmina;
+        $this->address = $address;
 
         return $this;
     }
@@ -306,36 +207,36 @@ class Person
         return $this;
     }
 
-    public function getPesel(): ?string
+    public function getPesel(): ?Pesel
     {
         return $this->pesel;
     }
 
-    public function setPesel(?string $pesel): self
+    public function setPesel(?Pesel $pesel): self
     {
         $this->pesel = $pesel;
 
         return $this;
     }
 
-    public function getNip(): ?string
+    public function getNip(): ?Nip
     {
         return $this->nip;
     }
 
-    public function setNip(?string $nip): self
+    public function setNip(?Nip $nip): self
     {
         $this->nip = $nip;
 
         return $this;
     }
 
-    public function getIban(): ?string
+    public function getIban(): ?Iban
     {
         return $this->iban;
     }
 
-    public function setIban(?string $iban): self
+    public function setIban(?Iban $iban): self
     {
         $this->iban = $iban;
 

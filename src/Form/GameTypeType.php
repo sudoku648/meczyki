@@ -25,7 +25,6 @@ class GameTypeType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('group')
             ->add(
                 'isOfficial',
                 CheckboxType::class,

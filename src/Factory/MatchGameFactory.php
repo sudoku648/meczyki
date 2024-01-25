@@ -7,6 +7,9 @@ namespace App\Factory;
 use App\Dto\MatchGameDto;
 use App\Entity\MatchGame;
 use App\Entity\User;
+use App\ValueObject\Round;
+use App\ValueObject\Season;
+use App\ValueObject\Venue;
 
 class MatchGameFactory
 {
@@ -18,14 +21,14 @@ class MatchGameFactory
             $dto->awayTeam,
             $dto->dateTime,
             $dto->gameType,
-            $dto->season,
-            $dto->round,
-            $dto->venue,
+            null !== $dto->season ? Season::fromString($dto->season) : null,
+            null !== $dto->round ? Round::byValue($dto->round) : null,
+            Venue::fromString($dto->venue),
             $dto->referee,
             $dto->firstAssistantReferee,
-            $dto->isFirstAssistantNonProfitable,
+            true === $dto->isFirstAssistantNonProfitable,
             $dto->secondAssistantReferee,
-            $dto->isSecondAssistantNonProfitable,
+            true === $dto->isSecondAssistantNonProfitable,
             $dto->fourthOfficial,
             $dto->refereeObserver,
             $dto->delegate,
@@ -42,9 +45,9 @@ class MatchGameFactory
         $dto->awayTeam                       = $matchGame->getAwayTeam();
         $dto->dateTime                       = $matchGame->getDateTime();
         $dto->gameType                       = $matchGame->getGameType();
-        $dto->season                         = $matchGame->getSeason();
-        $dto->round                          = $matchGame->getRound();
-        $dto->venue                          = $matchGame->getVenue();
+        $dto->season                         = $matchGame->getSeason()?->getValue();
+        $dto->round                          = $matchGame->getRound()?->getValue();
+        $dto->venue                          = $matchGame->getVenue()->getValue();
         $dto->referee                        = $matchGame->getReferee();
         $dto->firstAssistantReferee          = $matchGame->getFirstAssistantReferee();
         $dto->isFirstAssistantNonProfitable  = $matchGame->isFirstAssistantNonProfitable();

@@ -7,6 +7,8 @@ namespace App\Entity;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
 use App\ValueObject\TeamId;
+use App\ValueObject\TeamName;
+use App\ValueObject\TeamShortName;
 
 class Team
 {
@@ -17,19 +19,19 @@ class Team
 
     private TeamId $id;
 
-    private string $fullName;
+    private TeamName $name;
 
-    private string $shortName;
+    private TeamShortName $shortName;
 
     private Club $club;
 
     public function __construct(
-        string $fullName,
-        string $shortName,
+        TeamName $name,
+        TeamShortName $shortName,
         Club $club,
     ) {
         $this->id        = TeamId::generate();
-        $this->fullName  = $fullName;
+        $this->name      = $name;
         $this->shortName = $shortName;
         $this->club      = $club;
 
@@ -41,24 +43,24 @@ class Team
         return $this->id;
     }
 
-    public function getFullName(): string
+    public function getName(): TeamName
     {
-        return $this->fullName;
+        return $this->name;
     }
 
-    public function setFullName(string $fullName): self
+    public function setName(TeamName $name): self
     {
-        $this->fullName = $fullName;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getShortName(): string
+    public function getShortName(): TeamShortName
     {
         return $this->shortName;
     }
 
-    public function setShortName(string $shortName): self
+    public function setShortName(TeamShortName $shortName): self
     {
         $this->shortName = $shortName;
 

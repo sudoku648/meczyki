@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Security\Voter;
 
-use App\Entity\Enums\PermissionEnum;
 use App\Entity\User;
 use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -67,10 +66,6 @@ class TeamVoter extends Voter
 
     private function canCreate(User $user): bool
     {
-        if ($user->isGranted(PermissionEnum::MANAGE_CLUBS)) {
-            return true;
-        }
-
         return false;
     }
 
@@ -81,19 +76,11 @@ class TeamVoter extends Voter
 
     private function canEdit(User $user): bool
     {
-        if ($user->isGranted(PermissionEnum::MANAGE_CLUBS)) {
-            return true;
-        }
-
         return false;
     }
 
     private function canDelete(User $user): bool
     {
-        if ($user->isGranted(PermissionEnum::MANAGE_CLUBS)) {
-            return true;
-        }
-
         return false;
     }
 

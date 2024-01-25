@@ -41,7 +41,6 @@ class DoctrineGameTypeRepository extends ServiceEntityRepository implements Game
         $query = $this->createQueryBuilder('gameType');
 
         $query->addOrderBy('gameType.name', 'ASC');
-        $query->addOrderBy('gameType.group + 0', 'ASC');
 
         return $query->getQuery()->getResult();
     }
@@ -95,23 +94,19 @@ class DoctrineGameTypeRepository extends ServiceEntityRepository implements Game
     {
         if ('' !== $criteria->globalSearch) {
             $qb->andWhere(
-                'gameType.group IS NULL AND gameType.name LIKE :search' .
-                ' OR ' .
-                'CONCAT(gameType.name, \' Grupa \', gameType.group) LIKE :search'
+                'gameType.name LIKE :search'
             )->setParameter('search', '%' . $criteria->globalSearch . '%');
         }
         if ('' !== $criteria->nameLike) {
             $qb->andWhere(
-                'gameType.group IS NULL AND gameType.name LIKE :name' .
-                ' OR ' .
-                'CONCAT(gameType.name, \' Grupa \', gameType.group) LIKE :name'
+                'gameType.name LIKE :name'
             )->setParameter('name', '%' . $criteria->nameLike . '%');
         }
 
         switch ($criteria->sortColumn) {
             default:
             case self::SORT_NAME:
-                $qb->addOrderBy('gameType.name', $criteria->sortDirection)->addOrderBy('gameType.group + 0', $criteria->sortDirection);
+                $qb->addOrderBy('gameType.name', $criteria->sortDirection);
 
                 break;
         }

@@ -58,7 +58,7 @@ class UserListController extends UserAbstractController
                         'userId' => $user->getId(),
                     ]
                 ),
-                $user->getUsername(),
+                $user->getUsername()->getValue(),
                 $this->getButtonsForDataTable($user)
             );
         }

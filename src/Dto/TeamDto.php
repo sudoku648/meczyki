@@ -14,7 +14,7 @@ class TeamDto
 
     #[Assert\NotBlank()]
     #[Assert\Length(min: 2, max: 200)]
-    public ?string $fullName = null;
+    public ?string $name = null;
 
     #[Assert\NotBlank()]
     #[Assert\Length(min: 2, max: 150)]

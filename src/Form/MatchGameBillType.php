@@ -7,7 +7,7 @@ namespace App\Form;
 use App\Dto\MatchGameBillDto;
 use App\Form\DataTransformer\PercentageTransformer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,11 +27,12 @@ class MatchGameBillType extends AbstractType
         $builder
             ->add(
                 'baseEquivalent',
-                IntegerType::class,
+                MoneyType::class,
                 [
                     'attr' => [
                         'min' => 0,
                     ],
+                    'currency' => 'PLN',
                 ]
             )
             ->add(
@@ -41,7 +42,7 @@ class MatchGameBillType extends AbstractType
                     'attr' => [
                         'max'   => 100,
                         'min'   => 0,
-                        'value' => $data ? $data->percentOfBaseEquivalent : 100
+                        'value' => $data ? $data->percentOfBaseEquivalent : 100,
                     ],
                 ]
             )
@@ -52,7 +53,7 @@ class MatchGameBillType extends AbstractType
                     'attr' => [
                         'max'   => 100,
                         'min'   => 0,
-                        'value' => $data ? $data->taxDeductibleStakePercent : 20
+                        'value' => $data ? $data->taxDeductibleStakePercent : 20,
                     ],
                 ]
             )
@@ -63,7 +64,7 @@ class MatchGameBillType extends AbstractType
                     'attr' => [
                         'max'   => 100,
                         'min'   => 0,
-                        'value' => $data ? $data->incomeTaxStakePercent : 17
+                        'value' => $data ? $data->incomeTaxStakePercent : 12,
                     ],
                 ]
             )

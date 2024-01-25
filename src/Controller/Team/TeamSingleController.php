@@ -20,7 +20,7 @@ class TeamSingleController extends TeamAbstractController
         $this->denyAccessUnlessGranted(TeamVoter::SHOW, $team);
 
         $this->breadcrumbs->addItem(
-            $team->getFullName(),
+            $team->getName(),
             $this->router->generate(
                 'team_single',
                 [

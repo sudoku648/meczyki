@@ -7,9 +7,6 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
 final class Version20220901081859 extends AbstractMigration
 {
     public function getDescription(): string
@@ -27,8 +24,6 @@ final class Version20220901081859 extends AbstractMigration
         $this->addSql('ALTER TABLE person ADD guid CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\' AFTER id');
         $this->addSql('ALTER TABLE team ADD guid CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\' AFTER id, ADD club_guid CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\' AFTER club_id');
         $this->addSql('ALTER TABLE user ADD guid CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\' AFTER id, ADD person_guid CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\' AFTER person_id');
-        $this->addSql('ALTER TABLE user_to_role ADD user_guid CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\' AFTER user_id, ADD user_role_guid CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\' AFTER user_role_id');
-        $this->addSql('ALTER TABLE user_role ADD guid CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\' AFTER id');
 
         $this->addSql('UPDATE club SET guid = (SELECT LOWER(CONCAT(LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), \'-\', LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), \'-\', \'6\', LPAD(HEX(FLOOR(RAND() * 0x0fff)), 3, \'0\'), \'-\', HEX(FLOOR(RAND() * 4 + 8)), LPAD(HEX(FLOOR(RAND() * 0x0fff)), 3, \'0\'), \'-\', LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'))))');
         $this->addSql('UPDATE game_type SET guid = (SELECT LOWER(CONCAT(LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), \'-\', LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), \'-\', \'6\', LPAD(HEX(FLOOR(RAND() * 0x0fff)), 3, \'0\'), \'-\', HEX(FLOOR(RAND() * 4 + 8)), LPAD(HEX(FLOOR(RAND() * 0x0fff)), 3, \'0\'), \'-\', LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'))))');
@@ -38,7 +33,6 @@ final class Version20220901081859 extends AbstractMigration
         $this->addSql('UPDATE person SET guid = (SELECT LOWER(CONCAT(LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), \'-\', LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), \'-\', \'6\', LPAD(HEX(FLOOR(RAND() * 0x0fff)), 3, \'0\'), \'-\', HEX(FLOOR(RAND() * 4 + 8)), LPAD(HEX(FLOOR(RAND() * 0x0fff)), 3, \'0\'), \'-\', LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'))))');
         $this->addSql('UPDATE team SET guid = (SELECT LOWER(CONCAT(LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), \'-\', LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), \'-\', \'6\', LPAD(HEX(FLOOR(RAND() * 0x0fff)), 3, \'0\'), \'-\', HEX(FLOOR(RAND() * 4 + 8)), LPAD(HEX(FLOOR(RAND() * 0x0fff)), 3, \'0\'), \'-\', LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'))))');
         $this->addSql('UPDATE user SET guid = (SELECT LOWER(CONCAT(LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), \'-\', LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), \'-\', \'6\', LPAD(HEX(FLOOR(RAND() * 0x0fff)), 3, \'0\'), \'-\', HEX(FLOOR(RAND() * 4 + 8)), LPAD(HEX(FLOOR(RAND() * 0x0fff)), 3, \'0\'), \'-\', LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'))))');
-        $this->addSql('UPDATE user_role SET guid = (SELECT LOWER(CONCAT(LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), \'-\', LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), \'-\', \'6\', LPAD(HEX(FLOOR(RAND() * 0x0fff)), 3, \'0\'), \'-\', HEX(FLOOR(RAND() * 4 + 8)), LPAD(HEX(FLOOR(RAND() * 0x0fff)), 3, \'0\'), \'-\', LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'), LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, \'0\'))))');
 
         $this->addSql('UPDATE club c SET c.emblem_guid = (SELECT i.guid FROM image i WHERE i.id = c.emblem_id)');
         $this->addSql('UPDATE game_type gt SET gt.image_guid = (SELECT i.guid FROM image i WHERE i.id = gt.image_id)');
@@ -57,7 +51,6 @@ final class Version20220901081859 extends AbstractMigration
         $this->addSql('UPDATE match_game_bill mgb SET mgb.person_guid = (SELECT p.guid FROM person p WHERE p.id = mgb.person_id), mgb.match_game_guid = (SELECT mg.guid FROM match_game mg WHERE mg.id = mgb.match_game_id)');
         $this->addSql('UPDATE team t SET t.club_guid = (SELECT c.guid FROM club c WHERE c.id = t.club_id)');
         $this->addSql('UPDATE user u SET u.person_guid = (SELECT p.guid FROM person p WHERE p.id = u.person_id)');
-        $this->addSql('UPDATE user_to_role utr SET utr.user_guid = (SELECT u.guid FROM user u WHERE u.id = utr.user_id), utr.user_role_guid = (SELECT ur.guid FROM user_role ur WHERE ur.id = utr.user_role_id)');
     }
 
     public function up(Schema $schema): void
@@ -78,8 +71,6 @@ final class Version20220901081859 extends AbstractMigration
         $this->addSql('ALTER TABLE match_game_bill DROP FOREIGN KEY FK_888539649329866A');
         $this->addSql('ALTER TABLE team DROP FOREIGN KEY FK_C4E0A61F61190A32');
         $this->addSql('ALTER TABLE user DROP FOREIGN KEY FK_8D93D649217BBB47');
-        $this->addSql('ALTER TABLE user_to_role DROP FOREIGN KEY FK_E88A85AFA76ED395');
-        $this->addSql('ALTER TABLE user_to_role DROP FOREIGN KEY FK_E88A85AF8E0E3CA6');
 
         $this->addSql('DROP INDEX IDX_B8EE3872D9923C03 ON club');
         $this->addSql('DROP INDEX IDX_67CB3B053DA5256D ON game_type');
@@ -97,8 +88,6 @@ final class Version20220901081859 extends AbstractMigration
         $this->addSql('DROP INDEX IDX_888539649329866A ON match_game_bill');
         $this->addSql('DROP INDEX IDX_C4E0A61F61190A32 ON team');
         $this->addSql('DROP INDEX UNIQ_8D93D649217BBB47 ON user');
-        $this->addSql('DROP INDEX IDX_E88A85AFA76ED395 ON user_to_role');
-        $this->addSql('DROP INDEX IDX_E88A85AF8E0E3CA6 ON user_to_role');
 
         $this->addSql('ALTER TABLE club DROP id, DROP emblem_id');
         $this->addSql('ALTER TABLE game_type DROP id, DROP image_id');
@@ -108,8 +97,6 @@ final class Version20220901081859 extends AbstractMigration
         $this->addSql('ALTER TABLE person DROP id');
         $this->addSql('ALTER TABLE team DROP id, DROP club_id');
         $this->addSql('ALTER TABLE user DROP id, DROP person_id');
-        $this->addSql('ALTER TABLE user_to_role DROP user_id, DROP user_role_id');
-        $this->addSql('ALTER TABLE user_role DROP id');
 
         $this->addSql('ALTER TABLE club CHANGE guid id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', CHANGE emblem_guid emblem_id CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\'');
         $this->addSql('ALTER TABLE game_type CHANGE guid id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', CHANGE image_guid image_id CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\'');
@@ -119,8 +106,6 @@ final class Version20220901081859 extends AbstractMigration
         $this->addSql('ALTER TABLE person CHANGE guid id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\'');
         $this->addSql('ALTER TABLE team CHANGE guid id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', CHANGE club_guid club_id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\'');
         $this->addSql('ALTER TABLE user CHANGE guid id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', CHANGE person_guid person_id CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\'');
-        $this->addSql('ALTER TABLE user_to_role CHANGE user_guid user_id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', CHANGE user_role_guid user_role_id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\'');
-        $this->addSql('ALTER TABLE user_role CHANGE guid id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\'');
 
         $this->addSql('ALTER TABLE club ADD PRIMARY KEY (id)');
         $this->addSql('ALTER TABLE game_type ADD PRIMARY KEY (id)');
@@ -130,8 +115,6 @@ final class Version20220901081859 extends AbstractMigration
         $this->addSql('ALTER TABLE person ADD PRIMARY KEY (id)');
         $this->addSql('ALTER TABLE team ADD PRIMARY KEY (id)');
         $this->addSql('ALTER TABLE user ADD PRIMARY KEY (id)');
-        $this->addSql('ALTER TABLE user_role ADD PRIMARY KEY (id)');
-        $this->addSql('ALTER TABLE user_to_role ADD PRIMARY KEY (user_id, user_role_id)');
 
         $this->addSql('ALTER TABLE club ADD CONSTRAINT FK_B8EE3872D9923C03 FOREIGN KEY (emblem_id) REFERENCES image (id)');
         $this->addSql('ALTER TABLE game_type ADD CONSTRAINT FK_67CB3B053DA5256D FOREIGN KEY (image_id) REFERENCES image (id)');
@@ -149,8 +132,6 @@ final class Version20220901081859 extends AbstractMigration
         $this->addSql('ALTER TABLE match_game_bill ADD CONSTRAINT FK_888539649329866A FOREIGN KEY (match_game_id) REFERENCES match_game (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE team ADD CONSTRAINT FK_C4E0A61F61190A32 FOREIGN KEY (club_id) REFERENCES club (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D649217BBB47 FOREIGN KEY (person_id) REFERENCES person (id) ON DELETE SET NULL');
-        $this->addSql('ALTER TABLE user_to_role ADD CONSTRAINT FK_E88A85AFA76ED395 FOREIGN KEY (user_id) REFERENCES `user` (id) ON DELETE CASCADE');
-        $this->addSql('ALTER TABLE user_to_role ADD CONSTRAINT FK_E88A85AF8E0E3CA6 FOREIGN KEY (user_role_id) REFERENCES user_role (id) ON DELETE CASCADE');
 
         $this->addSql('CREATE INDEX IDX_B8EE3872D9923C03 ON club (emblem_id)');
         $this->addSql('CREATE INDEX IDX_67CB3B053DA5256D ON game_type (image_id)');
@@ -168,8 +149,6 @@ final class Version20220901081859 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_888539649329866A ON match_game_bill (match_game_id)');
         $this->addSql('CREATE INDEX IDX_C4E0A61F61190A32 ON team (club_id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649217BBB47 ON user (person_id)');
-        $this->addSql('CREATE INDEX IDX_E88A85AFA76ED395 ON user_to_role (user_id)');
-        $this->addSql('CREATE INDEX IDX_E88A85AF8E0E3CA6 ON user_to_role (user_role_id)');
     }
 
     public function preDown(Schema $schema): void
@@ -182,8 +161,6 @@ final class Version20220901081859 extends AbstractMigration
         $this->addSql('ALTER TABLE person CHANGE id guid CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\'');
         $this->addSql('ALTER TABLE team CHANGE id guid CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', CHANGE club_id club_guid CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\'');
         $this->addSql('ALTER TABLE user CHANGE id guid CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', CHANGE person_id person_guid CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\'');
-        $this->addSql('ALTER TABLE user_to_role CHANGE user_id user_guid CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', CHANGE user_role_id user_role_guid CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\'');
-        $this->addSql('ALTER TABLE user_role CHANGE id guid CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\'');
 
         $this->addSql('ALTER TABLE club DROP FOREIGN KEY FK_B8EE3872D9923C03');
         $this->addSql('ALTER TABLE game_type DROP FOREIGN KEY FK_67CB3B053DA5256D');
@@ -201,8 +178,6 @@ final class Version20220901081859 extends AbstractMigration
         $this->addSql('ALTER TABLE match_game_bill DROP FOREIGN KEY FK_888539649329866A');
         $this->addSql('ALTER TABLE team DROP FOREIGN KEY FK_C4E0A61F61190A32');
         $this->addSql('ALTER TABLE user DROP FOREIGN KEY FK_8D93D649217BBB47');
-        $this->addSql('ALTER TABLE user_to_role DROP FOREIGN KEY FK_E88A85AFA76ED395');
-        $this->addSql('ALTER TABLE user_to_role DROP FOREIGN KEY FK_E88A85AF8E0E3CA6');
 
         $this->addSql('DROP INDEX IDX_B8EE3872D9923C03 ON club');
         $this->addSql('DROP INDEX IDX_67CB3B053DA5256D ON game_type');
@@ -220,8 +195,6 @@ final class Version20220901081859 extends AbstractMigration
         $this->addSql('DROP INDEX IDX_888539649329866A ON match_game_bill');
         $this->addSql('DROP INDEX IDX_C4E0A61F61190A32 ON team');
         $this->addSql('DROP INDEX UNIQ_8D93D649217BBB47 ON user');
-        $this->addSql('DROP INDEX IDX_E88A85AFA76ED395 ON user_to_role');
-        $this->addSql('DROP INDEX IDX_E88A85AF8E0E3CA6 ON user_to_role');
 
         $this->addSql('ALTER TABLE club DROP PRIMARY KEY');
         $this->addSql('ALTER TABLE game_type DROP PRIMARY KEY');
@@ -231,8 +204,6 @@ final class Version20220901081859 extends AbstractMigration
         $this->addSql('ALTER TABLE person DROP PRIMARY KEY');
         $this->addSql('ALTER TABLE team DROP PRIMARY KEY');
         $this->addSql('ALTER TABLE user DROP PRIMARY KEY');
-        $this->addSql('ALTER TABLE user_role DROP PRIMARY KEY');
-        $this->addSql('ALTER TABLE user_to_role DROP PRIMARY KEY');
 
         $this->addSql('ALTER TABLE club ADD id INT AUTO_INCREMENT NOT NULL FIRST, ADD emblem_id INT DEFAULT NULL AFTER emblem_guid, ADD PRIMARY KEY(id)');
         $this->addSql('ALTER TABLE game_type ADD id INT AUTO_INCREMENT NOT NULL FIRST, ADD image_id INT DEFAULT NULL AFTER image_guid, ADD PRIMARY KEY(id)');
@@ -242,8 +213,6 @@ final class Version20220901081859 extends AbstractMigration
         $this->addSql('ALTER TABLE person ADD id INT AUTO_INCREMENT NOT NULL FIRST, ADD PRIMARY KEY(id)');
         $this->addSql('ALTER TABLE team ADD id INT AUTO_INCREMENT NOT NULL FIRST, ADD club_id INT DEFAULT NULL AFTER club_guid, ADD PRIMARY KEY(id)');
         $this->addSql('ALTER TABLE user ADD id INT AUTO_INCREMENT NOT NULL FIRST, ADD person_id INT DEFAULT NULL AFTER person_guid, ADD PRIMARY KEY(id)');
-        $this->addSql('ALTER TABLE user_role ADD id INT AUTO_INCREMENT NOT NULL FIRST, ADD PRIMARY KEY(id)');
-        $this->addSql('ALTER TABLE user_to_role ADD user_id INT DEFAULT NULL AFTER user_guid, ADD user_role_id INT DEFAULT NULL AFTER user_role_guid');
 
         $this->addSql('UPDATE club c SET c.emblem_id = (SELECT i.id FROM image i WHERE i.guid = c.emblem_guid)');
         $this->addSql('UPDATE game_type gt SET gt.image_id = (SELECT i.id FROM image i WHERE i.guid = gt.image_guid)');
@@ -262,9 +231,6 @@ final class Version20220901081859 extends AbstractMigration
         $this->addSql('UPDATE match_game_bill mgb SET mgb.person_id = (SELECT p.id FROM person p WHERE p.guid = mgb.person_guid), mgb.match_game_id = (SELECT mg.id FROM match_game mg WHERE mg.guid = mgb.match_game_guid)');
         $this->addSql('UPDATE team t SET t.club_id = (SELECT c.id FROM club c WHERE c.guid = t.club_guid)');
         $this->addSql('UPDATE user u SET u.person_id = (SELECT p.id FROM person p WHERE p.guid = u.person_guid)');
-        $this->addSql('UPDATE user_to_role utr SET utr.user_id = (SELECT u.id FROM user u WHERE u.guid = utr.user_guid), utr.user_role_id = (SELECT ur.id FROM user_role ur WHERE ur.guid = utr.user_role_guid)');
-
-        $this->addSql('ALTER TABLE user_to_role ADD PRIMARY KEY (user_id, user_role_id)');
     }
 
     public function down(Schema $schema): void
@@ -277,8 +243,6 @@ final class Version20220901081859 extends AbstractMigration
         $this->addSql('ALTER TABLE person DROP guid');
         $this->addSql('ALTER TABLE team DROP guid, DROP club_guid');
         $this->addSql('ALTER TABLE user DROP guid, DROP person_guid');
-        $this->addSql('ALTER TABLE user_to_role DROP user_guid, DROP user_role_guid');
-        $this->addSql('ALTER TABLE user_role DROP guid');
 
         $this->addSql('ALTER TABLE club ADD CONSTRAINT FK_B8EE3872D9923C03 FOREIGN KEY (emblem_id) REFERENCES image (id)');
         $this->addSql('ALTER TABLE game_type ADD CONSTRAINT FK_67CB3B053DA5256D FOREIGN KEY (image_id) REFERENCES image (id)');
@@ -296,8 +260,6 @@ final class Version20220901081859 extends AbstractMigration
         $this->addSql('ALTER TABLE match_game_bill ADD CONSTRAINT FK_888539649329866A FOREIGN KEY (match_game_id) REFERENCES match_game (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE team ADD CONSTRAINT FK_C4E0A61F61190A32 FOREIGN KEY (club_id) REFERENCES club (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D649217BBB47 FOREIGN KEY (person_id) REFERENCES person (id) ON DELETE SET NULL');
-        $this->addSql('ALTER TABLE user_to_role ADD CONSTRAINT FK_E88A85AFA76ED395 FOREIGN KEY (user_id) REFERENCES `user` (id) ON DELETE CASCADE');
-        $this->addSql('ALTER TABLE user_to_role ADD CONSTRAINT FK_E88A85AF8E0E3CA6 FOREIGN KEY (user_role_id) REFERENCES user_role (id) ON DELETE CASCADE');
 
         $this->addSql('CREATE INDEX IDX_B8EE3872D9923C03 ON club (emblem_id)');
         $this->addSql('CREATE INDEX IDX_67CB3B053DA5256D ON game_type (image_id)');
@@ -315,7 +277,5 @@ final class Version20220901081859 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_888539649329866A ON match_game_bill (match_game_id)');
         $this->addSql('CREATE INDEX IDX_C4E0A61F61190A32 ON team (club_id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649217BBB47 ON user (person_id)');
-        $this->addSql('CREATE INDEX IDX_E88A85AFA76ED395 ON user_to_role (user_id)');
-        $this->addSql('CREATE INDEX IDX_E88A85AF8E0E3CA6 ON user_to_role (user_role_id)');
     }
 }

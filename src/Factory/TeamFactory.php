@@ -6,14 +6,16 @@ namespace App\Factory;
 
 use App\Dto\TeamDto;
 use App\Entity\Team;
+use App\ValueObject\TeamName;
+use App\ValueObject\TeamShortName;
 
 class TeamFactory
 {
     public function createFromDto(TeamDto $dto): Team
     {
         return new Team(
-            $dto->fullName,
-            $dto->shortName,
+            TeamName::fromString($dto->name),
+            TeamShortName::fromString($dto->shortName),
             $dto->club,
         );
     }
@@ -22,8 +24,8 @@ class TeamFactory
     {
         $dto = new TeamDto();
 
-        $dto->fullName  = $team->getFullName();
-        $dto->shortName = $team->getShortName();
+        $dto->name      = $team->getName()->getValue();
+        $dto->shortName = $team->getShortName()->getValue();
         $dto->club      = $team->getClub();
         $dto->setId($team->getId());
 

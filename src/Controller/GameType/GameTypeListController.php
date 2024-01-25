@@ -58,7 +58,7 @@ class GameTypeListController extends GameTypeAbstractController
                         'gameTypeId' => $gameType->getId(),
                     ]
                 ),
-                $gameType->getFullName(),
+                $gameType->getName()->getValue(),
                 $this->getButtonsForDataTable($gameType)
             );
         }

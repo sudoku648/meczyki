@@ -11,31 +11,31 @@
             </tr>
             <tr>
                 <th>Bazowy ekwiwalent brutto</th>
-                <td>{{ matchGameBill.baseEquivalent }} zł</td>
+                <td>{{ matchGameBill.baseEquivalent.amount }} zł</td>
             </tr>
             <tr>
                 <th>Należna część ekwiwalentu bazowego</th>
-                <td>{{ matchGameBill.percentOfBaseEquivalent }}%</td>
+                <td>{{ matchGameBill.percentOfBaseEquivalent.value }}%</td>
             </tr>
             <tr>
                 <th>Należny ekwiwalent brutto</th>
-                <td>{{ matchGameBill.grossEquivalent }} zł</td>
+                <td>{{ matchGameBill.grossEquivalent.amount }} zł</td>
             </tr>
             <tr>
-                <th>Koszty uzyskania przychodu ({{ matchGameBill.taxDeductibleStakePercent }}%)</th>
-                <td>{{ matchGameBill.taxDeductibleExpenses }} zł</td>
+                <th>Koszty uzyskania przychodu ({{ matchGameBill.taxDeductibleStakePercent.value }}%)</th>
+                <td>{{ matchGameBill.taxDeductibleExpenses.amount }} zł</td>
             </tr>
             <tr>
                 <th>Podstawa opodatkowania</th>
-                <td>{{ matchGameBill.taxationBase }} zł</td>
+                <td>{{ matchGameBill.taxationBase.amount }} zł</td>
             </tr>
             <tr>
-                <th>Podatek dochodowy ({{ matchGameBill.incomeTaxStakePercent }}%)</th>
-                <td>{{ matchGameBill.incomeTax }} zł</td>
+                <th>Podatek dochodowy ({{ matchGameBill.incomeTaxStakePercent.value }}%)</th>
+                <td>{{ matchGameBill.incomeTax.amount }} zł</td>
             </tr>
             <tr>
                 <th>Ekwiwalent do wypłaty</th>
-                <td>{{ matchGameBill.equivalentToWithdraw }} zł</td>
+                <td>{{ matchGameBill.equivalentToWithdraw.amount }} zł</td>
             </tr>
         </tbody>
     </table>

@@ -37,10 +37,10 @@ class PersonPersonalInfoTypeTest extends TypeTestCase
         ];
 
         $model = new PersonDto();
-        $form = $this->factory->create(PersonPersonalInfoType::class, $model);
+        $form  = $this->factory->create(PersonPersonalInfoType::class, $model);
 
-        $expected = new PersonDto();
-        $expected->iban = 'PL'.$formData['iban'];
+        $expected       = new PersonDto();
+        $expected->iban = 'PL' . $formData['iban'];
 
         $form->submit($formData);
 

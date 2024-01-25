@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Security\Voter;
 
-use App\Entity\Enums\PermissionEnum;
 use App\Entity\MatchGame;
 use App\Entity\User;
 use LogicException;
@@ -70,9 +69,6 @@ class MatchGameVoter extends Voter
         if ($user->isPerson()) {
             return true;
         }
-        if ($user->isGranted(PermissionEnum::MANAGE_MATCH_GAMES)) {
-            return true;
-        }
 
         return $user->isSuperAdmin();
     }
@@ -82,9 +78,6 @@ class MatchGameVoter extends Voter
         if ($user->isPerson()) {
             return true;
         }
-        if ($user->isGranted(PermissionEnum::MANAGE_MATCH_GAMES)) {
-            return true;
-        }
 
         return $user->isSuperAdmin();
     }
@@ -92,9 +85,6 @@ class MatchGameVoter extends Voter
     private function canEdit(MatchGame $matchGame, User $user): bool
     {
         if ($user->isSuperAdmin()) {
-            return true;
-        }
-        if ($user->isGranted(PermissionEnum::MANAGE_MATCH_GAMES)) {
             return true;
         }
         if (!$user->isPerson()) {
@@ -108,10 +98,6 @@ class MatchGameVoter extends Voter
 
     private function canDelete(User $user): bool
     {
-        if ($user->isGranted(PermissionEnum::MANAGE_MATCH_GAMES)) {
-            return true;
-        }
-
         return $user->isSuperAdmin();
     }
 

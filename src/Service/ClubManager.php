@@ -12,6 +12,7 @@ use App\Event\Club\ClubUpdatedEvent;
 use App\Factory\ClubFactory;
 use App\Message\DeleteImageMessage;
 use App\Service\Contracts\ClubManagerInterface;
+use App\ValueObject\ClubName;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -42,7 +43,7 @@ readonly class ClubManager implements ClubManagerInterface
 
     public function edit(Club $club, ClubDto $dto): Club
     {
-        $club->setName($dto->name);
+        $club->setName(ClubName::fromString($dto->name));
         $oldEmblem = $club->getEmblem();
         $club->setEmblem($dto->emblem);
         $club->setUpdatedAt();

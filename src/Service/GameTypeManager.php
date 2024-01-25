@@ -12,6 +12,7 @@ use App\Event\GameType\GameTypeUpdatedEvent;
 use App\Factory\GameTypeFactory;
 use App\Message\DeleteImageMessage;
 use App\Service\Contracts\GameTypeManagerInterface;
+use App\ValueObject\GameTypeName;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -40,9 +41,8 @@ readonly class GameTypeManager implements GameTypeManagerInterface
 
     public function edit(GameType $gameType, GameTypeDto $dto): GameType
     {
-        $gameType->setName($dto->name);
-        $gameType->setGroup($dto->group);
-        $gameType->setIsOfficial($dto->isOfficial);
+        $gameType->setName(GameTypeName::fromString($dto->name));
+        $gameType->setIsOfficial(true === $dto->isOfficial);
         $oldImage = $gameType->getImage();
         $gameType->setImage($dto->image);
         $gameType->setUpdatedAt();

@@ -11,12 +11,11 @@ use App\ValueObject\GameTypeId;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[UniqueEntity(options: [
-    'entityClass'             => GameType::class,
-    'errorPaths'              => 'group',
-    'fields'                  => ['name', 'group'],
-    'idFields'                => 'id',
-    'nullComparisonForFields' => ['group'],
-    'message'                 => 'Rozgrywki mają już tę grupę.',
+    'entityClass' => GameType::class,
+    'errorPaths'  => 'name',
+    'fields'      => ['name'],
+    'idFields'    => 'id',
+    'message'     => 'Nazwa jest już wykorzystywana.',
 ])]
 class GameTypeDto
 {
@@ -25,11 +24,6 @@ class GameTypeDto
     #[Assert\NotBlank()]
     #[Assert\Length(min: 2, max: 150)]
     public ?string $name = null;
-
-    #[Assert\Length(max: 150)]
-    public ?string $group = null;
-
-    public ?string $fullName = null;
 
     #[Assert\Type('boolean')]
     public ?bool $isOfficial = null;

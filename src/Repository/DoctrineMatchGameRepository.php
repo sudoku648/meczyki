@@ -93,11 +93,9 @@ class DoctrineMatchGameRepository extends ServiceEntityRepository implements Mat
                     '\'%d.%m.%Y, %H:%i\'' .
                 ') LIKE :search' .
                 ' OR ' .
-                '(gameType.group IS NULL AND gameType.name LIKE :search)' .
+                'gameType.name LIKE :search' .
                 ' OR ' .
-                'CONCAT(gameType.name, \' Grupa \', gameType.group) LIKE :search' .
-                ' OR ' .
-                'CONCAT(COALESCE(homeTeam.fullName, \'\'), \' - \', COALESCE(awayTeam.fullName, \'\')) LIKE :search'
+                'CONCAT(COALESCE(homeTeam.name, \'\'), \' - \', COALESCE(awayTeam.name, \'\')) LIKE :search'
             )->setParameter('search', '%' . $criteria->globalSearch . '%');
         }
         if ($criteria->dateTimeLike) {
@@ -110,14 +108,12 @@ class DoctrineMatchGameRepository extends ServiceEntityRepository implements Mat
         }
         if ($criteria->gameTypeLike) {
             $qb->andWhere(
-                'gameType.group IS NULL AND gameType.name LIKE :gameType' .
-                ' OR ' .
-                'CONCAT(gameType.name, \' Grupa \', gameType.group) LIKE :gameType'
+                'gameType.name LIKE :gameType'
             )->setParameter('gameType', '%' . $criteria->gameTypeLike . '%');
         }
         if ($criteria->teamsLike) {
             $qb->andWhere(
-                'CONCAT(homeTeam.fullName, \' - \', awayTeam.fullName) LIKE :teams'
+                'CONCAT(homeTeam.name, \' - \', awayTeam.name) LIKE :teams'
             )->setParameter('teams', '%' . $criteria->teamsLike . '%');
         }
 

@@ -11,6 +11,8 @@ use App\Event\Team\TeamDeletedEvent;
 use App\Event\Team\TeamUpdatedEvent;
 use App\Factory\TeamFactory;
 use App\Service\Contracts\TeamManagerInterface;
+use App\ValueObject\TeamName;
+use App\ValueObject\TeamShortName;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Webmozart\Assert\Assert;
@@ -41,8 +43,8 @@ readonly class TeamManager implements TeamManagerInterface
     {
         Assert::same($team->getClub()->getId(), $dto->club->getId());
 
-        $team->setFullName($dto->fullName);
-        $team->setShortName($dto->shortName);
+        $team->setName(TeamName::fromString($dto->name));
+        $team->setShortName(TeamShortName::fromString($dto->shortName));
         $team->setClub($dto->club);
         $team->setUpdatedAt();
         $team->getClub()->setUpdatedAt();

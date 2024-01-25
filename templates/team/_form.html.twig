@@ -1,5 +1,5 @@
 {{ form_start(form) }}
-    {{ form_row(form.fullName, {'label': 'Nazwa pełna'}) }}
+    {{ form_row(form.name, {'label': 'Nazwa pełna'}) }}
     {{ form_row(form.shortName, {'label': 'Nazwa skrócona'}) }}
     {{ form_row(form.save, {'label': button_save_label|default('Zapisz'), 'attr': {'class': 'btn-success icon-save loadable-save'}}) }}
     {{ form_row(form.saveAndContinue, {'label': button_save_and_continue_label|default('Zapisz i dodaj nową'), 'attr': {'class': 'btn-success icon-save loadable-save'}}) }}

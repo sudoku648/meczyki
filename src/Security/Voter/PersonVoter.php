@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Security\Voter;
 
-use App\Entity\Enums\PermissionEnum;
 use App\Entity\User;
 use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -64,9 +63,6 @@ class PersonVoter extends Voter
         if ($user->isSuperAdmin()) {
             return true;
         }
-        if ($user->isGranted(PermissionEnum::MANAGE_PEOPLE)) {
-            return true;
-        }
 
         return $user->isPerson();
     }
@@ -74,9 +70,6 @@ class PersonVoter extends Voter
     private function canCreate(User $user): bool
     {
         if ($user->isSuperAdmin()) {
-            return true;
-        }
-        if ($user->isGranted(PermissionEnum::MANAGE_PEOPLE)) {
             return true;
         }
 
@@ -88,9 +81,6 @@ class PersonVoter extends Voter
         if ($user->isSuperAdmin()) {
             return true;
         }
-        if ($user->isGranted(PermissionEnum::MANAGE_PEOPLE)) {
-            return true;
-        }
 
         return $user->isPerson();
     }
@@ -100,9 +90,6 @@ class PersonVoter extends Voter
         if ($user->isSuperAdmin()) {
             return true;
         }
-        if ($user->isGranted(PermissionEnum::MANAGE_PEOPLE)) {
-            return true;
-        }
 
         return false;
     }
@@ -110,9 +97,6 @@ class PersonVoter extends Voter
     private function canDelete(User $user): bool
     {
         if ($user->isSuperAdmin()) {
-            return true;
-        }
-        if ($user->isGranted(PermissionEnum::MANAGE_PEOPLE)) {
             return true;
         }
 

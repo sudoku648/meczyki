@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Dto\PersonDto;
-use App\Entity\Enums\VoivodeshipEnum;
+use App\Enums\Voivodeship;
 use App\Form\DataTransformer\IbanTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -45,20 +45,20 @@ class PersonPersonalInfoType extends AbstractType
             ->add('placeOfBirth')
             ->add('addressTown')
             ->add('addressStreet')
-            ->add('addressZipCode')
+            ->add('addressPostCode')
             ->add('addressPostOffice')
             ->add(
                 'addressVoivodeship',
                 EnumType::class,
                 [
-                    'class'        => VoivodeshipEnum::class,
-                    'choice_label' => function (VoivodeshipEnum $voivodeship) {
+                    'class'        => Voivodeship::class,
+                    'choice_label' => function (Voivodeship $voivodeship) {
                         return $voivodeship->getName();
                     },
                     'required'     => false,
                 ]
             )
-            ->add('addressPowiat')
+            ->add('addressCounty')
             ->add('addressGmina')
             ->add('taxOfficeName')
             ->add('taxOfficeAddress')

@@ -42,7 +42,7 @@ class MatchGameType extends AbstractType
                 [
                     'autocomplete' => true,
                     'choice_label' => function (Team $team) {
-                        return $team->getFullName();
+                        return $team->getName();
                     },
                     'choices'      => $this->teamRepository->allOrderedByName(),
                     'class'        => Team::class,
@@ -54,7 +54,7 @@ class MatchGameType extends AbstractType
                 [
                     'autocomplete' => true,
                     'choice_label' => function (Team $team) {
-                        return $team->getFullName();
+                        return $team->getName();
                     },
                     'choices'      => $this->teamRepository->allOrderedByName(),
                     'class'        => Team::class,
@@ -75,7 +75,7 @@ class MatchGameType extends AbstractType
                 EntityType::class,
                 [
                     'choice_label' => function (GameType $gameType) {
-                        return $gameType->getFullName();
+                        return $gameType->getName();
                     },
                     'choices'      => $this->gameTypeRepository->allOrderedByName(),
                     'class'        => GameType::class,

@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
 use App\ValueObject\ClubId;
+use App\ValueObject\ClubName;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -19,13 +20,13 @@ class Club
 
     private ClubId $id;
 
-    private string $name;
+    private ClubName $name;
 
     private ?Image $emblem = null;
 
     private Collection $teams;
 
-    public function __construct(string $name)
+    public function __construct(ClubName $name)
     {
         $this->id    = ClubId::generate();
         $this->name  = $name;
@@ -39,12 +40,12 @@ class Club
         return $this->id;
     }
 
-    public function getName(): string
+    public function getName(): ClubName
     {
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(ClubName $name): self
     {
         $this->name = $name;
 

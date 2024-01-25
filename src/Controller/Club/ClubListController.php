@@ -58,7 +58,7 @@ class ClubListController extends ClubAbstractController
                         'clubId' => $club->getId(),
                     ]
                 ),
-                $club->getName(),
+                $club->getName()->getValue(),
                 $this->getButtonsForDataTable($club)
             );
         }

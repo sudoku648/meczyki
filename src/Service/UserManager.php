@@ -13,6 +13,7 @@ use App\Event\User\UserDeletedEvent;
 use App\Event\User\UserUnbindWithPersonEvent;
 use App\Factory\UserFactory;
 use App\Service\Contracts\UserManagerInterface;
+use App\ValueObject\Username;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -34,14 +35,10 @@ readonly class UserManager implements UserManagerInterface
 
     public function create(UserDto $dto, bool $isSuperAdmin = false): User
     {
-        $user = new User($dto->username, '');
+        $user = new User(Username::fromString($dto->username), '');
         $user->setOrRemoveSuperAdminRole(!$isSuperAdmin);
 
         $user->setPassword($this->passwordHasher->hashPassword($user, $dto->plainPassword));
-
-        foreach ($dto->userRoles as $userRole) {
-            $user->addUserRole($userRole);
-        }
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
@@ -54,14 +51,10 @@ readonly class UserManager implements UserManagerInterface
         $this->entityManager->beginTransaction();
 
         try {
-            $user->setUsername($dto->username);
+            $user->setUsername(Username::fromString($dto->username));
 
             if ($dto->plainPassword) {
                 $user->setPassword($this->passwordHasher->hashPassword($user, $dto->plainPassword));
-            }
-
-            foreach ($dto->userRoles as $userRole) {
-                $userRole->addUser($user);
             }
 
             $this->entityManager->flush();

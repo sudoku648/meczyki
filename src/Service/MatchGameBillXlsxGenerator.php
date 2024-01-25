@@ -8,15 +8,14 @@ use App\Entity\MatchGameBill;
 use App\Service\Contracts\MatchGameBillGeneratorInterface;
 use NumberFormatter;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\RichText\RichText;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 use function dirname;
 use function in_array;
-use function round;
 use function strlen;
-use function substr;
 
-readonly class MatchGameBillXlsxGenerator implements MatchGameBillGeneratorInterface
+final readonly class MatchGameBillXlsxGenerator implements MatchGameBillGeneratorInterface
 {
     public function generate(MatchGameBill $matchGameBill): Spreadsheet
     {
@@ -32,9 +31,9 @@ readonly class MatchGameBillXlsxGenerator implements MatchGameBillGeneratorInter
 
         $sheet->setCellValue('A8', $matchGame->getDateTime()->format('d.m.Y'));
         $sheet->setCellValue('U8', $matchGame->getVenue());
-        $sheet->setCellValue('BG8', $matchGame->getGameType() ? $matchGame->getGameType()->getFullName() : '');
-        $sheet->setCellValue('A11', $matchGame->getHomeTeam() ? $matchGame->getHomeTeam()->getFullName() : '');
-        $sheet->setCellValue('BH11', $matchGame->getAwayTeam() ? $matchGame->getAwayTeam()->getFullName() : '');
+        $sheet->setCellValue('BG8', $matchGame->getGameType()?->getName() ?? '');
+        $sheet->setCellValue('A11', $matchGame->getHomeTeam()?->getName() ?? '');
+        $sheet->setCellValue('BH11', $matchGame->getAwayTeam()?->getName() ?? '');
 
         $function = '';
         if ($person->isReferee()) {
@@ -48,13 +47,13 @@ readonly class MatchGameBillXlsxGenerator implements MatchGameBillGeneratorInter
         $sheet->setCellValue('A14', $function);
         $sheet->setCellValue('AK14', $person->getLastName());
         $sheet->setCellValue('CD14', $person->getFirstName());
-        $sheet->setCellValue('A17', $person->getDateOfBirth() ? $person->getDateOfBirth()->format('d.m.Y') : '');
-        $sheet->setCellValue('U17', $person->getPlaceOfBirth() ? $person->getPlaceOfBirth() : '');
+        $sheet->setCellValue('A17', $person->getDateOfBirth()?->format('d.m.Y') ?? '');
+        $sheet->setCellValue('U17', $person->getPlaceOfBirth() ?? '');
 
-        $sheet->setCellValue('BB17', $person->getAddress());
-        $sheet->setCellValue('A20', $person->getAddressVoivodeship() ? $person->getAddressVoivodeship()->getName() : '');
-        $sheet->setCellValue('AM20', $person->getAddressPowiat() ? $person->getAddressPowiat() : '');
-        $sheet->setCellValue('BY20', $person->getAddressGmina() ? $person->getAddressGmina() : '');
+        $sheet->setCellValue('BB17', $person->getAddress()->formatted());
+        $sheet->setCellValue('A20', $person->getAddress()->getVoivodeship()?->getName() ?? '');
+        $sheet->setCellValue('AM20', $person->getAddress()->getCounty() ?? '');
+        $sheet->setCellValue('BY20', $person->getAddress()->getGmina() ?? '');
 
         $taxOffice = '';
         if ($person->getTaxOfficeName() && $person->getTaxOfficeAddress()) {
@@ -63,7 +62,7 @@ readonly class MatchGameBillXlsxGenerator implements MatchGameBillGeneratorInter
 
         $sheet->setCellValue('A23', $taxOffice);
 
-        $pesel = $person->getPesel();
+        $pesel = $person->getPesel()?->getValue();
         if ($pesel) {
             $startCol = 6;
             $colWidth = 4;
@@ -74,7 +73,7 @@ readonly class MatchGameBillXlsxGenerator implements MatchGameBillGeneratorInter
             }
         }
 
-        $nip = $person->getNip();
+        $nip = $person->getNip()?->getValue();
         if ($nip && !$pesel) {
             $startCol = 70;
             $colWidth = 4;
@@ -86,40 +85,38 @@ readonly class MatchGameBillXlsxGenerator implements MatchGameBillGeneratorInter
         }
 
         $sheet->setCellValue('BA32', $matchGame->getDateTime()->format('d.m.Y'));
-        $sheet->setCellValue('O39', $person->getFullNameInversed());
+        $sheet->setCellValue('O39', $person->getFirstName() . ' ' . $person->getLastName());
 
-        $sheet->setCellValue('BQ41', $matchGameBill->getBaseEquivalent());
-        $sheet->setCellValue('BQ42', $matchGameBill->getPercentOfBaseEquivalent());
-        $sheet->setCellValue('BQ43', $matchGameBill->getGrossEquivalent());
-        $sheet->setCellValue('BQ44', $matchGameBill->getTaxDeductibleExpenses());
-        $sheet->setCellValue('BQ45', $matchGameBill->getTaxationBase());
-        $sheet->setCellValue('BQ46', $matchGameBill->getIncomeTax());
-        $sheet->setCellValue('BQ48', $matchGameBill->getEquivalentToWithdraw());
+        $sheet->setCellValue('BQ41', $matchGameBill->getBaseEquivalent()->getAmount());
+        $sheet->setCellValue('BQ42', $matchGameBill->getPercentOfBaseEquivalent()->getValue());
+        $sheet->setCellValue('BQ43', $matchGameBill->getGrossEquivalent()->getAmount());
+        $sheet->setCellValue('BQ44', $matchGameBill->getTaxDeductibleExpenses()->getAmount());
+        $sheet->setCellValue('BQ45', $matchGameBill->getTaxationBase()->getAmount());
+        $sheet->setCellValue('BQ46', $matchGameBill->getIncomeTax()->getAmount());
+        $sheet->setCellValue('BQ48', $matchGameBill->getEquivalentToWithdraw()->getAmount());
 
         $numberFormatter = new NumberFormatter('pl', NumberFormatter::SPELLOUT);
-        $amountInWords   = $numberFormatter->format($matchGameBill->getEquivalentToWithdraw()) . ' zł 00/100';
+        $amountInWords   = $numberFormatter->format($matchGameBill->getEquivalentToWithdraw()->getAmount()) . ' zł 00/100';
 
         $sheet->setCellValue('O49', $amountInWords);
 
-        $iban = $person->getIban();
+        $iban = $person->getIban()?->getNumber();
         if ($iban) {
             $startCol = 3;
             $colWidth = 4;
             $offset   = 0;
 
-            $bankAccountNumber = substr($iban, 2);
-
-            for ($i = 0; $i < strlen($bankAccountNumber); $i++) {
+            for ($i = 0; $i < strlen($iban); $i++) {
                 if (in_array($i, [2, 6, 10, 14, 18, 22])) {
                     $offset++;
                 }
 
                 $col = $startCol + $i * $colWidth + $offset;
-                $sheet->setCellValueByColumnAndRow($col, 53, $bankAccountNumber[$i]);
+                $sheet->setCellValueByColumnAndRow($col, 53, $iban[$i]);
             }
         }
 
-        $richText = new \PhpOffice\PhpSpreadsheet\RichText\RichText();
+        $richText = new RichText();
 
         $email = $person->getEmail();
         if ($email && $person->allowsToSendPitByEmail()) {
@@ -150,24 +147,5 @@ readonly class MatchGameBillXlsxGenerator implements MatchGameBillGeneratorInter
         $sheet->setCellValue('BA58', $matchGame->getDateTime()->format('d.m.Y'));
 
         return $spreadsheet;
-    }
-
-    private function calculateValues(MatchGameBill $matchGameBill): MatchGameBill
-    {
-        $grossEquivalent       = (int) round($matchGameBill->getBaseEquivalent() * $matchGameBill->getPercentOfBaseEquivalent() / 100, 0);
-        $taxDeductibleExpenses = (int) round($grossEquivalent * $matchGameBill->getTaxDeductibleStakePercent() / 100, 0);
-        $taxationBase          = $grossEquivalent - $taxDeductibleExpenses;
-        $incomeTax             = (int) round($taxationBase * $matchGameBill->getIncomeTaxStakePercent() / 100, 0);
-        $equivalentToWithdraw  = $grossEquivalent - $incomeTax;
-
-        $matchGameBill
-            ->setGrossEquivalent($grossEquivalent)
-            ->setTaxDeductibleExpenses($taxDeductibleExpenses)
-            ->setTaxationBase($taxationBase)
-            ->setIncomeTax($incomeTax)
-            ->setEquivalentToWithdraw($equivalentToWithdraw)
-        ;
-
-        return $matchGameBill;
     }
 }

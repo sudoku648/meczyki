@@ -6,15 +6,15 @@ namespace App\Factory;
 
 use App\Dto\GameTypeDto;
 use App\Entity\GameType;
+use App\ValueObject\GameTypeName;
 
 class GameTypeFactory
 {
     public function createFromDto(GameTypeDto $dto): GameType
     {
         return new GameType(
-            $dto->name,
-            $dto->group,
-            $dto->isOfficial,
+            GameTypeName::fromString($dto->name),
+            true === $dto->isOfficial,
         );
     }
 
@@ -22,9 +22,7 @@ class GameTypeFactory
     {
         $dto = new GameTypeDto();
 
-        $dto->name       = $gameType->getName();
-        $dto->group      = $gameType->getGroup();
-        $dto->fullName   = $gameType->getFullName();
+        $dto->name       = $gameType->getName()->getValue();
         $dto->isOfficial = $gameType->isOfficial();
         $dto->image      = $gameType->getImage();
         $dto->setId($gameType->getId());

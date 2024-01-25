@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
-use App\Entity\Enums\VoivodeshipEnum;
+use App\Enums\Voivodeship;
 use App\Entity\Person;
 use App\Validator\Nip;
 use App\Validator\Pesel;
 use App\Validator\PolishMobilePhone;
-use App\Validator\PolishZipCode;
+use App\Validator\PolishPostCode;
 use App\Validator\UniqueEntity;
 use App\ValueObject\PersonId;
 use DateTime;
@@ -40,8 +40,6 @@ class PersonDto
 
     public ?string $fullName = null;
 
-    public ?string $fullNameInversed = null;
-
     #[Assert\Length(min: 12, max: 12)]
     #[PolishMobilePhone()]
     public ?string $mobilePhone = null;
@@ -70,17 +68,17 @@ class PersonDto
     public ?string $addressStreet = null;
 
     #[Assert\Length(min: 6, max: 6)]
-    #[PolishZipCode()]
-    public ?string $addressZipCode = null;
+    #[PolishPostCode()]
+    public ?string $addressPostCode = null;
 
     #[Assert\Length(min: 2, max: 100)]
     public ?string $addressPostOffice = null;
 
-    #[Assert\Type(type: VoivodeshipEnum::class)]
-    public ?VoivodeshipEnum $addressVoivodeship = null;
+    #[Assert\Type(type: Voivodeship::class)]
+    public ?Voivodeship $addressVoivodeship = null;
 
     #[Assert\Length(min: 2, max: 100)]
-    public ?string $addressPowiat = null;
+    public ?string $addressCounty = null;
 
     #[Assert\Length(min: 2, max: 100)]
     public ?string $addressGmina = null;

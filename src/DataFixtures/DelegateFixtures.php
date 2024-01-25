@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\Entity\Person;
+use App\ValueObject\FirstName;
+use App\ValueObject\LastName;
+use App\ValueObject\PhoneNumber;
 use Doctrine\Persistence\ObjectManager;
 
 class DelegateFixtures extends BaseFixture
@@ -15,9 +18,9 @@ class DelegateFixtures extends BaseFixture
     {
         foreach ($this->provideRandomDelegates(self::DELEGATES_COUNT) as $index => $delegate) {
             $newDelegate = new Person(
-                $delegate['firstName'],
-                $delegate['lastName'],
-                $delegate['mobilePhone'],
+                FirstName::fromString($delegate['firstName']),
+                LastName::fromString($delegate['lastName']),
+                null !== $delegate['mobilePhone'] ? PhoneNumber::fromString($delegate['mobilePhone']) : null,
                 true,
                 false,
                 false

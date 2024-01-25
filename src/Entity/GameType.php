@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
 use App\ValueObject\GameTypeId;
+use App\ValueObject\GameTypeName;
 
 class GameType
 {
@@ -17,22 +18,18 @@ class GameType
 
     private GameTypeId $id;
 
-    private string $name;
-
-    private ?string $group;
+    private GameTypeName $name;
 
     private bool $isOfficial;
 
     private ?Image $image = null;
 
     public function __construct(
-        string $name,
-        ?string $group,
+        GameTypeName $name,
         bool $isOfficial,
     ) {
         $this->id         = GameTypeId::generate();
         $this->name       = $name;
-        $this->group      = $group;
         $this->isOfficial = $isOfficial;
 
         $this->createdAtTraitConstruct();
@@ -43,26 +40,14 @@ class GameType
         return $this->id;
     }
 
-    public function getName(): string
+    public function getName(): GameTypeName
     {
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(GameTypeName $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getGroup(): ?string
-    {
-        return $this->group;
-    }
-
-    public function setGroup(?string $group): self
-    {
-        $this->group = $group;
 
         return $this;
     }
@@ -89,11 +74,6 @@ class GameType
         $this->image = $image;
 
         return $this;
-    }
-
-    public function getFullName(): string
-    {
-        return $this->name . ($this->group ? ' Grupa ' . $this->group : '');
     }
 
     public function __sleep(): array

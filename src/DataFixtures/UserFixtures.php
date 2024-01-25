@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\Entity\User;
+use App\ValueObject\Username;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -23,7 +24,7 @@ class UserFixtures extends BaseFixture
     {
         foreach ($this->provideRandomUsers(self::USERS_COUNT) as $index => $user) {
             $newUser = new User(
-                $user['username'],
+                Username::fromString($user['username']),
                 $user['password']
             );
 

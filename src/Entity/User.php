@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\Enums\PermissionEnum;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
 use App\ValueObject\UserId;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\ValueObject\Username;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -26,7 +24,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     private UserId $id;
 
-    private string $username;
+    private Username $username;
 
     private string $password;
 
@@ -36,16 +34,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     private ?Person $person;
 
-    private Collection $userRoles;
-
     public function __construct(
-        string $username,
+        Username $username,
         string $password,
     ) {
-        $this->id        = UserId::generate();
-        $this->password  = $password;
-        $this->username  = $username;
-        $this->userRoles = new ArrayCollection();
+        $this->id       = UserId::generate();
+        $this->password = $password;
+        $this->username = $username;
 
         $this->createdAtTraitConstruct();
     }
@@ -55,12 +50,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getUsername(): string
+    public function getUsername(): Username
     {
         return $this->username;
     }
 
-    public function setUsername(string $username): self
+    public function setUsername(Username $username): self
     {
         $this->username = $username;
 
@@ -133,38 +128,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return in_array('ROLE_SUPER_ADMIN', $this->getRoles());
     }
 
-    public function getUserRoles(): Collection
-    {
-        return $this->userRoles;
-    }
-
-    public function addUserRole(UserRole $userRole): self
-    {
-        if (!$this->userRoles->contains($userRole)) {
-            $this->userRoles[] = $userRole;
-        }
-
-        return $this;
-    }
-
-    public function removeUserRole(UserRole $userRole): self
-    {
-        $this->userRoles->removeElement($userRole);
-
-        return $this;
-    }
-
-    public function isGranted(PermissionEnum $permission): bool
-    {
-        foreach ($this->userRoles as $role) {
-            if (in_array($permission, $role->getPermissions())) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public function deactivate(): void
     {
         $this->isActive = false;
@@ -198,6 +161,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        return $this->username;
+        return (string) $this->username;
     }
 }

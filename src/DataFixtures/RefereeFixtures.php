@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\Entity\Person;
+use App\ValueObject\FirstName;
+use App\ValueObject\LastName;
+use App\ValueObject\PhoneNumber;
 use Doctrine\Persistence\ObjectManager;
 
 use function mt_rand;
@@ -17,9 +20,9 @@ class RefereeFixtures extends BaseFixture
     {
         foreach ($this->provideRandomReferees(self::REFEREES_COUNT) as $index => $referee) {
             $newReferee = new Person(
-                $referee['firstName'],
-                $referee['lastName'],
-                $referee['mobilePhone'],
+                FirstName::fromString($referee['firstName']),
+                LastName::fromString($referee['lastName']),
+                null !== $referee['mobilePhone'] ? PhoneNumber::fromString($referee['mobilePhone']) : null,
                 false,
                 true,
                 false

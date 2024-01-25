@@ -11,7 +11,7 @@ use Symfony\Component\Uid\Uuid;
 
 class Id implements Stringable, ValueObjectInterface
 {
-    final protected function __construct(protected string $value = '')
+    final protected function __construct(protected readonly string $value = '')
     {
     }
 

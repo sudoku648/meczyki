@@ -7,19 +7,15 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
 final class Version20220713121033 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Fix voivodeships for enums.';
+        return 'Fix voivodeships for enums';
     }
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('UPDATE person SET address_voivodeship=\'lower_silesian\' WHERE address_voivodeship=\'dolnośląskie\'');
         $this->addSql('UPDATE person SET address_voivodeship=\'kuyavian-pomeranian\' WHERE address_voivodeship=\'kujawsko-pomorskie\'');
         $this->addSql('UPDATE person SET address_voivodeship=\'lublin\' WHERE address_voivodeship=\'lubelskie\'');
@@ -40,7 +36,6 @@ final class Version20220713121033 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('UPDATE person SET address_voivodeship=\'dolnośląskie\' WHERE address_voivodeship=\'lower_silesian\'');
         $this->addSql('UPDATE person SET address_voivodeship=\'kujawsko-pomorskie\' WHERE address_voivodeship=\'kuyavian-pomeranian\'');
         $this->addSql('UPDATE person SET address_voivodeship=\'lubelskie\' WHERE address_voivodeship=\'lublin\'');

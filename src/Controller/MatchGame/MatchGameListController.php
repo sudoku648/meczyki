@@ -61,10 +61,10 @@ class MatchGameListController extends MatchGameAbstractController
                     ]
                 ),
                 $matchGame->getDateTime()->format('d.m.Y H:i'),
-                $matchGame->getGameType() ? $matchGame->getGameType()->getName() : '',
-                ($matchGame->getHomeTeam()?->getFullName() ?? '<em class="text-black-50">nieznany</em>') .
+                $matchGame->getGameType()?->getName()->getValue() ?? '',
+                ($matchGame->getHomeTeam()?->getName() ?? '<em class="text-black-50">nieznany</em>') .
                 ' - ' .
-                ($matchGame->getAwayTeam()?->getFullName() ?? '<em class="text-black-50">nieznany</em>'),
+                ($matchGame->getAwayTeam()?->getName() ?? '<em class="text-black-50">nieznany</em>'),
                 $this->getButtonsForDataTable($matchGame)
             );
         }

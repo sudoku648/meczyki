@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Dto\UserDto;
-use App\Entity\UserRole;
-use App\Repository\Contracts\UserRoleRepositoryInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -17,11 +14,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserCreateType extends AbstractType
 {
-    public function __construct(
-        private readonly UserRoleRepositoryInterface $userRoleRepository
-    ) {
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -32,20 +24,6 @@ class UserCreateType extends AbstractType
                 [
                     'type'     => PasswordType::class,
                     'required' => true,
-                ]
-            )
-            ->add(
-                'userRoles',
-                EntityType::class,
-                [
-                    'choice_label' => function (UserRole $userRole) {
-                        return $userRole->getName();
-                    },
-                    'choices'      => $this->userRoleRepository->allOrderedByName(),
-                    'class'        => UserRole::class,
-                    'expanded'     => true,
-                    'multiple'     => true,
-                    'required'     => false,
                 ]
             )
             ->add('save', SubmitType::class)

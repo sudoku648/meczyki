@@ -6,6 +6,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Club;
 use App\Repository\Contracts\ImageRepositoryInterface;
+use App\ValueObject\ClubName;
 use Doctrine\Persistence\ObjectManager;
 
 use function array_flip;
@@ -26,7 +27,7 @@ class ClubFixtures extends BaseFixture
     {
         foreach ($this->provideRandomClubs(self::CLUBS_COUNT) as $index => $club) {
             $newClub = new Club(
-                $club['name']
+                ClubName::fromString($club['name'])
             );
 
             $randomEmblem = mt_rand(0, 3);

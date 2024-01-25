@@ -11,14 +11,17 @@ use App\Event\MatchGameBill\MatchGameBillCreatedEvent;
 use App\Event\MatchGameBill\MatchGameBillDeletedEvent;
 use App\Event\MatchGameBill\MatchGameBillUpdatedEvent;
 use App\Factory\MatchGameBillFactory;
+use App\Service\Contracts\MatchGameBillCalculatorInterface;
 use App\Service\Contracts\MatchGameBillGeneratorInterface;
 use App\Service\Contracts\MatchGameBillManagerInterface;
+use App\ValueObject\BaseEquivalentPercent;
+use App\ValueObject\Money;
+use App\ValueObject\TaxDeductibleStakePercent;
+use App\ValueObject\TaxIncomeStakePercent;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Webmozart\Assert\Assert;
-
-use function round;
 
 readonly class MatchGameBillManager implements MatchGameBillManagerInterface
 {
@@ -27,6 +30,7 @@ readonly class MatchGameBillManager implements MatchGameBillManagerInterface
         private EntityManagerInterface $entityManager,
         private MatchGameBillFactory $factory,
         private MatchGameBillGeneratorInterface $generator,
+        private MatchGameBillCalculatorInterface $calculator,
     ) {
     }
 
@@ -48,10 +52,10 @@ readonly class MatchGameBillManager implements MatchGameBillManagerInterface
     {
         Assert::same($matchGameBill->getMatchGame()->getId(), $dto->matchGame->getId());
 
-        $matchGameBill->setBaseEquivalent($dto->baseEquivalent);
-        $matchGameBill->setPercentOfBaseEquivalent($dto->percentOfBaseEquivalent);
-        $matchGameBill->setTaxDeductibleStakePercent($dto->taxDeductibleStakePercent);
-        $matchGameBill->setIncomeTaxStakePercent($dto->incomeTaxStakePercent);
+        $matchGameBill->setBaseEquivalent(Money::PLN($dto->baseEquivalent));
+        $matchGameBill->setPercentOfBaseEquivalent(BaseEquivalentPercent::byValue($dto->percentOfBaseEquivalent));
+        $matchGameBill->setTaxDeductibleStakePercent(TaxDeductibleStakePercent::byValue($dto->taxDeductibleStakePercent));
+        $matchGameBill->setIncomeTaxStakePercent(TaxIncomeStakePercent::byValue($dto->incomeTaxStakePercent));
         $matchGameBill->setUpdatedAt();
 
         $matchGameBill = $this->calculateValues($matchGameBill);
@@ -83,18 +87,14 @@ readonly class MatchGameBillManager implements MatchGameBillManagerInterface
 
     private function calculateValues(MatchGameBill $matchGameBill): MatchGameBill
     {
-        $grossEquivalent       = (int) round($matchGameBill->getBaseEquivalent() * $matchGameBill->getPercentOfBaseEquivalent() / 100, 0);
-        $taxDeductibleExpenses = (int) round($grossEquivalent * $matchGameBill->getTaxDeductibleStakePercent() / 100, 0);
-        $taxationBase          = $grossEquivalent - $taxDeductibleExpenses;
-        $incomeTax             = (int) round($taxationBase * $matchGameBill->getIncomeTaxStakePercent() / 100, 0);
-        $equivalentToWithdraw  = $grossEquivalent - $incomeTax;
+        $values = $this->calculator->calculate($matchGameBill);
 
         $matchGameBill
-            ->setGrossEquivalent($grossEquivalent)
-            ->setTaxDeductibleExpenses($taxDeductibleExpenses)
-            ->setTaxationBase($taxationBase)
-            ->setIncomeTax($incomeTax)
-            ->setEquivalentToWithdraw($equivalentToWithdraw)
+            ->setGrossEquivalent($values->grossEquivalent)
+            ->setTaxDeductibleExpenses($values->taxDeductibleExpenses)
+            ->setTaxationBase($values->taxationBase)
+            ->setIncomeTax($values->incomeTax)
+            ->setEquivalentToWithdraw($values->equivalentToWithdraw)
         ;
 
         return $matchGameBill;

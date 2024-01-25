@@ -4,36 +4,39 @@ declare(strict_types=1);
 
 namespace App\Entity\Traits;
 
+use App\ValueObject\FirstName;
+use App\ValueObject\LastName;
+
 trait PersonTrait
 {
-    private string $firstName;
+    private FirstName $firstName;
 
-    private string $lastName;
+    private LastName $lastName;
 
-    public function __construct(string $firstName, string $lastName)
+    public function __construct(FirstName $firstName, LastName $lastName)
     {
         $this->firstName = $firstName;
         $this->lastName  = $lastName;
     }
 
-    public function getFirstName(): string
+    public function getFirstName(): FirstName
     {
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): self
+    public function setFirstName(FirstName $firstName): self
     {
         $this->firstName = $firstName;
 
         return $this;
     }
 
-    public function getLastName(): string
+    public function getLastName(): LastName
     {
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): self
+    public function setLastName(LastName $lastName): self
     {
         $this->lastName = $lastName;
 
@@ -43,10 +46,5 @@ trait PersonTrait
     public function getFullName(): string
     {
         return $this->lastName . ' ' . $this->firstName;
-    }
-
-    public function getFullNameInversed(): string
-    {
-        return $this->firstName . ' ' . $this->lastName;
     }
 }

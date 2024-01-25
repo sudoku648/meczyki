@@ -16,7 +16,7 @@ class TeamType extends AbstractType
     {
         $builder
             ->add('shortName')
-            ->add('fullName')
+            ->add('name')
             ->add('save', SubmitType::class)
             ->add('saveAndContinue', SubmitType::class)
         ;

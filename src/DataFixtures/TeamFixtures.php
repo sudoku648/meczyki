@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\Entity\Team;
+use App\ValueObject\TeamName;
+use App\ValueObject\TeamShortName;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
@@ -21,8 +23,8 @@ class TeamFixtures extends BaseFixture implements DependentFixtureInterface
     {
         foreach ($this->provideRandomTeams(self::TEAMS_COUNT) as $index => $team) {
             $newTeam = new Team(
-                $team['fullName'],
-                $team['shortName'],
+                TeamName::fromString($team['name']),
+                TeamShortName::fromString($team['shortName']),
                 $team['club']
             );
 
@@ -38,10 +40,10 @@ class TeamFixtures extends BaseFixture implements DependentFixtureInterface
     {
         for ($i = 0; $i < $count; $i++) {
             $shortName = ucfirst($this->faker->word()) . ' ' . $this->faker->city();
-            $fullName  = array_rand(array_flip(['G', 'L', 'K', 'Z', 'M']), 1) . 'KS ' . $shortName;
+            $name      = array_rand(array_flip(['G', 'L', 'K', 'Z', 'M']), 1) . 'KS ' . $shortName;
 
             yield [
-                'fullName'  => $fullName,
+                'name'      => $name,
                 'shortName' => $shortName,
                 'club'      => $this->getReference(
                     'club' . '_' . mt_rand(0, ClubFixtures::CLUBS_COUNT - 1)

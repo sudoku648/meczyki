@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Security\Voter;
 
-use App\Entity\Enums\PermissionEnum;
 use App\Entity\GameType;
 use App\Entity\User;
 use LogicException;
@@ -67,10 +66,6 @@ class GameTypeVoter extends Voter
 
     private function canCreate(User $user): bool
     {
-        if ($user->isGranted(PermissionEnum::MANAGE_GAME_TYPES)) {
-            return true;
-        }
-
         return $user->isSuperAdmin();
     }
 
@@ -81,19 +76,11 @@ class GameTypeVoter extends Voter
 
     private function canEdit(User $user): bool
     {
-        if ($user->isGranted(PermissionEnum::MANAGE_GAME_TYPES)) {
-            return true;
-        }
-
         return $user->isSuperAdmin();
     }
 
     private function canDelete(User $user): bool
     {
-        if ($user->isGranted(PermissionEnum::MANAGE_GAME_TYPES)) {
-            return true;
-        }
-
         return $user->isSuperAdmin();
     }
 
@@ -101,9 +88,6 @@ class GameTypeVoter extends Voter
     {
         if (!$gameType->getImage()) {
             return false;
-        }
-        if ($user->isGranted(PermissionEnum::MANAGE_GAME_TYPES)) {
-            return true;
         }
 
         return $user->isSuperAdmin();

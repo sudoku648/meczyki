@@ -7,6 +7,9 @@ namespace App\Entity;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
 use App\ValueObject\MatchGameId;
+use App\ValueObject\Round;
+use App\ValueObject\Season;
+use App\ValueObject\Venue;
 use DateTimeImmutable;
 use DateTimeZone;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -31,11 +34,11 @@ class MatchGame
 
     private ?GameType $gameType;
 
-    private ?string $season;
+    private ?Season $season;
 
-    private ?int $round;
+    private ?Round $round;
 
-    private string $venue;
+    private Venue $venue;
 
     private ?Person $referee;
 
@@ -63,9 +66,9 @@ class MatchGame
         Team $awayTeam,
         DateTimeImmutable $dateTime,
         GameType $gameType,
-        ?string $season,
-        ?int $round,
-        string $venue,
+        ?Season $season,
+        ?Round $round,
+        Venue $venue,
         Person $referee,
         ?Person $firstAssistantReferee,
         ?bool $isFirstAssistantNonProfitable,
@@ -168,36 +171,36 @@ class MatchGame
         return $this;
     }
 
-    public function getSeason(): ?string
+    public function getSeason(): ?Season
     {
         return $this->season;
     }
 
-    public function setSeason(?string $season): self
+    public function setSeason(?Season $season): self
     {
         $this->season = $season;
 
         return $this;
     }
 
-    public function getRound(): ?int
+    public function getRound(): ?Round
     {
         return $this->round;
     }
 
-    public function setRound(?int $round): self
+    public function setRound(?Round $round): self
     {
         $this->round = $round;
 
         return $this;
     }
 
-    public function getVenue(): string
+    public function getVenue(): Venue
     {
         return $this->venue;
     }
 
-    public function setVenue(string $venue): self
+    public function setVenue(Venue $venue): self
     {
         $this->venue = $venue;
 
@@ -358,9 +361,9 @@ class MatchGame
     public function getCompetitors(): string
     {
         return
-            ($this->homeTeam ? $this->homeTeam->getFullName() : '') .
+            ($this->homeTeam?->getName() ?? '') .
             ' - ' .
-            ($this->awayTeam ? $this->awayTeam->getFullName() : '')
+            ($this->awayTeam?->getName() ?? '')
         ;
     }
 

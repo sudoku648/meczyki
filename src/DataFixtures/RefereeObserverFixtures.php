@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\Entity\Person;
+use App\ValueObject\FirstName;
+use App\ValueObject\LastName;
+use App\ValueObject\PhoneNumber;
 use Doctrine\Persistence\ObjectManager;
 
 class RefereeObserverFixtures extends BaseFixture
@@ -17,9 +20,9 @@ class RefereeObserverFixtures extends BaseFixture
             $this->provideRandomRefereeObservers(self::REFEREE_OBSERVERS_COUNT) as $index => $refereeObserver
         ) {
             $newRefereeObserver = new Person(
-                $refereeObserver['firstName'],
-                $refereeObserver['lastName'],
-                $refereeObserver['mobilePhone'],
+                FirstName::fromString($refereeObserver['firstName']),
+                LastName::fromString($refereeObserver['lastName']),
+                null !== $refereeObserver['mobilePhone'] ? PhoneNumber::fromString($refereeObserver['mobilePhone']) : null,
                 false,
                 false,
                 true

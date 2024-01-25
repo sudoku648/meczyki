@@ -12,6 +12,13 @@ use App\Event\Person\PersonPersonalInfoUpdatedEvent;
 use App\Event\Person\PersonUpdatedEvent;
 use App\Factory\PersonFactory;
 use App\Service\Contracts\PersonManagerInterface;
+use App\ValueObject\Address;
+use App\ValueObject\FirstName;
+use App\ValueObject\Iban;
+use App\ValueObject\LastName;
+use App\ValueObject\Nip;
+use App\ValueObject\Pesel;
+use App\ValueObject\PhoneNumber;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -38,9 +45,9 @@ readonly class PersonManager implements PersonManagerInterface
 
     public function edit(Person $person, PersonDto $dto): Person
     {
-        $person->setFirstName($dto->firstName);
-        $person->setLastName($dto->lastName);
-        $person->setMobilePhone($dto->mobilePhone);
+        $person->setFirstName(FirstName::fromString($dto->firstName));
+        $person->setLastName(LastName::fromString($dto->lastName));
+        $person->setMobilePhone(null !== $dto->mobilePhone ? PhoneNumber::fromString($dto->mobilePhone) : null);
         $person->setIsDelegate($dto->isDelegate);
         $person->setIsReferee($dto->isReferee);
         $person->setIsRefereeObserver($dto->isRefereeObserver);
@@ -58,18 +65,21 @@ readonly class PersonManager implements PersonManagerInterface
         $person->setEmail($dto->email);
         $person->setDateOfBirth($dto->dateOfBirth);
         $person->setPlaceOfBirth($dto->placeOfBirth);
-        $person->setAddressTown($dto->addressTown);
-        $person->setAddressStreet($dto->addressStreet);
-        $person->setAddressZipCode($dto->addressZipCode);
-        $person->setAddressPostOffice($dto->addressPostOffice);
-        $person->setAddressVoivodeship($dto->addressVoivodeship);
-        $person->setAddressPowiat($dto->addressPowiat);
-        $person->setAddressGmina($dto->addressGmina);
+        $address = new Address(
+            $dto->addressTown,
+            $dto->addressStreet,
+            $dto->addressPostCode,
+            $dto->addressPostOffice,
+            $dto->addressVoivodeship,
+            $dto->addressCounty,
+            $dto->addressGmina,
+        );
+        $person->setAddress($address);
         $person->setTaxOfficeName($dto->taxOfficeName);
         $person->setTaxOfficeAddress($dto->taxOfficeAddress);
-        $person->setPesel($dto->pesel);
-        $person->setNip($dto->nip);
-        $person->setIban($dto->iban);
+        $person->setPesel(null !== $dto->pesel ? Pesel::fromString($dto->pesel) : null);
+        $person->setNip(null !== $dto->nip ? Nip::fromString($dto->nip) : null);
+        $person->setIban(null !== $dto->iban ? Iban::fromString($dto->iban) : null);
         $person->setAllowsToSendPitByEmail($dto->allowsToSendPitByEmail);
 
         $this->entityManager->flush();

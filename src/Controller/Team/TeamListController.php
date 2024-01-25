@@ -59,8 +59,8 @@ class TeamListController extends TeamAbstractController
                         'teamId' => $team->getId(),
                     ]
                 ),
-                $team->getFullName(),
-                $team->getClub()->getName(),
+                $team->getName()->getValue(),
+                $team->getClub()->getName()->getValue(),
                 $this->getButtonsForDataTable($team)
             );
         }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Security\Voter;
 
-use App\Entity\Enums\PermissionEnum;
 use App\Entity\User;
 use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -76,37 +75,21 @@ class UserVoter extends Voter
 
     private function canList(User $user): bool
     {
-        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
-            return true;
-        }
-
         return $user->isSuperAdmin();
     }
 
     private function canCreate(User $user): bool
     {
-        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
-            return true;
-        }
-
         return $user->isSuperAdmin();
     }
 
     private function canSee(User $user): bool
     {
-        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
-            return true;
-        }
-
         return $user->isSuperAdmin();
     }
 
     private function canEdit(User $user): bool
     {
-        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
-            return true;
-        }
-
         return $user->isSuperAdmin();
     }
 
@@ -114,9 +97,6 @@ class UserVoter extends Voter
     {
         if ($userEntity->isActive()) {
             return false;
-        }
-        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
-            return true;
         }
 
         return $user->isSuperAdmin();
@@ -130,28 +110,17 @@ class UserVoter extends Voter
         if ($userEntity === $user) {
             return false;
         }
-        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
-            return true;
-        }
 
         return $user->isSuperAdmin();
     }
 
     private function canActivateBatch(User $user): bool
     {
-        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
-            return true;
-        }
-
         return $user->isSuperAdmin();
     }
 
     private function canDeactivateBatch(User $user): bool
     {
-        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
-            return true;
-        }
-
         return $user->isSuperAdmin();
     }
 
@@ -160,19 +129,12 @@ class UserVoter extends Voter
         if ($userEntity->isActive()) {
             return false;
         }
-        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
-            return true;
-        }
 
         return $user->isSuperAdmin();
     }
 
     private function canDeleteBatch(User $user): bool
     {
-        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
-            return true;
-        }
-
         return $user->isSuperAdmin();
     }
 
@@ -187,10 +149,6 @@ class UserVoter extends Voter
 
     private function canBindWithPerson(User $user): bool
     {
-        if ($user->isGranted(PermissionEnum::MANAGE_USERS)) {
-            return true;
-        }
-
         return $user->isSuperAdmin();
     }
 }

@@ -6,7 +6,11 @@ namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\UpdatedAtTrait;
+use App\ValueObject\BaseEquivalentPercent;
 use App\ValueObject\MatchGameBillId;
+use App\ValueObject\Money;
+use App\ValueObject\TaxDeductibleStakePercent;
+use App\ValueObject\TaxIncomeStakePercent;
 
 class MatchGameBill
 {
@@ -21,31 +25,31 @@ class MatchGameBill
 
     private ?MatchGame $matchGame;
 
-    private int $baseEquivalent;
+    private Money $baseEquivalent;
 
-    private int $percentOfBaseEquivalent;
+    private BaseEquivalentPercent $percentOfBaseEquivalent;
 
-    private int $grossEquivalent;
+    private Money $grossEquivalent;
 
-    private int $taxDeductibleStakePercent;
+    private TaxDeductibleStakePercent $taxDeductibleStakePercent;
 
-    private int $taxDeductibleExpenses;
+    private Money $taxDeductibleExpenses;
 
-    private int $taxationBase;
+    private Money $taxationBase;
 
-    private int $incomeTaxStakePercent;
+    private TaxIncomeStakePercent $incomeTaxStakePercent;
 
-    private int $incomeTax;
+    private Money $incomeTax;
 
-    private int $equivalentToWithdraw;
+    private Money $equivalentToWithdraw;
 
     public function __construct(
         Person $person,
         MatchGame $matchGame,
-        int $baseEquivalent,
-        int $percentOfBaseEquivalent,
-        int $taxDeductibleStakePercent,
-        int $incomeTaxStakePercent,
+        Money $baseEquivalent,
+        BaseEquivalentPercent $percentOfBaseEquivalent,
+        TaxDeductibleStakePercent $taxDeductibleStakePercent,
+        TaxIncomeStakePercent $incomeTaxStakePercent,
     ) {
         $this->id                        = MatchGameBillId::generate();
         $this->person                    = $person;
@@ -87,110 +91,110 @@ class MatchGameBill
         return $this;
     }
 
-    public function getBaseEquivalent(): int
+    public function getBaseEquivalent(): Money
     {
         return $this->baseEquivalent;
     }
 
-    public function setBaseEquivalent(int $amount): self
+    public function setBaseEquivalent(Money $money): self
     {
-        $this->baseEquivalent = $amount;
+        $this->baseEquivalent = $money;
 
         return $this;
     }
 
-    public function getPercentOfBaseEquivalent(): int
+    public function getPercentOfBaseEquivalent(): BaseEquivalentPercent
     {
         return $this->percentOfBaseEquivalent;
     }
 
-    public function setPercentOfBaseEquivalent(int $percent): self
+    public function setPercentOfBaseEquivalent(BaseEquivalentPercent $percent): self
     {
         $this->percentOfBaseEquivalent = $percent;
 
         return $this;
     }
 
-    public function getGrossEquivalent(): int
+    public function getGrossEquivalent(): Money
     {
         return $this->grossEquivalent;
     }
 
-    public function setGrossEquivalent(int $amount): self
+    public function setGrossEquivalent(Money $money): self
     {
-        $this->grossEquivalent = $amount;
+        $this->grossEquivalent = $money;
 
         return $this;
     }
 
-    public function getTaxDeductibleStakePercent(): int
+    public function getTaxDeductibleStakePercent(): TaxDeductibleStakePercent
     {
         return $this->taxDeductibleStakePercent;
     }
 
-    public function setTaxDeductibleStakePercent(int $percent): self
+    public function setTaxDeductibleStakePercent(TaxDeductibleStakePercent $percent): self
     {
         $this->taxDeductibleStakePercent = $percent;
 
         return $this;
     }
 
-    public function getTaxDeductibleExpenses(): int
+    public function getTaxDeductibleExpenses(): Money
     {
         return $this->taxDeductibleExpenses;
     }
 
-    public function setTaxDeductibleExpenses(int $amount): self
+    public function setTaxDeductibleExpenses(Money $money): self
     {
-        $this->taxDeductibleExpenses = $amount;
+        $this->taxDeductibleExpenses = $money;
 
         return $this;
     }
 
-    public function getTaxationBase(): int
+    public function getTaxationBase(): Money
     {
         return $this->taxationBase;
     }
 
-    public function setTaxationBase(int $amount): self
+    public function setTaxationBase(Money $money): self
     {
-        $this->taxationBase = $amount;
+        $this->taxationBase = $money;
 
         return $this;
     }
 
-    public function getIncomeTaxStakePercent(): int
+    public function getIncomeTaxStakePercent(): TaxIncomeStakePercent
     {
         return $this->incomeTaxStakePercent;
     }
 
-    public function setIncomeTaxStakePercent(int $percent): self
+    public function setIncomeTaxStakePercent(TaxIncomeStakePercent $percent): self
     {
         $this->incomeTaxStakePercent = $percent;
 
         return $this;
     }
 
-    public function getIncomeTax(): int
+    public function getIncomeTax(): Money
     {
         return $this->incomeTax;
     }
 
-    public function setIncomeTax(int $amount): self
+    public function setIncomeTax(Money $money): self
     {
-        $this->incomeTax = $amount;
+        $this->incomeTax = $money;
 
         return $this;
     }
 
-    public function getEquivalentToWithdraw(): int
+    public function getEquivalentToWithdraw(): Money
     {
         return $this->equivalentToWithdraw;
     }
 
-    public function setEquivalentToWithdraw(int $amount): self
+    public function setEquivalentToWithdraw(Money $money): self
     {
-        $this->equivalentToWithdraw = $amount;
+        $this->equivalentToWithdraw = $money;
 
         return $this;
     }

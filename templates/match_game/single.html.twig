@@ -7,15 +7,15 @@
         <tbody>
             <tr>
                 <th>Gospodarze</th>
-                <td>{{ matchGame.homeTeam ? matchGame.homeTeam.fullName : ('<em class="text-black-50">nieznany</em>')|raw }}</td>
+                <td>{{ matchGame.homeTeam ? matchGame.homeTeam.name : ('<em class="text-black-50">nieznany</em>')|raw }}</td>
             </tr>
             <tr>
                 <th>Goście</th>
-                <td>{{ matchGame.awayTeam ? matchGame.awayTeam.fullName : ('<em class="text-black-50">nieznany</em>')|raw }}</td>
+                <td>{{ matchGame.awayTeam ? matchGame.awayTeam.name : ('<em class="text-black-50">nieznany</em>')|raw }}</td>
             </tr>
             <tr>
                 <th>Typ rozgrywek</th>
-                <td>{{ matchGame.gameType ? matchGame.gameType.fullName : ('<em class="text-black-50">nieznany</em>')|raw }}</td>
+                <td>{{ matchGame.gameType ? matchGame.gameType.name : ('<em class="text-black-50">nieznany</em>')|raw }}</td>
             </tr>
             <tr>
                 <th>Sezon</th>
@@ -23,7 +23,7 @@
             </tr>
             <tr>
                 <th>Kolejka</th>
-                <td>{{ matchGame.round }}</td>
+                <td>{{ matchGame.round ? matchGame.round.value }}</td>
             </tr>
             <tr>
                 <th>Data</th>
@@ -43,11 +43,15 @@
             </tr>
             <tr>
                 <th>Asystent 1</th>
-                <td>{{ matchGame.firstAssistantReferee ? matchGame.firstAssistantReferee.fullName : ('<em class="text-black-50">brak</em>')|raw }}{{ matchGame.isFirstAssistantNonProfitable ? ' (społecznie)' : '' }}</td>
+                <td>
+                    {{ matchGame.firstAssistantReferee ? matchGame.firstAssistantReferee.fullName : ('<em class="text-black-50">brak</em>')|raw }}
+                    {{ matchGame.isFirstAssistantNonProfitable is not null and matchGame.isFirstAssistantNonProfitable.value ? ' (społecznie)' : '' }}</td>
             </tr>
             <tr>
                 <th>Asystent 2</th>
-                <td>{{ matchGame.secondAssistantReferee ? matchGame.secondAssistantReferee.fullName : ('<em class="text-black-50">brak</em>')|raw }}{{ matchGame.isSecondAssistantNonProfitable ? ' (społecznie)' : '' }}</td>
+                <td>
+                    {{ matchGame.secondAssistantReferee ? matchGame.secondAssistantReferee.fullName : ('<em class="text-black-50">brak</em>')|raw }}
+                    {{ matchGame.isSecondAssistantNonProfitable is not null and matchGame.isSecondAssistantNonProfitable.value ? ' (społecznie)' : '' }}</td>
             </tr>
             <tr>
                 <th>Sędzia techniczny</th>

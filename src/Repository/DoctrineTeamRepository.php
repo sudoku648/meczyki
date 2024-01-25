@@ -24,7 +24,7 @@ use Pagerfanta\PagerfantaInterface;
 class DoctrineTeamRepository extends ServiceEntityRepository implements TeamRepositoryInterface
 {
     public const SORT_SHORT_NAME = 'shortName';
-    public const SORT_CLUB_NAME  = 'club'; // @todo check
+    public const SORT_CLUB_NAME  = 'club';
     public const SORT_DIR_ASC    = 'ASC';
     public const SORT_DIR_DESC   = 'DESC';
 
@@ -97,7 +97,7 @@ class DoctrineTeamRepository extends ServiceEntityRepository implements TeamRepo
     {
         if ('' !== $criteria->globalSearch) {
             $qb->andWhere(
-                'team.fullName LIKE :search' .
+                'team.name LIKE :search' .
                 ' OR ' .
                 'team.shortName LIKE :search' .
                 ' OR ' .
@@ -110,7 +110,7 @@ class DoctrineTeamRepository extends ServiceEntityRepository implements TeamRepo
         }
         if ('' !== $criteria->nameLike) {
             $qb->andWhere(
-                'team.fullName LIKE :name' .
+                'team.name LIKE :name' .
                 ' OR ' .
                 'team.shortName LIKE :name'
             )->setParameter('name', '%' . $criteria->nameLike . '%');

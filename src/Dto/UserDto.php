@@ -9,7 +9,6 @@ use App\Entity\Person;
 use App\Entity\User;
 use App\Validator\UniqueEntity;
 use App\ValueObject\UserId;
-use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[UniqueEntity(options: [
@@ -34,8 +33,6 @@ class UserDto implements UserDtoInterface
     public ?bool $isActive = null;
 
     public ?Person $person = null;
-
-    public ?Collection $userRoles = null;
 
     public function getId(): ?UserId
     {

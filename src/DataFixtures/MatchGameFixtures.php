@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\Entity\MatchGame;
+use App\ValueObject\Round;
+use App\ValueObject\Season;
+use App\ValueObject\Venue;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
@@ -23,9 +26,9 @@ class MatchGameFixtures extends BaseFixture implements DependentFixtureInterface
                 $matchGame['awayTeam'],
                 $matchGame['dateTime'],
                 $matchGame['gameType'],
-                $matchGame['season'],
-                $matchGame['round'],
-                $matchGame['venue'],
+                null !== $matchGame['season'] ? Season::fromString($matchGame['season']) : null,
+                null !== $matchGame['round'] ? Round::byValue($matchGame['round']) : null,
+                Venue::fromString($matchGame['venue']),
                 $matchGame['referee'],
                 $matchGame['firstAssistantReferee'],
                 false,

@@ -2,15 +2,30 @@ doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
         types:
+            BaseEquivalentPercent: App\Dbal\Types\BaseEquivalentPercentType
             ClubId: App\Dbal\Types\ClubIdType
+            ClubName: App\Dbal\Types\ClubNameType
+            FirstName: App\Dbal\Types\FirstNameType
             GameTypeId: App\Dbal\Types\GameTypeIdType
+            GameTypeName: App\Dbal\Types\GameTypeNameType
             ImageId: App\Dbal\Types\ImageIdType
+            LastName: App\Dbal\Types\LastNameType
             MatchGameBillId: App\Dbal\Types\MatchGameBillIdType
             MatchGameId: App\Dbal\Types\MatchGameIdType
+            Nip: App\Dbal\Types\NipType
             PersonId: App\Dbal\Types\PersonIdType
+            Pesel: App\Dbal\Types\PeselType
+            PhoneNumber: App\Dbal\Types\PhoneNumberType
+            Round: App\Dbal\Types\RoundType
+            Season: App\Dbal\Types\SeasonType
+            TaxDeductibleStakePercent: App\Dbal\Types\TaxDeductibleStakePercentType
+            TaxIncomeStakePercent: App\Dbal\Types\TaxIncomeStakePercentType
             TeamId: App\Dbal\Types\TeamIdType
+            TeamName: App\Dbal\Types\TeamNameType
+            TeamShortName: App\Dbal\Types\TeamShortNameType
             UserId: App\Dbal\Types\UserIdType
-            UserRoleId: App\Dbal\Types\UserRoleIdType
+            Username: App\Dbal\Types\UsernameType
+            Venue: App\Dbal\Types\VenueType
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
@@ -20,9 +35,15 @@ doctrine:
             App:
                 is_bundle: false
                 type: xml
-                dir: '%kernel.project_dir%/src/DoctrineMapping'
+                dir: '%kernel.project_dir%/src/DoctrineMapping/Entity'
                 prefix: 'App\Entity'
                 alias: App
+            ValueObject:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/DoctrineMapping/ValueObject'
+                prefix: 'App\ValueObject'
+                alias: ValueObject
         dql:
             datetime_functions:
                 DATE_FORMAT: DoctrineExtensions\Query\Mysql\DateFormat

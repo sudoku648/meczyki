@@ -28,7 +28,7 @@
                                         {% if is_granted(constant('\\App\\Security\\Voter\\TeamVoter::SHOW'), team) %}
                                             <a href="{{ path('team_single', {'club_id': club.id, 'team_id': team.id}) }}">
                                         {% endif %}
-                                        {{ team.fullName }}
+                                        {{ team.name }}
                                         {% if is_granted(constant('\\App\\Security\\Voter\\TeamVoter::SHOW'), team) %}
                                             </a>
                                         {% endif %}
