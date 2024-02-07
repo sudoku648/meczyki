@@ -1,5 +1,5 @@
 <div class="mb-3 row">
-    {% if is_granted(constant('\\App\\Security\\Voter\\PersonVoter::LIST')) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\PersonVoter::LIST')) %}
         <div class="col">
             <a class="btn btn-secondary d-block" href="{{ path('people_list') }}">Wszyscy</a>
         </div>

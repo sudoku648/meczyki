@@ -1,0 +1,13 @@
+doctrine:
+    dbal:
+        types:
+            UserId: Sudoku648\Meczyki\User\Infrastructure\Persistence\Dbal\Types\UserIdType
+            Username: Sudoku648\Meczyki\User\Infrastructure\Persistence\Dbal\Types\UsernameType
+    orm:
+        mappings:
+            User:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/User/Infrastructure/Persistence/Doctrine/Mapping/Entity'
+                prefix: 'Sudoku648\Meczyki\User\Domain\Entity'
+                alias: User

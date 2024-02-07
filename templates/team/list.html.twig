@@ -3,7 +3,7 @@
 {% block title %}Drużyny{% endblock %}
 
 {% block main_content %}
-    {% if is_granted(constant('\\App\\Security\\Voter\\TeamVoter::DELETE_BATCH')) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\TeamVoter::DELETE_BATCH')) %}
         {{ include('team/_delete_batch_form.html.twig') }}
     {% endif %}
 

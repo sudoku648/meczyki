@@ -1,0 +1,13 @@
+doctrine:
+    dbal:
+        types:
+            GameTypeId: Sudoku648\Meczyki\GameType\Infrastructure\Persistence\Dbal\Types\GameTypeIdType
+            GameTypeName: Sudoku648\Meczyki\GameType\Infrastructure\Persistence\Dbal\Types\GameTypeNameType
+    orm:
+        mappings:
+            GameType:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/GameType/Infrastructure/Persistence/Doctrine/Mapping/Entity'
+                prefix: 'Sudoku648\Meczyki\GameType\Domain\Entity'
+                alias: GameType

@@ -1,36 +1,41 @@
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
 framework:
 
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     html5_validation: '%env(bool:HTML5_VALIDATION)%'
     uploads_dir_name: 'upload'
 
 services:
-    # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $html5Validation: '%html5_validation%'
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
-    App\:
+    Sudoku648\Meczyki\:
         resource: '../src/'
         exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
+            - '../src/*/DependencyInjection/'
             - '../src/Kernel.php'
-
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+            - '../src/*/Symfony/Resources/'
+    Sudoku648\Meczyki\DataFixtures\:
+        resource: '../fixtures'
 
     app.menu_builder:
-        class: App\Service\MenuBuilder
+        class: Sudoku648\Meczyki\Shared\Frontend\Service\MenuBuilder
         arguments: [ '@knp_menu.factory' ]
         tags:
             - { name: knp_menu.menu_builder, method: createMainMenu, alias: main } # The alias is what is used to retrieve the menu
             - { name: knp_menu.menu_builder, method: createTopMenu, alias: top } # The alias is what is used to retrieve the menu
+
+imports:
+    - { resource: '../src/Club/Symfony/Resources/config/services.php' }
+    - { resource: '../src/Dashboard/Symfony/Resources/config/services.php' }
+    - { resource: '../src/GameType/Symfony/Resources/config/services.php' }
+    - { resource: '../src/Image/Symfony/Resources/config/services.php' }
+    - { resource: '../src/MatchGame/Symfony/Resources/config/services.php' }
+    - { resource: '../src/MatchGameBill/Symfony/Resources/config/services.php' }
+    - { resource: '../src/Person/Symfony/Resources/config/services.php' }
+    - { resource: '../src/Security/Symfony/Resources/config/services.php' }
+    - { resource: '../src/Shared/Symfony/Resources/config/services.php' }
+    - { resource: '../src/Team/Symfony/Resources/config/services.php' }
+    - { resource: '../src/User/Symfony/Resources/config/services.php' }

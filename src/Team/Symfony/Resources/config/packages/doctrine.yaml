@@ -1,0 +1,14 @@
+doctrine:
+    dbal:
+        types:
+            TeamId: Sudoku648\Meczyki\Team\Infrastructure\Persistence\Dbal\Types\TeamIdType
+            TeamName: Sudoku648\Meczyki\Team\Infrastructure\Persistence\Dbal\Types\TeamNameType
+            TeamShortName: Sudoku648\Meczyki\Team\Infrastructure\Persistence\Dbal\Types\TeamShortNameType
+    orm:
+        mappings:
+            Team:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/Team/Infrastructure/Persistence/Doctrine/Mapping/Entity'
+                prefix: 'Sudoku648\Meczyki\Team\Domain\Entity'
+                alias: Team

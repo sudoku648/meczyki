@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Validator;
+namespace Sudoku648\Meczyki\Tests\Validator;
 
-use App\Validator\Nip;
-use App\Validator\NipValidator;
+use Sudoku648\Meczyki\Shared\Frontend\Validator\Constraints\Nip;
+use Sudoku648\Meczyki\Shared\Frontend\Validator\Constraints\NipValidator;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class NipValidatorTest extends ConstraintValidatorTestCase
@@ -49,7 +49,7 @@ class NipValidatorTest extends ConstraintValidatorTestCase
         $this->validator->validate($value, $constraint);
 
         $this->buildViolation('myMessage')
-            ->setParameter('{{ value }}', '"'.$value.'"')
+            ->setParameter('{{ value }}', '"' . $value . '"')
             ->setCode(Nip::TOO_SHORT_ERROR)
             ->assertRaised();
     }
@@ -64,7 +64,7 @@ class NipValidatorTest extends ConstraintValidatorTestCase
         $this->validator->validate($value, $constraint);
 
         $this->buildViolation('myMessage')
-            ->setParameter('{{ value }}', '"'.$value.'"')
+            ->setParameter('{{ value }}', '"' . $value . '"')
             ->setCode(Nip::TOO_LONG_ERROR)
             ->assertRaised();
     }
@@ -79,7 +79,7 @@ class NipValidatorTest extends ConstraintValidatorTestCase
         $this->validator->validate($value, $constraint);
 
         $this->buildViolation('myMessage')
-            ->setParameter('{{ value }}', '"'.$value.'"')
+            ->setParameter('{{ value }}', '"' . $value . '"')
             ->setCode(Nip::INVALID_CHARACTERS_ERROR)
             ->assertRaised();
     }
@@ -94,7 +94,7 @@ class NipValidatorTest extends ConstraintValidatorTestCase
         $this->validator->validate($value, $constraint);
 
         $this->buildViolation('myMessage')
-            ->setParameter('{{ value }}', '"'.$value.'"')
+            ->setParameter('{{ value }}', '"' . $value . '"')
             ->setCode(Nip::CHECKSUM_FAILED_ERROR)
             ->assertRaised();
     }

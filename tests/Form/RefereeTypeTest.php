@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Form;
+namespace Sudoku648\Meczyki\Tests\Form;
 
-use App\Dto\PersonDto;
-use App\Form\DataTransformer\PolishMobilePhoneTransformer;
-use App\Form\RefereeType;
+use Sudoku648\Meczyki\Person\Frontend\Dto\PersonDto;
+use Sudoku648\Meczyki\Person\Frontend\Form\RefereeType;
+use Sudoku648\Meczyki\Shared\Frontend\Form\DataTransformer\PolishMobilePhoneTransformer;
 use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
 
@@ -38,14 +38,14 @@ class RefereeTypeTest extends TypeTestCase
             'mobilePhone' => '520123456',
         ];
 
-        $model = new PersonDto();
+        $model            = new PersonDto();
         $model->isReferee = true;
-        $form = $this->factory->create(RefereeType::class, $model);
+        $form             = $this->factory->create(RefereeType::class, $model);
 
-        $expected = new PersonDto();
+        $expected                    = new PersonDto();
         $expected->firstName         = $formData['firstName'];
         $expected->lastName          = $formData['lastName'];
-        $expected->mobilePhone       = '+48'.$formData['mobilePhone'];
+        $expected->mobilePhone       = '+48' . $formData['mobilePhone'];
         $expected->isDelegate        = false;
         $expected->isReferee         = true;
         $expected->isRefereeObserver = false;

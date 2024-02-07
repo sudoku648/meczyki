@@ -5,10 +5,10 @@
 {% block main_content %}
     {{ include('person/_types_buttons.html.twig') }}
 
-    {% if is_granted(constant('\\App\\Security\\Voter\\PersonVoter::CREATE')) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\PersonVoter::CREATE')) %}
         {{ include('buttons/add.html.twig', {path: 'referee_observer_create', parameters: {}, text: 'Dodaj nowego'}) }}
     {% endif %}
-    {% if is_granted(constant('\\App\\Security\\Voter\\PersonVoter::DELETE_BATCH')) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\PersonVoter::DELETE_BATCH')) %}
         {{ include('person/_delete_batch_form.html.twig') }}
     {% endif %}
 

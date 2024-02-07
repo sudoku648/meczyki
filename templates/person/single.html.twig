@@ -26,15 +26,15 @@
         </tbody>
     </table>
 
-    {% if is_granted(constant('\\App\\Security\\Voter\\PersonVoter::LIST')) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\PersonVoter::LIST')) %}
         <a href="{{ path('people_list') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
     {% endif %}
 
-    {% if is_granted(constant('\\App\\Security\\Voter\\PersonVoter::EDIT'), person) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\PersonVoter::EDIT'), person) %}
         {{ include('buttons/edit.html.twig', {path: 'person_edit', parameters: {'person_id': person.id}}) }}
     {% endif %}
 
-    {% if is_granted(constant('\\App\\Security\\Voter\\PersonVoter::DELETE'), person) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\PersonVoter::DELETE'), person) %}
         {{ include('person/_delete_form.html.twig') }}
     {% endif %}
 {% endblock %}

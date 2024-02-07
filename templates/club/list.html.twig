@@ -3,10 +3,10 @@
 {% block title %}Kluby{% endblock %}
 
 {% block main_content %}
-    {% if is_granted(constant('\\App\\Security\\Voter\\ClubVoter::CREATE')) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\ClubVoter::CREATE')) %}
         {{ include('buttons/add.html.twig', {path: 'club_create', parameters: {}, text: 'Dodaj nowy'}) }}
     {% endif %}
-    {% if is_granted(constant('\\App\\Security\\Voter\\ClubVoter::DELETE_BATCH')) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\ClubVoter::DELETE_BATCH')) %}
         {{ include('club/_delete_batch_form.html.twig') }}
     {% endif %}
 

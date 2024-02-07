@@ -1,0 +1,15 @@
+doctrine:
+    dbal:
+        types:
+            MatchGameId: Sudoku648\Meczyki\MatchGame\Infrastructure\Persistence\Dbal\Types\MatchGameIdType
+            Round: Sudoku648\Meczyki\MatchGame\Infrastructure\Persistence\Dbal\Types\RoundType
+            Season: Sudoku648\Meczyki\MatchGame\Infrastructure\Persistence\Dbal\Types\SeasonType
+            Venue: Sudoku648\Meczyki\MatchGame\Infrastructure\Persistence\Dbal\Types\VenueType
+    orm:
+        mappings:
+            MatchGame:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/MatchGame/Infrastructure/Persistence/Doctrine/Mapping/Entity'
+                prefix: 'Sudoku648\Meczyki\MatchGame\Domain\Entity'
+                alias: MatchGame

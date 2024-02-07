@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          vendor/doctrine/orm/doctrine-mapping.xsd">
+
+    <entity name="Sudoku648\Meczyki\Person\Domain\Entity\Person" table="person"
+        repository-class="Sudoku648\Meczyki\Person\Infrastructure\Persistence\Doctrine\DoctrinePersonRepository">
+        <id name="id" type="PersonId" column="id" length="36">
+            <generator strategy="NONE" />
+        </id>
+
+        <field name="firstName" type="FirstName" column="first_name" length="100" />
+        <field name="lastName" type="LastName" column="last_name" length="100" />
+        <field name="mobilePhone" type="PhoneNumber" column="mobile_phone" length="12" unique="true" nullable="true" />
+        <field name="isDelegate" type="boolean" column="is_delegate" />
+        <field name="isReferee" type="boolean" column="is_referee" />
+        <field name="isRefereeObserver" type="boolean" column="is_referee_observer" />
+        <field name="email" column="email" length="150" nullable="true" />
+        <field name="dateOfBirth" type="date_immutable" column="date_of_birth" nullable="true" />
+        <field name="placeOfBirth" column="place_of_birth" length="100" nullable="true" />
+        <embedded name="address" class="Sudoku648\Meczyki\Shared\Domain\ValueObject\Address" column-prefix="address_" />
+        <field name="taxOfficeName" column="tax_office_name" length="150" nullable="true" />
+        <field name="taxOfficeAddress" column="tax_office_address" length="150" nullable="true" />
+        <field name="pesel" type="Pesel" column="pesel" length="11" nullable="true" />
+        <field name="nip" type="Nip" column="nip" length="10" nullable="true" />
+        <embedded name="iban" class="Sudoku648\Meczyki\Shared\Domain\ValueObject\Iban" column-prefix="iban_" />
+        <field name="allowsToSendPitByEmail" type="boolean" column="allows_to_send_pit_by_email" />
+
+        <field name="createdAt" type="datetimetz_immutable" column="created_at" />
+        <field name="updatedAt" type="datetimetz_immutable" column="updated_at" nullable="true" />
+
+        <one-to-many field="matchGameBills" target-entity="Sudoku648\Meczyki\MatchGameBill\Domain\Entity\MatchGameBill" mapped-by="person" />
+    </entity>
+
+</doctrine-mapping>

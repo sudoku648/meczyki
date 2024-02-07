@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Form;
+namespace Sudoku648\Meczyki\Tests\Form;
 
-use App\Dto\PersonDto;
-use App\Form\DataTransformer\IbanTransformer;
-use App\Form\PersonPersonalInfoType;
+use Sudoku648\Meczyki\Person\Frontend\Dto\PersonDto;
+use Sudoku648\Meczyki\Person\Frontend\Form\PersonPersonalInfoType;
+use Sudoku648\Meczyki\Shared\Frontend\Form\DataTransformer\IbanTransformer;
 use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
 

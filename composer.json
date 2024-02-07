@@ -29,6 +29,7 @@
         "symfony/intl": "6.4.*",
         "symfony/messenger": "6.4.*",
         "symfony/mime": "6.4.*",
+        "symfony/monolog-bundle": "^3.10",
         "symfony/property-access": "6.4.*",
         "symfony/property-info": "6.4.*",
         "symfony/proxy-manager-bridge": "6.4.*",
@@ -60,12 +61,13 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "Sudoku648\\Meczyki\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "Sudoku648\\Meczyki\\DataFixtures\\": "fixtures/",
+            "Sudoku648\\Meczyki\\Tests\\": "tests/"
         }
     },
     "replace": {

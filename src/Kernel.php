@@ -1,6 +1,8 @@
 <?php
 
-namespace App;
+declare(strict_types=1);
+
+namespace Sudoku648\Meczyki;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -30,7 +32,6 @@ class Kernel extends BaseKernel
     protected function configureRoutes(RoutingConfigurator $routes): void
     {
         $routes->import('../config/{routes}/' . $this->environment . '/*.yaml');
-        $routes->import('../config/{mg_routes}/*.yaml');
         $routes->import('../config/{routes}/*.yaml');
 
         if (is_file(dirname(__DIR__) . '/config/routes.yaml')) {

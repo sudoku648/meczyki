@@ -1,4 +1,0 @@
-dashboard:
-    controller: App\Controller\DashboardController
-    path: /
-    methods: [ GET ]

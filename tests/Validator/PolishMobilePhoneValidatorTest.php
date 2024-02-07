@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Validator;
+namespace Sudoku648\Meczyki\Tests\Validator;
 
-use App\Validator\PolishMobilePhone;
-use App\Validator\PolishMobilePhoneValidator;
+use Sudoku648\Meczyki\Shared\Frontend\Validator\Constraints\PolishMobilePhone;
+use Sudoku648\Meczyki\Shared\Frontend\Validator\Constraints\PolishMobilePhoneValidator;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class PolishMobilePhoneValidatorTest extends ConstraintValidatorTestCase
@@ -49,7 +49,7 @@ class PolishMobilePhoneValidatorTest extends ConstraintValidatorTestCase
         $this->validator->validate($value, $constraint);
 
         $this->buildViolation('myMessage')
-            ->setParameter('{{ value }}', '"'.$value.'"')
+            ->setParameter('{{ value }}', '"' . $value . '"')
             ->setCode(PolishMobilePhone::REGEX_FAILED_ERROR)
             ->assertRaised();
     }

@@ -40,19 +40,19 @@
         </tbody>
     </table>
 
-    {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameVoter::SHOW'), matchGameBill.matchGame) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameVoter::SHOW'), matchGameBill.matchGame) %}
         <a href="{{ path('match_game_single', {'match_game_id': matchGameBill.matchGame.id}) }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do szczegółów meczu">Wróć do szczegółów meczu</a>
     {% endif %}
 
-    {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameBillVoter::EDIT'), matchGameBill) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameBillVoter::EDIT'), matchGameBill) %}
         {{ include('buttons/edit.html.twig', {path: 'match_game_bill_edit', parameters: {'match_game_id': matchGameBill.matchGame.id, 'match_game_bill_id': matchGameBill.id}}) }}
     {% endif %}
 
-    {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameBillVoter::DOWNLOAD'), matchGameBill) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameBillVoter::DOWNLOAD'), matchGameBill) %}
         {{ include('match_game_bill/_buttons/download_xlsx.html.twig', {path: 'match_game_bill_download', parameters: {'match_game_id': matchGameBill.matchGame.id, 'match_game_bill_id': matchGameBill.id}}) }}
     {% endif %}
 
-    {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameBillVoter::DELETE'), matchGameBill) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameBillVoter::DELETE'), matchGameBill) %}
         {{ include('match_game_bill/_delete_form.html.twig') }}
     {% endif %}
 {% endblock %}

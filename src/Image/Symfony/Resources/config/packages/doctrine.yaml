@@ -1,0 +1,12 @@
+doctrine:
+    dbal:
+        types:
+            ImageId: Sudoku648\Meczyki\Image\Infrastructure\Persistence\Dbal\Types\ImageIdType
+    orm:
+        mappings:
+            Image:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/Image/Infrastructure/Persistence/Doctrine/Mapping/Entity'
+                prefix: 'Sudoku648\Meczyki\Image\Domain\Entity'
+                alias: Image

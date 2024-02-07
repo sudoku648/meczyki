@@ -3,10 +3,10 @@
 {% block title %}Typy rozgrywek{% endblock %}
 
 {% block main_content %}
-    {% if is_granted(constant('\\App\\Security\\Voter\\GameTypeVoter::CREATE')) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\GameTypeVoter::CREATE')) %}
         {{ include('buttons/add.html.twig', {path: 'game_type_create', parameters: {}, text: 'Dodaj nowy'}) }}
     {% endif %}
-    {% if is_granted(constant('\\App\\Security\\Voter\\GameTypeVoter::DELETE_BATCH')) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\GameTypeVoter::DELETE_BATCH')) %}
         {{ include('game_type/_delete_batch_form.html.twig') }}
     {% endif %}
 

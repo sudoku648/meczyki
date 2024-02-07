@@ -77,16 +77,16 @@
                             {% for matchGameBill in matchGame.matchGameBills %}
                                 <tr>
                                     <td>
-                                        {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameBillVoter::SHOW'), matchGameBill) %}
+                                        {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameBillVoter::SHOW'), matchGameBill) %}
                                             <a href="{{ path('match_game_bill_single', {'match_game_id': matchGame.id, 'match_game_bill_id': matchGameBill.id}) }}">
                                         {% endif %}
                                         {{ matchGameBill.person.fullName }}
-                                        {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameBillVoter::SHOW'), matchGameBill) %}
+                                        {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameBillVoter::SHOW'), matchGameBill) %}
                                             </a>
                                         {% endif %}
                                     </td>
                                     <td>
-                                        {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameBillVoter::DELETE'), matchGameBill) %}
+                                        {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameBillVoter::DELETE'), matchGameBill) %}
                                             {{ include('match_game_bill/_delete_form.html.twig', {'matchGameBill': matchGameBill, btn_size: 'btn-sm'}) }}
                                         {% endif %}
                                     </td>
@@ -96,7 +96,7 @@
                         <tfoot>
                             <tr>
                                 <td colspan="2">
-                                    {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameVoter::CREATE_BILL'), matchGame) %}
+                                    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameVoter::CREATE_BILL'), matchGame) %}
                                         {{ include('buttons/add.html.twig', {path: 'match_game_bill_create', parameters: {'match_game_id': matchGame.id}, text: 'Dodaj nowy', btn_size: 'btn-sm'}) }}
                                     {% endif %}
                                 </td>
@@ -108,15 +108,15 @@
         </tbody>
     </table>
 
-    {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameVoter::LIST')) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameVoter::LIST')) %}
         <a href="{{ path('match_games_list') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
     {% endif %}
 
-    {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameVoter::EDIT'), matchGame) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameVoter::EDIT'), matchGame) %}
         {{ include('buttons/edit.html.twig', {path: 'match_game_edit', parameters: {'match_game_id': matchGame.id}}) }}
     {% endif %}
 
-    {% if is_granted(constant('\\App\\Security\\Voter\\MatchGameVoter::DELETE'), matchGame) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameVoter::DELETE'), matchGame) %}
         {{ include('match_game/_delete_form.html.twig') }}
     {% endif %}
 {% endblock %}

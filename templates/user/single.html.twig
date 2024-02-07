@@ -13,7 +13,7 @@
                 <th>Przypięta osoba</th>
                 <td>
                     {{ user.person ? user.person.fullName : '<em class="text-black-50">brak</em>' }}
-                    {% if is_granted(constant('\\App\\Security\\Voter\\UserVoter::BIND_WITH_PERSON'), user) %}
+                    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\UserVoter::BIND_WITH_PERSON'), user) %}
                         {{ include('user/_buttons/bind_with_person.html.twig', {path: 'user_bind_with_person', parameters: {'user_id': user.id}}) }}
                     {% endif %}
                 </td>
@@ -21,19 +21,19 @@
         </tbody>
     </table>
 
-    {% if is_granted(constant('\\App\\Security\\Voter\\UserVoter::LIST')) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\UserVoter::LIST')) %}
         <a href="{{ path('users_list') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
     {% endif %}
 
-    {% if is_granted(constant('\\App\\Security\\Voter\\UserVoter::EDIT'), user) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\UserVoter::EDIT'), user) %}
         {{ include('buttons/edit.html.twig', {path: 'user_edit', parameters: {'user_id': user.id}}) }}
     {% endif %}
 
-    {% if is_granted(constant('\\App\\Security\\Voter\\UserVoter::IMPERSONATE'), user) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\UserVoter::IMPERSONATE'), user) %}
         {{ include('user/_buttons/impersonate.html.twig', {path: 'dashboard', parameters: {'_switch_user': user.userIdentifier}}) }}
     {% endif %}
 
-    {% if is_granted(constant('\\App\\Security\\Voter\\UserVoter::DELETE'), user) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\UserVoter::DELETE'), user) %}
         {{ include('user/_delete_form.html.twig') }}
     {% endif %}
 {% endblock %}

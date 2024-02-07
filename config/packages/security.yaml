@@ -4,7 +4,7 @@ security:
     providers:
         app_user_provider:
             entity:
-                class: App\Entity\User
+                class: Sudoku648\Meczyki\User\Domain\Entity\User
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -13,10 +13,10 @@ security:
             lazy: true
             provider: app_user_provider
             custom_authenticators:
-                - App\Security\MatchGamesAuthenticator
+                - Sudoku648\Meczyki\Security\Infrastructure\MatchGamesAuthenticator
             logout:
                 path: app_logout
-            user_checker: App\Security\UserChecker
+            user_checker: Sudoku648\Meczyki\Security\Infrastructure\UserChecker
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800
@@ -29,10 +29,6 @@ security:
 when@test:
     security:
         password_hashers:
-            # By default, password hashers are resource intensive and take time. This is
-            # important to generate secure password hashes. In tests however, secure hashes
-            # are not important, waste resources and increase test times. The following
-            # reduces the work factor to the lowest possible values.
             Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
                 algorithm: auto
                 cost: 4 # Lowest possible value for bcrypt

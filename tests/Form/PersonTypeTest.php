@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Form;
+namespace Sudoku648\Meczyki\Tests\Form;
 
-use App\Dto\PersonDto;
-use App\Form\DataTransformer\PolishMobilePhoneTransformer;
-use App\Form\PersonType;
+use Sudoku648\Meczyki\Person\Frontend\Dto\PersonDto;
+use Sudoku648\Meczyki\Person\Frontend\Form\PersonType;
+use Sudoku648\Meczyki\Shared\Frontend\Form\DataTransformer\PolishMobilePhoneTransformer;
 use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
 
@@ -42,12 +42,12 @@ class PersonTypeTest extends TypeTestCase
         ];
 
         $model = new PersonDto();
-        $form = $this->factory->create(PersonType::class, $model);
+        $form  = $this->factory->create(PersonType::class, $model);
 
-        $expected = new PersonDto();
+        $expected                    = new PersonDto();
         $expected->firstName         = $formData['firstName'];
         $expected->lastName          = $formData['lastName'];
-        $expected->mobilePhone       = '+48'.$formData['mobilePhone'];
+        $expected->mobilePhone       = '+48' . $formData['mobilePhone'];
         $expected->isDelegate        = $formData['isDelegate'];
         $expected->isReferee         = $formData['isReferee'];
         $expected->isRefereeObserver = $formData['isRefereeObserver'];

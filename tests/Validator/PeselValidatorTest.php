@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Validator;
+namespace Sudoku648\Meczyki\Tests\Validator;
 
-use App\Validator\Pesel;
-use App\Validator\PeselValidator;
+use Sudoku648\Meczyki\Person\Frontend\Validator\Constraints\Pesel;
+use Sudoku648\Meczyki\Person\Frontend\Validator\Constraints\PeselValidator;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class PeselValidatorTest extends ConstraintValidatorTestCase
@@ -49,7 +49,7 @@ class PeselValidatorTest extends ConstraintValidatorTestCase
         $this->validator->validate($value, $constraint);
 
         $this->buildViolation('myMessage')
-            ->setParameter('{{ value }}', '"'.$value.'"')
+            ->setParameter('{{ value }}', '"' . $value . '"')
             ->setCode(Pesel::TOO_SHORT_ERROR)
             ->assertRaised();
     }
@@ -64,7 +64,7 @@ class PeselValidatorTest extends ConstraintValidatorTestCase
         $this->validator->validate($value, $constraint);
 
         $this->buildViolation('myMessage')
-            ->setParameter('{{ value }}', '"'.$value.'"')
+            ->setParameter('{{ value }}', '"' . $value . '"')
             ->setCode(Pesel::TOO_LONG_ERROR)
             ->assertRaised();
     }
@@ -79,7 +79,7 @@ class PeselValidatorTest extends ConstraintValidatorTestCase
         $this->validator->validate($value, $constraint);
 
         $this->buildViolation('myMessage')
-            ->setParameter('{{ value }}', '"'.$value.'"')
+            ->setParameter('{{ value }}', '"' . $value . '"')
             ->setCode(Pesel::INVALID_CHARACTERS_ERROR)
             ->assertRaised();
     }
@@ -94,7 +94,7 @@ class PeselValidatorTest extends ConstraintValidatorTestCase
         $this->validator->validate($value, $constraint);
 
         $this->buildViolation('myMessage')
-            ->setParameter('{{ value }}', '"'.$value.'"')
+            ->setParameter('{{ value }}', '"' . $value . '"')
             ->setCode(Pesel::CHECKSUM_FAILED_ERROR)
             ->assertRaised();
     }
@@ -109,7 +109,7 @@ class PeselValidatorTest extends ConstraintValidatorTestCase
         $this->validator->validate($value, $constraint);
 
         $this->buildViolation('myMessage')
-            ->setParameter('{{ value }}', '"'.$value.'"')
+            ->setParameter('{{ value }}', '"' . $value . '"')
             ->setCode(Pesel::DATE_OF_BIRTH_ERROR)
             ->assertRaised();
     }

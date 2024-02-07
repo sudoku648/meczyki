@@ -21,7 +21,7 @@
     </div>
     {{ form_row(form.allowsToSendPitByEmail, {'label': 'Zgoda na wysyłanie PIT na adres e-mail'}) }}
     {{ form_row(form.save, {'label': button_save_label|default('Zapisz'), 'attr': {'class': 'btn-success icon-save loadable-save'}}) }}
-    {% if is_granted(constant('\\App\\Security\\Voter\\DashboardVoter::DASHBOARD')) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\DashboardVoter::DASHBOARD')) %}
         <a href="{{ path('dashboard') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do panelu">Anuluj</a>
     {% endif %}
 {{ form_end(form) }}

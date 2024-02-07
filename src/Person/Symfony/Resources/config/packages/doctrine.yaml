@@ -1,0 +1,15 @@
+doctrine:
+    dbal:
+        types:
+            FirstName: Sudoku648\Meczyki\Person\Infrastructure\Persistence\Dbal\Types\FirstNameType
+            LastName: Sudoku648\Meczyki\Person\Infrastructure\Persistence\Dbal\Types\LastNameType
+            PersonId: Sudoku648\Meczyki\Person\Infrastructure\Persistence\Dbal\Types\PersonIdType
+            Pesel: Sudoku648\Meczyki\Person\Infrastructure\Persistence\Dbal\Types\PeselType
+    orm:
+        mappings:
+            Person:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/Person/Infrastructure/Persistence/Doctrine/Mapping/Entity'
+                prefix: 'Sudoku648\Meczyki\Person\Domain\Entity'
+                alias: Person

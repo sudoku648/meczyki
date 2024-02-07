@@ -1,0 +1,13 @@
+doctrine:
+    dbal:
+        types:
+            ClubId: Sudoku648\Meczyki\Club\Infrastructure\Persistence\Dbal\Types\ClubIdType
+            ClubName: Sudoku648\Meczyki\Club\Infrastructure\Persistence\Dbal\Types\ClubNameType
+    orm:
+        mappings:
+            Club:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/Club/Infrastructure/Persistence/Doctrine/Mapping/Entity'
+                prefix: 'Sudoku648\Meczyki\Club\Domain\Entity'
+                alias: Club

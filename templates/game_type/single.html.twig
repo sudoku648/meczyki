@@ -24,15 +24,15 @@
         </tbody>
     </table>
 
-    {% if is_granted(constant('\\App\\Security\\Voter\\GameTypeVoter::LIST')) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\GameTypeVoter::LIST')) %}
         <a href="{{ path('game_types_list') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
     {% endif %}
 
-    {% if is_granted(constant('\\App\\Security\\Voter\\GameTypeVoter::EDIT'), gameType) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\GameTypeVoter::EDIT'), gameType) %}
         {{ include('buttons/edit.html.twig', {path: 'game_type_edit', parameters: {'game_type_id': gameType.id}}) }}
     {% endif %}
 
-    {% if is_granted(constant('\\App\\Security\\Voter\\GameTypeVoter::DELETE'), gameType) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\GameTypeVoter::DELETE'), gameType) %}
         {{ include('game_type/_delete_form.html.twig') }}
     {% endif %}
 {% endblock %}

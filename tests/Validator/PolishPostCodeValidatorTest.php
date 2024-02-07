@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Validator;
+namespace Sudoku648\Meczyki\Tests\Validator;
 
-use App\Validator\PolishPostCode;
-use App\Validator\PolishPostCodeValidator;
+use Sudoku648\Meczyki\Shared\Frontend\Validator\Constraints\PolishPostCode;
+use Sudoku648\Meczyki\Shared\Frontend\Validator\Constraints\PolishPostCodeValidator;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class PolishPostCodeValidatorTest extends ConstraintValidatorTestCase
@@ -49,7 +49,7 @@ class PolishPostCodeValidatorTest extends ConstraintValidatorTestCase
         $this->validator->validate($value, $constraint);
 
         $this->buildViolation('myMessage')
-            ->setParameter('{{ value }}', '"'.$value.'"')
+            ->setParameter('{{ value }}', '"' . $value . '"')
             ->setCode(PolishPostCode::REGEX_FAILED_ERROR)
             ->assertRaised();
     }

@@ -1,0 +1,13 @@
+doctrine:
+    dbal:
+        types:
+            Nip: Sudoku648\Meczyki\Shared\Infrastructure\Persistence\Dbal\Types\NipType
+            PhoneNumber: Sudoku648\Meczyki\Shared\Infrastructure\Persistence\Dbal\Types\PhoneNumberType
+    orm:
+        mappings:
+            Shared/ValueObject:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/Shared/Infrastructure/Persistence/Doctrine/Mapping/ValueObject'
+                prefix: 'Sudoku648\Meczyki\Shared\Domain\ValueObject'
+                alias: Shared/ValueObject

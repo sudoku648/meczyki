@@ -2,31 +2,33 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Entity;
+namespace Sudoku648\Meczyki\Tests\Entity;
 
-use App\Entity\Person;
 use PHPUnit\Framework\TestCase;
+use Sudoku648\Meczyki\Person\Domain\Entity\Person;
+use Sudoku648\Meczyki\Person\Domain\ValueObject\FirstName;
+use Sudoku648\Meczyki\Person\Domain\ValueObject\LastName;
 
 class PersonTest extends TestCase
 {
     public function testNames(): void
     {
-        $person = new Person('Jan', 'Kowalski');
+        $person = new Person(FirstName::fromString('Jan'), LastName::fromString('Kowalski'));
 
-        $this->assertEquals('Jan', $person->getFirstName());
-        $this->assertEquals('Kowalski', $person->getLastName());
+        $this->assertEquals('Jan', $person->getFirstName()->getValue());
+        $this->assertEquals('Kowalski', $person->getLastName()->getValue());
         $this->assertEquals('Kowalski Jan', $person->getFullName());
 
-        $person->setFirstName('Adam');
+        $person->setFirstName(FirstName::fromString('Adam'));
 
-        $this->assertEquals('Adam', $person->getFirstName());
-        $this->assertEquals('Kowalski', $person->getLastName());
+        $this->assertEquals('Adam', $person->getFirstName()->getValue());
+        $this->assertEquals('Kowalski', $person->getLastName()->getValue());
         $this->assertEquals('Kowalski Adam', $person->getFullName());
 
-        $person->setLastName('Nowak');
+        $person->setLastName(LastName::fromString('Nowak'));
 
-        $this->assertEquals('Adam', $person->getFirstName());
-        $this->assertEquals('Nowak', $person->getLastName());
+        $this->assertEquals('Adam', $person->getFirstName()->getValue());
+        $this->assertEquals('Nowak', $person->getLastName()->getValue());
         $this->assertEquals('Nowak Adam', $person->getFullName());
     }
 }

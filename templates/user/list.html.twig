@@ -3,16 +3,16 @@
 {% block title %}Użytkownicy{% endblock %}
 
 {% block main_content %}
-    {% if is_granted(constant('\\App\\Security\\Voter\\UserVoter::CREATE')) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\UserVoter::CREATE')) %}
         {{ include('buttons/add.html.twig', {path: 'user_create', parameters: {}, text: 'Dodaj nowego'}) }}
     {% endif %}
-    {% if is_granted(constant('\\App\\Security\\Voter\\UserVoter::ACTIVATE_BATCH')) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\UserVoter::ACTIVATE_BATCH')) %}
         {{ include('user/_activate_batch_form.html.twig') }}
     {% endif %}
-    {% if is_granted(constant('\\App\\Security\\Voter\\UserVoter::DEACTIVATE_BATCH')) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\UserVoter::DEACTIVATE_BATCH')) %}
         {{ include('user/_deactivate_batch_form.html.twig') }}
     {% endif %}
-    {% if is_granted(constant('\\App\\Security\\Voter\\UserVoter::DELETE_BATCH')) %}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\UserVoter::DELETE_BATCH')) %}
         {{ include('user/_delete_batch_form.html.twig') }}
     {% endif %}
 
