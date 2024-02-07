@@ -10,13 +10,9 @@ use Sudoku648\Meczyki\Image\Domain\ValueObject\ImageId;
 class Image
 {
     private ImageId $id;
-
     private string $filePath;
-
     private string $fileName;
-
     private ?int $width;
-
     private ?int $height;
 
     public function __construct(

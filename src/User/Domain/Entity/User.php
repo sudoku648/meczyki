@@ -24,15 +24,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     use UpdatedAtTrait;
 
     private UserId $id;
-
     private Username $username;
-
     private string $password;
-
-    private array $roles = [];
-
+    private array $roles   = [];
     private bool $isActive = true;
-
     private ?Person $person;
 
     public function __construct(

@@ -18,11 +18,8 @@ class GameType
     use UpdatedAtTrait;
 
     private GameTypeId $id;
-
     private GameTypeName $name;
-
     private bool $isOfficial;
-
     private ?Image $image = null;
 
     public function __construct(

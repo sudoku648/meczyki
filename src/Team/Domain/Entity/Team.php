@@ -19,11 +19,8 @@ class Team
     use UpdatedAtTrait;
 
     private TeamId $id;
-
     private TeamName $name;
-
     private TeamShortName $shortName;
-
     private Club $club;
 
     public function __construct(

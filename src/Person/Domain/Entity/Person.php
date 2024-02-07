@@ -14,7 +14,6 @@ use Sudoku648\Meczyki\Person\Domain\ValueObject\LastName;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\PersonId;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\Pesel;
 use Sudoku648\Meczyki\Shared\Domain\Entity\CreatedAtTrait;
-use Sudoku648\Meczyki\Shared\Domain\Entity\PersonTrait;
 use Sudoku648\Meczyki\Shared\Domain\Entity\UpdatedAtTrait;
 use Sudoku648\Meczyki\Shared\Domain\ValueObject\Address;
 use Sudoku648\Meczyki\Shared\Domain\ValueObject\Iban;
@@ -27,40 +26,24 @@ class Person
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
     use UpdatedAtTrait;
-    use PersonTrait {
-        PersonTrait::__construct as personTraitConstruct;
-    }
 
     private PersonId $id;
-
+    private FirstName $firstName;
+    private LastName $lastName;
     private ?PhoneNumber $mobilePhone;
-
-    private bool $isDelegate = false;
-
-    private bool $isReferee = false;
-
-    private bool $isRefereeObserver = false;
-
-    private ?string $email = null;
-
+    private bool $isDelegate                = false;
+    private bool $isReferee                 = false;
+    private bool $isRefereeObserver         = false;
+    private ?string $email                  = null;
     private ?DateTimeImmutable $dateOfBirth = null;
-
-    private ?string $placeOfBirth = null;
-
+    private ?string $placeOfBirth           = null;
     private Address $address;
-
-    private ?string $taxOfficeName = null;
-
-    private ?string $taxOfficeAddress = null;
-
-    private ?Pesel $pesel = null;
-
-    private ?Nip $nip = null;
-
-    private ?Iban $iban = null;
-
+    private ?string $taxOfficeName       = null;
+    private ?string $taxOfficeAddress    = null;
+    private ?Pesel $pesel                = null;
+    private ?Nip $nip                    = null;
+    private ?Iban $iban                  = null;
     private bool $allowsToSendPitByEmail = false;
-
     private Collection $matchGameBills;
 
     public function __construct(
@@ -72,6 +55,8 @@ class Person
         ?bool $isRefereeObserver = null,
     ) {
         $this->id                = PersonId::generate();
+        $this->firstName         = $firstName;
+        $this->lastName          = $lastName;
         $this->mobilePhone       = $mobilePhone;
         $this->isDelegate        = $isDelegate ?? false;
         $this->isReferee         = $isReferee ?? false;
@@ -79,14 +64,41 @@ class Person
         $this->address           = new Address();
         $this->matchGameBills    = new ArrayCollection();
 
-        $this->personTraitConstruct($firstName, $lastName);
-
         $this->createdAtTraitConstruct();
     }
 
     public function getId(): PersonId
     {
         return $this->id;
+    }
+
+    public function getFirstName(): FirstName
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(FirstName $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): LastName
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(LastName $lastName): self
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getFullName(): string
+    {
+        return $this->lastName . ' ' . $this->firstName;
     }
 
     public function getMobilePhone(): ?PhoneNumber

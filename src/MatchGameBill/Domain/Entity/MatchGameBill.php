@@ -22,27 +22,16 @@ class MatchGameBill
     use UpdatedAtTrait;
 
     private MatchGameBillId $id;
-
     private ?Person $person;
-
     private ?MatchGame $matchGame;
-
     private Money $baseEquivalent;
-
     private BaseEquivalentPercent $percentOfBaseEquivalent;
-
     private Money $grossEquivalent;
-
     private TaxDeductibleStakePercent $taxDeductibleStakePercent;
-
     private Money $taxDeductibleExpenses;
-
     private Money $taxationBase;
-
     private TaxIncomeStakePercent $incomeTaxStakePercent;
-
     private Money $incomeTax;
-
     private Money $equivalentToWithdraw;
 
     public function __construct(

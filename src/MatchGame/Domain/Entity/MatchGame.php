@@ -28,41 +28,23 @@ class MatchGame
     use UpdatedAtTrait;
 
     private MatchGameId $id;
-
     private ?User $user;
-
     private ?Team $homeTeam;
-
     private ?Team $awayTeam;
-
     private DateTimeImmutable $dateTime;
-
     private ?GameType $gameType;
-
     private ?Season $season;
-
     private ?Round $round;
-
     private Venue $venue;
-
     private ?Person $referee;
-
     private ?Person $firstAssistantReferee;
-
     private ?bool $isFirstAssistantNonProfitable;
-
     private ?Person $secondAssistantReferee;
-
     private ?bool $isSecondAssistantNonProfitable;
-
     private ?Person $fourthOfficial;
-
     private ?Person $refereeObserver;
-
     private ?Person $delegate;
-
     private string $moreInfo;
-
     private Collection $matchGameBills;
 
     public function __construct(

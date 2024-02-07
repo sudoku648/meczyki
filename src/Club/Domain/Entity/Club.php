@@ -21,11 +21,8 @@ class Club
     use UpdatedAtTrait;
 
     private ClubId $id;
-
     private ClubName $name;
-
     private ?Image $emblem = null;
-
     private Collection $teams;
 
     public function __construct(ClubName $name)
