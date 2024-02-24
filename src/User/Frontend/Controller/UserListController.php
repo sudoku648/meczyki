@@ -7,6 +7,7 @@ namespace Sudoku648\Meczyki\User\Frontend\Controller;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\UserVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\DataTableTrait;
 use Sudoku648\Meczyki\Shared\Frontend\DataTable\DataTable;
+use Sudoku648\Meczyki\Shared\Frontend\DataTable\Factory\DataTableParamsFactory;
 use Sudoku648\Meczyki\User\Domain\Entity\User;
 use Sudoku648\Meczyki\User\Domain\Persistence\UserRepositoryInterface;
 use Sudoku648\Meczyki\User\Frontend\DataTable\DataTableUserRow;
@@ -33,7 +34,7 @@ class UserListController extends UserAbstractController
     ): JsonResponse {
         $this->denyAccessUnlessGranted(UserVoter::LIST);
 
-        $params = $this->prepareDataTableAjaxRequest($request);
+        $params = DataTableParamsFactory::fromRequest($request);
 
         $criteria                = new UserPageView($params['page']);
         $criteria->sortColumn    = $params['order']['column'] ?? DoctrineUserRepository::SORT_DEFAULT;

@@ -5,30 +5,37 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\Club\Frontend\Controller;
 
 use Sudoku648\Meczyki\Club\Domain\Entity\Club;
+use Sudoku648\Meczyki\Club\Domain\Service\ClubManagerInterface;
 use Sudoku648\Meczyki\Club\Frontend\Form\ClubType;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\ClubVoter;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
+use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ClubEditController extends ClubAbstractController
+class ClubEditController extends AbstractController
 {
+    use RedirectTrait;
+
+    public function __construct(
+        private readonly BreadcrumbBuilder $breadcrumbBuilder,
+        private readonly ClubManagerInterface $manager,
+    ) {
+    }
+
     public function __invoke(
         #[MapEntity(mapping: ['club_id' => 'id'])] Club $club,
         Request $request,
     ): Response {
         $this->denyAccessUnlessGranted(ClubVoter::EDIT, $club);
 
-        $this->breadcrumbs->addItem(
-            'Edytuj klub',
-            $this->router->generate(
-                'club_edit',
-                [
-                    'club_id' => $club->getId(),
-                ]
-            )
-        );
+        $this->breadcrumbBuilder
+            ->add('dashboard')
+            ->add('clubs_list')
+            ->add('club_edit', ['club_id' => $club->getId()]);
 
         $dto = $this->manager->createDto($club);
 

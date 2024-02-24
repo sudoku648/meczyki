@@ -4,22 +4,34 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\Club\Frontend\Controller;
 
+use Sudoku648\Meczyki\Club\Domain\Service\ClubManagerInterface;
 use Sudoku648\Meczyki\Club\Frontend\Form\ClubType;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\ClubVoter;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
+use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ClubCreateController extends ClubAbstractController
+class ClubCreateController extends AbstractController
 {
+    use RedirectTrait;
+
+    public function __construct(
+        private readonly BreadcrumbBuilder $breadcrumbBuilder,
+        private readonly ClubManagerInterface $manager,
+    ) {
+    }
+
     public function __invoke(Request $request): Response
     {
         $this->denyAccessUnlessGranted(ClubVoter::CREATE);
 
-        $this->breadcrumbs->addItem(
-            'Dodaj klub',
-            $this->router->generate('club_create')
-        );
+        $this->breadcrumbBuilder
+            ->add('dashboard')
+            ->add('clubs_list')
+            ->add('club_create');
 
         $form = $this->createForm(ClubType::class);
         $form->handleRequest($request);

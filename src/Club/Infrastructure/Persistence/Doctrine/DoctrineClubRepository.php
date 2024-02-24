@@ -37,6 +37,18 @@ class DoctrineClubRepository extends ServiceEntityRepository implements ClubRepo
         parent::__construct($registry, Club::class);
     }
 
+    public function persist(Club $club): void
+    {
+        $this->_em->persist($club);
+        $this->_em->flush();
+    }
+
+    public function remove(Club $club): void
+    {
+        $this->_em->remove($club);
+        $this->_em->flush();
+    }
+
     public function getTotalCount(): int
     {
         return $this->createQueryBuilder('club')

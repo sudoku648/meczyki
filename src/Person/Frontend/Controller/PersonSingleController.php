@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\Person\Frontend\Controller;
 
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
-use Sudoku648\Meczyki\Person\Domain\Event\PersonHasBeenSeenEvent;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\PersonVoter;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,8 +25,6 @@ class PersonSingleController extends PersonAbstractController
                 ]
             )
         );
-
-        $this->dispatcher->dispatch((new PersonHasBeenSeenEvent($person)));
 
         return $this->render(
             'person/single.html.twig',

@@ -9,7 +9,7 @@ use DateTimeImmutable;
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\PersonId;
 use Sudoku648\Meczyki\Person\Frontend\Validator\Constraints\Pesel;
-use Sudoku648\Meczyki\Shared\Domain\Enums\Voivodeship;
+use Sudoku648\Meczyki\Shared\Domain\ValueObject\Voivodeship;
 use Sudoku648\Meczyki\Shared\Frontend\Validator\Constraints\Nip;
 use Sudoku648\Meczyki\Shared\Frontend\Validator\Constraints\PolishMobilePhone;
 use Sudoku648\Meczyki\Shared\Frontend\Validator\Constraints\PolishPostCode;

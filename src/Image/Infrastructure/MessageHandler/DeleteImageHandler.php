@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\Image\Infrastructure\MessageHandler;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use Sudoku648\Meczyki\Image\Domain\Message\DeleteImageMessage;
@@ -16,7 +15,6 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 readonly class DeleteImageHandler
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
         private ManagerRegistry $managerRegistry,
         private ImageRepositoryInterface $imageRepository,
         private ImageManagerInterface $imageManager,
@@ -29,16 +27,8 @@ readonly class DeleteImageHandler
 
         if ($image) {
             try {
-                $this->entityManager->beginTransaction();
-
-                $this->entityManager->remove($image);
-                $this->entityManager->flush();
-
-                $this->entityManager->commit();
+                $this->imageRepository->remove($image);
             } catch (Exception $e) {
-                $this->entityManager->rollback();
-                $this->managerRegistry->resetManager();
-
                 return;
             }
         }

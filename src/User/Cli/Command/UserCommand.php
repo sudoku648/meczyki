@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\User\Cli\Command;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Sudoku648\Meczyki\User\Domain\Persistence\UserRepositoryInterface;
 use Sudoku648\Meczyki\User\Domain\Service\UserManagerInterface;
 use Sudoku648\Meczyki\User\Frontend\Dto\UserDto;
@@ -20,7 +19,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class UserCommand extends Command
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
         private readonly UserRepositoryInterface $repository,
         private readonly UserManagerInterface $manager,
     ) {
@@ -50,8 +48,7 @@ class UserCommand extends Command
         }
 
         if ($user) {
-            $this->entityManager->remove($user);
-            $this->entityManager->flush();
+            $this->repository->remove($user);
 
             $io->success('The user deletion process has started.');
 

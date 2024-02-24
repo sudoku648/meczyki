@@ -7,7 +7,6 @@ namespace Sudoku648\Meczyki\Person\Frontend\Controller;
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
 use Sudoku648\Meczyki\Person\Domain\Service\PersonManagerInterface;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
@@ -16,7 +15,6 @@ abstract class PersonAbstractController extends AbstractController
 {
     public function __construct(
         protected RouterInterface $router,
-        protected EventDispatcherInterface $dispatcher,
         protected Breadcrumbs $breadcrumbs,
         protected PersonManagerInterface $manager,
     ) {

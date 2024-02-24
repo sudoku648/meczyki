@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\Club\Frontend\Controller;
 
 use Sudoku648\Meczyki\Club\Domain\Entity\Club;
+use Sudoku648\Meczyki\Club\Domain\Service\ClubManagerInterface;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\ClubVoter;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,8 +15,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 use function str_replace;
 
-class ClubDeleteEmblemController extends ClubAbstractController
+class ClubDeleteEmblemController extends AbstractController
 {
+    public function __construct(
+        private readonly ClubManagerInterface $manager,
+    ) {
+    }
+
     public function __invoke(
         #[MapEntity(mapping: ['club_id' => 'id'])] Club $club,
         Request $request,

@@ -4,26 +4,21 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\GameType\Infrastructure\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Sudoku648\Meczyki\GameType\Domain\Entity\GameType;
-use Sudoku648\Meczyki\GameType\Domain\Event\GameTypeCreatedEvent;
-use Sudoku648\Meczyki\GameType\Domain\Event\GameTypeDeletedEvent;
-use Sudoku648\Meczyki\GameType\Domain\Event\GameTypeUpdatedEvent;
+use Sudoku648\Meczyki\GameType\Domain\Persistence\GameTypeRepositoryInterface;
 use Sudoku648\Meczyki\GameType\Domain\Service\GameTypeManagerInterface;
 use Sudoku648\Meczyki\GameType\Domain\ValueObject\GameTypeName;
 use Sudoku648\Meczyki\GameType\Frontend\Dto\GameTypeDto;
 use Sudoku648\Meczyki\GameType\Frontend\Factory\GameTypeFactory;
 use Sudoku648\Meczyki\Image\Domain\Message\DeleteImageMessage;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 readonly class GameTypeManager implements GameTypeManagerInterface
 {
     public function __construct(
-        private EventDispatcherInterface $dispatcher,
-        private EntityManagerInterface $entityManager,
         private MessageBusInterface $messageBus,
         private GameTypeFactory $factory,
+        private GameTypeRepositoryInterface $repository,
     ) {
     }
 
@@ -31,10 +26,7 @@ readonly class GameTypeManager implements GameTypeManagerInterface
     {
         $gameType = $this->factory->createFromDto($dto);
 
-        $this->entityManager->persist($gameType);
-        $this->entityManager->flush();
-
-        $this->dispatcher->dispatch(new GameTypeCreatedEvent($gameType));
+        $this->repository->persist($gameType);
 
         return $gameType;
     }
@@ -47,13 +39,11 @@ readonly class GameTypeManager implements GameTypeManagerInterface
         $gameType->setImage($dto->image);
         $gameType->setUpdatedAt();
 
-        $this->entityManager->flush();
+        $this->repository->persist($gameType);
 
         if ($oldImage && $dto->image !== $oldImage) {
             $this->messageBus->dispatch(new DeleteImageMessage($oldImage->getFilePath()));
         }
-
-        $this->dispatcher->dispatch(new GameTypeUpdatedEvent($gameType));
 
         return $gameType;
     }
@@ -68,10 +58,7 @@ readonly class GameTypeManager implements GameTypeManagerInterface
             $this->messageBus->dispatch(new DeleteImageMessage($image->getFilePath()));
         }
 
-        $this->dispatcher->dispatch(new GameTypeDeletedEvent($gameType));
-
-        $this->entityManager->remove($gameType);
-        $this->entityManager->flush();
+        $this->repository->remove($gameType);
     }
 
     public function detachImage(GameType $gameType): void
@@ -80,8 +67,7 @@ readonly class GameTypeManager implements GameTypeManagerInterface
 
         $gameType->setImage(null);
 
-        $this->entityManager->persist($gameType);
-        $this->entityManager->flush();
+        $this->repository->persist($gameType);
 
         $this->messageBus->dispatch(new DeleteImageMessage($image->getFilePath()));
     }

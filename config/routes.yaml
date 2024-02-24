@@ -6,8 +6,6 @@ game_type:
     resource: '../src/GameType/Symfony/Resources/config/routes.php'
 match_game:
     resource: '../src/MatchGame/Symfony/Resources/config/routes.php'
-match_game_bill:
-    resource: '../src/MatchGameBill/Symfony/Resources/config/routes.php'
 person:
     resource: '../src/Person/Symfony/Resources/config/routes.php'
 security:

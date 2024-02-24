@@ -7,6 +7,7 @@ namespace Sudoku648\Meczyki\User\Infrastructure\Persistence\Doctrine;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
@@ -45,6 +46,29 @@ class DoctrineUserRepository extends ServiceEntityRepository implements UserLoad
         parent::__construct($registry, User::class);
     }
 
+    public function persist(User $user): void
+    {
+        try {
+            $this->_em->beginTransaction();
+
+            $this->_em->persist($user);
+            $this->_em->flush();
+
+            $this->_em->commit();
+        } catch (Exception $e) {
+            $this->_em->rollback();
+            $this->registry->resetManager();
+
+            throw $e;
+        }
+    }
+
+    public function remove(User $user): void
+    {
+        $this->_em->remove($user);
+        $this->_em->flush();
+    }
+
     public function loadUserByUsername(string $username): ?UserInterface
     {
         return $this->loadUserByIdentifier($username);
@@ -76,8 +100,7 @@ class DoctrineUserRepository extends ServiceEntityRepository implements UserLoad
         }
 
         $user->setPassword($newEncodedPassword);
-        $this->_em->persist($user);
-        $this->_em->flush();
+        $this->persist($user);
     }
 
     public function getTotalCount(): int

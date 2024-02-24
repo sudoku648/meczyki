@@ -1,9 +1,13 @@
 doctrine:
     dbal:
         types:
+            BaseEquivalentPercent: Sudoku648\Meczyki\MatchGame\Infrastructure\Persistence\Dbal\Types\Bill\BaseEquivalentPercentType
+            MatchGameBillId: Sudoku648\Meczyki\MatchGame\Infrastructure\Persistence\Dbal\Types\Bill\MatchGameBillIdType
             MatchGameId: Sudoku648\Meczyki\MatchGame\Infrastructure\Persistence\Dbal\Types\MatchGameIdType
             Round: Sudoku648\Meczyki\MatchGame\Infrastructure\Persistence\Dbal\Types\RoundType
             Season: Sudoku648\Meczyki\MatchGame\Infrastructure\Persistence\Dbal\Types\SeasonType
+            TaxDeductibleStakePercent: Sudoku648\Meczyki\MatchGame\Infrastructure\Persistence\Dbal\Types\Bill\TaxDeductibleStakePercentType
+            TaxIncomeStakePercent: Sudoku648\Meczyki\MatchGame\Infrastructure\Persistence\Dbal\Types\Bill\TaxIncomeStakePercentType
             Venue: Sudoku648\Meczyki\MatchGame\Infrastructure\Persistence\Dbal\Types\VenueType
     orm:
         mappings:

@@ -12,6 +12,7 @@ use Sudoku648\Meczyki\Person\Infrastructure\Persistence\PageView\PersonPageView;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\PersonVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\DataTableTrait;
 use Sudoku648\Meczyki\Shared\Frontend\DataTable\DataTable;
+use Sudoku648\Meczyki\Shared\Frontend\DataTable\Factory\DataTableParamsFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,7 +36,7 @@ class PersonListController extends PersonAbstractController
     ): JsonResponse {
         $this->denyAccessUnlessGranted(PersonVoter::LIST);
 
-        $params = $this->prepareDataTableAjaxRequest($request);
+        $params = DataTableParamsFactory::fromRequest($request);
 
         $criteria                = new PersonPageView($params['page']);
         $criteria->sortColumn    = $params['order']['column'] ?? DoctrinePersonRepository::SORT_DEFAULT;

@@ -37,6 +37,18 @@ class DoctrineMatchGameRepository extends ServiceEntityRepository implements Mat
         parent::__construct($registry, MatchGame::class);
     }
 
+    public function persist(MatchGame $matchGame): void
+    {
+        $this->_em->persist($matchGame);
+        $this->_em->flush();
+    }
+
+    public function remove(MatchGame $matchGame): void
+    {
+        $this->_em->remove($matchGame);
+        $this->_em->flush();
+    }
+
     public function getTotalCount(): int
     {
         return $this->createQueryBuilder('matchGame')

@@ -4,22 +4,34 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\MatchGame\Frontend\Controller;
 
+use Sudoku648\Meczyki\MatchGame\Domain\Service\MatchGameManagerInterface;
 use Sudoku648\Meczyki\MatchGame\Frontend\Form\MatchGameType;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\MatchGameVoter;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
+use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class MatchGameCreateController extends MatchGameAbstractController
+class MatchGameCreateController extends AbstractController
 {
+    use RedirectTrait;
+
+    public function __construct(
+        private readonly BreadcrumbBuilder $breadcrumbBuilder,
+        private readonly MatchGameManagerInterface $manager,
+    ) {
+    }
+
     public function __invoke(Request $request): Response
     {
         $this->denyAccessUnlessGranted(MatchGameVoter::CREATE);
 
-        $this->breadcrumbs->addItem(
-            'Dodaj mecz',
-            $this->router->generate('match_game_create')
-        );
+        $this->breadcrumbBuilder
+            ->add('dashboard')
+            ->add('match_games_list')
+            ->add('match_game_create');
 
         $form = $this->createForm(MatchGameType::class);
         $form->handleRequest($request);

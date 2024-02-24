@@ -7,7 +7,6 @@ namespace Sudoku648\Meczyki\Team\Frontend\Controller;
 use Sudoku648\Meczyki\Club\Domain\Entity\Club;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\TeamVoter;
 use Sudoku648\Meczyki\Team\Domain\Entity\Team;
-use Sudoku648\Meczyki\Team\Domain\Event\TeamHasBeenSeenEvent;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -31,8 +30,6 @@ class TeamSingleController extends TeamAbstractController
             [],
             false
         );
-
-        $this->dispatcher->dispatch((new TeamHasBeenSeenEvent($team)));
 
         return $this->render(
             'team/single.html.twig',

@@ -13,7 +13,7 @@
             </options>
         </field>
         <field name="postOffice" type="string" length="100" nullable="true" />
-        <field name="voivodeship" type="string" enum-type="Sudoku648\Meczyki\Shared\Domain\Enums\Voivodeship"
+        <field name="voivodeship" type="string" enum-type="Sudoku648\Meczyki\Shared\Domain\ValueObject\Voivodeship"
             length="100" nullable="true" />
         <field name="county" type="string" length="100" nullable="true" />
         <field name="gmina" type="string" length="100" nullable="true" />

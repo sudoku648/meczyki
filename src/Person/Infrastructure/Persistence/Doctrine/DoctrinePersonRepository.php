@@ -40,6 +40,18 @@ class DoctrinePersonRepository extends ServiceEntityRepository implements Person
         parent::__construct($registry, Person::class);
     }
 
+    public function persist(Person $person): void
+    {
+        $this->_em->persist($person);
+        $this->_em->flush();
+    }
+
+    public function remove(Person $person): void
+    {
+        $this->_em->remove($person);
+        $this->_em->flush();
+    }
+
     public function allOrderedByName(?string $type = null): array
     {
         switch ($type) {

@@ -7,7 +7,6 @@ namespace Sudoku648\Meczyki\Team\Frontend\Controller;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
 use Sudoku648\Meczyki\Team\Domain\Entity\Team;
 use Sudoku648\Meczyki\Team\Domain\Service\TeamManagerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
@@ -16,7 +15,6 @@ abstract class TeamAbstractController extends AbstractController
 {
     public function __construct(
         protected RouterInterface $router,
-        protected EventDispatcherInterface $dispatcher,
         protected Breadcrumbs $breadcrumbs,
         protected TeamManagerInterface $manager,
     ) {

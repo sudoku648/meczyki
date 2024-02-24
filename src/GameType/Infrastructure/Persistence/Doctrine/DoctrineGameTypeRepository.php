@@ -37,6 +37,18 @@ class DoctrineGameTypeRepository extends ServiceEntityRepository implements Game
         parent::__construct($registry, GameType::class);
     }
 
+    public function persist(GameType $gameType): void
+    {
+        $this->_em->persist($gameType);
+        $this->_em->flush();
+    }
+
+    public function remove(GameType $gameType): void
+    {
+        $this->_em->remove($gameType);
+        $this->_em->flush();
+    }
+
     public function allOrderedByName(): array
     {
         $query = $this->createQueryBuilder('gameType');

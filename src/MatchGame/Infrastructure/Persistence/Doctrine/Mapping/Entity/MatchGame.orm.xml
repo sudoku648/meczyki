@@ -90,7 +90,7 @@
             <join-column name="delegate_id" nullable="true" on-delete="SET NULL" />
         </many-to-one>
 
-        <one-to-many field="matchGameBills" target-entity="Sudoku648\Meczyki\MatchGameBill\Domain\Entity\MatchGameBill" mapped-by="matchGame" />
+        <one-to-many field="matchGameBills" target-entity="Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGameBill" mapped-by="matchGame" />
     </entity>
 
 </doctrine-mapping>

@@ -7,6 +7,7 @@ namespace Sudoku648\Meczyki\Team\Frontend\Controller;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\TeamVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\DataTableTrait;
 use Sudoku648\Meczyki\Shared\Frontend\DataTable\DataTable;
+use Sudoku648\Meczyki\Shared\Frontend\DataTable\Factory\DataTableParamsFactory;
 use Sudoku648\Meczyki\Team\Domain\Entity\Team;
 use Sudoku648\Meczyki\Team\Domain\Persistence\TeamRepositoryInterface;
 use Sudoku648\Meczyki\Team\Frontend\DataTable\DataTableTeamRow;
@@ -33,7 +34,7 @@ class TeamListController extends TeamAbstractController
     ): JsonResponse {
         $this->denyAccessUnlessGranted(TeamVoter::LIST);
 
-        $params = $this->prepareDataTableAjaxRequest($request);
+        $params = DataTableParamsFactory::fromRequest($request);
 
         $criteria                = new TeamPageView($params['page']);
         $criteria->sortColumn    = $params['order']['column'] ?? DoctrineTeamRepository::SORT_DEFAULT;

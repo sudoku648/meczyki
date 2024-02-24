@@ -39,7 +39,6 @@ imports:
     - { resource: '../../src/GameType/Symfony/Resources/config/packages/doctrine.yaml' }
     - { resource: '../../src/Image/Symfony/Resources/config/packages/doctrine.yaml' }
     - { resource: '../../src/MatchGame/Symfony/Resources/config/packages/doctrine.yaml' }
-    - { resource: '../../src/MatchGameBill/Symfony/Resources/config/packages/doctrine.yaml' }
     - { resource: '../../src/Person/Symfony/Resources/config/packages/doctrine.yaml' }
     - { resource: '../../src/Shared/Symfony/Resources/config/packages/doctrine.yaml' }
     - { resource: '../../src/Team/Symfony/Resources/config/packages/doctrine.yaml' }

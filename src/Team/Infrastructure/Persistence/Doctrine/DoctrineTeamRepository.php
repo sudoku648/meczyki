@@ -38,6 +38,18 @@ class DoctrineTeamRepository extends ServiceEntityRepository implements TeamRepo
         parent::__construct($registry, Team::class);
     }
 
+    public function persist(Team $team): void
+    {
+        $this->_em->persist($team);
+        $this->_em->flush();
+    }
+
+    public function remove(Team $team): void
+    {
+        $this->_em->remove($team);
+        $this->_em->flush();
+    }
+
     public function allOrderedByName(): array
     {
         return $this->findBy(

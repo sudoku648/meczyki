@@ -6,9 +6,7 @@ namespace Sudoku648\Meczyki\MatchGame\Infrastructure\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGame;
-use Sudoku648\Meczyki\MatchGame\Domain\Event\MatchGameCreatedEvent;
-use Sudoku648\Meczyki\MatchGame\Domain\Event\MatchGameDeletedEvent;
-use Sudoku648\Meczyki\MatchGame\Domain\Event\MatchGameUpdatedEvent;
+use Sudoku648\Meczyki\MatchGame\Domain\Persistence\MatchGameRepositoryInterface;
 use Sudoku648\Meczyki\MatchGame\Domain\Service\MatchGameManagerInterface;
 use Sudoku648\Meczyki\MatchGame\Domain\ValueObject\Round;
 use Sudoku648\Meczyki\MatchGame\Domain\ValueObject\Season;
@@ -16,14 +14,13 @@ use Sudoku648\Meczyki\MatchGame\Domain\ValueObject\Venue;
 use Sudoku648\Meczyki\MatchGame\Frontend\Dto\MatchGameDto;
 use Sudoku648\Meczyki\MatchGame\Frontend\Factory\MatchGameFactory;
 use Sudoku648\Meczyki\User\Domain\Entity\User;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 readonly class MatchGameManager implements MatchGameManagerInterface
 {
     public function __construct(
-        private EventDispatcherInterface $dispatcher,
         private EntityManagerInterface $entityManager,
         private MatchGameFactory $factory,
+        private MatchGameRepositoryInterface $repository,
     ) {
     }
 
@@ -33,10 +30,7 @@ readonly class MatchGameManager implements MatchGameManagerInterface
 
         $matchGame = $this->setNonProfitableValues($matchGame);
 
-        $this->entityManager->persist($matchGame);
-        $this->entityManager->flush();
-
-        $this->dispatcher->dispatch(new MatchGameCreatedEvent($matchGame));
+        $this->repository->persist($matchGame);
 
         return $matchGame;
     }
@@ -64,19 +58,14 @@ readonly class MatchGameManager implements MatchGameManagerInterface
 
         $matchGame->setUpdatedAt();
 
-        $this->entityManager->flush();
-
-        $this->dispatcher->dispatch(new MatchGameUpdatedEvent($matchGame));
+        $this->repository->persist($matchGame);
 
         return $matchGame;
     }
 
     public function delete(MatchGame $matchGame): void
     {
-        $this->dispatcher->dispatch(new MatchGameDeletedEvent($matchGame));
-
         $this->entityManager->remove($matchGame);
-        $this->entityManager->flush();
     }
 
     public function createDto(MatchGame $matchGame): MatchGameDto

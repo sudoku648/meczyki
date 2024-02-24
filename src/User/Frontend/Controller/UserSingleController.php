@@ -6,7 +6,6 @@ namespace Sudoku648\Meczyki\User\Frontend\Controller;
 
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\UserVoter;
 use Sudoku648\Meczyki\User\Domain\Entity\User;
-use Sudoku648\Meczyki\User\Domain\Event\UserHasBeenSeenEvent;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -28,8 +27,6 @@ class UserSingleController extends UserAbstractController
             [],
             false
         );
-
-        $this->dispatcher->dispatch((new UserHasBeenSeenEvent($user)));
 
         return $this->render(
             'user/single.html.twig',

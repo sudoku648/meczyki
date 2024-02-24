@@ -4,12 +4,8 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\Person\Infrastructure\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
-use Sudoku648\Meczyki\Person\Domain\Event\PersonCreatedEvent;
-use Sudoku648\Meczyki\Person\Domain\Event\PersonDeletedEvent;
-use Sudoku648\Meczyki\Person\Domain\Event\PersonPersonalInfoUpdatedEvent;
-use Sudoku648\Meczyki\Person\Domain\Event\PersonUpdatedEvent;
+use Sudoku648\Meczyki\Person\Domain\Persistence\PersonRepositoryInterface;
 use Sudoku648\Meczyki\Person\Domain\Service\PersonManagerInterface;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\FirstName;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\LastName;
@@ -20,14 +16,12 @@ use Sudoku648\Meczyki\Shared\Domain\ValueObject\Address;
 use Sudoku648\Meczyki\Shared\Domain\ValueObject\Iban;
 use Sudoku648\Meczyki\Shared\Domain\ValueObject\Nip;
 use Sudoku648\Meczyki\Shared\Domain\ValueObject\PhoneNumber;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 readonly class PersonManager implements PersonManagerInterface
 {
     public function __construct(
-        private EventDispatcherInterface $dispatcher,
-        private EntityManagerInterface $entityManager,
         private PersonFactory $factory,
+        private PersonRepositoryInterface $repository,
     ) {
     }
 
@@ -35,10 +29,7 @@ readonly class PersonManager implements PersonManagerInterface
     {
         $person = $this->factory->createFromDto($dto);
 
-        $this->entityManager->persist($person);
-        $this->entityManager->flush();
-
-        $this->dispatcher->dispatch(new PersonCreatedEvent($person));
+        $this->repository->persist($person);
 
         return $person;
     }
@@ -53,9 +44,7 @@ readonly class PersonManager implements PersonManagerInterface
         $person->setIsRefereeObserver($dto->isRefereeObserver);
         $person->setUpdatedAt();
 
-        $this->entityManager->flush();
-
-        $this->dispatcher->dispatch(new PersonUpdatedEvent($person));
+        $this->repository->persist($person);
 
         return $person;
     }
@@ -82,19 +71,14 @@ readonly class PersonManager implements PersonManagerInterface
         $person->setIban(null !== $dto->iban ? Iban::fromString($dto->iban) : null);
         $person->setAllowsToSendPitByEmail($dto->allowsToSendPitByEmail);
 
-        $this->entityManager->flush();
-
-        $this->dispatcher->dispatch(new PersonPersonalInfoUpdatedEvent($person));
+        $this->repository->persist($person);
 
         return $person;
     }
 
     public function delete(Person $person): void
     {
-        $this->dispatcher->dispatch(new PersonDeletedEvent($person));
-
-        $this->entityManager->remove($person);
-        $this->entityManager->flush();
+        $this->repository->remove($person);
     }
 
     public function createDto(Person $person): PersonDto

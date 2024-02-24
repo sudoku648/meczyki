@@ -30,7 +30,7 @@
         <field name="createdAt" type="datetimetz_immutable" column="created_at" />
         <field name="updatedAt" type="datetimetz_immutable" column="updated_at" nullable="true" />
 
-        <one-to-many field="matchGameBills" target-entity="Sudoku648\Meczyki\MatchGameBill\Domain\Entity\MatchGameBill" mapped-by="person" />
+        <one-to-many field="matchGameBills" target-entity="Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGameBill" mapped-by="person" />
     </entity>
 
 </doctrine-mapping>

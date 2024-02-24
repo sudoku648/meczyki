@@ -4,20 +4,14 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\User\Infrastructure\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
 use Sudoku648\Meczyki\User\Domain\Entity\User;
-use Sudoku648\Meczyki\User\Domain\Event\UserActivateEvent;
-use Sudoku648\Meczyki\User\Domain\Event\UserBindWithPersonEvent;
-use Sudoku648\Meczyki\User\Domain\Event\UserDeactivateEvent;
-use Sudoku648\Meczyki\User\Domain\Event\UserDeletedEvent;
-use Sudoku648\Meczyki\User\Domain\Event\UserUnbindWithPersonEvent;
+use Sudoku648\Meczyki\User\Domain\Persistence\UserRepositoryInterface;
 use Sudoku648\Meczyki\User\Domain\Service\UserManagerInterface;
 use Sudoku648\Meczyki\User\Domain\ValueObject\Username;
 use Sudoku648\Meczyki\User\Frontend\Dto\UserDto;
 use Sudoku648\Meczyki\User\Frontend\Factory\UserFactory;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -25,12 +19,11 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 readonly class UserManager implements UserManagerInterface
 {
     public function __construct(
-        private EventDispatcherInterface $dispatcher,
-        private EntityManagerInterface $entityManager,
         private TokenStorageInterface $tokenStorage,
         private RequestStack $requestStack,
         private UserPasswordHasherInterface $passwordHasher,
         private UserFactory $factory,
+        private UserRepositoryInterface $repository,
     ) {
     }
 
@@ -41,29 +34,22 @@ readonly class UserManager implements UserManagerInterface
 
         $user->setPassword($this->passwordHasher->hashPassword($user, $dto->plainPassword));
 
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
+        $this->repository->persist($user);
 
         return $user;
     }
 
     public function edit(User $user, UserDto $dto): User
     {
-        $this->entityManager->beginTransaction();
+        $user->setUsername(Username::fromString($dto->username));
+
+        if ($dto->plainPassword) {
+            $user->setPassword($this->passwordHasher->hashPassword($user, $dto->plainPassword));
+        }
 
         try {
-            $user->setUsername(Username::fromString($dto->username));
-
-            if ($dto->plainPassword) {
-                $user->setPassword($this->passwordHasher->hashPassword($user, $dto->plainPassword));
-            }
-
-            $this->entityManager->flush();
-            $this->entityManager->commit();
+            $this->repository->persist($user);
         } catch (Exception $e) {
-            $this->entityManager->rollback();
-
-            throw $e;
         }
 
         return $user;
@@ -73,44 +59,33 @@ readonly class UserManager implements UserManagerInterface
     {
         $user->activate();
 
-        $this->entityManager->flush();
-
-        $this->dispatcher->dispatch(new UserActivateEvent($user));
+        $this->repository->persist($user);
     }
 
     public function deactivate(User $user): void
     {
         $user->deactivate();
 
-        $this->entityManager->flush();
-
-        $this->dispatcher->dispatch(new UserDeactivateEvent($user));
+        $this->repository->persist($user);
     }
 
     public function delete(User $user): void
     {
-        $this->dispatcher->dispatch(new UserDeletedEvent($user));
-
-        $this->entityManager->remove($user);
-        $this->entityManager->flush();
+        $this->repository->remove($user);
     }
 
     public function bindWithPerson(User $user, Person $person): void
     {
         $user->bindWithPerson($person);
 
-        $this->entityManager->flush();
-
-        $this->dispatcher->dispatch(new UserBindWithPersonEvent($user));
+        $this->repository->persist($user);
     }
 
     public function unbindPerson(User $user): void
     {
         $user->unbindPerson();
 
-        $this->entityManager->flush();
-
-        $this->dispatcher->dispatch(new UserUnbindWithPersonEvent($user));
+        $this->repository->persist($user);
     }
 
     public function createDto(User $user): UserDto

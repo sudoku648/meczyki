@@ -26,6 +26,29 @@ class DoctrineImageRepository extends ServiceEntityRepository implements ImageRe
         parent::__construct($registry, Image::class);
     }
 
+    public function persist(Image $image): void
+    {
+        $this->_em->persist($image);
+        $this->_em->flush();
+    }
+
+    public function remove(Image $image): void
+    {
+        try {
+            $this->_em->beginTransaction();
+
+            $this->_em->remove($image);
+            $this->_em->flush();
+
+            $this->_em->commit();
+        } catch (Exception $e) {
+            $this->_em->rollback();
+            $this->registry->resetManager();
+
+            throw $e;
+        }
+    }
+
     public function createFromUpload($upload): ?Image
     {
         return $this->createFromPath($upload->getPathname());

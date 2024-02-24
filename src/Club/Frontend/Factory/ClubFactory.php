@@ -19,9 +19,9 @@ class ClubFactory
     {
         $dto = new ClubDto();
 
+        $dto->setId($club->getId());
         $dto->name   = $club->getName()->getValue();
         $dto->emblem = $club->getEmblem();
-        $dto->setId($club->getId());
 
         return $dto;
     }

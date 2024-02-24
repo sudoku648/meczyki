@@ -10,19 +10,26 @@ use Sudoku648\Meczyki\MatchGame\Frontend\DataTable\DataTableMatchGameRow;
 use Sudoku648\Meczyki\MatchGame\Infrastructure\Persistence\Doctrine\DoctrineMatchGameRepository;
 use Sudoku648\Meczyki\MatchGame\Infrastructure\Persistence\PageView\MatchGamePageView;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\MatchGameVoter;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\DataTableTrait;
 use Sudoku648\Meczyki\Shared\Frontend\DataTable\DataTable;
+use Sudoku648\Meczyki\Shared\Frontend\DataTable\Factory\DataTableParamsFactory;
+use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class MatchGameListController extends MatchGameAbstractController
+class MatchGameListController extends AbstractController
 {
     use DataTableTrait;
 
-    public function list(): Response
+    public function list(BreadcrumbBuilder $breadcrumbBuilder): Response
     {
         $this->denyAccessUnlessGranted(MatchGameVoter::LIST);
+
+        $breadcrumbBuilder
+            ->add('dashboard')
+            ->add('match_games_list');
 
         return $this->render('match_game/list.html.twig');
     }
@@ -33,7 +40,7 @@ class MatchGameListController extends MatchGameAbstractController
     ): JsonResponse {
         $this->denyAccessUnlessGranted(MatchGameVoter::LIST);
 
-        $params = $this->prepareDataTableAjaxRequest($request);
+        $params = DataTableParamsFactory::fromRequest($request);
 
         $criteria                = new MatchGamePageView($params['page']);
         $criteria->sortColumn    = $params['order']['column'] ?? DoctrineMatchGameRepository::SORT_DEFAULT;

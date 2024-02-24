@@ -10,19 +10,26 @@ use Sudoku648\Meczyki\GameType\Frontend\DataTable\DataTableGameTypeRow;
 use Sudoku648\Meczyki\GameType\Infrastructure\Persistence\Doctrine\DoctrineGameTypeRepository;
 use Sudoku648\Meczyki\GameType\Infrastructure\Persistence\PageView\GameTypePageView;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\GameTypeVoter;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\DataTableTrait;
 use Sudoku648\Meczyki\Shared\Frontend\DataTable\DataTable;
+use Sudoku648\Meczyki\Shared\Frontend\DataTable\Factory\DataTableParamsFactory;
+use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class GameTypeListController extends GameTypeAbstractController
+class GameTypeListController extends AbstractController
 {
     use DataTableTrait;
 
-    public function list(): Response
+    public function list(BreadcrumbBuilder $breadcrumbBuilder): Response
     {
         $this->denyAccessUnlessGranted(GameTypeVoter::LIST);
+
+        $breadcrumbBuilder
+            ->add('dashboard')
+            ->add('game_types_list');
 
         return $this->render('game_type/list.html.twig');
     }
@@ -33,7 +40,7 @@ class GameTypeListController extends GameTypeAbstractController
     ): JsonResponse {
         $this->denyAccessUnlessGranted(GameTypeVoter::LIST);
 
-        $params = $this->prepareDataTableAjaxRequest($request);
+        $params = DataTableParamsFactory::fromRequest($request);
 
         $criteria                = new GameTypePageView($params['page']);
         $criteria->sortColumn    = $params['order']['column'] ?? DoctrineGameTypeRepository::SORT_DEFAULT;

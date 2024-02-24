@@ -6,13 +6,24 @@ namespace Sudoku648\Meczyki\GameType\Frontend\Controller;
 
 use Sudoku648\Meczyki\GameType\Domain\Entity\GameType;
 use Sudoku648\Meczyki\GameType\Domain\Persistence\GameTypeRepositoryInterface;
+use Sudoku648\Meczyki\GameType\Domain\Service\GameTypeManagerInterface;
+use Sudoku648\Meczyki\GameType\Infrastructure\Persistence\Doctrine\DoctrineGameTypeRepository;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\GameTypeVoter;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class GameTypeDeleteController extends GameTypeAbstractController
+class GameTypeDeleteController extends AbstractController
 {
+    use RedirectTrait;
+
+    public function __construct(
+        private readonly GameTypeManagerInterface $manager,
+    ) {
+    }
+
     public function delete(
         #[MapEntity(mapping: ['game_type_id' => 'id'])] GameType $gameType,
         Request $request,
@@ -28,6 +39,7 @@ class GameTypeDeleteController extends GameTypeAbstractController
         return $this->redirectToGameTypesList();
     }
 
+    /** @param DoctrineGameTypeRepository $repository */
     public function deleteBatch(GameTypeRepositoryInterface $repository, Request $request): Response
     {
         $this->denyAccessUnlessGranted(GameTypeVoter::DELETE_BATCH);
@@ -40,13 +52,13 @@ class GameTypeDeleteController extends GameTypeAbstractController
         foreach ($gameTypeIds as $gameTypeId) {
             $gameType = $repository->find($gameTypeId);
             if ($gameType) {
-                if ($this->isGranted(GameTypeVoter::DELETE, $gameType)) {
-                    $this->manager->delete($gameType);
+                if (!$this->isGranted(GameTypeVoter::DELETE, $gameType)) {
+                    $notAllDeleted = true;
 
                     continue;
                 }
 
-                $notAllDeleted = true;
+                $this->manager->delete($gameType);
             }
         }
 

@@ -24,11 +24,11 @@ class GameType
 
     public function __construct(
         GameTypeName $name,
-        bool $isOfficial,
+        ?bool $isOfficial = null,
     ) {
         $this->id         = GameTypeId::generate();
         $this->name       = $name;
-        $this->isOfficial = $isOfficial;
+        $this->isOfficial = true === $isOfficial;
 
         $this->createdAtTraitConstruct();
     }
@@ -72,10 +72,5 @@ class GameType
         $this->image = $image;
 
         return $this;
-    }
-
-    public function __sleep(): array
-    {
-        return [];
     }
 }

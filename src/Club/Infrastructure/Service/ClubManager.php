@@ -4,26 +4,21 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\Club\Infrastructure\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Sudoku648\Meczyki\Club\Domain\Entity\Club;
-use Sudoku648\Meczyki\Club\Domain\Event\ClubCreatedEvent;
-use Sudoku648\Meczyki\Club\Domain\Event\ClubDeletedEvent;
-use Sudoku648\Meczyki\Club\Domain\Event\ClubUpdatedEvent;
+use Sudoku648\Meczyki\Club\Domain\Persistence\ClubRepositoryInterface;
 use Sudoku648\Meczyki\Club\Domain\Service\ClubManagerInterface;
 use Sudoku648\Meczyki\Club\Domain\ValueObject\ClubName;
 use Sudoku648\Meczyki\Club\Frontend\Dto\ClubDto;
 use Sudoku648\Meczyki\Club\Frontend\Factory\ClubFactory;
 use Sudoku648\Meczyki\Image\Domain\Message\DeleteImageMessage;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 readonly class ClubManager implements ClubManagerInterface
 {
     public function __construct(
-        private EventDispatcherInterface $dispatcher,
-        private EntityManagerInterface $entityManager,
         private MessageBusInterface $messageBus,
         private ClubFactory $factory,
+        private ClubRepositoryInterface $repository,
     ) {
     }
 
@@ -33,10 +28,7 @@ readonly class ClubManager implements ClubManagerInterface
 
         $club->setEmblem($dto->emblem);
 
-        $this->entityManager->persist($club);
-        $this->entityManager->flush();
-
-        $this->dispatcher->dispatch(new ClubCreatedEvent($club));
+        $this->repository->persist($club);
 
         return $club;
     }
@@ -48,13 +40,11 @@ readonly class ClubManager implements ClubManagerInterface
         $club->setEmblem($dto->emblem);
         $club->setUpdatedAt();
 
-        $this->entityManager->flush();
+        $this->repository->persist($club);
 
         if ($oldEmblem && $dto->emblem !== $oldEmblem) {
             $this->messageBus->dispatch(new DeleteImageMessage($oldEmblem->getFilePath()));
         }
-
-        $this->dispatcher->dispatch(new ClubUpdatedEvent($club));
 
         return $club;
     }
@@ -69,10 +59,7 @@ readonly class ClubManager implements ClubManagerInterface
             $this->messageBus->dispatch(new DeleteImageMessage($emblem->getFilePath()));
         }
 
-        $this->dispatcher->dispatch(new ClubDeletedEvent($club));
-
-        $this->entityManager->remove($club);
-        $this->entityManager->flush();
+        $this->repository->remove($club);
     }
 
     public function detachEmblem(Club $club): void
@@ -81,8 +68,7 @@ readonly class ClubManager implements ClubManagerInterface
 
         $club->setEmblem(null);
 
-        $this->entityManager->persist($club);
-        $this->entityManager->flush();
+        $this->repository->persist($club);
 
         $this->messageBus->dispatch(new DeleteImageMessage($emblem->getFilePath()));
     }

@@ -10,19 +10,26 @@ use Sudoku648\Meczyki\Club\Frontend\DataTable\DataTableClubRow;
 use Sudoku648\Meczyki\Club\Infrastructure\Persistence\Doctrine\DoctrineClubRepository;
 use Sudoku648\Meczyki\Club\Infrastructure\Persistence\PageView\ClubPageView;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\ClubVoter;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\DataTableTrait;
 use Sudoku648\Meczyki\Shared\Frontend\DataTable\DataTable;
+use Sudoku648\Meczyki\Shared\Frontend\DataTable\Factory\DataTableParamsFactory;
+use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ClubListController extends ClubAbstractController
+class ClubListController extends AbstractController
 {
     use DataTableTrait;
 
-    public function list(): Response
+    public function list(BreadcrumbBuilder $breadcrumbBuilder): Response
     {
         $this->denyAccessUnlessGranted(ClubVoter::LIST);
+
+        $breadcrumbBuilder
+            ->add('dashboard')
+            ->add('clubs_list');
 
         return $this->render('club/list.html.twig');
     }
@@ -33,7 +40,7 @@ class ClubListController extends ClubAbstractController
     ): JsonResponse {
         $this->denyAccessUnlessGranted(ClubVoter::LIST);
 
-        $params = $this->prepareDataTableAjaxRequest($request);
+        $params = DataTableParamsFactory::fromRequest($request);
 
         $criteria                = new ClubPageView($params['page']);
         $criteria->sortColumn    = $params['order']['column'] ?? DoctrineClubRepository::SORT_DEFAULT;

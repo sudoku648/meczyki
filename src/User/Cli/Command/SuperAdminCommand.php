@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\User\Cli\Command;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Sudoku648\Meczyki\User\Domain\Persistence\UserRepositoryInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -18,7 +17,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class SuperAdminCommand extends Command
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
         private readonly UserRepositoryInterface $repository,
     ) {
         parent::__construct();
@@ -48,7 +46,7 @@ class SuperAdminCommand extends Command
         }
 
         $user->setOrRemoveSuperAdminRole($remove);
-        $this->entityManager->flush();
+        $this->repository->persist($user);
 
         $remove ? $io->success('Super administrator privileges have been revoked.')
             : $io->success('Super administrator privileges has been granted.');

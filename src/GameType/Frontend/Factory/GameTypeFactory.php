@@ -14,7 +14,7 @@ class GameTypeFactory
     {
         return new GameType(
             GameTypeName::fromString($dto->name),
-            true === $dto->isOfficial,
+            $dto->isOfficial,
         );
     }
 
@@ -22,10 +22,10 @@ class GameTypeFactory
     {
         $dto = new GameTypeDto();
 
+        $dto->setId($gameType->getId());
         $dto->name       = $gameType->getName()->getValue();
         $dto->isOfficial = $gameType->isOfficial();
         $dto->image      = $gameType->getImage();
-        $dto->setId($gameType->getId());
 
         return $dto;
     }

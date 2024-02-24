@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\Security\Infrastructure\Voter;
 
 use LogicException;
-use Sudoku648\Meczyki\MatchGameBill\Domain\Entity\MatchGameBill;
+use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGameBill;
 use Sudoku648\Meczyki\User\Domain\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;

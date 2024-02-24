@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\Person\Frontend\Form;
 
 use Sudoku648\Meczyki\Person\Frontend\Dto\PersonDto;
-use Sudoku648\Meczyki\Shared\Domain\Enums\Voivodeship;
+use Sudoku648\Meczyki\Shared\Domain\ValueObject\Voivodeship;
 use Sudoku648\Meczyki\Shared\Frontend\Form\DataTransformer\IbanTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;

@@ -13,7 +13,6 @@ use Sudoku648\Meczyki\MatchGame\Domain\ValueObject\MatchGameId;
 use Sudoku648\Meczyki\MatchGame\Domain\ValueObject\Round;
 use Sudoku648\Meczyki\MatchGame\Domain\ValueObject\Season;
 use Sudoku648\Meczyki\MatchGame\Domain\ValueObject\Venue;
-use Sudoku648\Meczyki\MatchGameBill\Domain\Entity\MatchGameBill;
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
 use Sudoku648\Meczyki\Shared\Domain\Entity\CreatedAtTrait;
 use Sudoku648\Meczyki\Shared\Domain\Entity\UpdatedAtTrait;

@@ -4,22 +4,34 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\GameType\Frontend\Controller;
 
+use Sudoku648\Meczyki\GameType\Domain\Service\GameTypeManagerInterface;
 use Sudoku648\Meczyki\GameType\Frontend\Form\GameTypeType;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\GameTypeVoter;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
+use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class GameTypeCreateController extends GameTypeAbstractController
+class GameTypeCreateController extends AbstractController
 {
+    use RedirectTrait;
+
+    public function __construct(
+        private readonly BreadcrumbBuilder $breadcrumbBuilder,
+        private readonly GameTypeManagerInterface $manager,
+    ) {
+    }
+
     public function __invoke(Request $request): Response
     {
         $this->denyAccessUnlessGranted(GameTypeVoter::CREATE);
 
-        $this->breadcrumbs->addItem(
-            'Dodaj typ rozgrywek',
-            $this->router->generate('game_type_create')
-        );
+        $this->breadcrumbBuilder
+            ->add('dashboard')
+            ->add('game_types_list')
+            ->add('game_type_create');
 
         $form = $this->createForm(GameTypeType::class);
         $form->handleRequest($request);

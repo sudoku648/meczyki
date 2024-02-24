@@ -6,13 +6,24 @@ namespace Sudoku648\Meczyki\Club\Frontend\Controller;
 
 use Sudoku648\Meczyki\Club\Domain\Entity\Club;
 use Sudoku648\Meczyki\Club\Domain\Persistence\ClubRepositoryInterface;
+use Sudoku648\Meczyki\Club\Domain\Service\ClubManagerInterface;
+use Sudoku648\Meczyki\Club\Infrastructure\Persistence\Doctrine\DoctrineClubRepository;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\ClubVoter;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ClubDeleteController extends ClubAbstractController
+class ClubDeleteController extends AbstractController
 {
+    use RedirectTrait;
+
+    public function __construct(
+        private readonly ClubManagerInterface $manager,
+    ) {
+    }
+
     public function delete(
         #[MapEntity(mapping: ['club_id' => 'id'])] Club $club,
         Request $request,
@@ -28,6 +39,7 @@ class ClubDeleteController extends ClubAbstractController
         return $this->redirectToClubsList();
     }
 
+    /** @param DoctrineClubRepository $repository */
     public function deleteBatch(ClubRepositoryInterface $repository, Request $request): Response
     {
         $this->denyAccessUnlessGranted(ClubVoter::DELETE_BATCH);
@@ -40,13 +52,13 @@ class ClubDeleteController extends ClubAbstractController
         foreach ($clubIds as $clubId) {
             $club = $repository->find($clubId);
             if ($club) {
-                if ($this->isGranted(ClubVoter::DELETE, $club)) {
-                    $this->manager->delete($club);
+                if (!$this->isGranted(ClubVoter::DELETE, $club)) {
+                    $notAllDeleted = true;
 
                     continue;
                 }
 
-                $notAllDeleted = true;
+                $this->manager->delete($club);
             }
         }
 

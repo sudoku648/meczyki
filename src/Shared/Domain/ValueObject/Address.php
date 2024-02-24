@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\Shared\Domain\ValueObject;
 
-use Sudoku648\Meczyki\Shared\Domain\Enums\Voivodeship;
-
 final readonly class Address implements ValueObjectInterface
 {
     public function __construct(
