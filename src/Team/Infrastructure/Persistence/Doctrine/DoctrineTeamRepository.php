@@ -10,10 +10,10 @@ use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
-use Pagerfanta\PagerfantaInterface;
 use Sudoku648\Meczyki\Shared\Infrastructure\Persistence\Criteria;
 use Sudoku648\Meczyki\Team\Domain\Entity\Team;
 use Sudoku648\Meczyki\Team\Domain\Persistence\TeamRepositoryInterface;
+use Sudoku648\Meczyki\Team\Frontend\DataTable\Factory\DataTableTeamCriteriaFactory;
 use Sudoku648\Meczyki\Team\Infrastructure\Persistence\PageView\TeamPageView;
 
 /**
@@ -24,15 +24,6 @@ use Sudoku648\Meczyki\Team\Infrastructure\Persistence\PageView\TeamPageView;
  */
 class DoctrineTeamRepository extends ServiceEntityRepository implements TeamRepositoryInterface
 {
-    public const SORT_SHORT_NAME = 'shortName';
-    public const SORT_CLUB_NAME  = 'club';
-    public const SORT_DIR_ASC    = 'ASC';
-    public const SORT_DIR_DESC   = 'DESC';
-
-    public const SORT_DEFAULT     = self::SORT_SHORT_NAME;
-    public const SORT_DIR_DEFAULT = self::SORT_DIR_ASC;
-    public const PER_PAGE         = 10;
-
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Team::class);
@@ -67,7 +58,7 @@ class DoctrineTeamRepository extends ServiceEntityRepository implements TeamRepo
             ->getQuery()->getSingleScalarResult();
     }
 
-    public function countByCriteria(TeamPageView|Criteria $criteria): int
+    public function countByCriteria(TeamPageView $criteria): int
     {
         $qb = $this->getTeamQueryBuilder($criteria);
 
@@ -76,7 +67,7 @@ class DoctrineTeamRepository extends ServiceEntityRepository implements TeamRepo
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function findByCriteria(TeamPageView $criteria): PagerfantaInterface
+    public function findByCriteria(TeamPageView $criteria): array
     {
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
@@ -85,7 +76,7 @@ class DoctrineTeamRepository extends ServiceEntityRepository implements TeamRepo
         );
 
         try {
-            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
+            $pagerfanta->setMaxPerPage($criteria->perPage ?? DataTableTeamCriteriaFactory::PER_PAGE);
             $pagerfanta->setCurrentPage($criteria->page);
         } catch (NotValidCurrentPageException $e) {
             $pagerfanta->setCurrentPage(1);
@@ -93,7 +84,7 @@ class DoctrineTeamRepository extends ServiceEntityRepository implements TeamRepo
 
         $this->hydrate(...$pagerfanta->getCurrentPageResults());
 
-        return $pagerfanta;
+        return (array) $pagerfanta->getCurrentPageResults();
     }
 
     private function getTeamQueryBuilder(Criteria $criteria): QueryBuilder
@@ -135,11 +126,11 @@ class DoctrineTeamRepository extends ServiceEntityRepository implements TeamRepo
 
         switch ($criteria->sortColumn) {
             default:
-            case self::SORT_SHORT_NAME:
+            case DataTableTeamCriteriaFactory::SORT_SHORT_NAME:
                 $sortColumn = 'team.shortName';
 
                 break;
-            case self::SORT_CLUB_NAME:
+            case DataTableTeamCriteriaFactory::SORT_CLUB_NAME:
                 $sortColumn = 'club.name';
 
                 break;

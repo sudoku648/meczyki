@@ -11,11 +11,10 @@ use LogicException;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
-use Pagerfanta\PagerfantaInterface;
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
 use Sudoku648\Meczyki\Person\Domain\Persistence\PersonRepositoryInterface;
+use Sudoku648\Meczyki\Person\Frontend\DataTable\Factory\DataTablePersonCriteriaFactory;
 use Sudoku648\Meczyki\Person\Infrastructure\Persistence\PageView\PersonPageView;
-use Sudoku648\Meczyki\Shared\Infrastructure\Persistence\Criteria;
 
 use function ucfirst;
 
@@ -27,14 +26,6 @@ use function ucfirst;
  */
 class DoctrinePersonRepository extends ServiceEntityRepository implements PersonRepositoryInterface
 {
-    public const SORT_FULLNAME = 'fullName';
-    public const SORT_DIR_ASC  = 'ASC';
-    public const SORT_DIR_DESC = 'DESC';
-
-    public const SORT_DEFAULT     = self::SORT_FULLNAME;
-    public const SORT_DIR_DEFAULT = self::SORT_DIR_ASC;
-    public const PER_PAGE         = 10;
-
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Person::class);
@@ -88,7 +79,7 @@ class DoctrinePersonRepository extends ServiceEntityRepository implements Person
             ->getQuery()->getSingleScalarResult();
     }
 
-    public function countByCriteria(PersonPageView|Criteria $criteria): int
+    public function countByCriteria(PersonPageView $criteria): int
     {
         $qb = $this->getPersonQueryBuilder($criteria);
 
@@ -97,7 +88,7 @@ class DoctrinePersonRepository extends ServiceEntityRepository implements Person
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function findByCriteria(PersonPageView|Criteria $criteria): PagerfantaInterface
+    public function findByCriteria(PersonPageView $criteria): array
     {
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
@@ -106,7 +97,7 @@ class DoctrinePersonRepository extends ServiceEntityRepository implements Person
         );
 
         try {
-            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
+            $pagerfanta->setMaxPerPage($criteria->perPage ?? DataTablePersonCriteriaFactory::PER_PAGE);
             $pagerfanta->setCurrentPage($criteria->page);
         } catch (NotValidCurrentPageException $e) {
             $pagerfanta->setCurrentPage(1);
@@ -114,7 +105,7 @@ class DoctrinePersonRepository extends ServiceEntityRepository implements Person
 
         $this->hydrate(...$pagerfanta->getCurrentPageResults());
 
-        return $pagerfanta;
+        return (array) $pagerfanta->getCurrentPageResults();
     }
 
     private function getPersonQueryBuilder(PersonPageView $criteria): QueryBuilder
@@ -157,7 +148,7 @@ class DoctrinePersonRepository extends ServiceEntityRepository implements Person
 
         switch ($criteria->sortColumn) {
             default:
-            case self::SORT_FULLNAME:
+            case DataTablePersonCriteriaFactory::SORT_FULLNAME:
                 $sortColumn = 'CONCAT(person.lastName, \' \', person.firstName)';
 
                 break;

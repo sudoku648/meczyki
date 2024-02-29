@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\Shared\Frontend\DataTable\Factory;
 
+use Sudoku648\Meczyki\Shared\Frontend\DataTable\DataTableParams;
 use Symfony\Component\HttpFoundation\Request;
 
 final class DataTableParamsFactory
 {
-    public static function fromRequest(Request $request): array
+    public static function fromRequest(Request $request): DataTableParams
     {
         $all = $request->request->all();
 
@@ -23,13 +24,13 @@ final class DataTableParamsFactory
             $searches[$column['name']] = $column['search']['value'];
         }
 
-        return [
-            'draw'     => (int) $all['draw'],
-            'order'    => $orders,
-            'searches' => $searches,
-            'length'   => $all['length'],
-            'search'   => $all['search']['value'],
-            'page'     => ($all['start'] + $all['length']) / $all['length'],
-        ];
+        return new DataTableParams(
+            (int) $all['draw'],
+            $orders,
+            $searches,
+            (int) $all['length'],
+            $all['search']['value'],
+            (int) (($all['start'] + $all['length']) / $all['length']),
+        );
     }
 }

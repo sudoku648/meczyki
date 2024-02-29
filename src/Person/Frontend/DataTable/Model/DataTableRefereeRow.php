@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Sudoku648\Meczyki\GameType\Frontend\DataTable;
+namespace Sudoku648\Meczyki\Person\Frontend\DataTable\Model;
 
 use Sudoku648\Meczyki\Shared\Frontend\DataTable\DataTableRow;
 
-readonly class DataTableGameTypeRow extends DataTableRow
+readonly class DataTableRefereeRow extends DataTableRow
 {
     public function __construct(
         int $ordinalNumber = 1,
         string $checkbox = '',
-        public string $name = '',
+        public string $fullName = '',
         string $actions = '',
     ) {
         parent::__construct($ordinalNumber, $checkbox, $actions);

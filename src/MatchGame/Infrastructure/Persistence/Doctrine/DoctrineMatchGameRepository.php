@@ -10,11 +10,10 @@ use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
-use Pagerfanta\PagerfantaInterface;
 use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGame;
 use Sudoku648\Meczyki\MatchGame\Domain\Persistence\MatchGameRepositoryInterface;
+use Sudoku648\Meczyki\MatchGame\Frontend\DataTable\Factory\DataTableMatchGameCriteriaFactory;
 use Sudoku648\Meczyki\MatchGame\Infrastructure\Persistence\PageView\MatchGamePageView;
-use Sudoku648\Meczyki\Shared\Infrastructure\Persistence\Criteria;
 
 /**
  * @method MatchGame|null find($id, $lockMode = null, $lockVersion = null)
@@ -24,14 +23,6 @@ use Sudoku648\Meczyki\Shared\Infrastructure\Persistence\Criteria;
  */
 class DoctrineMatchGameRepository extends ServiceEntityRepository implements MatchGameRepositoryInterface
 {
-    public const SORT_DATETIME = 'dateTime';
-    public const SORT_DIR_ASC  = 'ASC';
-    public const SORT_DIR_DESC = 'DESC';
-
-    public const SORT_DEFAULT     = self::SORT_DATETIME;
-    public const SORT_DIR_DEFAULT = self::SORT_DIR_DESC;
-    public const PER_PAGE         = 10;
-
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, MatchGame::class);
@@ -56,7 +47,7 @@ class DoctrineMatchGameRepository extends ServiceEntityRepository implements Mat
             ->getQuery()->getSingleScalarResult();
     }
 
-    public function countByCriteria(MatchGamePageView|Criteria $criteria): int
+    public function countByCriteria(MatchGamePageView $criteria): int
     {
         $qb = $this->getMatchGameQueryBuilder($criteria);
 
@@ -65,7 +56,7 @@ class DoctrineMatchGameRepository extends ServiceEntityRepository implements Mat
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function findByCriteria(MatchGamePageView|Criteria $criteria): PagerfantaInterface
+    public function findByCriteria(MatchGamePageView $criteria): array
     {
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
@@ -74,7 +65,7 @@ class DoctrineMatchGameRepository extends ServiceEntityRepository implements Mat
         );
 
         try {
-            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
+            $pagerfanta->setMaxPerPage($criteria->perPage ?? DataTableMatchGameCriteriaFactory::PER_PAGE);
             $pagerfanta->setCurrentPage($criteria->page);
         } catch (NotValidCurrentPageException $e) {
             $pagerfanta->setCurrentPage(1);
@@ -82,7 +73,7 @@ class DoctrineMatchGameRepository extends ServiceEntityRepository implements Mat
 
         $this->hydrate(...$pagerfanta->getCurrentPageResults());
 
-        return $pagerfanta;
+        return (array) $pagerfanta->getCurrentPageResults();
     }
 
     private function getMatchGameQueryBuilder(MatchGamePageView $criteria): QueryBuilder
@@ -132,7 +123,7 @@ class DoctrineMatchGameRepository extends ServiceEntityRepository implements Mat
 
         switch ($criteria->sortColumn) {
             default:
-            case self::SORT_DATETIME:
+            case DataTableMatchGameCriteriaFactory::SORT_DATETIME:
                 $sortColumn = 'matchGame.dateTime';
 
                 break;

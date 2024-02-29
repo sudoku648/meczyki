@@ -10,11 +10,10 @@ use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
-use Pagerfanta\PagerfantaInterface;
 use Sudoku648\Meczyki\GameType\Domain\Entity\GameType;
 use Sudoku648\Meczyki\GameType\Domain\Persistence\GameTypeRepositoryInterface;
+use Sudoku648\Meczyki\GameType\Frontend\DataTable\Factory\DataTableGameTypeCriteriaFactory;
 use Sudoku648\Meczyki\GameType\Infrastructure\Persistence\PageView\GameTypePageView;
-use Sudoku648\Meczyki\Shared\Infrastructure\Persistence\Criteria;
 
 /**
  * @method GameType|null find($id, $lockMode = null, $lockVersion = null)
@@ -24,14 +23,6 @@ use Sudoku648\Meczyki\Shared\Infrastructure\Persistence\Criteria;
  */
 class DoctrineGameTypeRepository extends ServiceEntityRepository implements GameTypeRepositoryInterface
 {
-    public const SORT_NAME     = 'name';
-    public const SORT_DIR_ASC  = 'ASC';
-    public const SORT_DIR_DESC = 'DESC';
-
-    public const SORT_DEFAULT     = self::SORT_NAME;
-    public const SORT_DIR_DEFAULT = self::SORT_DIR_ASC;
-    public const PER_PAGE         = 10;
-
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, GameType::class);
@@ -65,7 +56,7 @@ class DoctrineGameTypeRepository extends ServiceEntityRepository implements Game
             ->getQuery()->getSingleScalarResult();
     }
 
-    public function countByCriteria(GameTypePageView|Criteria $criteria): int
+    public function countByCriteria(GameTypePageView $criteria): int
     {
         $qb = $this->getGameTypeQueryBuilder($criteria);
 
@@ -74,7 +65,7 @@ class DoctrineGameTypeRepository extends ServiceEntityRepository implements Game
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function findByCriteria(GameTypePageView|Criteria $criteria): PagerfantaInterface
+    public function findByCriteria(GameTypePageView $criteria): array
     {
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
@@ -83,7 +74,7 @@ class DoctrineGameTypeRepository extends ServiceEntityRepository implements Game
         );
 
         try {
-            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
+            $pagerfanta->setMaxPerPage($criteria->perPage ?? DataTableGameTypeCriteriaFactory::PER_PAGE);
             $pagerfanta->setCurrentPage($criteria->page);
         } catch (NotValidCurrentPageException $e) {
             $pagerfanta->setCurrentPage(1);
@@ -91,7 +82,7 @@ class DoctrineGameTypeRepository extends ServiceEntityRepository implements Game
 
         $this->hydrate(...$pagerfanta->getCurrentPageResults());
 
-        return $pagerfanta;
+        return (array) $pagerfanta->getCurrentPageResults();
     }
 
     private function getGameTypeQueryBuilder(GameTypePageView $criteria): QueryBuilder
@@ -118,7 +109,7 @@ class DoctrineGameTypeRepository extends ServiceEntityRepository implements Game
 
         switch ($criteria->sortColumn) {
             default:
-            case self::SORT_NAME:
+            case DataTableGameTypeCriteriaFactory::SORT_NAME:
                 $qb->addOrderBy('gameType.name', $criteria->sortDirection);
 
                 break;

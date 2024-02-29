@@ -10,11 +10,10 @@ use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
-use Pagerfanta\PagerfantaInterface;
 use Sudoku648\Meczyki\Club\Domain\Entity\Club;
 use Sudoku648\Meczyki\Club\Domain\Persistence\ClubRepositoryInterface;
+use Sudoku648\Meczyki\Club\Frontend\DataTable\Factory\DataTableClubCriteriaFactory;
 use Sudoku648\Meczyki\Club\Infrastructure\Persistence\PageView\ClubPageView;
-use Sudoku648\Meczyki\Shared\Infrastructure\Persistence\Criteria;
 
 /**
  * @method Club|null find($id, $lockMode = null, $lockVersion = null)
@@ -24,14 +23,6 @@ use Sudoku648\Meczyki\Shared\Infrastructure\Persistence\Criteria;
  */
 class DoctrineClubRepository extends ServiceEntityRepository implements ClubRepositoryInterface
 {
-    public const SORT_NAME     = 'name';
-    public const SORT_DIR_ASC  = 'ASC';
-    public const SORT_DIR_DESC = 'DESC';
-
-    public const SORT_DEFAULT     = self::SORT_NAME;
-    public const SORT_DIR_DEFAULT = self::SORT_DIR_ASC;
-    public const PER_PAGE         = 10;
-
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Club::class);
@@ -56,7 +47,7 @@ class DoctrineClubRepository extends ServiceEntityRepository implements ClubRepo
             ->getQuery()->getSingleScalarResult();
     }
 
-    public function countByCriteria(ClubPageView|Criteria $criteria): int
+    public function countByCriteria(ClubPageView $criteria): int
     {
         $qb = $this->getClubQueryBuilder($criteria);
 
@@ -65,7 +56,7 @@ class DoctrineClubRepository extends ServiceEntityRepository implements ClubRepo
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function findByCriteria(ClubPageView|Criteria $criteria): PagerfantaInterface
+    public function findByCriteria(ClubPageView $criteria): array
     {
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
@@ -74,7 +65,7 @@ class DoctrineClubRepository extends ServiceEntityRepository implements ClubRepo
         );
 
         try {
-            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
+            $pagerfanta->setMaxPerPage($criteria->perPage ?? DataTableClubCriteriaFactory::PER_PAGE);
             $pagerfanta->setCurrentPage($criteria->page);
         } catch (NotValidCurrentPageException $e) {
             $pagerfanta->setCurrentPage(1);
@@ -82,7 +73,7 @@ class DoctrineClubRepository extends ServiceEntityRepository implements ClubRepo
 
         $this->hydrate(...$pagerfanta->getCurrentPageResults());
 
-        return $pagerfanta;
+        return (array) $pagerfanta->getCurrentPageResults();
     }
 
     private function getClubQueryBuilder(ClubPageView $criteria): QueryBuilder
@@ -109,7 +100,7 @@ class DoctrineClubRepository extends ServiceEntityRepository implements ClubRepo
 
         switch ($criteria->sortColumn) {
             default:
-            case self::SORT_NAME:
+            case DataTableClubCriteriaFactory::SORT_NAME:
                 $sortColumn = 'club.name';
 
                 break;

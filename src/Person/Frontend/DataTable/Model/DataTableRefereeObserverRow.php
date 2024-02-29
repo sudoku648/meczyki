@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sudoku648\Meczyki\Person\Frontend\DataTable;
+namespace Sudoku648\Meczyki\Person\Frontend\DataTable\Model;
 
 use Sudoku648\Meczyki\Shared\Frontend\DataTable\DataTableRow;
 
-readonly class DataTableDelegateRow extends DataTableRow
+readonly class DataTableRefereeObserverRow extends DataTableRow
 {
     public function __construct(
         int $ordinalNumber = 1,
