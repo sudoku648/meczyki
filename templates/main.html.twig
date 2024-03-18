@@ -24,7 +24,9 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        {% set messages = app.flashes(['error', 'warning', 'info', 'success']) %}
+                        {% set messages = app.flashes(
+                            enum('\\Sudoku648\\Meczyki\\Shared\\Frontend\\Controller\\Enums\\FlashType').values()
+                        ) %}
                         {% for label, messages in messages %}
                             {% if messages is not empty %}
                                 {% for message in messages %}
@@ -32,7 +34,10 @@
                                         {%- set label = 'danger' %}
                                     {% endif %}
                                     <div class="row">
-                                        {{ include('_flash_alert.html.twig', {'message': message, 'label': label}) }}
+                                        {{ include('_flash_alert.html.twig', {
+                                            'message': message,
+                                            'label': label,
+                                        }) }}
                                     </div>
                                 {% endfor %}
                             {% endif %}

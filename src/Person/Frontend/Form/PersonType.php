@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\Person\Frontend\Form;
 
+use Sudoku648\Meczyki\Person\Domain\ValueObject\MatchGameFunction;
 use Sudoku648\Meczyki\Person\Frontend\Dto\PersonDto;
 use Sudoku648\Meczyki\Shared\Frontend\Form\DataTransformer\PolishMobilePhoneTransformer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -33,24 +34,13 @@ class PersonType extends AbstractType
                 ]
             )
             ->add(
-                'isDelegate',
-                CheckboxType::class,
+                'functions',
+                EnumType::class,
                 [
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'isReferee',
-                CheckboxType::class,
-                [
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'isRefereeObserver',
-                CheckboxType::class,
-                [
-                    'required' => false,
+                    'choice_label' => fn (MatchGameFunction $function) => $function->getName(),
+                    'class'        => MatchGameFunction::class,
+                    'expanded'     => true,
+                    'multiple'     => true,
                 ]
             )
             ->add('save', SubmitType::class)
@@ -64,7 +54,8 @@ class PersonType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => PersonDto::class
+            'data_class'         => PersonDto::class,
+            'translation_domain' => 'Person',
         ]);
     }
 }

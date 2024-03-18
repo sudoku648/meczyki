@@ -24,7 +24,7 @@ use function substr;
     'errorPaths'  => 'mobilePhone',
     'fields'      => ['mobilePhone'],
     'idFields'    => 'id',
-    'message'     => 'Wartość jest już wykorzystywana.',
+    'message'     => 'This value is already used.',
 ])]
 class PersonDto
 {
@@ -44,14 +44,7 @@ class PersonDto
     #[PolishMobilePhone()]
     public ?string $mobilePhone = null;
 
-    #[Assert\Type('boolean')]
-    public ?bool $isDelegate = null;
-
-    #[Assert\Type('boolean')]
-    public ?bool $isReferee = null;
-
-    #[Assert\Type('boolean')]
-    public ?bool $isRefereeObserver = null;
+    public array $functions = [];
 
     #[Assert\Email()]
     public ?string $email = null;
@@ -111,8 +104,9 @@ class PersonDto
         }
 
         if ($this->dateOfBirth > new DateTime()) {
-            $context->buildViolation('Data urodzenia nie może być z przyszłości.')
+            $context->buildViolation('Date of birth cannot be from the future.')
                 ->atPath('dateOfBirth')
+                ->setTranslationDomain('Person')
                 ->addViolation();
         }
     }
@@ -132,9 +126,12 @@ class PersonDto
         $day       = $this->dateOfBirth->format('d');
 
         if ($year < 1800 || $year > 2299) {
-            $context->buildViolation('Pesel nie istnieje dla tej daty urodzenia.')
+            $context->buildViolation('PESEL doesn\'t exist for this date of birth.')
                 ->atPath('pesel')
+                ->setTranslationDomain('Person')
                 ->addViolation();
+
+            return;
         }
 
         if ($year >= 1800 && $year <= 1899) {
@@ -157,8 +154,9 @@ class PersonDto
             $month !== substr($this->pesel, 2, 2) ||
             $day !== substr($this->pesel, 4, 2)
         ) {
-            $context->buildViolation('Pesel nie zgadza się z datą urodzenia.')
+            $context->buildViolation('PESEL doesn\'t match fith date of birth.')
                 ->atPath('pesel')
+                ->setTranslationDomain('Person')
                 ->addViolation();
         }
     }

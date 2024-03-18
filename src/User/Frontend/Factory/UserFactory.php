@@ -22,7 +22,7 @@ class UserFactory
     {
         $dto = new UserDto();
 
-        $dto->username = $user->getUsername();
+        $dto->username = $user->getUsername()->getValue();
         $dto->isActive = $user->isActive();
         $dto->person   = $user->getPerson();
         $dto->setId($user->getId());

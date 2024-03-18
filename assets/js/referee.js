@@ -12,25 +12,25 @@ $(function() {
         }
     });
 
-    const inputName           = 'referees[]';
-    const dataAttribute       = 'data-refereeId';
-    const checkSingleSelector = 'input[id^="checkbox_referee_"]';
-    const checkAllId          = 'checkbox_referees_all';
+    const inputName           = 'people[]';
+    const dataAttribute       = 'data-personId';
+    const checkSingleSelector = 'input[id^="checkbox_person_"]';
+    const checkAllId          = 'checkbox_people_all';
     const checkAllSelector    = 'input[id="'+checkAllId+'"]';
     const inputSelector       = 'input[name=\''+inputName+'\']';
     const formSelectors       = [
-        'form#referees-delete-batch',
+        'form#people-delete-batch',
     ];
     const buttonsSelectors    = [
-        '#referees-delete-batch-btn',
+        '#people-delete-batch-btn',
     ];
 
     checkInputs(inputSelector, buttonsSelectors);
 
     $dataTable.DataTable().on('draw', function () {
         $(inputSelector).each(function () {
-            var refereeId = $(this).attr('value');
-            removeInput(inputSelector, formSelectors, refereeId);
+            var personId = $(this).attr('value');
+            removeInput(inputSelector, formSelectors, personId);
         });
         setMainCheckbox(checkSingleSelector, checkAllSelector);
     });

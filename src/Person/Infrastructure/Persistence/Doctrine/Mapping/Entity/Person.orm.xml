@@ -13,9 +13,7 @@
         <field name="firstName" type="FirstName" column="first_name" length="100" />
         <field name="lastName" type="LastName" column="last_name" length="100" />
         <field name="mobilePhone" type="PhoneNumber" column="mobile_phone" length="12" unique="true" nullable="true" />
-        <field name="isDelegate" type="boolean" column="is_delegate" />
-        <field name="isReferee" type="boolean" column="is_referee" />
-        <field name="isRefereeObserver" type="boolean" column="is_referee_observer" />
+        <field name="functions" type="json" column="functions" nullable="false" />
         <field name="email" column="email" length="150" nullable="true" />
         <field name="dateOfBirth" type="date_immutable" column="date_of_birth" nullable="true" />
         <field name="placeOfBirth" column="place_of_birth" length="100" nullable="true" />

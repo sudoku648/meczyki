@@ -9,6 +9,7 @@ use Sudoku648\Meczyki\MatchGame\Domain\ValueObject\Bill\MatchGameBillId;
 use Sudoku648\Meczyki\MatchGame\Domain\ValueObject\Bill\TaxDeductibleStakePercent;
 use Sudoku648\Meczyki\MatchGame\Domain\ValueObject\Bill\TaxIncomeStakePercent;
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
+use Sudoku648\Meczyki\Person\Domain\ValueObject\MatchGameFunction;
 use Sudoku648\Meczyki\Shared\Domain\Entity\CreatedAtTrait;
 use Sudoku648\Meczyki\Shared\Domain\Entity\UpdatedAtTrait;
 use Sudoku648\Meczyki\Shared\Domain\ValueObject\Money;
@@ -23,6 +24,7 @@ class MatchGameBill
     private MatchGameBillId $id;
     private ?Person $person;
     private ?MatchGame $matchGame;
+    private MatchGameFunction $function = MatchGameFunction::REFEREE;
     private Money $baseEquivalent;
     private BaseEquivalentPercent $percentOfBaseEquivalent;
     private Money $grossEquivalent;
@@ -77,6 +79,18 @@ class MatchGameBill
     public function setMatchGame(?MatchGame $matchGame): self
     {
         $this->matchGame = $matchGame;
+
+        return $this;
+    }
+
+    public function getFunction(): MatchGameFunction
+    {
+        return $this->function;
+    }
+
+    public function setFunction(MatchGameFunction $function): self
+    {
+        $this->function = $function;
 
         return $this;
     }

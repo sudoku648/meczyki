@@ -5,30 +5,40 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\Person\Frontend\Controller;
 
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
+use Sudoku648\Meczyki\Person\Domain\Service\PersonManagerInterface;
 use Sudoku648\Meczyki\Person\Frontend\Form\PersonType;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\PersonVoter;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Enums\FlashType;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
+use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class PersonEditController extends PersonAbstractController
+class PersonEditController extends AbstractController
 {
+    use RedirectTrait;
+
+    public function __construct(
+        private readonly TranslatorInterface $translator,
+        private readonly BreadcrumbBuilder $breadcrumbBuilder,
+        private readonly PersonManagerInterface $manager,
+    ) {
+    }
+
     public function __invoke(
         #[MapEntity(mapping: ['person_id' => 'id'])] Person $person,
         Request $request,
     ): Response {
         $this->denyAccessUnlessGranted(PersonVoter::EDIT, $person);
 
-        $this->breadcrumbs->addItem(
-            'Edytuj osobę',
-            $this->router->generate(
-                'person_edit',
-                [
-                    'person_id' => $person->getId(),
-                ]
-            )
-        );
+        $this->breadcrumbBuilder
+            ->add('dashboard')
+            ->add('people_list')
+            ->add('person_edit', ['person_id' => $person->getId()]);
 
         $dto = $this->manager->createDto($person);
 
@@ -38,7 +48,10 @@ class PersonEditController extends PersonAbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $person = $this->manager->edit($person, $dto);
 
-            $this->addFlash('success', 'Osoba została zaktualizowana.');
+            $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+                id: 'Person has been updated.',
+                domain: 'Person',
+            ));
 
             /** @var ClickableInterface $continueButton */
             $continueButton = $form->get('saveAndContinue');
@@ -46,11 +59,7 @@ class PersonEditController extends PersonAbstractController
                 return $this->redirectToEditPerson($person);
             }
 
-            return $this->redirectToRoute(
-                'people_list',
-                [],
-                Response::HTTP_SEE_OTHER
-            );
+            return $this->redirectToPeopleList();
         }
 
         return $this->render(

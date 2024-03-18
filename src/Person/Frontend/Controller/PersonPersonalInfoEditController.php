@@ -4,24 +4,35 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\Person\Frontend\Controller;
 
+use Sudoku648\Meczyki\Person\Domain\Service\PersonManagerInterface;
 use Sudoku648\Meczyki\Person\Frontend\Form\PersonPersonalInfoType;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\PersonVoter;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Enums\FlashType;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
+use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class PersonPersonalInfoEditController extends PersonAbstractController
+class PersonPersonalInfoEditController extends AbstractController
 {
+    use RedirectTrait;
+
+    public function __construct(
+        private readonly TranslatorInterface $translator,
+        private readonly BreadcrumbBuilder $breadcrumbBuilder,
+        private readonly PersonManagerInterface $manager,
+    ) {
+    }
+
     public function __invoke(Request $request): Response
     {
         $this->denyAccessUnlessGranted(PersonVoter::EDIT_PERSONAL_INFO);
 
-        $this->breadcrumbs->addItem(
-            'Edytuj dane osobowe',
-            $this->router->generate(
-                'person_personal_info_edit',
-                []
-            )
-        );
+        $this->breadcrumbBuilder
+            ->add('dashboard')
+            ->add('person_personal_info_edit');
 
         $person = $this->getUserOrThrow()->getPerson();
 
@@ -33,13 +44,12 @@ class PersonPersonalInfoEditController extends PersonAbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $person = $this->manager->editPersonalInfo($person, $dto);
 
-            $this->addFlash('success', 'Dane osobowe zostały zaktualizowane.');
+            $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+                id: 'Personal info have been updated.',
+                domain: 'Person',
+            ));
 
-            return $this->redirectToRoute(
-                'person_personal_info_edit',
-                [],
-                Response::HTTP_SEE_OTHER
-            );
+            return $this->redirectToEditPersonalInfo();
         }
 
         return $this->render(

@@ -10,6 +10,7 @@ use PhpOffice\PhpSpreadsheet\RichText\RichText;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGameBill;
 use Sudoku648\Meczyki\MatchGame\Domain\Service\MatchGameBillGeneratorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function dirname;
 use function in_array;
@@ -17,6 +18,11 @@ use function strlen;
 
 final readonly class MatchGameBillXlsxGenerator implements MatchGameBillGeneratorInterface
 {
+    public function __construct(
+        private TranslatorInterface $translator,
+    ) {
+    }
+
     public function generate(MatchGameBill $matchGameBill): Spreadsheet
     {
         $matchGame = $matchGameBill->getMatchGame();
@@ -35,23 +41,29 @@ final readonly class MatchGameBillXlsxGenerator implements MatchGameBillGenerato
         $sheet->setCellValue('A11', $matchGame->getHomeTeam()?->getName() ?? '');
         $sheet->setCellValue('BH11', $matchGame->getAwayTeam()?->getName() ?? '');
 
-        $function = '';
-        if ($person->isReferee()) {
-            $function = 'sędzia';
-        } elseif ($person->isRefereeObserver()) {
-            $function = 'obserwator';
-        } elseif ($person->isDelegate()) {
-            $function = 'delegat';
-        }
-
-        $sheet->setCellValue('A14', $function);
+        $sheet->setCellValue(
+            'A14',
+            $this->translator->trans(
+                id: $matchGameBill->getFunction()->value,
+                domain: 'Person',
+            )
+        );
         $sheet->setCellValue('AK14', $person->getLastName());
         $sheet->setCellValue('CD14', $person->getFirstName());
         $sheet->setCellValue('A17', $person->getDateOfBirth()?->format('d.m.Y') ?? '');
         $sheet->setCellValue('U17', $person->getPlaceOfBirth() ?? '');
 
         $sheet->setCellValue('BB17', $person->getAddress()->formatted());
-        $sheet->setCellValue('A20', $person->getAddress()->getVoivodeship()?->getName() ?? '');
+        $sheet->setCellValue(
+            'A20',
+            $person->getAddress()->getVoivodeship()
+            ? $this->translator->trans(
+                id: $person->getAddress()->getVoivodeship()->getName(),
+                domain: 'Voivodeship',
+                locale: 'pl',
+            )
+            : ''
+        );
         $sheet->setCellValue('AM20', $person->getAddress()->getCounty() ?? '');
         $sheet->setCellValue('BY20', $person->getAddress()->getGmina() ?? '');
 

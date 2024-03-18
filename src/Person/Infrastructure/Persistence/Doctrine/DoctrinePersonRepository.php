@@ -13,6 +13,7 @@ use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
 use Sudoku648\Meczyki\Person\Domain\Persistence\PersonRepositoryInterface;
+use Sudoku648\Meczyki\Person\Domain\ValueObject\MatchGameFunction;
 use Sudoku648\Meczyki\Person\Frontend\DataTable\Factory\DataTablePersonCriteriaFactory;
 use Sudoku648\Meczyki\Person\Infrastructure\Persistence\PageView\PersonPageView;
 
@@ -126,17 +127,17 @@ class DoctrinePersonRepository extends ServiceEntityRepository implements Person
                 'CONCAT(person.firstName, \' \', person.lastName) LIKE :search'
             )->setParameter('search', '%' . $criteria->globalSearch . '%');
         }
-        if ($criteria->isDelegate) {
-            $qb->andWhere('person.isDelegate = :isDelegate')
-                ->setParameter('isDelegate', $criteria->isDelegate);
+        if (true === $criteria->isDelegate) {
+            $qb->andWhere('JSON_CONTAINS(person.functions, \'"' . MatchGameFunction::DELEGATE->value . '"\') = :isDelegate')
+                ->setParameter('isDelegate', true);
         }
-        if ($criteria->isReferee) {
-            $qb->andWhere('person.isReferee = :isReferee')
-                ->setParameter('isReferee', $criteria->isReferee);
+        if (true === $criteria->isReferee) {
+            $qb->andWhere('JSON_CONTAINS(person.functions, \'"' . MatchGameFunction::REFEREE->value . '"\') = :isReferee')
+                ->setParameter('isReferee', true);
         }
-        if ($criteria->isRefereeObserver) {
-            $qb->andWhere('person.isRefereeObserver = :isRefereeObserver')
-                ->setParameter('isRefereeObserver', $criteria->isRefereeObserver);
+        if (true === $criteria->isRefereeObserver) {
+            $qb->andWhere('JSON_CONTAINS(person.functions, \'"' . MatchGameFunction::REFEREE_OBSERVER->value . '"\') = :isRefereeObserver')
+                ->setParameter('isRefereeObserver', true);
         }
         if ($criteria->fullNameLike) {
             $qb->andWhere(

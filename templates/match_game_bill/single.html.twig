@@ -10,6 +10,10 @@
                 <td>{{ matchGameBill.person.fullName }}</td>
             </tr>
             <tr>
+                <th>Funkcja</th>
+                <td>{{ matchGameBill.function.value|trans({}, 'Person') }}</td>
+            </tr>
+            <tr>
                 <th>Bazowy ekwiwalent brutto</th>
                 <td>{{ matchGameBill.baseEquivalent.amount }} zł</td>
             </tr>

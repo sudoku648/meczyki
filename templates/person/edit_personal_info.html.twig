@@ -1,7 +1,7 @@
 {% extends 'main.html.twig' %}
 
-{% block title %}Edytuj dane osobowe{% endblock %}
+{% block title %}{{'Edit personal info'|trans({}, 'Person')}}{% endblock %}
 
 {% block main_content %}
-    {{ include('person/_form_personal_info.html.twig', {'button_save_label': 'Zapisz'}) }}
+    {{ include('person/_form_personal_info.html.twig', {buttonSaveLabel: 'Save'}) }}
 {% endblock %}

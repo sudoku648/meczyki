@@ -45,13 +45,13 @@
                 <th>Asystent 1</th>
                 <td>
                     {{ matchGame.firstAssistantReferee ? matchGame.firstAssistantReferee.fullName : ('<em class="text-black-50">brak</em>')|raw }}
-                    {{ matchGame.isFirstAssistantNonProfitable is not null and matchGame.isFirstAssistantNonProfitable.value ? ' (społecznie)' : '' }}</td>
+                    {{ matchGame.isFirstAssistantNonProfitable is not null and matchGame.isFirstAssistantNonProfitable ? ' (społecznie)' : '' }}</td>
             </tr>
             <tr>
                 <th>Asystent 2</th>
                 <td>
                     {{ matchGame.secondAssistantReferee ? matchGame.secondAssistantReferee.fullName : ('<em class="text-black-50">brak</em>')|raw }}
-                    {{ matchGame.isSecondAssistantNonProfitable is not null and matchGame.isSecondAssistantNonProfitable.value ? ' (społecznie)' : '' }}</td>
+                    {{ matchGame.isSecondAssistantNonProfitable is not null and matchGame.isSecondAssistantNonProfitable ? ' (społecznie)' : '' }}</td>
             </tr>
             <tr>
                 <th>Sędzia techniczny</th>

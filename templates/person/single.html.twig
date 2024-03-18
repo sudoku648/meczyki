@@ -1,25 +1,25 @@
 {% extends 'main.html.twig' %}
 
-{% block title %}Osoba{% endblock %}
+{% block title %}{{'Person'|trans({}, 'Person')}}{% endblock %}
 
 {% block main_content %}
     <table class="table">
         <tbody>
             <tr>
-                <th>Imię</th>
+                <th>{{'First name'|trans({}, 'Person')}}</th>
                 <td>{{ person.firstName }}</td>
             </tr>
             <tr>
-                <th>Nazwisko</th>
+                <th>{{'Last name'|trans({}, 'Person')}}</th>
                 <td>{{ person.lastName }}</td>
             </tr>
             <tr>
-                <th>Telefon</th>
+                <th>{{'Phone number'|trans({}, 'Person')}}</th>
                 <td>
                     {% if person.mobilePhone %}
                         <a href="tel:{{ person.mobilePhone }}">{{ person.mobilePhone }}</a>
                     {% else %}
-                        <em class="text-black-50">brak</em>
+                        <em class="text-black-50">{{'none'|trans({}, 'Person')}}</em>
                     {% endif %}
                 </td>
             </tr>
@@ -27,11 +27,11 @@
     </table>
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\PersonVoter::LIST')) %}
-        <a href="{{ path('people_list') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
+        {{ include('person/_button/back.html.twig', {text: 'Go back to the list'}) }}
     {% endif %}
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\PersonVoter::EDIT'), person) %}
-        {{ include('buttons/edit.html.twig', {path: 'person_edit', parameters: {'person_id': person.id}}) }}
+        {{ include('person/_button/edit.html.twig', {personId: person.id}) }}
     {% endif %}
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\PersonVoter::DELETE'), person) %}

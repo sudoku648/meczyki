@@ -9,6 +9,7 @@ doctrine:
         dql:
             datetime_functions:
                 DATE_FORMAT: DoctrineExtensions\Query\Mysql\DateFormat
+                JSON_CONTAINS: DoctrineExtensions\Query\Mysql\JsonContains
 
 when@test:
     doctrine:

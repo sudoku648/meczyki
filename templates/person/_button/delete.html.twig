@@ -1,0 +1,4 @@
+<input type="hidden" name="_token" value="{{ csrf_token(csrfName) }}">
+<button type="submit" class="btn btn-danger icon-delete" id="{{btnId|default('')}}">
+    {{'Delete'|trans({}, 'Person')}}
+</button>

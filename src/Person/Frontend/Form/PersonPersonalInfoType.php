@@ -51,11 +51,10 @@ class PersonPersonalInfoType extends AbstractType
                 'addressVoivodeship',
                 EnumType::class,
                 [
-                    'class'        => Voivodeship::class,
-                    'choice_label' => function (Voivodeship $voivodeship) {
-                        return $voivodeship->getName();
-                    },
-                    'required'     => false,
+                    'class'                     => Voivodeship::class,
+                    'choice_label'              => fn (Voivodeship $voivodeship) => $voivodeship->getName(),
+                    'choice_translation_domain' => 'Voivodeship',
+                    'required'                  => false,
                 ]
             )
             ->add('addressCounty')
@@ -82,7 +81,8 @@ class PersonPersonalInfoType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => PersonDto::class
+            'data_class'         => PersonDto::class,
+            'translation_domain' => 'Person',
         ]);
     }
 }

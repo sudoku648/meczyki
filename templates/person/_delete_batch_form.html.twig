@@ -1,4 +1,14 @@
 {{ include('form/delete_confirmation.html.twig') }}
-<form class="d-md-inline-block align-middle mb-3" action="{{ path('person_delete_batch') }}" method="post" id="people-delete-batch" data-confirmation="true" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-    {{ include('buttons/delete.html.twig', {csrf_name: 'person_delete_batch', btn_id: 'people-delete-batch-btn'}) }}
+<form
+    class="d-md-inline-block align-middle mb-3"
+    action="{{ path('person_delete_batch') }}"
+    method="post" id="people-delete-batch"
+    data-confirmation="true"
+    data-bs-toggle="modal"
+    data-bs-target="#staticBackdrop"
+>
+    {{ include('person/_button/delete.html.twig', {
+        csrfName: 'person_delete_batch',
+        btnId: 'people-delete-batch-btn',
+    }) }}
 </form>

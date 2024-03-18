@@ -10,6 +10,8 @@
             <generator strategy="NONE" />
         </id>
 
+        <field name="function" type="string" column="`function`" enum-type="Sudoku648\Meczyki\Person\Domain\ValueObject\MatchGameFunction"
+            length="20" nullable="true" />
         <embedded name="baseEquivalent" class="Sudoku648\Meczyki\Shared\Domain\ValueObject\Money" column-prefix="base_equivalent_" />
         <field name="percentOfBaseEquivalent" type="BaseEquivalentPercent" column="percent_of_base_equivalent" />
         <embedded name="grossEquivalent" class="Sudoku648\Meczyki\Shared\Domain\ValueObject\Money" column-prefix="gross_equivalent_" />

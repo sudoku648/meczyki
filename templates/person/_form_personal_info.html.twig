@@ -1,27 +1,33 @@
 {{ form_start(form) }}
     {{ form_row(form.email, {'label': 'E-mail'}) }}
-    {{ form_row(form.dateOfBirth, {'label': 'Data urodzenia'}) }}
-    {{ form_row(form.placeOfBirth, {'label': 'Miejsce urodzenia'}) }}
-    {{ form_row(form.addressTown, {'label': 'Miejscowość'}) }}
-    {{ form_row(form.addressStreet, {'label': 'Ulica'}) }}
-    {{ form_row(form.addressPostCode, {'label': 'Kod pocztowy'}) }}
-    {{ form_row(form.addressPostOffice, {'label': 'Poczta'}) }}
-    {{ form_row(form.addressVoivodeship, {'label': 'Województwo', 'placeholder': '-- wybierz --'}) }}
-    {{ form_row(form.addressCounty, {'label': 'Powiat'}) }}
+    {{ form_row(form.dateOfBirth, {'label': 'Date of birth'}) }}
+    {{ form_row(form.placeOfBirth, {'label': 'Place of birth'}) }}
+    {{ form_row(form.addressTown, {'label': 'Town'}) }}
+    {{ form_row(form.addressStreet, {'label': 'Street'}) }}
+    {{ form_row(form.addressPostCode, {'label': 'Post code'}) }}
+    {{ form_row(form.addressPostOffice, {'label': 'Post office'}) }}
+    {{ form_row(form.addressVoivodeship, {'label': 'Voivodeship', 'placeholder': '-- choose --'}) }}
+    {{ form_row(form.addressCounty, {'label': 'County'}) }}
     {{ form_row(form.addressGmina, {'label': 'Gmina'}) }}
-    {{ form_row(form.taxOfficeName, {'label': 'Nazwa urzędu skarbowego'}) }}
-    {{ form_row(form.taxOfficeAddress, {'label': 'Adres urzędu skarbowego'}) }}
+    {{ form_row(form.taxOfficeName, {'label': 'Tax office name'}) }}
+    {{ form_row(form.taxOfficeAddress, {'label': 'Tax office address'}) }}
     {{ form_row(form.pesel, {'label': 'PESEL'}) }}
     {{ form_row(form.nip, {'label': 'NIP'}) }}
-    {{ form_label(form.iban, 'Numer konta (IBAN)') }}
+    {{ form_label(form.iban, 'Account number (IBAN)') }}
     <div class="input-group mb-3">
         <span class="input-group-text" id="country-code">PL</span>
         {{ form_widget(form.iban, {'attr': {'aria-described-by': 'country-code'}}) }}
         {{ form_errors(form.iban) }}
     </div>
-    {{ form_row(form.allowsToSendPitByEmail, {'label': 'Zgoda na wysyłanie PIT na adres e-mail'}) }}
-    {{ form_row(form.save, {'label': button_save_label|default('Zapisz'), 'attr': {'class': 'btn-success icon-save loadable-save'}}) }}
+    {{ form_row(form.allowsToSendPitByEmail, {'label': 'Agreement for sending PIT by e-mail'|trans({}, 'Person')}) }}
+    {{ form_row(form.save, {
+        'label': buttonSaveLabel|default('Save'),
+        'attr': {'class': 'btn-success icon-save loadable-save'}
+    }) }}
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\DashboardVoter::DASHBOARD')) %}
-        <a href="{{ path('dashboard') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do panelu">Anuluj</a>
+        {{ include('person/_button/back.html.twig', {
+            path: 'dashboard',
+            text: 'Go back to the dashboard',
+        }) }}
     {% endif %}
 {{ form_end(form) }}

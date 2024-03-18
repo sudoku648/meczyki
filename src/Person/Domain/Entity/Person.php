@@ -11,6 +11,7 @@ use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGame;
 use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGameBill;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\FirstName;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\LastName;
+use Sudoku648\Meczyki\Person\Domain\ValueObject\MatchGameFunction;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\PersonId;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\Pesel;
 use Sudoku648\Meczyki\Shared\Domain\Entity\CreatedAtTrait;
@@ -19,6 +20,8 @@ use Sudoku648\Meczyki\Shared\Domain\ValueObject\Address;
 use Sudoku648\Meczyki\Shared\Domain\ValueObject\Iban;
 use Sudoku648\Meczyki\Shared\Domain\ValueObject\Nip;
 use Sudoku648\Meczyki\Shared\Domain\ValueObject\PhoneNumber;
+
+use function array_values;
 
 class Person
 {
@@ -31,9 +34,10 @@ class Person
     private FirstName $firstName;
     private LastName $lastName;
     private ?PhoneNumber $mobilePhone;
-    private bool $isDelegate                = false;
-    private bool $isReferee                 = false;
-    private bool $isRefereeObserver         = false;
+    /**
+     * @var MatchGameFunction[]
+     */
+    private array $functions                = [];
     private ?string $email                  = null;
     private ?DateTimeImmutable $dateOfBirth = null;
     private ?string $placeOfBirth           = null;
@@ -50,19 +54,15 @@ class Person
         FirstName $firstName,
         LastName $lastName,
         ?PhoneNumber $mobilePhone = null,
-        ?bool $isDelegate = null,
-        ?bool $isReferee = null,
-        ?bool $isRefereeObserver = null,
+        array $functions = [],
     ) {
-        $this->id                = PersonId::generate();
-        $this->firstName         = $firstName;
-        $this->lastName          = $lastName;
-        $this->mobilePhone       = $mobilePhone;
-        $this->isDelegate        = $isDelegate ?? false;
-        $this->isReferee         = $isReferee ?? false;
-        $this->isRefereeObserver = $isRefereeObserver ?? false;
-        $this->address           = new Address();
-        $this->matchGameBills    = new ArrayCollection();
+        $this->id             = PersonId::generate();
+        $this->firstName      = $firstName;
+        $this->lastName       = $lastName;
+        $this->mobilePhone    = $mobilePhone;
+        $this->functions      = $functions;
+        $this->address        = new Address();
+        $this->matchGameBills = new ArrayCollection();
 
         $this->createdAtTraitConstruct();
     }
@@ -113,38 +113,14 @@ class Person
         return $this;
     }
 
-    public function isDelegate(): bool
+    public function getFunctions(): array
     {
-        return $this->isDelegate;
+        return $this->functions;
     }
 
-    public function setIsDelegate(bool $isDelegate): self
+    public function setFunctions(array $functions): self
     {
-        $this->isDelegate = $isDelegate;
-
-        return $this;
-    }
-
-    public function isReferee(): bool
-    {
-        return $this->isReferee;
-    }
-
-    public function setIsReferee(bool $isReferee): self
-    {
-        $this->isReferee = $isReferee;
-
-        return $this;
-    }
-
-    public function isRefereeObserver(): bool
-    {
-        return $this->isRefereeObserver;
-    }
-
-    public function setIsRefereeObserver(bool $isRefereeObserver): self
-    {
-        $this->isRefereeObserver = $isRefereeObserver;
+        $this->functions = array_values($functions);
 
         return $this;
     }

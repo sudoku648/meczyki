@@ -7,6 +7,7 @@ namespace Sudoku648\Meczyki\Shared\Frontend\Controller;
 use BadMethodCallException;
 use Sudoku648\Meczyki\Club\Domain\Entity\Club;
 use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGame;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Enums\FlashType;
 use Sudoku648\Meczyki\User\Domain\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseAbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -49,6 +50,11 @@ abstract class AbstractController extends BaseAbstractController
         }
 
         return $this->redirect($request->headers->get('Referer'));
+    }
+
+    protected function makeFlash(FlashType $type, mixed $message): void
+    {
+        $this->addFlash($type->value, $message);
     }
 
     protected function redirectToSingleClub(Club $club): Response

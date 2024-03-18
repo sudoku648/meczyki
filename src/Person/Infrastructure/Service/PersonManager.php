@@ -12,6 +12,7 @@ use Sudoku648\Meczyki\Person\Domain\ValueObject\LastName;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\Pesel;
 use Sudoku648\Meczyki\Person\Frontend\Dto\PersonDto;
 use Sudoku648\Meczyki\Person\Frontend\Factory\PersonFactory;
+use Sudoku648\Meczyki\Person\Infrastructure\Mapper\MatchGameFunctionMapper;
 use Sudoku648\Meczyki\Shared\Domain\ValueObject\Address;
 use Sudoku648\Meczyki\Shared\Domain\ValueObject\Iban;
 use Sudoku648\Meczyki\Shared\Domain\ValueObject\Nip;
@@ -22,6 +23,7 @@ readonly class PersonManager implements PersonManagerInterface
     public function __construct(
         private PersonFactory $factory,
         private PersonRepositoryInterface $repository,
+        private MatchGameFunctionMapper $functionMapper,
     ) {
     }
 
@@ -39,9 +41,7 @@ readonly class PersonManager implements PersonManagerInterface
         $person->setFirstName(FirstName::fromString($dto->firstName));
         $person->setLastName(LastName::fromString($dto->lastName));
         $person->setMobilePhone(null !== $dto->mobilePhone ? PhoneNumber::fromString($dto->mobilePhone) : null);
-        $person->setIsDelegate($dto->isDelegate);
-        $person->setIsReferee($dto->isReferee);
-        $person->setIsRefereeObserver($dto->isRefereeObserver);
+        $person->setFunctions($this->functionMapper->mapEnumsToValues($dto->functions));
         $person->setUpdatedAt();
 
         $this->repository->persist($person);

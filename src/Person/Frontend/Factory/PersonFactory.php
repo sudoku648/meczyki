@@ -8,19 +8,23 @@ use Sudoku648\Meczyki\Person\Domain\Entity\Person;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\FirstName;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\LastName;
 use Sudoku648\Meczyki\Person\Frontend\Dto\PersonDto;
+use Sudoku648\Meczyki\Person\Infrastructure\Mapper\MatchGameFunctionMapper;
 use Sudoku648\Meczyki\Shared\Domain\ValueObject\PhoneNumber;
 
-class PersonFactory
+readonly class PersonFactory
 {
+    public function __construct(
+        private MatchGameFunctionMapper $functionMapper,
+    ) {
+    }
+
     public function createFromDto(PersonDto $dto): Person
     {
         return new Person(
             FirstName::fromString($dto->firstName),
             LastName::fromString($dto->lastName),
             null !== $dto->mobilePhone ? PhoneNumber::fromString($dto->mobilePhone) : null,
-            $dto->isDelegate,
-            $dto->isReferee,
-            $dto->isRefereeObserver,
+            $this->functionMapper->mapEnumsToValues($dto->functions),
         );
     }
 
@@ -31,9 +35,7 @@ class PersonFactory
         $dto->lastName               = $person->getLastName()->getValue();
         $dto->fullName               = $person->getFullName();
         $dto->mobilePhone            = $person->getMobilePhone()?->getValue();
-        $dto->isDelegate             = $person->isDelegate();
-        $dto->isReferee              = $person->isReferee();
-        $dto->isRefereeObserver      = $person->isRefereeObserver();
+        $dto->functions              = $this->functionMapper->mapValuesToEnums($person->getFunctions());
         $dto->email                  = $person->getEmail();
         $dto->dateOfBirth            = $person->getDateOfBirth();
         $dto->placeOfBirth           = $person->getPlaceOfBirth();

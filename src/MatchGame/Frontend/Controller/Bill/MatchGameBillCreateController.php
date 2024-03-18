@@ -32,7 +32,7 @@ class MatchGameBillCreateController extends AbstractController
             ->add('dashboard')
             ->add('match_games_list')
             ->add('match_game_single', ['match_game_id' => $matchGame->getId()])
-            ->add('match_game_bill_create');
+            ->add('match_game_bill_create', ['match_game_id' => $matchGame->getId()]);
 
         $form = $this->createForm(MatchGameBillType::class);
         $form->handleRequest($request);

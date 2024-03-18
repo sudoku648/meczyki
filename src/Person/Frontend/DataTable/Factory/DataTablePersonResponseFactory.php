@@ -6,11 +6,13 @@ namespace Sudoku648\Meczyki\Person\Frontend\DataTable\Factory;
 
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
 use Sudoku648\Meczyki\Person\Domain\Persistence\PersonRepositoryInterface;
+use Sudoku648\Meczyki\Person\Domain\ValueObject\MatchGameFunction;
 use Sudoku648\Meczyki\Person\Frontend\DataTable\Model\DataTablePersonRow;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\PersonVoter;
 use Sudoku648\Meczyki\Shared\Frontend\DataTable\Traits\DataTableOrdinalNumberTrait;
 use Sudoku648\Meczyki\Shared\Infrastructure\Persistence\Criteria;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 use function array_keys;
@@ -24,6 +26,7 @@ readonly class DataTablePersonResponseFactory
     public function __construct(
         private Environment $twig,
         private Security $security,
+        private TranslatorInterface $translator,
         private PersonRepositoryInterface $repository,
     ) {
     }
@@ -34,17 +37,6 @@ readonly class DataTablePersonResponseFactory
 
         return array_map(
             function (int $objKey, Person $person) use ($criteria) {
-                $functions = [];
-                if ($person->isDelegate()) {
-                    $functions[] = 'delegat';
-                }
-                if ($person->isReferee()) {
-                    $functions[] = 'sędzia';
-                }
-                if ($person->isRefereeObserver()) {
-                    $functions[] = 'obserwator';
-                }
-
                 return new DataTablePersonRow(
                     $this->getOrdinalNumber($objKey, $criteria),
                     $this->twig->render(
@@ -54,7 +46,16 @@ readonly class DataTablePersonResponseFactory
                         ]
                     ),
                     $person->getFullName(),
-                    implode(', ', $functions),
+                    implode(
+                        ', ',
+                        array_map(
+                            fn (string $function) => $this->translator->trans(
+                                id: MatchGameFunction::from($function)->getName(),
+                                domain: 'Person'
+                            ),
+                            $person->getFunctions()
+                        )
+                    ),
                     $this->getButtonsForDataTable($person)
                 );
             },
@@ -69,33 +70,24 @@ readonly class DataTablePersonResponseFactory
 
         if ($this->security->isGranted(PersonVoter::SHOW, $person)) {
             $buttons .= $this->twig->render(
-                'buttons/show.html.twig',
+                'person/_datatable/show.html.twig',
                 [
-                    'btn_size'   => 'table',
-                    'path'       => 'person_single',
-                    'parameters' => [
-                        'person_id' => $person->getId(),
-                    ],
+                    'personId' => $person->getId(),
                 ]
             );
         }
         if ($this->security->isGranted(PersonVoter::EDIT, $person)) {
             $buttons .= $this->twig->render(
-                'buttons/edit.html.twig',
+                'person/_datatable/edit.html.twig',
                 [
-                    'btn_size'   => 'table',
-                    'path'       => 'person_edit',
-                    'parameters' => [
-                        'person_id' => $person->getId(),
-                    ],
+                    'personId' => $person->getId(),
                 ]
             );
         }
         if ($this->security->isGranted(PersonVoter::DELETE, $person)) {
             $buttons .= $this->twig->render(
-                'person/_delete_form.html.twig',
+                'person/_datatable/_delete_form.html.twig',
                 [
-                    'btn_size' => 'table',
                     'person'   => $person,
                 ]
             );

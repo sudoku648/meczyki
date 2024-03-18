@@ -8,6 +8,7 @@ use Sudoku648\Meczyki\Club\Domain\Entity\Club;
 use Sudoku648\Meczyki\GameType\Domain\Entity\GameType;
 use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGame;
 use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGameBill;
+use Sudoku648\Meczyki\Person\Domain\Entity\Person;
 use Symfony\Component\HttpFoundation\Response;
 
 trait RedirectTrait
@@ -78,5 +79,29 @@ trait RedirectTrait
                 'match_game_bill_id' => $matchGameBill->getId(),
             ]
         );
+    }
+
+    protected function redirectToPeopleList(): Response
+    {
+        return $this->redirectToRoute(
+            'people_list',
+            [],
+            Response::HTTP_SEE_OTHER
+        );
+    }
+
+    protected function redirectToEditPerson(Person $person): Response
+    {
+        return $this->redirectToRoute(
+            'person_edit',
+            [
+                'person_id' => $person->getId(),
+            ]
+        );
+    }
+
+    protected function redirectToEditPersonalInfo(): Response
+    {
+        return $this->redirectToRoute('person_personal_info_edit');
     }
 }

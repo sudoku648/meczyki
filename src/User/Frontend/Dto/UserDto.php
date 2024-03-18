@@ -6,6 +6,7 @@ namespace Sudoku648\Meczyki\User\Frontend\Dto;
 
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
 use Sudoku648\Meczyki\Shared\Frontend\Validator\Constraints\UniqueEntity;
+use Sudoku648\Meczyki\User\Domain\Entity\User;
 use Sudoku648\Meczyki\User\Domain\ValueObject\UserId;
 use Symfony\Component\Validator\Constraints as Assert;
 

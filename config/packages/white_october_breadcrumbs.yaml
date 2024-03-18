@@ -6,5 +6,5 @@ white_october_breadcrumbs:
     itemClass:          ''
     linkRel:            ''
     locale:             ~ # defaults to null, so the default locale is used
-    translation_domain: ~ # defaults to null, so the default domain is used
+    translation_domain: 'Breadcrumb'
     viewTemplate:       '@WhiteOctoberBreadcrumbs/microdata.html.twig'

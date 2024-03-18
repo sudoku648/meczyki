@@ -1,0 +1,54 @@
+Add person: Dodaj osobę
+Edit person: Edytuj osobę
+Edit personal info: Edytuj dane osobowe
+Person: Osoba
+people: osoby
+delegate: delegat
+Delegates: Delegaci
+referee: sędzia
+Referees: Sędziowie
+referee observer: obserwator
+Referee observers: Obserwatorzy
+All: Wszyscy
+First name: Imię
+Last name: Nazwisko
+Full name: Nazwisko i imię
+Phone number: Numer telefonu
+Functions: Funkcje
+Add new: Dodaj nową
+Save: Zapisz
+Save and add new: Zapisz i dodaj nową
+Save and continue editing: Zapisz i kontynuuj edycję
+Show: Pokaż
+Edit: Edytuj
+Delete: Usuń
+Cancel: Anuluj
+Go back to the list: Wróć do listy
+Go back to the dashboard: Wróć do panelu
+E-mail: E-mail
+Date of birth: Data urodzenia
+Place of birth: Miejsce urodzenia
+Town: Miejscowość
+Street: Ulica
+Post code: Kod pocztowy
+Post office: Poczta
+Voivodeship: Województwo
+County: Powiat
+Gmina: Gmina
+Tax office name: Nazwa urzędu skarbowego
+Tax office address: Adres urzędu skarbowego
+PESEL: PESEL
+NIP: NIP
+Account number (IBAN): Numer konta (IBAN)
+Agreement for sending PIT by e-mail: Zgoda na wysyłanie PIT na adres e-mail
+Person has been added.: Osoba została dodana.
+Person has been updated.: Osoba została zaktualizowana.
+Person has been deleted.: Osoba została usunięta.
+People have been deleted.: Osoby zostały usunięte.
+Not all chosen people have been deleted.: Nie wszystkie wybrane osoby zostały usunięte.
+Personal info have been updated.: Dane osobowe zostały zaktualizowane.
+Date of birth cannot be from the future.: Data urodzenia nie może być z przyszłości.
+"PESEL doesn't exist for this date of birth.": PESEL nie istnieje dla tej daty urodzenia.
+"PESEL doesn't match fith date of birth.": PESEL nie zgadza się z datą urodzenia.
+none: brak
+-- choose --: '-- wybierz --'

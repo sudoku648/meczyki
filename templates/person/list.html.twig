@@ -1,12 +1,15 @@
 {% extends 'main.html.twig' %}
 
-{% block title %}Osoby{% endblock %}
+{% block title %}{{'People'|trans({}, 'Breadcrumb')}}{% endblock %}
 
 {% block main_content %}
     {{ include('person/_types_buttons.html.twig') }}
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\PersonVoter::CREATE')) %}
-        {{ include('buttons/add.html.twig', {path: 'person_create', parameters: {}, text: 'Dodaj nową'}) }}
+        {{ include('person/_button/add.html.twig', {
+            path: 'person_create',
+            text: 'Add new',
+        }) }}
     {% endif %}
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\PersonVoter::DELETE_BATCH')) %}
         {{ include('person/_delete_batch_form.html.twig') }}
@@ -16,22 +19,22 @@
         <table class="dataTable table table-hover table-responsive" id="people-list">
             <thead>
                 <tr>
-                    <th>L.p.</th>
+                    <th>{{'Ord. num.'|trans({}, 'DataTable')}}</th>
                     <th><input type="checkbox" id="checkbox_people_all" class="form-check-input"></th>
-                    <th>Nazwisko i imię</th>
-                    <th>Funkcje</th>
-                    <th>Akcje</th>
+                    <th>{{'Full name'|trans({}, 'Person')}}</th>
+                    <th>{{'Functions'|trans({}, 'Person')}}</th>
+                    <th>{{'Actions'|trans({}, 'DataTable')}}</th>
                 </tr>
             </thead>
             <tbody>
             </tbody>
             <tfoot>
                 <tr>
-                    <th>L.p.</th>
+                    <th>{{'Ord. num.'|trans({}, 'DataTable')}}</th>
                     <th></th>
-                    <th class="s">Nazwisko i imię</th>
-                    <th>Funkcje</th>
-                    <th>Akcje</th>
+                    <th class="s">{{'Full name'|trans({}, 'Person')}}</th>
+                    <th>{{'Functions'|trans({}, 'Person')}}</th>
+                    <th>{{'Actions'|trans({}, 'DataTable')}}</th>
                 </tr>
             </tfoot>
         </table>
