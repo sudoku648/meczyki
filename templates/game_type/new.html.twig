@@ -1,7 +1,7 @@
 {% extends 'main.html.twig' %}
 
-{% block title %}Dodaj typ rozgrywek{% endblock %}
+{% block title %}{{'Add game type'|trans({}, 'GameType')}}{% endblock %}
 
-{% block main_content %}
-    {{ include('game_type/_form.html.twig', {'button_save_label': 'Zapisz', 'button_save_and_continue_label': 'Zapisz i dodaj nowy'}) }}
+{% block mainContent %}
+    {{ include('game_type/_form.html.twig') }}
 {% endblock %}

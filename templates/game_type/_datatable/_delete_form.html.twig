@@ -1,0 +1,11 @@
+{{ include('form/delete_confirmation.html.twig') }}
+<form
+    action="{{ path('game_type_delete', {'game_type_id': gameType.id}) }}"
+    class="d-none d-md-inline-block form-inline ms-auto my-2 my-md-0"
+    method="post"
+    data-confirmation="true"
+    data-bs-toggle="modal"
+    data-bs-target="#staticBackdrop"
+>
+    {{ include('game_type/_datatable/delete.html.twig', {csrfName: 'game_type_delete'}) }}
+</form>

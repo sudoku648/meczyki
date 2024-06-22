@@ -1,0 +1,11 @@
+{% if homeTeam %}
+    {{homeTeam.name}}
+{% else %}
+    <em class="text-black-50">{{'unknown'|trans({}, 'MatchGame')}}</em>
+{% endif %}
+-
+{% if awayTeam %}
+    {{awayTeam.name}}
+{% else %}
+    <em class="text-black-50">{{'unknown'|trans({}, 'MatchGame')}}</em>
+{% endif %}

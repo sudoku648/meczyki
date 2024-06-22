@@ -8,19 +8,22 @@ use Sudoku648\Meczyki\GameType\Domain\Entity\GameType;
 use Sudoku648\Meczyki\GameType\Domain\Service\GameTypeManagerInterface;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\GameTypeVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Enums\FlashType;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function str_replace;
 
-class GameTypeDeleteImageController extends AbstractController
+final class GameTypeDeleteImageController extends AbstractController
 {
     use RedirectTrait;
 
     public function __construct(
+        private readonly TranslatorInterface $translator,
         private readonly GameTypeManagerInterface $manager,
     ) {
     }
@@ -40,8 +43,11 @@ class GameTypeDeleteImageController extends AbstractController
                 $this->renderView(
                     '_flash_alert.html.twig',
                     [
-                        'message' => 'Obrazek został usunięty.',
-                        'label'   => 'success',
+                        'message' => $this->translator->trans(
+                            id: 'Image has been deleted.',
+                            domain: 'GameType',
+                        ),
+                        'label'   => FlashType::SUCCESS->value,
                     ]
                 )
             );

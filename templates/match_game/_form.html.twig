@@ -1,32 +1,75 @@
 {{ form_start(form) }}
-    {{ form_row(form.homeTeam, {'label': 'Gospodarze', 'placeholder': '-- wybierz --', 'attr': {'data-live-search': 'true', 'data-width': '100%'}}) }}
-    {{ form_row(form.awayTeam, {'label': 'Goście', 'placeholder': '-- wybierz --', 'attr': {'data-live-search': 'true', 'data-width': '100%'}}) }}
+    {{ form_row(form.homeTeam, {
+        'label': 'Home team',
+        'placeholder': '-- choose --',
+        'attr': {'data-live-search': 'true', 'data-width': '100%'}
+    }) }}
+    {{ form_row(form.awayTeam, {
+        'label': 'Away team',
+        'placeholder': '-- choose --',
+        'attr': {'data-live-search': 'true', 'data-width': '100%'}
+    }) }}
     <div class="mb-3">
-        {{ form_label(form.dateTime.date, 'Data') }}
+        {{ form_label(form.dateTime.date, 'Date') }}
         {{ form_widget(form.dateTime.date) }}
         {{ form_errors(form.dateTime.date) }}
     </div>
     <div class="mb-3">
-        {{ form_label(form.dateTime.time, 'Godzina') }}
+        {{ form_label(form.dateTime.time, 'Time') }}
         {{ form_widget(form.dateTime.time) }}
         {{ form_errors(form.dateTime.time) }}
     </div>
-    {{ form_row(form.gameType, {'label': 'Typ rozgrywek', 'placeholder': '-- wybierz --', 'attr': {'data-live-search': 'true', 'data-width': '100%'}}) }}
-    {{ form_row(form.season, {'label': 'Sezon'}) }}
-    {{ form_row(form.round, {'label': 'Kolejka'}) }}
-    {{ form_row(form.venue, {'label': 'Miejsce'}) }}
-    {{ form_row(form.referee, {'label': 'Sędzia', 'placeholder': '-- wybierz --', 'attr': {'data-live-search': 'true', 'data-width': '100%'}}) }}
-    {{ form_row(form.firstAssistantReferee, {'label': 'Asystent 1', 'placeholder': '-- brak --', 'attr': {'data-live-search': 'true', 'data-width': '100%'}}) }}
-    {{ form_row(form.isFirstAssistantNonProfitable, {'label': 'Społecznie'}) }}
-    {{ form_row(form.secondAssistantReferee, {'label': 'Asystent 2', 'placeholder': '-- brak --', 'attr': {'data-live-search': 'true', 'data-width': '100%'}}) }}
-    {{ form_row(form.isSecondAssistantNonProfitable, {'label': 'Społecznie'}) }}
-    {{ form_row(form.fourthOfficial, {'label': 'Sędzia techniczny', 'placeholder': '-- brak --', 'attr': {'data-live-search': 'true', 'data-width': '100%'}}) }}
-    {{ form_row(form.refereeObserver, {'label': 'Obserwator', 'placeholder': '-- brak --', 'attr': {'data-live-search': 'true', 'data-width': '100%'}}) }}
-    {{ form_row(form.delegate, {'label': 'Delegat', 'placeholder': '-- brak --', 'attr': {'data-live-search': 'true', 'data-width': '100%'}}) }}
-    {{ form_row(form.moreInfo, {'label': 'Dodatkowe informacje'}) }}
-    {{ form_row(form.save, {'label': button_save_label|default('Zapisz'), 'attr': {'class': 'btn-success icon-save loadable-save'}}) }}
-    {{ form_row(form.saveAndContinue, {'label': button_save_and_continue_label|default('Zapisz i dodaj nowy'), 'attr': {'class': 'btn-success icon-save loadable-save'}}) }}
+    {{ form_row(form.gameType, {
+        'label': 'Game type',
+        'placeholder': '-- choose --',
+        'attr': {'data-live-search': 'true', 'data-width': '100%'}
+    }) }}
+    {{ form_row(form.season, {'label': 'Season'}) }}
+    {{ form_row(form.round, {'label': 'Round'}) }}
+    {{ form_row(form.venue, {'label': 'Venue'}) }}
+    {{ form_row(form.referee, {
+        'label': 'Referee',
+        'placeholder': '-- choose --',
+        'attr': {'data-live-search': 'true', 'data-width': '100%'}
+    }) }}
+    {{ form_row(form.firstAssistantReferee, {
+        'label': 'Assistant referee 1',
+        'placeholder': '-- none --',
+        'attr': {'data-live-search': 'true', 'data-width': '100%'}
+    }) }}
+    {{ form_row(form.isFirstAssistantNonProfitable, {'label': 'Non-profitable'}) }}
+    {{ form_row(form.secondAssistantReferee, {
+        'label': 'Assistant referee 2',
+        'placeholder': '-- none --',
+        'attr': {'data-live-search': 'true', 'data-width': '100%'}
+    }) }}
+    {{ form_row(form.isSecondAssistantNonProfitable, {'label': 'Non-profitable'}) }}
+    {{ form_row(form.fourthOfficial, {
+        'label': 'Fourth official',
+        'placeholder': '-- none --',
+        'attr': {'data-live-search': 'true', 'data-width': '100%'}
+    }) }}
+    {{ form_row(form.refereeObserver, {
+        'label': 'Referee observer',
+        'placeholder': '-- none --',
+        'attr': {'data-live-search': 'true', 'data-width': '100%'}
+    }) }}
+    {{ form_row(form.delegate, {
+        'label': 'Delegate',
+        'placeholder': '-- none --',
+        'attr': {'data-live-search': 'true', 'data-width': '100%'}
+    }) }}
+    {{ form_row(form.moreInfo, {'label': 'More info'}) }}
+
+    {{ form_row(form.save, {
+        'label': (buttonSaveLabel|default('Save')),
+        'attr': {'class': 'btn-success icon-save loadable-save'},
+    }) }}
+    {{ form_row(form.saveAndContinue, {
+        'label': (buttonSaveAndContinueLabel|default('Save and add new')),
+        'attr': {'class': 'btn-success icon-save loadable-save'},
+    }) }}
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameVoter::LIST')) %}
-        <a href="{{ path('match_games_list') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Anuluj</a>
+        {{ include('match_game/_button/back.html.twig', {text: 'Go back to the list'}) }}
     {% endif %}
 {{ form_end(form) }}

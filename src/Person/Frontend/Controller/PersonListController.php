@@ -12,7 +12,7 @@ use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class PersonListController extends AbstractController
+final class PersonListController extends AbstractController
 {
     public function list(BreadcrumbBuilder $breadcrumbBuilder): Response
     {

@@ -9,6 +9,8 @@ use Sudoku648\Meczyki\GameType\Domain\Entity\GameType;
 use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGame;
 use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGameBill;
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
+use Sudoku648\Meczyki\Team\Domain\Entity\Team;
+use Sudoku648\Meczyki\User\Domain\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
 
 trait RedirectTrait
@@ -103,5 +105,54 @@ trait RedirectTrait
     protected function redirectToEditPersonalInfo(): Response
     {
         return $this->redirectToRoute('person_personal_info_edit');
+    }
+
+    protected function redirectToTeamsList(): Response
+    {
+        return $this->redirectToRoute(
+            'teams_list',
+            [],
+            Response::HTTP_SEE_OTHER
+        );
+    }
+
+    protected function redirectToEditTeam(Team $team): Response
+    {
+        return $this->redirectToRoute(
+            'team_edit',
+            [
+                'club_id' => $team->getClub()->getId(),
+                'team_id' => $team->getId(),
+            ]
+        );
+    }
+
+    protected function redirectToUsersList(): Response
+    {
+        return $this->redirectToRoute(
+            'users_list',
+            [],
+            Response::HTTP_SEE_OTHER
+        );
+    }
+
+    protected function redirectToEditUser(User $user): Response
+    {
+        return $this->redirectToRoute(
+            'user_edit',
+            [
+                'user_id' => $user->getId(),
+            ]
+        );
+    }
+
+    protected function redirectToUserBindWithPerson(User $user): Response
+    {
+        return $this->redirectToRoute(
+            'user_bind_with_person',
+            [
+                'user_id' => $user->getId(),
+            ]
+        );
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\DataFixtures;
 
 use Doctrine\Persistence\ObjectManager;
+use Override;
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\FirstName;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\LastName;
@@ -14,6 +15,7 @@ class DelegateFixtures extends BaseFixture
 {
     public const DELEGATES_COUNT = 8;
 
+    #[Override]
     public function loadData(ObjectManager $manager): void
     {
         foreach ($this->provideRandomDelegates(self::DELEGATES_COUNT) as $index => $delegate) {
@@ -21,9 +23,7 @@ class DelegateFixtures extends BaseFixture
                 FirstName::fromString($delegate['firstName']),
                 LastName::fromString($delegate['lastName']),
                 null !== $delegate['mobilePhone'] ? PhoneNumber::fromString($delegate['mobilePhone']) : null,
-                true,
-                false,
-                false
+                ['delegate'],
             );
 
             $manager->persist($newDelegate);

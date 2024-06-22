@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\MatchGame\Infrastructure\Persistence\Dbal\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Override;
 use Sudoku648\Meczyki\MatchGame\Domain\ValueObject\Season;
 use Sudoku648\Meczyki\Shared\Infrastructure\Persistence\Dbal\Types\AbstractStringType;
 
@@ -25,6 +26,7 @@ class SeasonType extends AbstractStringType
         return $platform->getStringTypeDeclarationSQL($fieldDeclaration);
     }
 
+    #[Override]
     protected function getValueObjectClassName(): string
     {
         return Season::class;

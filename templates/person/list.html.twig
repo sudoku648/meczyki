@@ -1,8 +1,8 @@
 {% extends 'main.html.twig' %}
 
-{% block title %}{{'People'|trans({}, 'Breadcrumb')}}{% endblock %}
+{% block title %}{{'People'|trans({}, 'Person')}}{% endblock %}
 
-{% block main_content %}
+{% block mainContent %}
     {{ include('person/_types_buttons.html.twig') }}
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\PersonVoter::CREATE')) %}

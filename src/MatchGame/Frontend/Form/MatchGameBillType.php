@@ -82,7 +82,8 @@ class MatchGameBillType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => MatchGameBillDto::class,
+            'data_class'         => MatchGameBillDto::class,
+            'translation_domain' => 'MatchGame',
         ]);
     }
 }

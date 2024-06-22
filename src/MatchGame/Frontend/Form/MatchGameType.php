@@ -8,6 +8,7 @@ use Sudoku648\Meczyki\GameType\Domain\Entity\GameType;
 use Sudoku648\Meczyki\GameType\Domain\Persistence\GameTypeRepositoryInterface;
 use Sudoku648\Meczyki\MatchGame\Frontend\Dto\MatchGameDto;
 use Sudoku648\Meczyki\Person\Domain\Persistence\PersonRepositoryInterface;
+use Sudoku648\Meczyki\Person\Domain\ValueObject\MatchGameFunction;
 use Sudoku648\Meczyki\Person\Frontend\Form\Option\PersonOption;
 use Sudoku648\Meczyki\Team\Domain\Entity\Team;
 use Sudoku648\Meczyki\Team\Domain\Persistence\TeamRepositoryInterface;
@@ -92,6 +93,8 @@ class MatchGameType extends AbstractType
                         '2020/2021' => '2020/2021',
                         '2021/2022' => '2021/2022',
                         '2022/2023' => '2022/2023',
+                        '2023/2024' => '2023/2024',
+                        '2024/2025' => '2024/2025',
                     ],
                     'required' => false,
                 ]
@@ -111,7 +114,7 @@ class MatchGameType extends AbstractType
                 'referee',
                 EntityType::class,
                 array_merge(
-                    PersonOption::default($this->personRepository, 'referee'),
+                    PersonOption::default($this->personRepository, MatchGameFunction::REFEREE),
                     [
                         'autocomplete' => true,
                     ]
@@ -121,7 +124,7 @@ class MatchGameType extends AbstractType
                 'firstAssistantReferee',
                 EntityType::class,
                 array_merge(
-                    PersonOption::default($this->personRepository, 'referee'),
+                    PersonOption::default($this->personRepository, MatchGameFunction::REFEREE),
                     [
                         'autocomplete' => true,
                         'required'     => false,
@@ -139,7 +142,7 @@ class MatchGameType extends AbstractType
                 'secondAssistantReferee',
                 EntityType::class,
                 array_merge(
-                    PersonOption::default($this->personRepository, 'referee'),
+                    PersonOption::default($this->personRepository, MatchGameFunction::REFEREE),
                     [
                         'autocomplete' => true,
                         'required'     => false,
@@ -157,7 +160,7 @@ class MatchGameType extends AbstractType
                 'fourthOfficial',
                 EntityType::class,
                 array_merge(
-                    PersonOption::default($this->personRepository, 'referee'),
+                    PersonOption::default($this->personRepository, MatchGameFunction::REFEREE),
                     [
                         'autocomplete' => true,
                         'required'     => false,
@@ -168,7 +171,7 @@ class MatchGameType extends AbstractType
                 'refereeObserver',
                 EntityType::class,
                 array_merge(
-                    PersonOption::default($this->personRepository, 'refereeObserver'),
+                    PersonOption::default($this->personRepository, MatchGameFunction::REFEREE_OBSERVER),
                     [
                         'autocomplete' => true,
                         'required'     => false,
@@ -179,7 +182,7 @@ class MatchGameType extends AbstractType
                 'delegate',
                 EntityType::class,
                 array_merge(
-                    PersonOption::default($this->personRepository, 'delegate'),
+                    PersonOption::default($this->personRepository, MatchGameFunction::DELEGATE),
                     [
                         'autocomplete' => true,
                         'required'     => false,
@@ -201,7 +204,8 @@ class MatchGameType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => MatchGameDto::class
+            'data_class'         => MatchGameDto::class,
+            'translation_domain' => 'MatchGame',
         ]);
     }
 }

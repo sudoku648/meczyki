@@ -1,7 +1,14 @@
 {{ include('form/delete_confirmation.html.twig') }}
-<form class="d-none d-md-inline-block form-inline ms-auto my-2 my-md-0" action="{{ path('team_delete', {'club_id': team.club.id, 'team_id': team.id}) }}" method="post" data-confirmation="true" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+<form
+    action="{{ path('team_delete', {'club_id': team.club.id, 'team_id': team.id}) }}"
+    class="d-none d-md-inline-block form-inline ms-auto my-2 my-md-0"
+    method="post"
+    data-confirmation="true"
+    data-bs-toggle="modal"
+    data-bs-target="#staticBackdrop"
+>
     {% if show_club is defined and show_club == true %}
         <input name="show_club" type="hidden" value="true">
     {% endif %}
-    {{ include('buttons/delete.html.twig', {csrf_name: 'team_delete'}) }}
+    {{ include('team/_button/delete.html.twig', {csrfName: 'team_delete'}) }}
 </form>

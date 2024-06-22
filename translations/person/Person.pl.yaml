@@ -1,3 +1,4 @@
+People: Osoby
 Add person: Dodaj osobę
 Edit person: Edytuj osobę
 Edit personal info: Edytuj dane osobowe
@@ -49,6 +50,8 @@ Not all chosen people have been deleted.: Nie wszystkie wybrane osoby zostały u
 Personal info have been updated.: Dane osobowe zostały zaktualizowane.
 Date of birth cannot be from the future.: Data urodzenia nie może być z przyszłości.
 "PESEL doesn't exist for this date of birth.": PESEL nie istnieje dla tej daty urodzenia.
-"PESEL doesn't match fith date of birth.": PESEL nie zgadza się z datą urodzenia.
+"PESEL doesn't match with date of birth.": PESEL nie zgadza się z datą urodzenia.
+Invalid NIP.: Niepoprawny NIP.
 none: brak
 -- choose --: '-- wybierz --'
+-- none --: '-- żadna --'

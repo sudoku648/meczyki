@@ -1,0 +1,11 @@
+{{ include('form/delete_confirmation.html.twig') }}
+<form
+    action="{{ path('club_delete', {'club_id': club.id}) }}"
+    class="d-none d-md-inline-block form-inline ms-auto my-2 my-md-0"
+    method="post"
+    data-confirmation="true"
+    data-bs-toggle="modal"
+    data-bs-target="#staticBackdrop"
+>
+    {{ include('club/_datatable/delete.html.twig', {csrfName: 'club_delete'}) }}
+</form>

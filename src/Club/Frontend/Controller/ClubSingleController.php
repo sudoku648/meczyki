@@ -11,7 +11,7 @@ use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Response;
 
-class ClubSingleController extends AbstractController
+final class ClubSingleController extends AbstractController
 {
     public function __construct(
         private readonly BreadcrumbBuilder $breadcrumbBuilder,

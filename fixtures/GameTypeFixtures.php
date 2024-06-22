@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\DataFixtures;
 
 use Doctrine\Persistence\ObjectManager;
+use Override;
 use Sudoku648\Meczyki\GameType\Domain\Entity\GameType;
 use Sudoku648\Meczyki\GameType\Domain\ValueObject\GameTypeName;
 
@@ -14,6 +15,7 @@ class GameTypeFixtures extends BaseFixture
 {
     public const GAME_TYPES_COUNT = 13;
 
+    #[Override]
     public function loadData(ObjectManager $manager): void
     {
         foreach ($this->provideRandomGameTypes(self::GAME_TYPES_COUNT) as $index => $gameType) {

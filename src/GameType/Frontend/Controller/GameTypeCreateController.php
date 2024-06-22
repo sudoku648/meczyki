@@ -8,17 +8,20 @@ use Sudoku648\Meczyki\GameType\Domain\Service\GameTypeManagerInterface;
 use Sudoku648\Meczyki\GameType\Frontend\Form\GameTypeType;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\GameTypeVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Enums\FlashType;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
 use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class GameTypeCreateController extends AbstractController
+final class GameTypeCreateController extends AbstractController
 {
     use RedirectTrait;
 
     public function __construct(
+        private readonly TranslatorInterface $translator,
         private readonly BreadcrumbBuilder $breadcrumbBuilder,
         private readonly GameTypeManagerInterface $manager,
     ) {
@@ -41,7 +44,10 @@ class GameTypeCreateController extends AbstractController
 
             $this->manager->create($dto);
 
-            $this->addFlash('success', 'Typ rozgrywek został dodany.');
+            $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+                id: 'Game type has been added.',
+                domain: 'GameType',
+            ));
 
             /** @var ClickableInterface $continueButton */
             $continueButton = $form->get('saveAndContinue');

@@ -8,7 +8,7 @@ use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class LoginController extends AbstractController
+final class LoginController extends AbstractController
 {
     public function __invoke(AuthenticationUtils $utils): Response
     {

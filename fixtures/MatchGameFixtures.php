@@ -6,6 +6,7 @@ namespace Sudoku648\Meczyki\DataFixtures;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Override;
 use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGame;
 use Sudoku648\Meczyki\MatchGame\Domain\ValueObject\Round;
 use Sudoku648\Meczyki\MatchGame\Domain\ValueObject\Season;
@@ -17,6 +18,7 @@ class MatchGameFixtures extends BaseFixture implements DependentFixtureInterface
 {
     private const MATCH_GAMES_COUNT = 22;
 
+    #[Override]
     public function loadData(ObjectManager $manager): void
     {
         foreach ($this->provideRandomMatchGames(self::MATCH_GAMES_COUNT) as $index => $matchGame) {

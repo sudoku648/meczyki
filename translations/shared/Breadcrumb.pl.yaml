@@ -7,13 +7,13 @@ Game types: Typy rozgrywek
 Add game type: Dodaj typ rozgrywek
 Edit game type: Edytuj typ rozgrywek
 Game type: Typ rozgrywek
-Matches: Mecze
-Add match: Dodaj mecz
-Edit match: Edytuj mecz
-Match: Mecz
-Add bill: Dodaj rachunek
-Edit bill: Edytuj rachunek
-Bill: Rachunek
+Match games: Mecze
+Add match game: Dodaj mecz
+Edit match game: Edytuj mecz
+Match game: Mecz
+Add match game bill: Dodaj rachunek
+Edit match game bill: Edytuj rachunek
+Match game bill: Rachunek
 People: Osoby
 Add person: Dodaj osobę
 Edit person: Edytuj osobę
@@ -21,4 +21,17 @@ Person: Osoba
 Delegates: Delegaci
 Referees: Sędziowie
 Referee observers: Obserwatorzy
+Personal info: Dane osobowe
 Edit personal info: Edytuj dane osobowe
+Teams: Drużyny
+Add team: Dodaj drużynę
+Edit team: Edytuj drużynę
+Team: Drużyna
+Users: Użytkownicy
+Add user: Dodaj użytkownika
+Edit user: Edytuj użytkownika
+User: Użytkownik
+Bind with person: Połącz z osobą
+Profile: Profil
+Logout: Wyloguj
+Return to your account: Wróć na swoje konto

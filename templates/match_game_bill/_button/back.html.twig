@@ -1,0 +1,8 @@
+<a
+    class="btn btn-outline-secondary icon-cancel"
+    href="{{ path('match_game_single', {'match_game_id': matchGameId}) }}"
+    role="button"
+    title="{{'Go back to match game details'|trans({}, 'MatchGame')}}"
+>
+    {{text|default('Go back to match game details')|trans({}, 'MatchGame')}}
+</a>

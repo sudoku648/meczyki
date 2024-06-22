@@ -1,31 +1,37 @@
 {% extends 'main.html.twig' %}
 
-{% block title %}{{ team.name }}{% endblock %}
+{% block title %}{{'Team'|trans({}, 'Team')}}{% endblock %}
 
-{% block main_content %}
+{% block mainContent %}
     <table class="table">
         <tbody>
             <tr>
-                <th>Nazwa pełna</th>
+                <th>{{'Full name'|trans({}, 'Team')}}</th>
                 <td>{{ team.name }}</td>
             </tr>
             <tr>
-                <th>Nazwa skrócona</th>
+                <th>{{'Short name'|trans({}, 'Team')}}</th>
                 <td>{{ team.shortName }}</td>
             </tr>
             <tr>
-                <th>Klub</th>
-                <td><a href="{{ path('club_single', {'club_id': team.club.id}) }}">{{ team.club.name }}</a></td>
+                <th>{{'Club'|trans({}, 'Team')}}</th>
+                <td>
+                    <a
+                        href="{{ path('club_single', {'club_id': team.club.id}) }}"
+                    >
+                        {{ team.club.name }}
+                    </a>
+                </td>
             </tr>
         </tbody>
     </table>
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\TeamVoter::LIST')) %}
-        <a href="{{ path('teams_list') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
+        {{ include('team/_button/back.html.twig', {text: 'Go back to the list'}) }}
     {% endif %}
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\TeamVoter::EDIT'), team) %}
-        {{ include('buttons/edit.html.twig', {path: 'team_edit', parameters: {'club_id': team.club.id, 'team_id': team.id}}) }}
+        {{ include('team/_button/edit.html.twig', {clubId: team.club.id, teamId: team.id}) }}
     {% endif %}
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\TeamVoter::DELETE'), team) %}

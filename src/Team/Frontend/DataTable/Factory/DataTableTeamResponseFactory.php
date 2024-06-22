@@ -58,37 +58,27 @@ readonly class DataTableTeamResponseFactory
 
         if ($this->security->isGranted(TeamVoter::SHOW, $team)) {
             $buttons .= $this->twig->render(
-                'buttons/show.html.twig',
+                'team/_datatable/show.html.twig',
                 [
-                    'btn_size'   => 'table',
-                    'path'       => 'team_single',
-                    'parameters' => [
-                        'club_id' => $team->getClub()->getId(),
-                        'team_id' => $team->getId(),
-                    ],
+                    'clubId' => $team->getClub()->getId(),
+                    'teamId' => $team->getId(),
                 ]
             );
         }
         if ($this->security->isGranted(TeamVoter::EDIT, $team)) {
             $buttons .= $this->twig->render(
-                'buttons/edit.html.twig',
+                'team/_datatable/edit.html.twig',
                 [
-                    'btn_size'   => 'table',
-                    'path'       => 'team_edit',
-                    'parameters' => [
-                        'club_id' => $team->getClub()->getId(),
-                        'team_id' => $team->getId(),
-                    ],
+                    'clubId' => $team->getClub()->getId(),
+                    'teamId' => $team->getId(),
                 ]
             );
         }
         if ($this->security->isGranted(TeamVoter::DELETE, $team)) {
             $buttons .= $this->twig->render(
-                'team/_delete_form.html.twig',
+                'team/_datatable/_delete_form.html.twig',
                 [
-                    'btn_size' => 'table',
-                    'club_id'  => $team->getClub()->getId(),
-                    'team'     => $team,
+                    'team' => $team,
                 ]
             );
         }

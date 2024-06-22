@@ -9,18 +9,21 @@ use Sudoku648\Meczyki\Club\Domain\Service\ClubManagerInterface;
 use Sudoku648\Meczyki\Club\Frontend\Form\ClubType;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\ClubVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Enums\FlashType;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
 use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class ClubEditController extends AbstractController
+final class ClubEditController extends AbstractController
 {
     use RedirectTrait;
 
     public function __construct(
+        private readonly TranslatorInterface $translator,
         private readonly BreadcrumbBuilder $breadcrumbBuilder,
         private readonly ClubManagerInterface $manager,
     ) {
@@ -45,7 +48,10 @@ class ClubEditController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $club = $this->manager->edit($club, $dto);
 
-            $this->addFlash('success', 'Klub został zaktualizowany.');
+            $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+                id: 'Club has been updated.',
+                domain: 'Club',
+            ));
 
             /** @var ClickableInterface $continueButton */
             $continueButton = $form->get('saveAndContinue');

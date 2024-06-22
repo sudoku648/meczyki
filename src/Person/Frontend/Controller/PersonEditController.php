@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class PersonEditController extends AbstractController
+final class PersonEditController extends AbstractController
 {
     use RedirectTrait;
 

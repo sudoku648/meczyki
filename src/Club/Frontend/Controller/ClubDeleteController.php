@@ -10,16 +10,19 @@ use Sudoku648\Meczyki\Club\Domain\Service\ClubManagerInterface;
 use Sudoku648\Meczyki\Club\Infrastructure\Persistence\Doctrine\DoctrineClubRepository;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\ClubVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Enums\FlashType;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class ClubDeleteController extends AbstractController
+final class ClubDeleteController extends AbstractController
 {
     use RedirectTrait;
 
     public function __construct(
+        private readonly TranslatorInterface $translator,
         private readonly ClubManagerInterface $manager,
     ) {
     }
@@ -32,7 +35,10 @@ class ClubDeleteController extends AbstractController
 
         $this->validateCsrf('club_delete', $request->request->get('_token'));
 
-        $this->addFlash('success', 'Klub został usunięty.');
+        $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+            id: 'Club has been deleted.',
+            domain: 'Club',
+        ));
 
         $this->manager->delete($club);
 
@@ -63,9 +69,15 @@ class ClubDeleteController extends AbstractController
         }
 
         if ($notAllDeleted) {
-            $this->addFlash('warning', 'Nie wszystkie kluby zostały usunięte.');
+            $this->makeFlash(FlashType::WARNING, $this->translator->trans(
+                id: 'Not all chosen clubs have been deleted.',
+                domain: 'Club',
+            ));
         } else {
-            $this->addFlash('success', 'Kluby zostały usunięte.');
+            $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+                id: 'Clubs have been deleted.',
+                domain: 'Club',
+            ));
         }
 
         return $this->redirectToClubsList();

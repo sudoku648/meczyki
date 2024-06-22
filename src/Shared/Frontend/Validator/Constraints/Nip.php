@@ -22,13 +22,13 @@ class Nip extends Constraint
         self::CHECKSUM_FAILED_ERROR    => 'CHECKSUM_FAILED_ERROR',
     ];
 
-    public $message = 'Nieprawidłowy NIP.';
+    public $message = 'Invalid NIP.';
 
     public function __construct(
         array $options = null,
         string $message = null,
         array $groups = null,
-        mixed $payload = null
+        mixed $payload = null,
     ) {
         parent::__construct($options, $groups, $payload);
 

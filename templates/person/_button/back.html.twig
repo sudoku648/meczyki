@@ -1,7 +1,8 @@
 <a
-    href="{{ path(path|default('people_list')) }}"
     class="btn btn-outline-secondary icon-cancel"
+    href="{{ path(path|default('people_list')) }}"
     title="{{'Go back to the list'|trans({}, 'Person')}}"
+    role="button"
 >
     {{text|default('Cancel')|trans({}, 'Person')}}
 </a>

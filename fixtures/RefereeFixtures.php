@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\DataFixtures;
 
 use Doctrine\Persistence\ObjectManager;
+use Override;
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\FirstName;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\LastName;
@@ -16,6 +17,7 @@ class RefereeFixtures extends BaseFixture
 {
     public const REFEREES_COUNT = 22;
 
+    #[Override]
     public function loadData(ObjectManager $manager): void
     {
         foreach ($this->provideRandomReferees(self::REFEREES_COUNT) as $index => $referee) {
@@ -23,9 +25,7 @@ class RefereeFixtures extends BaseFixture
                 FirstName::fromString($referee['firstName']),
                 LastName::fromString($referee['lastName']),
                 null !== $referee['mobilePhone'] ? PhoneNumber::fromString($referee['mobilePhone']) : null,
-                false,
-                true,
-                false
+                ['referee'],
             );
 
             $manager->persist($newReferee);

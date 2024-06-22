@@ -1,7 +1,7 @@
 {{ include('form/delete_confirmation.html.twig') }}
 <form
-    class="d-none d-md-inline-block form-inline ms-auto my-2 my-md-0"
     action="{{ path('person_delete', {'person_id': person.id}) }}"
+    class="d-none d-md-inline-block form-inline ms-auto my-2 my-md-0"
     method="post"
     data-confirmation="true"
     data-bs-toggle="modal"

@@ -1,7 +1,7 @@
 {% extends 'main.html.twig' %}
 
-{% block title %}Połącz z osobą{% endblock %}
+{% block title %}{{'Bind with person'|trans({}, 'User')}}{% endblock %}
 
-{% block main_content %}
-    {{ include('user/_bind_with_person_form.html.twig', {'button_save_label': 'Zapisz', 'button_save_and_continue_label': 'Zapisz i kontynuuj edycję'}) }}
+{% block mainContent %}
+    {{ include('user/_bind_with_person_form.html.twig') }}
 {% endblock %}

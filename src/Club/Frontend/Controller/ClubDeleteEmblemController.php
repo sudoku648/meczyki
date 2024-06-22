@@ -8,16 +8,19 @@ use Sudoku648\Meczyki\Club\Domain\Entity\Club;
 use Sudoku648\Meczyki\Club\Domain\Service\ClubManagerInterface;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\ClubVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Enums\FlashType;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function str_replace;
 
-class ClubDeleteEmblemController extends AbstractController
+final class ClubDeleteEmblemController extends AbstractController
 {
     public function __construct(
+        private readonly TranslatorInterface $translator,
         private readonly ClubManagerInterface $manager,
     ) {
     }
@@ -37,17 +40,18 @@ class ClubDeleteEmblemController extends AbstractController
                 $this->renderView(
                     '_flash_alert.html.twig',
                     [
-                        'message' => 'Herb został usunięty.',
-                        'label'   => 'success',
+                        'message' => $this->translator->trans(
+                            id: 'Emblem has been deleted.',
+                            domain: 'Club',
+                        ),
+                        'label'   => FlashType::SUCCESS->value,
                     ]
                 )
             );
 
-            return new JsonResponse(
-                [
-                    'message' => $message,
-                ]
-            );
+            return new JsonResponse([
+                'message' => $message,
+            ]);
         }
 
         return $this->redirectToRefererOrHome($request);

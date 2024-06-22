@@ -1,22 +1,39 @@
 {{ form_start(form) }}
-    {{ form_row(form.name, {'label': 'Nazwa'}) }}
-    {{ form_row(form.emblem, {'label': 'Herb'}) }}
+    {{ form_row(form.name, {'label': 'Name'}) }}
+    {{ form_row(form.emblem, {'label': 'Emblem'}) }}
 
     {% if club is defined and club.emblem %}
         <div class="mb-3 image-container">
             <figure class="figure" style="max-width: 200px; max-height: 200px;">
-                <img src="upload/{{club.emblem.filePath}}" class="img-fluid img-thumbnail" alt="Błąd ładowania zdjęcia" width="{{club.emblem.width}}" height="{{club.emblem.height}}">
+                <img
+                    alt="{{'Error loading image'|trans({}, 'Club')}}"
+                    class="img-fluid img-thumbnail"
+                    height="{{club.emblem.height}}"
+                    src="upload/{{club.emblem.filePath}}"
+                    width="{{club.emblem.width}}"
+                >
                 <figcaption class="figure-caption">
-                    Aktualny herb.
-                    <a href="{{ path('club_emblem_delete', {'club_id': club.id}) }}" class="delete-image text-danger">Usuń</a>
+                    {{'Current emblem'|trans({}, 'Club')}}
+                    <a
+                        href="{{ path('club_emblem_delete', {'club_id': club.id}) }}"
+                        class="delete-image text-danger"
+                    >
+                        {{'Delete'|trans({}, 'Club')}}
+                    </a>
                 </figcaption>
             </figure>
         </div>
     {% endif %}
 
-    {{ form_row(form.save, {'label': button_save_label|default('Zapisz'), 'attr': {'class': 'btn-success icon-save loadable-save'}}) }}
-    {{ form_row(form.saveAndContinue, {'label': button_save_and_continue_label|default('Zapisz i dodaj nowy'), 'attr': {'class': 'btn-success icon-save loadable-save'}}) }}
+    {{ form_row(form.save, {
+        'label': 'Save',
+        'attr': {'class': 'btn-success icon-save loadable-save'},
+    }) }}
+    {{ form_row(form.saveAndContinue, {
+        'label': (buttonSaveAndContinueLabel|default('Save and add new')),
+        'attr': {'class': 'btn-success icon-save loadable-save'},
+    }) }}
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\ClubVoter::LIST')) %}
-        <a href="{{ path('clubs_list') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Anuluj</a>
+        {{ include('club/_button/back.html.twig') }}
     {% endif %}
 {{ form_end(form) }}

@@ -24,10 +24,10 @@ readonly class DataTablePersonResponseFactory
     use DataTableOrdinalNumberTrait;
 
     public function __construct(
-        private Environment $twig,
-        private Security $security,
-        private TranslatorInterface $translator,
-        private PersonRepositoryInterface $repository,
+        protected Environment $twig,
+        protected Security $security,
+        protected TranslatorInterface $translator,
+        protected PersonRepositoryInterface $repository,
     ) {
     }
 
@@ -64,7 +64,7 @@ readonly class DataTablePersonResponseFactory
         );
     }
 
-    private function getButtonsForDataTable(Person $person): string
+    protected function getButtonsForDataTable(Person $person): string
     {
         $buttons = '';
 
@@ -88,7 +88,7 @@ readonly class DataTablePersonResponseFactory
             $buttons .= $this->twig->render(
                 'person/_datatable/_delete_form.html.twig',
                 [
-                    'person'   => $person,
+                    'person' => $person,
                 ]
             );
         }

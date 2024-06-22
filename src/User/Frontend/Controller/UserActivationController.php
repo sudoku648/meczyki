@@ -5,14 +5,28 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\User\Frontend\Controller;
 
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\UserVoter;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Enums\FlashType;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
 use Sudoku648\Meczyki\User\Domain\Entity\User;
 use Sudoku648\Meczyki\User\Domain\Persistence\UserRepositoryInterface;
+use Sudoku648\Meczyki\User\Domain\Service\UserManagerInterface;
+use Sudoku648\Meczyki\User\Infrastructure\Persistence\Doctrine\DoctrineUserRepository;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class UserActivationController extends UserAbstractController
+final class UserActivationController extends AbstractController
 {
+    use RedirectTrait;
+
+    public function __construct(
+        private readonly TranslatorInterface $translator,
+        private readonly UserManagerInterface $manager,
+    ) {
+    }
+
     public function activate(
         #[MapEntity(mapping: ['user_id' => 'id'])] User $user,
         Request $request,
@@ -23,7 +37,10 @@ class UserActivationController extends UserAbstractController
 
         $this->manager->activate($user);
 
-        $this->addFlash('success', 'Użytkownik został aktywowany.');
+        $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+            id: 'User has been activated.',
+            domain: 'User',
+        ));
 
         return $this->redirectToRefererOrHome($request);
     }
@@ -38,11 +55,15 @@ class UserActivationController extends UserAbstractController
 
         $this->manager->deactivate($user);
 
-        $this->addFlash('success', 'Użytkownik został dezaktywowany.');
+        $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+            id: 'User has been deactivated.',
+            domain: 'User',
+        ));
 
         return $this->redirectToRefererOrHome($request);
     }
 
+    /** @param DoctrineUserRepository $repository */
     public function activateBatch(UserRepositoryInterface $repository, Request $request): Response
     {
         $this->denyAccessUnlessGranted(UserVoter::ACTIVATE_BATCH);
@@ -66,14 +87,21 @@ class UserActivationController extends UserAbstractController
         }
 
         if ($notAllActivated) {
-            $this->addFlash('warning', 'Nie wszyscy użytkownicy zostali aktywowani.');
+            $this->makeFlash(FlashType::WARNING, $this->translator->trans(
+                id: 'Not all chosen users have been activated.',
+                domain: 'User',
+            ));
         } else {
-            $this->addFlash('success', 'Użytkownicy zostali aktywowani.');
+            $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+                id: 'Users have been activated.',
+                domain: 'User',
+            ));
         }
 
         return $this->redirectToUsersList();
     }
 
+    /** @param DoctrineUserRepository $repository */
     public function deactivateBatch(UserRepositoryInterface $repository, Request $request): Response
     {
         $this->denyAccessUnlessGranted(UserVoter::DEACTIVATE_BATCH);
@@ -97,9 +125,15 @@ class UserActivationController extends UserAbstractController
         }
 
         if ($notAllDeactivated) {
-            $this->addFlash('warning', 'Nie wszyscy użytkownicy zostali dezaktywowani.');
+            $this->makeFlash(FlashType::WARNING, $this->translator->trans(
+                id: 'Not all chosen users have been deactivated.',
+                domain: 'User',
+            ));
         } else {
-            $this->addFlash('success', 'Użytkownicy zostali dezaktywowani.');
+            $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+                id: 'Users have been deactivated.',
+                domain: 'User',
+            ));
         }
 
         return $this->redirectToUsersList();

@@ -10,16 +10,19 @@ use Sudoku648\Meczyki\GameType\Domain\Service\GameTypeManagerInterface;
 use Sudoku648\Meczyki\GameType\Infrastructure\Persistence\Doctrine\DoctrineGameTypeRepository;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\GameTypeVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Enums\FlashType;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class GameTypeDeleteController extends AbstractController
+final class GameTypeDeleteController extends AbstractController
 {
     use RedirectTrait;
 
     public function __construct(
+        private readonly TranslatorInterface $translator,
         private readonly GameTypeManagerInterface $manager,
     ) {
     }
@@ -32,7 +35,10 @@ class GameTypeDeleteController extends AbstractController
 
         $this->validateCsrf('game_type_delete', $request->request->get('_token'));
 
-        $this->addFlash('success', 'Typ rozgrywek został usunięty.');
+        $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+            id: 'Game type has been deleted.',
+            domain: 'GameType',
+        ));
 
         $this->manager->delete($gameType);
 
@@ -63,9 +69,15 @@ class GameTypeDeleteController extends AbstractController
         }
 
         if ($notAllDeleted) {
-            $this->addFlash('warning', 'Nie wszystkie typy rozgrywek zostały usunięte.');
+            $this->makeFlash(FlashType::WARNING, $this->translator->trans(
+                id: 'Not all chosen game types have been deleted.',
+                domain: 'GameType',
+            ));
         } else {
-            $this->addFlash('success', 'Typy rozgrywek zostały usunięte.');
+            $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+                id: 'Game types have been deleted.',
+                domain: 'GameType',
+            ));
         }
 
         return $this->redirectToGameTypesList();

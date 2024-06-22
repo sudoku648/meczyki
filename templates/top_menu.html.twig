@@ -1,67 +1,80 @@
 {% extends 'knp_menu_base.html.twig' %}
 
 {% macro attributes(attributes) %}
-{% for name, value in attributes %}
-    {%- if value is not none and value is not same as(false) -%}
-        {{- ' %s="%s"'|format(name, value is same as(true) ? name|e : value|e)|raw -}}
-    {%- endif -%}
-{%- endfor -%}
+    {% for name, value in attributes %}
+        {%- if value is not none and value is not same as(false) -%}
+            {{- ' %s="%s"'|format(name, value is same as(true) ? name|e : value|e)|raw -}}
+        {%- endif -%}
+    {%- endfor -%}
 {% endmacro %}
 
 {% block compressed_root %}
-{% apply spaceless %}
-{{ block('root') }}
-{% endapply %}
+    {% apply spaceless %}
+        {{ block('root') }}
+    {% endapply %}
 {% endblock %}
 
 {% block root %}
-{% set listAttributes = item.childrenAttributes %}
-{{ block('list') -}}
+    {% set listAttributes = item.childrenAttributes %}
+    {{ block('list') -}}
 {% endblock %}
 
 {% block list %}
-{% if item.parent is null %}
-    <ul class="d-md-inline-block navbar-nav ms-auto me-3 me-lg-4">
-        {{ block('children') }}
-    </ul>
-{% elseif item.hasChildren %}
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-        {{ block('children') }}
-    </ul>
-{% endif %}
+    {% if item.parent is null %}
+        <ul class="d-md-inline-block navbar-nav ms-auto me-3 me-lg-4">
+            {{ block('children') }}
+        </ul>
+    {% elseif item.hasChildren %}
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            {{ block('children') }}
+        </ul>
+    {% endif %}
 {% endblock %}
 
 {% block children %}
-{% set currentItem = item %}
-{% for item in currentItem.children %}
-    {{ block('item') }}
-{% endfor %}
-{% set item = currentItem %}
+    {% set currentItem = item %}
+        {% for item in currentItem.children %}
+            {{ block('item') }}
+        {% endfor %}
+    {% set item = currentItem %}
 {% endblock %}
 
 {% block item %}
-{% if item.displayed %}
-    {%- if item.uri is not empty or item.hasChildren %}
-        {{ block('linkElement') }}
-    {%- endif %}
-{% endif %}
+    {% if item.displayed %}
+        {%- if item.uri is not empty or item.hasChildren %}
+            {{ block('linkElement') }}
+        {%- endif %}
+    {% endif %}
 {% endblock %}
 
 {% block linkElement %}
-{% if item.parent.parent is null %}
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="{{ item.uri }}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-{% else %}
-    <li>
-        <a class="dropdown-item position-relative" href="{{ item.uri }}">
-{% endif %}
-{% if item.extra('icon') %}
-            <i class="{{ item.extra('icon') }}"></i>
-{% endif %}
-{{ block('label') }}
-    </a>
-    {{ block('list') }}
-</li>
+    {% if item.parent.parent is null %}
+        <li class="nav-item dropdown">
+            <a
+                class="nav-link dropdown-toggle"
+                href="{{ item.uri }}"
+                id="navbarDropdown"
+                role="button"
+                aria-expanded="false"
+                data-bs-toggle="dropdown"
+            >
+    {% else %}
+        <li>
+            <a class="dropdown-item position-relative" href="{{ item.uri }}">
+    {% endif %}
+    {% if item.extra('icon') %}
+                <i class="{{ item.extra('icon') }}"></i>
+    {% endif %}
+    {{ block('label') }}
+        </a>
+        {{ block('list') }}
+    </li>
 {% endblock %}
 
-{% block label %}{% if options.allow_safe_labels and item.getExtra('safe_label', false) %}{{ item.label|raw }}{% else %}{{ item.label }}{% endif %}{% endblock %}
+{% block label %}
+    {% if options.allow_safe_labels and item.getExtra('safe_label', false) %}
+        {{ item.label|raw|trans(item.getExtra('translation_params', {}), item.getExtra('translation_domain', 'Breadcrumb')) }}
+    {% else %}
+        {{ item.label|trans(item.getExtra('translation_params', {}), item.getExtra('translation_domain', 'Breadcrumb')) }}
+    {% endif %}
+{% endblock %}

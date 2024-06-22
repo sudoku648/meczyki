@@ -11,7 +11,7 @@ use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class GameTypeListController extends AbstractController
+final class GameTypeListController extends AbstractController
 {
     public function list(BreadcrumbBuilder $breadcrumbBuilder): Response
     {

@@ -2,9 +2,6 @@
 
 {% block title %}{{'Add person'|trans({}, 'Person')}}{% endblock %}
 
-{% block main_content %}
-    {{ include('person/_form.html.twig', {
-        buttonSaveLabel: 'Save',
-        buttonSaveAndContinueLabel: 'Save and add new',
-    }) }}
+{% block mainContent %}
+    {{ include('person/_form.html.twig') }}
 {% endblock %}

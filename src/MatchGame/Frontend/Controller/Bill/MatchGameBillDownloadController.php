@@ -18,7 +18,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use function sys_get_temp_dir;
 use function tempnam;
 
-class MatchGameBillDownloadController extends AbstractController
+final class MatchGameBillDownloadController extends AbstractController
 {
     public function __construct(
         private readonly SluggerInterface $slugger,

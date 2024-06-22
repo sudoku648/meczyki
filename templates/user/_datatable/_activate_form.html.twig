@@ -1,0 +1,7 @@
+<form
+    action="{{ path('user_activate', {'user_id': user.id}) }}"
+    class="d-none d-md-inline-block form-inline ms-auto my-2 my-md-0"
+    method="post"
+>
+    {{ include('user/_datatable/activate.html.twig', {csrfName: 'user_activate'}) }}
+</form>

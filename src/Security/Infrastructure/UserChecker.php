@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusExce
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class UserChecker implements UserCheckerInterface
+final readonly class UserChecker implements UserCheckerInterface
 {
     public function checkPreAuth(UserInterface $user): void
     {
@@ -18,7 +18,7 @@ class UserChecker implements UserCheckerInterface
         }
 
         if (!$user->isActive()) {
-            throw new CustomUserMessageAccountStatusException('Twoje konto nie jest aktywne.');
+            throw new CustomUserMessageAccountStatusException('Your account is inactive.');
         }
     }
 

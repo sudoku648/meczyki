@@ -8,17 +8,20 @@ use Sudoku648\Meczyki\MatchGame\Domain\Service\MatchGameManagerInterface;
 use Sudoku648\Meczyki\MatchGame\Frontend\Form\MatchGameType;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\MatchGameVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Enums\FlashType;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
 use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class MatchGameCreateController extends AbstractController
+final class MatchGameCreateController extends AbstractController
 {
     use RedirectTrait;
 
     public function __construct(
+        private readonly TranslatorInterface $translator,
         private readonly BreadcrumbBuilder $breadcrumbBuilder,
         private readonly MatchGameManagerInterface $manager,
     ) {
@@ -41,7 +44,10 @@ class MatchGameCreateController extends AbstractController
 
             $this->manager->create($dto, $this->getUserOrThrow());
 
-            $this->addFlash('success', 'Mecz został dodany.');
+            $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+                id: 'Match game has been added.',
+                domain: 'MatchGame',
+            ));
 
             /** @var ClickableInterface $continueButton */
             $continueButton = $form->get('saveAndContinue');

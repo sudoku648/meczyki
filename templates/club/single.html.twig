@@ -1,24 +1,31 @@
 {% extends 'main.html.twig' %}
 
-{% block title %}{{ club.name }}{% endblock %}
+{% block title %}{{'Club'|trans({}, 'Club')}}{% endblock %}
 
-{% block main_content %}
+{% block mainContent %}
     <table class="table">
         <tbody>
             <tr>
-                <th>Nazwa</th>
+                <th>{{'Name'|trans({}, 'Club')}}</th>
                 <td>{{ club.name }}</td>
             </tr>
             <tr>
-                <th>Herb</th>
+                <th>{{'Emblem'|trans({}, 'Club')}}</th>
                 <td>
                     {% if club.emblem %}
-                        <img src="upload/{{club.emblem.filePath}}" class="img-fluid img-thumbnail" alt="Błąd ładowania zdjęcia" width="{{club.emblem.width}}" height="{{club.emblem.height}}" style="max-width: 200px; max-height: 200px;">
+                        <img
+                            alt="{{'Error loading image'|trans({}, 'Club')}}"
+                            class="img-fluid img-thumbnail"
+                            height="{{club.emblem.height}}"
+                            src="upload/{{club.emblem.filePath}}"
+                            style="max-width: 200px; max-height: 200px;"
+                            width="{{club.emblem.width}}"
+                        >
                     {% endif %}
                 </td>
             </tr>
             <tr>
-                <th>Drużyny</th>
+                <th>{{'Teams'|trans({}, 'Club')}}</th>
                 <td>
                     <table>
                         <tbody>
@@ -26,16 +33,21 @@
                                 <tr>
                                     <td>
                                         {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\TeamVoter::SHOW'), team) %}
-                                            <a href="{{ path('team_single', {'club_id': club.id, 'team_id': team.id}) }}">
+                                            <a
+                                                href="{{ path('team_single', {'club_id': club.id, 'team_id': team.id}) }}"
+                                            >
                                         {% endif %}
-                                        {{ team.name }}
+                                            {{ team.name }}
                                         {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\TeamVoter::SHOW'), team) %}
                                             </a>
                                         {% endif %}
                                     </td>
                                     <td>
                                         {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\TeamVoter::DELETE'), team) %}
-                                            {{ include('team/_delete_form.html.twig', {'team': team, 'show_club': true, btn_size: 'btn-sm'}) }}
+                                            {{ include('team/_delete_form.html.twig', {
+                                                'team': team,
+                                                'show_club': true,
+                                            }) }}
                                         {% endif %}
                                     </td>
                                 </tr>
@@ -45,7 +57,11 @@
                             <tr>
                                 <td colspan="2">
                                     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\TeamVoter::CREATE')) %}
-                                        {{ include('buttons/add.html.twig', {path: 'team_create', parameters: {'club_id': club.id}, text: 'Dodaj nową', btn_size: 'btn-sm'}) }}
+                                        {{ include('club/_button/add.html.twig', {
+                                            path: 'team_create',
+                                            parameters: {'club_id': club.id},
+                                            text: 'Add new team',
+                                        }) }}
                                     {% endif %}
                                 </td>
                             </tr>
@@ -57,11 +73,11 @@
     </table>
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\ClubVoter::LIST')) %}
-        <a href="{{ path('clubs_list') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
+        {{ include('club/_button/back.html.twig', {text: 'Go back to the list'}) }}
     {% endif %}
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\ClubVoter::EDIT'), club) %}
-        {{ include('buttons/edit.html.twig', {path: 'club_edit', parameters: {'club_id': club.id}}) }}
+        {{ include('club/_button/edit.html.twig', {clubId: club.id}) }}
     {% endif %}
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\ClubVoter::DELETE'), club) %}

@@ -1,8 +1,8 @@
 {% extends 'main.html.twig' %}
 
-{% block title %}Drużyny{% endblock %}
+{% block title %}{{'Teams'|trans({}, 'Team')}}{% endblock %}
 
-{% block main_content %}
+{% block mainContent %}
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\TeamVoter::DELETE_BATCH')) %}
         {{ include('team/_delete_batch_form.html.twig') }}
     {% endif %}
@@ -11,22 +11,22 @@
         <table class="dataTable table table-hover table-responsive" id="teams-list">
             <thead>
                 <tr>
-                    <th>L.p.</th>
+                    <th>{{'Ord. num.'|trans({}, 'DataTable')}}</th>
                     <th><input type="checkbox" id="checkbox_teams_all" class="form-check-input"></th>
-                    <th>Nazwa</th>
-                    <th>Klub</th>
-                    <th>Akcje</th>
+                    <th>{{'Name'|trans({}, 'Team')}}</th>
+                    <th>{{'Club'|trans({}, 'Team')}}</th>
+                    <th>{{'Actions'|trans({}, 'DataTable')}}</th>
                 </tr>
             </thead>
             <tbody>
             </tbody>
             <tfoot>
                 <tr>
-                    <th>L.p.</th>
+                    <th>{{'Ord. num.'|trans({}, 'DataTable')}}</th>
                     <th></th>
-                    <th class="s">Nazwa</th>
-                    <th class="s">Klub</th>
-                    <th>Akcje</th>
+                    <th class="s">{{'Name'|trans({}, 'Team')}}</th>
+                    <th class="s">{{'Club'|trans({}, 'Team')}}</th>
+                    <th>{{'Actions'|trans({}, 'DataTable')}}</th>
                 </tr>
             </tfoot>
         </table>

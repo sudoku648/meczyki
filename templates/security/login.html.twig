@@ -1,6 +1,6 @@
 {% extends 'main.html.twig' %}
 
-{% block title %}Logowanie{% endblock %}
+{% block title %}{{'Sign in'|trans({}, 'Security')}}{% endblock %}
 
 {% block body %}
 <body>
@@ -11,24 +11,48 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-5">
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Logowanie do Systemu Meczyki</h3></div>
+                                <div class="card-header">
+                                    <h3 class="text-center font-weight-light my-4">
+                                        {{'Sign in to Meczyki System'|trans({}, 'Security')}}
+                                    </h3>
+                                </div>
                                 <div class="card-body">
                                     <form method="post">
                                     {% if error %}
-                                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                        <div class="alert alert-danger">
+                                            {{ error.messageKey|trans(error.messageData, 'Security') }}
+                                        </div>
                                     {% endif %}
                                         <div class="form-floating mb-3">
-                                            <input type="text" value="{{ lastUsername }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
-                                            <label for="inputUsername">Nazwa użytkownika</label>
+                                            <input
+                                                autocomplete="username"
+                                                autofocus
+                                                class="form-control"
+                                                id="inputUsername"
+                                                name="username"
+                                                required
+                                                type="text"
+                                                value="{{ lastUsername }}"
+                                            >
+                                            <label for="inputUsername">{{'Username'|trans({}, 'Security')}}</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-                                            <label for="inputPassword">Hasło</label>
+                                            <input
+                                                autocomplete="current-password"
+                                                class="form-control"
+                                                id="inputPassword"
+                                                name="password"
+                                                required
+                                                type="password"
+                                            >
+                                            <label for="inputPassword">{{'Password'|trans({}, 'Security')}}</label>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                            <button class="btn btn-primary" type="submit">Zaloguj</button>
+                                            <button class="btn btn-primary" type="submit">
+                                                {{'Log in'|trans({}, 'Security')}}
+                                            </button>
                                         </div>
-                                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                                        <input name="_csrf_token" type="hidden" value="{{ csrf_token('authenticate') }}">
                                     </form>
                                 </div>
                             </div>

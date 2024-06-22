@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\User\Frontend\Controller;
 
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\UserVoter;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Enums\FlashType;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
+use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Sudoku648\Meczyki\User\Domain\Entity\User;
 use Sudoku648\Meczyki\User\Domain\Service\UserManagerInterface;
 use Sudoku648\Meczyki\User\Frontend\Dto\UserDto;
@@ -15,24 +19,29 @@ use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class UserEditController extends UserAbstractController
+final class UserEditController extends AbstractController
 {
+    use RedirectTrait;
+
+    public function __construct(
+        private readonly TranslatorInterface $translator,
+        private readonly BreadcrumbBuilder $breadcrumbBuilder,
+        private readonly UserManagerInterface $manager,
+    ) {
+    }
+
     public function __invoke(
         #[MapEntity(mapping: ['user_id' => 'id'])] User $user,
         Request $request,
     ): Response {
         $this->denyAccessUnlessGranted(UserVoter::EDIT, $user);
 
-        $this->breadcrumbs->addItem(
-            'Edytuj użytkownika',
-            $this->router->generate(
-                'user_edit',
-                [
-                    'user_id' => $user->getId(),
-                ]
-            )
-        );
+        $this->breadcrumbBuilder
+            ->add('dashboard')
+            ->add('users_list')
+            ->add('user_edit', ['user_id' => $user->getId()]);
 
         $dto = $this->manager->createDto($user);
 
@@ -86,7 +95,10 @@ class UserEditController extends UserAbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->edit($user, $dto);
 
-            $this->addFlash('success', 'Użytkownik został zaktualizowany.');
+            $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+                id: 'User has been updated.',
+                domain: 'User',
+            ));
 
             /** @var ClickableInterface $continueButton */
             $continueButton = $form->get('saveAndContinue');

@@ -1,35 +1,42 @@
 {% extends 'main.html.twig' %}
 
-{% block title %}{{ gameType.name }}{% endblock %}
+{% block title %}{{'Game type'|trans({}, 'GameType')}}{% endblock %}
 
-{% block main_content %}
+{% block mainContent %}
     <table class="table">
         <tbody>
             <tr>
-                <th>Nazwa</th>
+                <th>{{'Name'|trans({}, 'GameType')}}</th>
                 <td>{{ gameType.name }}</td>
             </tr>
             <tr>
-                <th>Obrazek</th>
+                <th>{{'Image'|trans({}, 'GameType')}}</th>
                 <td>
                     {% if gameType.image %}
-                        <img src="upload/{{gameType.image.filePath}}" class="img-fluid img-thumbnail" alt="Błąd ładowania zdjęcia" width="{{gameType.image.width}}" height="{{gameType.image.height}}" style="max-width: 200px; max-height: 200px;">
+                        <img
+                            alt="{{'Error loading image'|trans({}, 'GameType')}}"
+                            class="img-fluid img-thumbnail"
+                            height="{{gameType.image.height}}"
+                            src="upload/{{gameType.image.filePath}}"
+                            style="max-width: 200px; max-height: 200px;"
+                            width="{{gameType.image.width}}"
+                        >
                     {% endif %}
                 </td>
             </tr>
             <tr>
-                <th>Oficjalne rozgrywki</th>
-                <td>{{ gameType.isOfficial ? 'Tak' : 'Nie' }}</td>
+                <th>{{'Is official'|trans({}, 'GameType')}}</th>
+                <td>{{ gameType.isOfficial ? 'Yes'|trans({}, 'GameType') : 'No'|trans({}, 'GameType') }}</td>
             </tr>
         </tbody>
     </table>
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\GameTypeVoter::LIST')) %}
-        <a href="{{ path('game_types_list') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
+        {{ include('game_type/_button/back.html.twig', {text: 'Go back to the list'}) }}
     {% endif %}
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\GameTypeVoter::EDIT'), gameType) %}
-        {{ include('buttons/edit.html.twig', {path: 'game_type_edit', parameters: {'game_type_id': gameType.id}}) }}
+        {{ include('game_type/_button/edit.html.twig', {gameTypeId: gameType.id}) }}
     {% endif %}
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\GameTypeVoter::DELETE'), gameType) %}

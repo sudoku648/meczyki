@@ -7,7 +7,6 @@ namespace Sudoku648\Meczyki\Person\Infrastructure\Persistence\Doctrine;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use LogicException;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
@@ -16,8 +15,6 @@ use Sudoku648\Meczyki\Person\Domain\Persistence\PersonRepositoryInterface;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\MatchGameFunction;
 use Sudoku648\Meczyki\Person\Frontend\DataTable\Factory\DataTablePersonCriteriaFactory;
 use Sudoku648\Meczyki\Person\Infrastructure\Persistence\PageView\PersonPageView;
-
-use function ucfirst;
 
 /**
  * @method Person|null find($id, $lockMode = null, $lockVersion = null)
@@ -44,33 +41,20 @@ class DoctrinePersonRepository extends ServiceEntityRepository implements Person
         $this->_em->flush();
     }
 
-    public function allOrderedByName(?string $type = null): array
+    public function allOrderedByName(?MatchGameFunction $function = null): array
     {
-        switch ($type) {
-            case null:
-                break;
-            case 'delegate':
-            case 'referee':
-            case 'refereeObserver':
-                $property = 'is' . ucfirst($type);
+        $qb = $this->createQueryBuilder('person');
 
-                break;
-            default: throw new LogicException();
+        if ($function) {
+            $qb->andWhere('JSON_CONTAINS(person.functions, \'"' . $function->value . '"\') = :isFunction')
+                ->setParameter('isFunction', true);
         }
 
-        $criteria = [];
+        $qb
+            ->addOrderBy('person.lastName', 'ASC')
+            ->addOrderBy('person.firstName', 'ASC');
 
-        if (isset($property)) {
-            $criteria[$property] = true;
-        }
-
-        return $this->findBy(
-            $criteria,
-            [
-                'lastName'  => 'ASC',
-                'firstName' => 'ASC',
-            ]
-        );
+        return $qb->getQuery()->getResult();
     }
 
     public function getTotalCount(): int

@@ -1,59 +1,63 @@
 {% extends 'main.html.twig' %}
 
-{% block title %}Rachunek za mecz {{ matchGameBill.matchGame.competitors }}{% endblock %}
+{% block title %}{{'Match game bill'|trans({}, 'MatchGame')}}{% endblock %}
 
-{% block main_content %}
+{% block mainContent %}
     <table class="table">
         <tbody>
             <tr>
-                <th>Osoba</th>
+                <th>{{'Match game'|trans({}, 'MatchGame')}}</th>
+                <td>{{ matchGameBill.matchGame.competitors }}</td>
+            </tr>
+            <tr>
+                <th>{{'Person'|trans({}, 'MatchGame')}}</th>
                 <td>{{ matchGameBill.person.fullName }}</td>
             </tr>
             <tr>
-                <th>Funkcja</th>
-                <td>{{ matchGameBill.function.value|trans({}, 'Person') }}</td>
+                <th>{{'Function'|trans({}, 'MatchGame')}}</th>
+                <td>{{ matchGameBill.function.getName()|trans({}, 'Person') }}</td>
             </tr>
             <tr>
-                <th>Bazowy ekwiwalent brutto</th>
+                <th>{{'Gross base equivalent'|trans({}, 'MatchGame')}}</th>
                 <td>{{ matchGameBill.baseEquivalent.amount }} zł</td>
             </tr>
             <tr>
-                <th>Należna część ekwiwalentu bazowego</th>
+                <th>{{'Percent of base equivalent'|trans({}, 'MatchGame')}}</th>
                 <td>{{ matchGameBill.percentOfBaseEquivalent.value }}%</td>
             </tr>
             <tr>
-                <th>Należny ekwiwalent brutto</th>
+                <th>{{'Gross equivalent'|trans({}, 'MatchGame')}}</th>
                 <td>{{ matchGameBill.grossEquivalent.amount }} zł</td>
             </tr>
             <tr>
-                <th>Koszty uzyskania przychodu ({{ matchGameBill.taxDeductibleStakePercent.value }}%)</th>
+                <th>{{'Tax deductible expenses'|trans({}, 'MatchGame')}} ({{ matchGameBill.taxDeductibleStakePercent.value }}%)</th>
                 <td>{{ matchGameBill.taxDeductibleExpenses.amount }} zł</td>
             </tr>
             <tr>
-                <th>Podstawa opodatkowania</th>
+                <th>{{'Taxation base'|trans({}, 'MatchGame')}}</th>
                 <td>{{ matchGameBill.taxationBase.amount }} zł</td>
             </tr>
             <tr>
-                <th>Podatek dochodowy ({{ matchGameBill.incomeTaxStakePercent.value }}%)</th>
+                <th>{{'Income tax'|trans({}, 'MatchGame')}} ({{ matchGameBill.incomeTaxStakePercent.value }}%)</th>
                 <td>{{ matchGameBill.incomeTax.amount }} zł</td>
             </tr>
             <tr>
-                <th>Ekwiwalent do wypłaty</th>
+                <th>{{'Equivalent to withdraw'|trans({}, 'MatchGame')}}</th>
                 <td>{{ matchGameBill.equivalentToWithdraw.amount }} zł</td>
             </tr>
         </tbody>
     </table>
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameVoter::SHOW'), matchGameBill.matchGame) %}
-        <a href="{{ path('match_game_single', {'match_game_id': matchGameBill.matchGame.id}) }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do szczegółów meczu">Wróć do szczegółów meczu</a>
+        {{ include('match_game_bill/_button/back.html.twig', {'matchGameId': matchGameBill.matchGame.id}) }}
     {% endif %}
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameBillVoter::EDIT'), matchGameBill) %}
-        {{ include('buttons/edit.html.twig', {path: 'match_game_bill_edit', parameters: {'match_game_id': matchGameBill.matchGame.id, 'match_game_bill_id': matchGameBill.id}}) }}
+        {{ include('match_game_bill/_button/edit.html.twig', {'matchGameId': matchGameBill.matchGame.id, 'matchGameBillId': matchGameBill.id}) }}
     {% endif %}
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameBillVoter::DOWNLOAD'), matchGameBill) %}
-        {{ include('match_game_bill/_buttons/download_xlsx.html.twig', {path: 'match_game_bill_download', parameters: {'match_game_id': matchGameBill.matchGame.id, 'match_game_bill_id': matchGameBill.id}}) }}
+        {{ include('match_game_bill/_button/download_xlsx.html.twig', {'matchGameId': matchGameBill.matchGame.id, 'matchGameBillId': matchGameBill.id}) }}
     {% endif %}
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameBillVoter::DELETE'), matchGameBill) %}

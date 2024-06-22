@@ -10,16 +10,19 @@ use Sudoku648\Meczyki\MatchGame\Domain\Service\MatchGameManagerInterface;
 use Sudoku648\Meczyki\MatchGame\Infrastructure\Persistence\Doctrine\DoctrineMatchGameRepository;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\MatchGameVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Enums\FlashType;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class MatchGameDeleteController extends AbstractController
+final class MatchGameDeleteController extends AbstractController
 {
     use RedirectTrait;
 
     public function __construct(
+        private readonly TranslatorInterface $translator,
         private readonly MatchGameManagerInterface $manager,
     ) {
     }
@@ -32,7 +35,10 @@ class MatchGameDeleteController extends AbstractController
 
         $this->validateCsrf('match_game_delete', $request->request->get('_token'));
 
-        $this->addFlash('success', 'Mecz został usunięty.');
+        $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+            id: 'Match game has been deleted.',
+            domain: 'MatchGame',
+        ));
 
         $this->manager->delete($matchGame);
 
@@ -63,9 +69,15 @@ class MatchGameDeleteController extends AbstractController
         }
 
         if ($notAllDeleted) {
-            $this->addFlash('warning', 'Nie wszystkie mecze zostały usunięte.');
+            $this->makeFlash(FlashType::WARNING, $this->translator->trans(
+                id: 'Not all chosen match games have been deleted.',
+                domain: 'MatchGame',
+            ));
         } else {
-            $this->addFlash('success', 'Mecze zostały usunięte.');
+            $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+                id: 'Match games have been deleted.',
+                domain: 'MatchGame',
+            ));
         }
 
         return $this->redirectToMatchGamesList();

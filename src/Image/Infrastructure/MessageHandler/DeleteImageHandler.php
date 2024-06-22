@@ -9,11 +9,13 @@ use Exception;
 use Sudoku648\Meczyki\Image\Domain\Message\DeleteImageMessage;
 use Sudoku648\Meczyki\Image\Domain\Persistence\ImageRepositoryInterface;
 use Sudoku648\Meczyki\Image\Domain\Service\ImageManagerInterface;
+use Sudoku648\Meczyki\Image\Infrastructure\Persistence\Doctrine\DoctrineImageRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler()]
-readonly class DeleteImageHandler
+final readonly class DeleteImageHandler
 {
+    /** @param DoctrineImageRepository $imageRepository */
     public function __construct(
         private ManagerRegistry $managerRegistry,
         private ImageRepositoryInterface $imageRepository,

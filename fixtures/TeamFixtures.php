@@ -6,6 +6,7 @@ namespace Sudoku648\Meczyki\DataFixtures;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Override;
 use Sudoku648\Meczyki\Team\Domain\Entity\Team;
 use Sudoku648\Meczyki\Team\Domain\ValueObject\TeamName;
 use Sudoku648\Meczyki\Team\Domain\ValueObject\TeamShortName;
@@ -19,6 +20,7 @@ class TeamFixtures extends BaseFixture implements DependentFixtureInterface
 {
     public const TEAMS_COUNT = 25;
 
+    #[Override]
     public function loadData(ObjectManager $manager): void
     {
         foreach ($this->provideRandomTeams(self::TEAMS_COUNT) as $index => $team) {

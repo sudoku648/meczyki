@@ -10,14 +10,17 @@ use Sudoku648\Meczyki\MatchGame\Domain\Service\MatchGameBillManagerInterface;
 use Sudoku648\Meczyki\MatchGame\Frontend\Form\MatchGameBillType;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\MatchGameBillVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Enums\FlashType;
 use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class MatchGameBillEditController extends AbstractController
+final class MatchGameBillEditController extends AbstractController
 {
     public function __construct(
+        private readonly TranslatorInterface $translator,
         private readonly BreadcrumbBuilder $breadcrumbBuilder,
         private readonly MatchGameBillManagerInterface $manager,
     ) {
@@ -47,7 +50,10 @@ class MatchGameBillEditController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $matchGameBill = $this->manager->edit($matchGameBill, $dto);
 
-            $this->addFlash('success', 'Rachunek meczowy został zaktualizowany.');
+            $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+                id: 'Match game bill has been updated.',
+                domain: 'MatchGame',
+            ));
 
             return $this->redirectToRoute(
                 'match_game_bill_single',

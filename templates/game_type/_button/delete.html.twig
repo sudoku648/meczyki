@@ -1,0 +1,12 @@
+<input
+    name="_token"
+    type="hidden"
+    value="{{csrf_token(csrfName)}}"
+>
+<button
+    class="btn btn-danger icon-delete"
+    id="{{btnId|default('')}}"
+    type="submit"
+>
+    {{'Delete'|trans({}, 'GameType')}}
+</button>

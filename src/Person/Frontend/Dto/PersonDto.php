@@ -154,7 +154,7 @@ class PersonDto
             $month !== substr($this->pesel, 2, 2) ||
             $day !== substr($this->pesel, 4, 2)
         ) {
-            $context->buildViolation('PESEL doesn\'t match fith date of birth.')
+            $context->buildViolation('PESEL doesn\'t match with date of birth.')
                 ->atPath('pesel')
                 ->setTranslationDomain('Person')
                 ->addViolation();

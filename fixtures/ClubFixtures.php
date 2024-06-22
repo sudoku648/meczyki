@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\DataFixtures;
 
 use Doctrine\Persistence\ObjectManager;
+use Override;
 use Sudoku648\Meczyki\Club\Domain\Entity\Club;
 use Sudoku648\Meczyki\Club\Domain\ValueObject\ClubName;
 use Sudoku648\Meczyki\Image\Domain\Persistence\ImageRepositoryInterface;
@@ -23,6 +24,7 @@ class ClubFixtures extends BaseFixture
     {
     }
 
+    #[Override]
     public function loadData(ObjectManager $manager): void
     {
         foreach ($this->provideRandomClubs(self::CLUBS_COUNT) as $index => $club) {

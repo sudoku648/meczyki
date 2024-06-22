@@ -6,15 +6,13 @@ namespace Sudoku648\Meczyki\Dashboard\Frontend\Controller;
 
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\DashboardVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\RouterInterface;
-use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
-class DashboardController extends AbstractController
+final class DashboardController extends AbstractController
 {
     public function __construct(
-        protected RouterInterface $router,
-        protected Breadcrumbs $breadcrumbs,
+        private readonly BreadcrumbBuilder $breadcrumbBuilder,
     ) {
     }
 
@@ -22,10 +20,8 @@ class DashboardController extends AbstractController
     {
         $this->denyAccessUnlessGranted(DashboardVoter::DASHBOARD);
 
-        $this->breadcrumbs->addItem(
-            'Panel',
-            $this->router->generate('dashboard')
-        );
+        $this->breadcrumbBuilder
+            ->add('dashboard');
 
         return $this->render('dashboard/dashboard.html.twig');
     }

@@ -25,7 +25,8 @@ class UserBasicType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => UserDto::class,
+                'data_class'         => UserDto::class,
+                'translation_domain' => 'User',
             ]
         );
     }

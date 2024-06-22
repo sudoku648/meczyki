@@ -57,33 +57,24 @@ readonly class DataTableGameTypeResponseFactory
 
         if ($this->security->isGranted(GameTypeVoter::SHOW, $gameType)) {
             $buttons .= $this->twig->render(
-                'buttons/show.html.twig',
+                'game_type/_datatable/show.html.twig',
                 [
-                    'btn_size'   => 'table',
-                    'path'       => 'game_type_single',
-                    'parameters' => [
-                        'game_type_id' => $gameType->getId(),
-                    ],
+                    'gameTypeId' => $gameType->getId(),
                 ]
             );
         }
         if ($this->security->isGranted(GameTypeVoter::EDIT, $gameType)) {
             $buttons .= $this->twig->render(
-                'buttons/edit.html.twig',
+                'game_type/_datatable/edit.html.twig',
                 [
-                    'btn_size'   => 'table',
-                    'path'       => 'game_type_edit',
-                    'parameters' => [
-                        'game_type_id' => $gameType->getId(),
-                    ],
+                    'gameTypeId' => $gameType->getId(),
                 ]
             );
         }
         if ($this->security->isGranted(GameTypeVoter::DELETE, $gameType)) {
             $buttons .= $this->twig->render(
-                'game_type/_delete_form.html.twig',
+                'game_type/_datatable/_delete_form.html.twig',
                 [
-                    'btn_size' => 'table',
                     'gameType' => $gameType,
                 ]
             );

@@ -41,9 +41,11 @@ class Image
         if (($width && $height) || (!$width && !$height)) {
             $this->width  = $width;
             $this->height = $height;
-        } else {
-            throw new InvalidArgumentException('$width and $height must both be set or NULL');
+
+            return;
         }
+
+        throw new InvalidArgumentException('$width and $height must both be set or NULL');
     }
 
     public function getId(): ImageId

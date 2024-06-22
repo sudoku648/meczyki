@@ -43,7 +43,8 @@ class UserBindWithPersonType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => UserDto::class
+            'data_class'         => UserDto::class,
+            'translation_domain' => 'User',
         ]);
     }
 }

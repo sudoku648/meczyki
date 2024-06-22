@@ -315,9 +315,9 @@
                     {%- endif -%}
                 {%- else -%}
                     {%- if label_html is same as(false) -%}
-                        {{- label -}}
+                        {{- label|trans({}, translation_domain) -}}
                     {%- else -%}
-                        {{- label|raw -}}
+                        {{- label|raw|trans({}, translation_domain) -}}
                     {%- endif -%}
                 {%- endif -%}
             {%- endif -%}

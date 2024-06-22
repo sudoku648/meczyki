@@ -9,13 +9,16 @@ use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGameBill;
 use Sudoku648\Meczyki\MatchGame\Domain\Service\MatchGameBillManagerInterface;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\MatchGameBillVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Enums\FlashType;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class MatchGameBillDeleteController extends AbstractController
+final class MatchGameBillDeleteController extends AbstractController
 {
     public function __construct(
+        private readonly TranslatorInterface $translator,
         private readonly MatchGameBillManagerInterface $manager,
     ) {
     }
@@ -31,7 +34,10 @@ class MatchGameBillDeleteController extends AbstractController
 
         $this->manager->delete($matchGameBill);
 
-        $this->addFlash('success', 'Rachunek meczowy został usunięty.');
+        $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+            id: 'Match game bill has been updated.',
+            domain: 'MatchGame',
+        ));
 
         return $this->redirectToSingleMatchGame($matchGame);
     }

@@ -1,4 +1,11 @@
 {{ include('form/delete_confirmation.html.twig') }}
-<form class="d-none d-md-inline-block form-inline ms-auto my-2 my-md-0" action="{{ path('game_type_delete', {'game_type_id': gameType.id}) }}" method="post" data-confirmation="true" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-    {{ include('buttons/delete.html.twig', {csrf_name: 'game_type_delete'}) }}
+<form
+    action="{{ path('game_type_delete', {'game_type_id': gameType.id}) }}"
+    class="d-none d-md-inline-block form-inline ms-auto my-2 my-md-0"
+    method="post"
+    data-confirmation="true"
+    data-bs-toggle="modal"
+    data-bs-target="#staticBackdrop"
+>
+    {{ include('game_type/_button/delete.html.twig', {csrfName: 'game_type_delete'}) }}
 </form>

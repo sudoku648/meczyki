@@ -12,7 +12,7 @@ use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Response;
 
-class MatchGameBillSingleController extends AbstractController
+final class MatchGameBillSingleController extends AbstractController
 {
     public function __construct(
         private readonly BreadcrumbBuilder $breadcrumbBuilder,

@@ -1,76 +1,132 @@
 {% extends 'main.html.twig' %}
 
-{% block title %}Mecz {{ matchGame.competitors }}{% endblock %}
+{% block title %}{{'Match game'|trans({}, 'MatchGame')}}{% endblock %}
 
-{% block main_content %}
+{% block mainContent %}
     <table class="table">
         <tbody>
             <tr>
-                <th>Gospodarze</th>
-                <td>{{ matchGame.homeTeam ? matchGame.homeTeam.name : ('<em class="text-black-50">nieznany</em>')|raw }}</td>
+                <th>{{'Home team'|trans({}, 'MatchGame')}}</th>
+                <td>
+                    {% if matchGame.homeTeam %}
+                        {{matchGame.homeTeam.name}}
+                    {% else %}
+                        <em class="text-black-50">{{'unknown'|trans({}, 'MatchGame')}}</em>
+                    {% endif %}
+                </td>
             </tr>
             <tr>
-                <th>Goście</th>
-                <td>{{ matchGame.awayTeam ? matchGame.awayTeam.name : ('<em class="text-black-50">nieznany</em>')|raw }}</td>
+                <th>{{'Away team'|trans({}, 'MatchGame')}}</th>
+                <td>
+                    {% if matchGame.awayTeam %}
+                        {{matchGame.awayTeam.name}}
+                    {% else %}
+                        <em class="text-black-50">{{'unknown'|trans({}, 'MatchGame')}}</em>
+                    {% endif %}
+                </td>
             </tr>
             <tr>
-                <th>Typ rozgrywek</th>
-                <td>{{ matchGame.gameType ? matchGame.gameType.name : ('<em class="text-black-50">nieznany</em>')|raw }}</td>
+                <th>{{'Game type'|trans({}, 'MatchGame')}}</th>
+                <td>
+                    {% if matchGame.gameType %}
+                        {{matchGame.gameType.name}}
+                    {% else %}
+                        <em class="text-black-50">{{'unknown'|trans({}, 'MatchGame')}}</em>
+                    {% endif %}
+                </td>
             </tr>
             <tr>
-                <th>Sezon</th>
+                <th>{{'Season'|trans({}, 'MatchGame')}}</th>
                 <td>{{ matchGame.season }}</td>
             </tr>
             <tr>
-                <th>Kolejka</th>
+                <th>{{'Round'|trans({}, 'MatchGame')}}</th>
                 <td>{{ matchGame.round ? matchGame.round.value }}</td>
             </tr>
             <tr>
-                <th>Data</th>
+                <th>{{'Date'|trans({}, 'MatchGame')}}</th>
                 <td>{{ matchGame.dateTime|date('d.m.Y') }}</td>
             </tr>
             <tr>
-                <th>Godzina</th>
+                <th>{{'Time'|trans({}, 'MatchGame')}}</th>
                 <td>{{ matchGame.dateTime|date('H:i') }}</td>
             </tr>
             <tr>
-                <th>Miejsce</th>
+                <th>{{'Venue'|trans({}, 'MatchGame')}}</th>
                 <td>{{ matchGame.venue }}</td>
             </tr>
             <tr>
-                <th>Sędzia</th>
-                <td>{{ matchGame.referee ? matchGame.referee.fullName : ('<em class="text-black-50">nieznany</em>')|raw }}</td>
-            </tr>
-            <tr>
-                <th>Asystent 1</th>
+                <th>{{'Referee'|trans({}, 'MatchGame')}}</th>
                 <td>
-                    {{ matchGame.firstAssistantReferee ? matchGame.firstAssistantReferee.fullName : ('<em class="text-black-50">brak</em>')|raw }}
-                    {{ matchGame.isFirstAssistantNonProfitable is not null and matchGame.isFirstAssistantNonProfitable ? ' (społecznie)' : '' }}</td>
+                    {% if matchGame.referee %}
+                        {{matchGame.referee.fullName}}
+                    {% else %}
+                        <em class="text-black-50">{{'unknown'|trans({}, 'MatchGame')}}</em>
+                    {% endif %}
+                </td>
             </tr>
             <tr>
-                <th>Asystent 2</th>
+                <th>{{'Assistant referee 1'|trans({}, 'MatchGame')}}</th>
                 <td>
-                    {{ matchGame.secondAssistantReferee ? matchGame.secondAssistantReferee.fullName : ('<em class="text-black-50">brak</em>')|raw }}
-                    {{ matchGame.isSecondAssistantNonProfitable is not null and matchGame.isSecondAssistantNonProfitable ? ' (społecznie)' : '' }}</td>
+                    {% if matchGame.firstAssistantReferee %}
+                        {{matchGame.firstAssistantReferee.fullName}}
+                    {% else %}
+                        <em class="text-black-50">{{'none'|trans({}, 'MatchGame')}}</em>
+                    {% endif %}
+                    {% if matchGame.isFirstAssistantNonProfitable is not null and matchGame.isFirstAssistantNonProfitable %}
+                        ({{'non-profitable'|trans({}, 'MatchGame')}})
+                    {% endif %}
+                </td>
             </tr>
             <tr>
-                <th>Sędzia techniczny</th>
-                <td>{{ matchGame.fourthOfficial ? matchGame.fourthOfficial.fullName : ('<em class="text-black-50">brak</em>')|raw }}</td>
+                <th>{{'Assistant referee 2'|trans({}, 'MatchGame')}}</th>
+                <td>
+                    {% if matchGame.secondAssistantReferee %}
+                        {{matchGame.secondAssistantReferee.fullName}}
+                    {% else %}
+                        <em class="text-black-50">{{'none'|trans({}, 'MatchGame')}}</em>
+                    {% endif %}
+                    {% if matchGame.isSecondAssistantNonProfitable is not null and matchGame.isSecondAssistantNonProfitable %}
+                        ({{'non-profitable'|trans({}, 'MatchGame')}})
+                    {% endif %}
+                </td>
             </tr>
             <tr>
-                <th>Obserwator</th>
-                <td>{{ matchGame.refereeObserver ? matchGame.refereeObserver.fullName : ('<em class="text-black-50">brak</em>')|raw }}</td>
+                <th>{{'Fourth official'|trans({}, 'MatchGame')}}</th>
+                <td>
+                    {% if matchGame.fourthOfficial %}
+                        {{matchGame.fourthOfficial.fullName}}
+                    {% else %}
+                        <em class="text-black-50">{{'unknown'|trans({}, 'MatchGame')}}</em>
+                    {% endif %}
+                </td>
             </tr>
             <tr>
-                <th>Delegat</th>
-                <td>{{ matchGame.delegate ? matchGame.delegate.fullName : ('<em class="text-black-50">brak</em>')|raw }}</td>
+                <th>{{'Referee observer'|trans({}, 'MatchGame')}}</th>
+                <td>
+                    {% if matchGame.refereeObserver %}
+                        {{matchGame.refereeObserver.fullName}}
+                    {% else %}
+                        <em class="text-black-50">{{'unknown'|trans({}, 'MatchGame')}}</em>
+                    {% endif %}
+                </td>
             </tr>
             <tr>
-                <th>Dodatkowe informacje</th>
+                <th>{{'Delegate'|trans({}, 'MatchGame')}}</th>
+                <td>
+                    {% if matchGame.delegate %}
+                        {{matchGame.delegate.fullName}}
+                    {% else %}
+                        <em class="text-black-50">{{'unknown'|trans({}, 'MatchGame')}}</em>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{'More info'|trans({}, 'MatchGame')}}</th>
                 <td>{{ matchGame.moreInfo }}</td>
             </tr>
             <tr>
-                <th>Rachunki</th>
+                <th>{{'Bills'|trans({}, 'MatchGame')}}</th>
                 <td>
                     <table>
                         <tbody>
@@ -87,7 +143,7 @@
                                     </td>
                                     <td>
                                         {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameBillVoter::DELETE'), matchGameBill) %}
-                                            {{ include('match_game_bill/_delete_form.html.twig', {'matchGameBill': matchGameBill, btn_size: 'btn-sm'}) }}
+                                            {{ include('match_game_bill/_delete_form.html.twig') }}
                                         {% endif %}
                                     </td>
                                 </tr>
@@ -97,7 +153,7 @@
                             <tr>
                                 <td colspan="2">
                                     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameVoter::CREATE_BILL'), matchGame) %}
-                                        {{ include('buttons/add.html.twig', {path: 'match_game_bill_create', parameters: {'match_game_id': matchGame.id}, text: 'Dodaj nowy', btn_size: 'btn-sm'}) }}
+                                        {{ include('match_game_bill/_button/add.html.twig', {'matchGameId': matchGame.id}) }}
                                     {% endif %}
                                 </td>
                             </tr>
@@ -109,11 +165,11 @@
     </table>
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameVoter::LIST')) %}
-        <a href="{{ path('match_games_list') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
+        {{ include('match_game/_button/back.html.twig', {text: 'Go back to the list'}) }}
     {% endif %}
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameVoter::EDIT'), matchGame) %}
-        {{ include('buttons/edit.html.twig', {path: 'match_game_edit', parameters: {'match_game_id': matchGame.id}}) }}
+        {{ include('match_game/_button/edit.html.twig', {matchGameId: matchGame.id}) }}
     {% endif %}
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameVoter::DELETE'), matchGame) %}

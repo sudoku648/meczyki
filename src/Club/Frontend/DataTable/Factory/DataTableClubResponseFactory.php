@@ -57,34 +57,25 @@ readonly class DataTableClubResponseFactory
 
         if ($this->security->isGranted(ClubVoter::SHOW, $club)) {
             $buttons .= $this->twig->render(
-                'buttons/show.html.twig',
+                'club/_datatable/show.html.twig',
                 [
-                    'btn_size'   => 'table',
-                    'path'       => 'club_single',
-                    'parameters' => [
-                        'club_id' => $club->getId(),
-                    ],
+                    'clubId' => $club->getId(),
                 ]
             );
         }
         if ($this->security->isGranted(ClubVoter::EDIT, $club)) {
             $buttons .= $this->twig->render(
-                'buttons/edit.html.twig',
+                'club/_datatable/edit.html.twig',
                 [
-                    'btn_size'   => 'table',
-                    'path'       => 'club_edit',
-                    'parameters' => [
-                        'club_id' => $club->getId(),
-                    ],
+                    'clubId' => $club->getId(),
                 ]
             );
         }
         if ($this->security->isGranted(ClubVoter::DELETE, $club)) {
             $buttons .= $this->twig->render(
-                'club/_delete_form.html.twig',
+                'club/_datatable/_delete_form.html.twig',
                 [
-                    'btn_size' => 'table',
-                    'club'     => $club,
+                    'club' => $club,
                 ]
             );
         }

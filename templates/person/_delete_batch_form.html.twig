@@ -1,8 +1,9 @@
 {{ include('form/delete_confirmation.html.twig') }}
 <form
-    class="d-md-inline-block align-middle mb-3"
     action="{{ path('person_delete_batch') }}"
-    method="post" id="people-delete-batch"
+    class="d-md-inline-block align-middle mb-3"
+    id="people-delete-batch"
+    method="post"
     data-confirmation="true"
     data-bs-toggle="modal"
     data-bs-target="#staticBackdrop"

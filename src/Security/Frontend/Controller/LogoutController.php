@@ -7,7 +7,7 @@ namespace Sudoku648\Meczyki\Security\Frontend\Controller;
 use LogicException;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
 
-class LogoutController extends AbstractController
+final class LogoutController extends AbstractController
 {
     public function logout(): void
     {

@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     'fields'      => ['username'],
     'idFields'    => 'id',
 ])]
-class UserDto implements UserDtoInterface
+class UserDto
 {
     private ?UserId $id = null;
 

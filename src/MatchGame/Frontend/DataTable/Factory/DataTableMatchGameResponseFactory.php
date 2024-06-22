@@ -44,9 +44,13 @@ readonly class DataTableMatchGameResponseFactory
                     ),
                     $matchGame->getDateTime()->format('d.m.Y H:i'),
                     $matchGame->getGameType()?->getName()->getValue() ?? '',
-                    ($matchGame->getHomeTeam()?->getName() ?? '<em class="text-black-50">nieznany</em>') .
-                    ' - ' .
-                    ($matchGame->getAwayTeam()?->getName() ?? '<em class="text-black-50">nieznany</em>'),
+                    $this->twig->render(
+                        'match_game/_datatable_competitors.html.twig',
+                        [
+                            'homeTeam' => $matchGame->getHomeTeam(),
+                            'awayTeam' => $matchGame->getAwayTeam(),
+                        ]
+                    ),
                     $this->getButtonsForDataTable($matchGame)
                 );
             },
@@ -61,33 +65,24 @@ readonly class DataTableMatchGameResponseFactory
 
         if ($this->security->isGranted(MatchGameVoter::SHOW, $matchGame)) {
             $buttons .= $this->twig->render(
-                'buttons/show.html.twig',
+                'match_game/_datatable/show.html.twig',
                 [
-                    'btn_size'   => 'table',
-                    'path'       => 'match_game_single',
-                    'parameters' => [
-                        'match_game_id' => $matchGame->getId(),
-                    ],
+                    'matchGameId' => $matchGame->getId(),
                 ]
             );
         }
         if ($this->security->isGranted(MatchGameVoter::EDIT, $matchGame)) {
             $buttons .= $this->twig->render(
-                'buttons/edit.html.twig',
+                'match_game/_datatable/edit.html.twig',
                 [
-                    'btn_size'   => 'table',
-                    'path'       => 'match_game_edit',
-                    'parameters' => [
-                        'match_game_id' => $matchGame->getId(),
-                    ],
+                    'matchGameId' => $matchGame->getId(),
                 ]
             );
         }
         if ($this->security->isGranted(MatchGameVoter::DELETE, $matchGame)) {
             $buttons .= $this->twig->render(
-                'match_game/_delete_form.html.twig',
+                'match_game/_datatable/_delete_form.html.twig',
                 [
-                    'btn_size'  => 'table',
                     'matchGame' => $matchGame,
                 ]
             );

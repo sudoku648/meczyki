@@ -1,20 +1,24 @@
 {% extends 'main.html.twig' %}
 
-{% block title %}Użytkownik{% endblock %}
+{% block title %}{{'User'|trans({}, 'User')}}{% endblock %}
 
-{% block main_content %}
+{% block mainContent %}
     <table class="table">
         <tbody>
             <tr>
-                <th>Nazwa użytkownika</th>
+                <th>{{'Username'|trans({}, 'User')}}</th>
                 <td>{{ user.username }}</td>
             </tr>
             <tr>
-                <th>Przypięta osoba</th>
+                <th>{{'Bound person'|trans({}, 'User')}}</th>
                 <td>
-                    {{ user.person ? user.person.fullName : '<em class="text-black-50">brak</em>' }}
+                    {% if user.person %}
+                        {{user.person.fullName}}
+                    {% else %}
+                        <em class="text-black-50">{{'none'|trans({}, 'User')}}</em>
+                    {% endif %}
                     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\UserVoter::BIND_WITH_PERSON'), user) %}
-                        {{ include('user/_buttons/bind_with_person.html.twig', {path: 'user_bind_with_person', parameters: {'user_id': user.id}}) }}
+                        {{ include('user/_button/bind_with_person.html.twig', {userId: user.id}) }}
                     {% endif %}
                 </td>
             </tr>
@@ -22,15 +26,15 @@
     </table>
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\UserVoter::LIST')) %}
-        <a href="{{ path('users_list') }}" class="btn btn-outline-secondary icon-cancel" title="Wróć do listy">Wróć do listy</a>
+        {{ include('user/_button/back.html.twig', {text: 'Go back to the list'}) }}
     {% endif %}
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\UserVoter::EDIT'), user) %}
-        {{ include('buttons/edit.html.twig', {path: 'user_edit', parameters: {'user_id': user.id}}) }}
+        {{ include('user/_button/edit.html.twig', {userId: user.id}) }}
     {% endif %}
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\UserVoter::IMPERSONATE'), user) %}
-        {{ include('user/_buttons/impersonate.html.twig', {path: 'dashboard', parameters: {'_switch_user': user.userIdentifier}}) }}
+        {{ include('user/_button/impersonate.html.twig', {userIdentifier: user.userIdentifier}) }}
     {% endif %}
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\UserVoter::DELETE'), user) %}

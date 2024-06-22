@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\MatchGame\Frontend\Dto;
 
 use DateTimeImmutable;
-use LogicException;
+use InvalidArgumentException;
 use Sudoku648\Meczyki\GameType\Domain\Entity\GameType;
 use Sudoku648\Meczyki\MatchGame\Domain\ValueObject\MatchGameId;
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
@@ -86,8 +86,9 @@ class MatchGameDto
                 $this->dateTime->format('Y-m-d') > $boundaries[1]
             )
         ) {
-            $context->buildViolation('Wybrany sezon nie odpowiada dacie meczu.')
+            $context->buildViolation('Chosen season doesn\'t match with match game date.')
                 ->atPath('season')
+                ->setTranslationDomain('MatchGame')
                 ->addViolation();
         }
     }
@@ -98,14 +99,16 @@ class MatchGameDto
         $payload
     ) {
         if ($this->gameType && !$this->gameType->isOfficial() && $this->season) {
-            $context->buildViolation('Dla nieoficjalnych rozgrywek nie można podać sezonu.')
+            $context->buildViolation('You cannot choose season for unofficial game type.')
                 ->atPath('season')
+                ->setTranslationDomain('MatchGame')
                 ->addViolation();
         }
 
         if ($this->gameType && !$this->gameType->isOfficial() && $this->round) {
-            $context->buildViolation('Dla nieoficjalnych rozgrywek nie można podać rundy.')
+            $context->buildViolation('You cannot choose round for unofficial game type.')
                 ->atPath('round')
+                ->setTranslationDomain('MatchGame')
                 ->addViolation();
         }
     }
@@ -135,8 +138,9 @@ class MatchGameDto
         );
 
         foreach ($duplicates as $path) {
-            $context->buildViolation('Tę samą osobę wybrano więcej niż raz.')
+            $context->buildViolation('Same person was chosen more than once.')
                 ->atPath($path)
+                ->setTranslationDomain('MatchGame')
                 ->addViolation();
         }
     }
@@ -163,7 +167,7 @@ class MatchGameDto
     {
         $years = explode('/', $season);
         if (count($years) !== 2) {
-            throw new LogicException();
+            throw new InvalidArgumentException();
         }
 
         return $years;

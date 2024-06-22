@@ -1,0 +1,38 @@
+Users: Użytkownicy
+Add user: Dodaj użytkownika
+Edit user: Edytuj użytkownika
+User: Użytkownik
+Bind with person: Połącz z osobą
+Profile: Profil
+Username: Nazwa użytkownika
+Password: Hasło
+Repeat password: Powtórz hasło
+Bound person: Przypięta osoba
+Add new: Dodaj nowego
+Save: Zapisz
+Save and add new: Zapisz i dodaj nowego
+Save and continue editing: Zapisz i kontynuuj edycję
+Show: Pokaż
+Edit: Edytuj
+Delete: Usuń
+Cancel: Anuluj
+Go back to the list: Wróć do listy
+Go back to the dashboard: Wróć do panelu
+Log as: Zaloguj jako
+Activate: Aktywuj
+Deactivate: Dezaktywuj
+User has been added.: Użytkownik został dodany.
+User has been updated.: Użytkownik został zaktualizowany.
+User has been deleted.: Użytkownik został usunięty.
+Users have been deleted.: Użytkownicy zostały usunięte.
+Not all chosen users have been deleted.: Nie wszyscy wybrani użytkownicy zostali usunięci.
+Person has been bound to user.: Osoba została przypięta do użytkownika.
+Person has been unbound from user.: Osoba została odpięta od użytkownika.
+User has been activated.: Użytkownik został aktywowany.
+User has been deactivated.: Użytkownik został dezaktywowany.
+Users have been activated.: Użytkownicy zostali aktywowani.
+Not all chosen users have been activated.: Nie wszyscy wybrani użytkownicy zostali aktywowani.
+Users have been deactivated.: Użytkownicy zostali dezaktywowani.
+Not all chosen users have been deactivated.: Nie wszyscy wybrani użytkownicy zostali dezaktywowani.
+none: brak
+-- none --: '-- żadna --'

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\DataFixtures;
 
 use Doctrine\Persistence\ObjectManager;
+use Override;
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\FirstName;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\LastName;
@@ -14,6 +15,7 @@ class RefereeObserverFixtures extends BaseFixture
 {
     public const REFEREE_OBSERVERS_COUNT = 8;
 
+    #[Override]
     public function loadData(ObjectManager $manager): void
     {
         foreach (
@@ -23,9 +25,7 @@ class RefereeObserverFixtures extends BaseFixture
                 FirstName::fromString($refereeObserver['firstName']),
                 LastName::fromString($refereeObserver['lastName']),
                 null !== $refereeObserver['mobilePhone'] ? PhoneNumber::fromString($refereeObserver['mobilePhone']) : null,
-                false,
-                false,
-                true
+                ['referee_observer'],
             );
 
             $manager->persist($newRefereeObserver);

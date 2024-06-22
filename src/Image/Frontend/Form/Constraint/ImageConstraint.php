@@ -7,7 +7,7 @@ namespace Sudoku648\Meczyki\Image\Frontend\Form\Constraint;
 use Sudoku648\Meczyki\Image\Infrastructure\Service\ImageManager;
 use Symfony\Component\Validator\Constraints\Image;
 
-class ImageConstraint
+final readonly class ImageConstraint
 {
     public static function default(): Image
     {

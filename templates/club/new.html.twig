@@ -1,7 +1,7 @@
 {% extends 'main.html.twig' %}
 
-{% block title %}Dodaj klub{% endblock %}
+{% block title %}{{'Add club'|trans({}, 'Club')}}{% endblock %}
 
-{% block main_content %}
-    {{ include('club/_form.html.twig', {'button_save_label': 'Zapisz', 'button_save_and_continue_label': 'Zapisz i dodaj nowy'}) }}
+{% block mainContent %}
+    {{ include('club/_form.html.twig') }}
 {% endblock %}

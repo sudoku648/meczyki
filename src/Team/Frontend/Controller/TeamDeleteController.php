@@ -6,14 +6,27 @@ namespace Sudoku648\Meczyki\Team\Frontend\Controller;
 
 use Sudoku648\Meczyki\Club\Domain\Entity\Club;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\TeamVoter;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Enums\FlashType;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
 use Sudoku648\Meczyki\Team\Domain\Entity\Team;
 use Sudoku648\Meczyki\Team\Domain\Persistence\TeamRepositoryInterface;
+use Sudoku648\Meczyki\Team\Domain\Service\TeamManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class TeamDeleteController extends TeamAbstractController
+final class TeamDeleteController extends AbstractController
 {
+    use RedirectTrait;
+
+    public function __construct(
+        private readonly TranslatorInterface $translator,
+        private readonly TeamManagerInterface $manager,
+    ) {
+    }
+
     public function delete(
         #[MapEntity(mapping: ['club_id' => 'id'])] Club $club,
         #[MapEntity(mapping: ['team_id' => 'id'])] Team $team,
@@ -23,7 +36,10 @@ class TeamDeleteController extends TeamAbstractController
 
         $this->validateCsrf('team_delete', $request->request->get('_token'));
 
-        $this->addFlash('success', 'Drużyna została usunięta.');
+        $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+            id: 'Team has been deleted.',
+            domain: 'Team',
+        ));
 
         $this->manager->delete($team);
 
@@ -57,9 +73,15 @@ class TeamDeleteController extends TeamAbstractController
         }
 
         if ($notAllDeleted) {
-            $this->addFlash('warning', 'Nie wszystkie drużyny zostały usunięte.');
+            $this->makeFlash(FlashType::WARNING, $this->translator->trans(
+                id: 'Not all chosen teams have been deleted.',
+                domain: 'Team',
+            ));
         } else {
-            $this->addFlash('success', 'Drużyny zostały usunięte.');
+            $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+                id: 'Teams have been deleted.',
+                domain: 'Team',
+            ));
         }
 
         return $this->redirectToTeamsList();

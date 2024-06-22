@@ -51,7 +51,8 @@ class GameTypeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => GameTypeDto::class
+            'data_class'         => GameTypeDto::class,
+            'translation_domain' => 'GameType',
         ]);
     }
 }

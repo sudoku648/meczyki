@@ -5,43 +5,41 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\User\Frontend\Controller;
 
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\UserVoter;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Enums\FlashType;
+use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
+use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Sudoku648\Meczyki\User\Domain\Entity\User;
+use Sudoku648\Meczyki\User\Domain\Service\UserManagerInterface;
 use Sudoku648\Meczyki\User\Frontend\Form\UserBindWithPersonType;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class UserBindWithPersonController extends UserAbstractController
+final class UserBindWithPersonController extends AbstractController
 {
+    use RedirectTrait;
+
+    public function __construct(
+        private readonly TranslatorInterface $translator,
+        private readonly BreadcrumbBuilder $breadcrumbBuilder,
+        private readonly UserManagerInterface $manager,
+    ) {
+    }
+
     public function __invoke(
         #[MapEntity(mapping: ['user_id' => 'id'])] User $user,
         Request $request,
     ): Response {
         $this->denyAccessUnlessGranted(UserVoter::BIND_WITH_PERSON, $user);
 
-        $this->breadcrumbs
-            ->addItem(
-                $user->getUsername(),
-                $this->router->generate(
-                    'user_single',
-                    [
-                        'user_id' => $user->getId(),
-                    ]
-                ),
-                [],
-                false
-            )
-            ->addItem(
-                'Połącz z osobą',
-                $this->router->generate(
-                    'user_bind_with_person',
-                    [
-                        'user_id' => $user->getId(),
-                    ]
-                )
-            )
-        ;
+        $this->breadcrumbBuilder
+            ->add('dashboard')
+            ->add('users_list')
+            ->add('user_single', ['user_id' => $user->getId()])
+            ->add('user_bind_with_person', ['user_id' => $user->getId()]);
 
         $dto = $this->manager->createDto($user);
 
@@ -51,10 +49,16 @@ class UserBindWithPersonController extends UserAbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($dto->person) {
                 $this->manager->bindWithPerson($user, $dto->person);
-                $this->addFlash('success', 'Osoba została przypięta do użytkownika.');
+                $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+                    id: 'Person has been bound to user.',
+                    domain: 'User',
+                ));
             } else {
                 $this->manager->unbindPerson($user);
-                $this->addFlash('success', 'Osoba została odpięta od użytkownika.');
+                $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
+                    id: 'Person has been unbound from user.',
+                    domain: 'User',
+                ));
             }
 
             /** @var ClickableInterface $continueButton */

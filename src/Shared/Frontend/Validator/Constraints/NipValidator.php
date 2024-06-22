@@ -38,6 +38,7 @@ class NipValidator extends ConstraintValidator
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $this->formatValue($value))
                 ->setCode(Nip::TOO_SHORT_ERROR)
+                ->setTranslationDomain('Person')
                 ->addViolation();
 
             return;
@@ -47,6 +48,7 @@ class NipValidator extends ConstraintValidator
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $this->formatValue($value))
                 ->setCode(Nip::TOO_LONG_ERROR)
+                ->setTranslationDomain('Person')
                 ->addViolation();
 
             return;
@@ -56,6 +58,7 @@ class NipValidator extends ConstraintValidator
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $this->formatValue($value))
                 ->setCode(Nip::INVALID_CHARACTERS_ERROR)
+                ->setTranslationDomain('Person')
                 ->addViolation();
 
             return;
@@ -73,6 +76,7 @@ class NipValidator extends ConstraintValidator
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $this->formatValue($value))
                 ->setCode(Nip::CHECKSUM_FAILED_ERROR)
+                ->setTranslationDomain('Person')
                 ->addViolation();
         }
     }

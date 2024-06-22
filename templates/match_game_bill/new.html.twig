@@ -1,7 +1,7 @@
 {% extends 'main.html.twig' %}
 
-{% block title %}Dodaj rachunek{% endblock %}
+{% block title %}{{'Add match game bill'|trans({}, 'MatchGame')}}{% endblock %}
 
-{% block main_content %}
-    {{ include('match_game_bill/_form.html.twig', {'button_save_label': 'Zapisz'}) }}
+{% block mainContent %}
+    {{ include('match_game_bill/_form.html.twig') }}
 {% endblock %}

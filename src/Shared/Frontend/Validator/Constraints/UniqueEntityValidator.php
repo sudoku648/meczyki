@@ -16,6 +16,9 @@ use function is_object;
 use function is_string;
 use function mb_strtolower;
 
+/**
+ * @deprecated
+ */
 final class UniqueEntityValidator extends ConstraintValidator
 {
     public function __construct(
@@ -77,9 +80,9 @@ final class UniqueEntityValidator extends ConstraintValidator
 
             foreach ($constraint->errorPaths as $errorPath) {
                 $this->context->buildViolation($constraint->message)
-                ->setCode(UniqueEntity::NOT_UNIQUE_ERROR)
-                ->atPath($errorPath)
-                ->addViolation();
+                    ->setCode(UniqueEntity::NOT_UNIQUE_ERROR)
+                    ->atPath($errorPath)
+                    ->addViolation();
             }
         }
     }

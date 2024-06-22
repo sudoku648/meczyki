@@ -1,7 +1,9 @@
 {% extends 'main.html.twig' %}
 
-{% block title %}Edytuj klub{% endblock %}
+{% block title %}{{'Edit club'|trans({}, 'Club')}}{% endblock %}
 
-{% block main_content %}
-    {{ include('club/_form.html.twig', {'button_save_label': 'Zapisz', 'button_save_and_continue_label': 'Zapisz i kontynuuj edycję'}) }}
+{% block mainContent %}
+    {{ include('club/_form.html.twig', {
+        buttonSaveAndContinueLabel: 'Save and continue editing',
+    }) }}
 {% endblock %}

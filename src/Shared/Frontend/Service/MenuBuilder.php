@@ -15,7 +15,7 @@ use Sudoku648\Meczyki\Security\Infrastructure\Voter\TeamVoter;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\UserVoter;
 use Symfony\Bundle\SecurityBundle\Security;
 
-readonly class MenuBuilder
+final readonly class MenuBuilder
 {
     public function __construct(
         private FactoryInterface $factory,
@@ -32,7 +32,7 @@ readonly class MenuBuilder
                 'panel',
                 [
                     'route' => 'dashboard',
-                    'label' => 'Panel',
+                    'label' => 'Dashboard',
                 ]
             );
         }
@@ -41,7 +41,7 @@ readonly class MenuBuilder
                 'users',
                 [
                     'route' => 'users_list',
-                    'label' => 'Użytkownicy',
+                    'label' => 'Users',
                 ]
             );
         }
@@ -50,7 +50,7 @@ readonly class MenuBuilder
                 'people',
                 [
                     'route' => 'people_list',
-                    'label' => 'Osoby',
+                    'label' => 'People',
                 ]
             );
         }
@@ -59,7 +59,7 @@ readonly class MenuBuilder
                 'gameTypes',
                 [
                     'route' => 'game_types_list',
-                    'label' => 'Typy rozgrywek',
+                    'label' => 'Game types',
                 ]
             );
         }
@@ -68,7 +68,7 @@ readonly class MenuBuilder
                 'clubs',
                 [
                     'route' => 'clubs_list',
-                    'label' => 'Kluby',
+                    'label' => 'Clubs',
                 ]
             );
         }
@@ -77,7 +77,7 @@ readonly class MenuBuilder
                 'teams',
                 [
                     'route' => 'teams_list',
-                    'label' => 'Drużyny',
+                    'label' => 'Teams',
                 ]
             );
         }
@@ -86,7 +86,7 @@ readonly class MenuBuilder
                 'matchGames',
                 [
                     'route' => 'match_games_list',
-                    'label' => 'Mecze',
+                    'label' => 'Match games',
                 ]
             );
         }
@@ -121,7 +121,7 @@ readonly class MenuBuilder
                         'routeParameters' => [
                             '_switch_user' => '_exit',
                         ],
-                        'label' => 'Wróć na swoje konto',
+                        'label' => 'Return to your account',
                     ]
                 )
             ;
@@ -132,7 +132,7 @@ readonly class MenuBuilder
                 'profile',
                 [
                     'route' => 'user_profile',
-                    'label' => 'Profil',
+                    'label' => 'Profile',
                 ]
             )
         ;
@@ -143,7 +143,7 @@ readonly class MenuBuilder
                     'personalInfo',
                     [
                         'route' => 'person_personal_info_edit',
-                        'label' => 'Dane osobowe',
+                        'label' => 'Personal info',
                     ]
                 )
             ;
@@ -154,7 +154,7 @@ readonly class MenuBuilder
                 'logout',
                 [
                     'route' => 'app_logout',
-                    'label' => 'Wyloguj',
+                    'label' => 'Logout',
                 ]
             )
         ;

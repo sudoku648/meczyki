@@ -57,75 +57,56 @@ readonly class DataTableUserResponseFactory
 
         if ($this->security->isGranted(UserVoter::SHOW, $user)) {
             $buttons .= $this->twig->render(
-                'buttons/show.html.twig',
+                'user/_datatable/show.html.twig',
                 [
-                    'btn_size'   => 'table',
-                    'path'       => 'user_single',
-                    'parameters' => [
-                        'user_id' => $user->getId(),
-                    ],
+                    'userId' => $user->getId(),
                 ]
             );
         }
         if ($this->security->isGranted(UserVoter::EDIT, $user)) {
             $buttons .= $this->twig->render(
-                'buttons/edit.html.twig',
+                'user/_datatable/edit.html.twig',
                 [
-                    'btn_size'   => 'table',
-                    'path'       => 'user_edit',
-                    'parameters' => [
-                        'user_id' => $user->getId(),
-                    ],
+                    'userId' => $user->getId(),
                 ]
             );
         }
         if ($this->security->isGranted(UserVoter::ACTIVATE, $user)) {
             $buttons .= $this->twig->render(
-                'user/_activate_form.html.twig',
+                'user/_datatable/_activate_form.html.twig',
                 [
-                    'btn_size' => 'table',
-                    'user'     => $user,
+                    'user' => $user,
                 ]
             );
         } elseif ($this->security->isGranted(UserVoter::DEACTIVATE, $user)) {
             $buttons .= $this->twig->render(
-                'user/_deactivate_form.html.twig',
+                'user/_datatable/_deactivate_form.html.twig',
                 [
-                    'btn_size' => 'table',
-                    'user'     => $user,
+                    'user' => $user,
                 ]
             );
         }
         if ($this->security->isGranted(UserVoter::BIND_WITH_PERSON, $user)) {
             $buttons .= $this->twig->render(
-                'user/_buttons/bind_with_person.html.twig',
+                'user/_datatable/bind_with_person.html.twig',
                 [
-                    'btn_size'   => 'table',
-                    'path'       => 'user_bind_with_person',
-                    'parameters' => [
-                        'user_id' => $user->getId(),
-                    ],
+                    'userId' => $user->getId(),
                 ]
             );
         }
         if ($this->security->isGranted(UserVoter::IMPERSONATE, $user)) {
             $buttons .= $this->twig->render(
-                'user/_buttons/impersonate.html.twig',
+                'user/_datatable/impersonate.html.twig',
                 [
-                    'btn_size'   => 'table',
-                    'path'       => 'dashboard',
-                    'parameters' => [
-                        '_switch_user' => $user->getUserIdentifier(),
-                    ],
+                    'userIdentifier' => $user->getUserIdentifier(),
                 ]
             );
         }
         if ($this->security->isGranted(UserVoter::DELETE, $user)) {
             $buttons .= $this->twig->render(
-                'user/_delete_form.html.twig',
+                'user/_datatable/_delete_form.html.twig',
                 [
-                    'btn_size' => 'table',
-                    'user'     => $user,
+                    'user' => $user,
                 ]
             );
         }

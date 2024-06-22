@@ -10,11 +10,12 @@
     <fieldset class="border p-2 mb-3">
         <legend class="w-auto">{{'Functions'|trans({}, 'Person')}}</legend>
         {% for function in form.functions %}
-            {{ form_row(function, {'label': function.vars.label|trans({}, 'Person')|ucfirst}) }}
+            {{ form_row(function, {'label': function.vars.label|trans({}, 'Person')}) }}
         {% endfor %}
     </fieldset>
+
     {{ form_row(form.save, {
-        'label': (buttonSaveLabel|default('Save')),
+        'label': 'Save',
         'attr': {'class': 'btn-success icon-save loadable-save'},
     }) }}
     {{ form_row(form.saveAndContinue, {

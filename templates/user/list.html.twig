@@ -1,10 +1,10 @@
 {% extends 'main.html.twig' %}
 
-{% block title %}Użytkownicy{% endblock %}
+{% block title %}{{'Users'|trans({}, 'User')}}{% endblock %}
 
-{% block main_content %}
+{% block mainContent %}
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\UserVoter::CREATE')) %}
-        {{ include('buttons/add.html.twig', {path: 'user_create', parameters: {}, text: 'Dodaj nowego'}) }}
+        {{ include('user/_button/add.html.twig') }}
     {% endif %}
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\UserVoter::ACTIVATE_BATCH')) %}
         {{ include('user/_activate_batch_form.html.twig') }}
@@ -20,20 +20,20 @@
         <table class="dataTable table table-hover table-responsive" id="users-list">
             <thead>
                 <tr>
-                    <th>L.p.</th>
+                    <th>{{'Ord. num.'|trans({}, 'DataTable')}}</th>
                     <th><input type="checkbox" id="checkbox_users_all" class="form-check-input"></th>
-                    <th>Nazwa użytkownika</th>
-                    <th>Akcje</th>
+                    <th>{{'Username'|trans({}, 'User')}}</th>
+                    <th>{{'Actions'|trans({}, 'DataTable')}}</th>
                 </tr>
             </thead>
             <tbody>
             </tbody>
             <tfoot>
                 <tr>
-                    <th>L.p.</th>
+                    <th>{{'Ord. num.'|trans({}, 'DataTable')}}</th>
                     <th></th>
-                    <th class="s">Nazwa użytkownika</th>
-                    <th>Akcje</th>
+                    <th class="s">{{'Username'|trans({}, 'User')}}</th>
+                    <th>{{'Actions'|trans({}, 'DataTable')}}</th>
                 </tr>
             </tfoot>
         </table>
