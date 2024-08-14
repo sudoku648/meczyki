@@ -154,8 +154,8 @@ class MatchGameDto
         $years = $this->parseSeasonString($season);
 
         return [
-            $years[0] . '-07-15',
-            $years[1] . '-07-05',
+            "$years[0]-07-15",
+            "$years[1]-07-05",
         ];
     }
 
@@ -181,10 +181,5 @@ class MatchGameDto
     public function setId(MatchGameId $id): void
     {
         $this->id = $id;
-    }
-
-    public function __sleep()
-    {
-        return [];
     }
 }

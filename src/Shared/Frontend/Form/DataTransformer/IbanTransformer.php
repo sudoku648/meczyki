@@ -35,6 +35,6 @@ class IbanTransformer implements DataTransformerInterface
             return null;
         }
 
-        return 'PL' . $nrb;
+        return "PL$nrb";
     }
 }

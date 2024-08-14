@@ -38,8 +38,8 @@ use function unlink;
 
 readonly class ImageManager implements ImageManagerInterface
 {
-    public const IMAGE_MIMETYPES  = ['image/jpeg', 'image/jpg', 'image/gif', 'image/png', ];
-    private const MAX_IMAGE_BYTES = 12000000;
+    public const array IMAGE_MIMETYPES  = ['image/jpeg', 'image/jpg', 'image/gif', 'image/png', ];
+    private const int MAX_IMAGE_BYTES   = 12000000;
 
     public function __construct(
         private FilesystemOperator $defaultStorage,

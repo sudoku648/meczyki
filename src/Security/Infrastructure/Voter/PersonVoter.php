@@ -13,13 +13,13 @@ use function in_array;
 
 class PersonVoter extends Voter
 {
-    public const LIST               = 'person_list';
-    public const CREATE             = 'person_create';
-    public const SHOW               = 'person_show';
-    public const EDIT               = 'person_edit';
-    public const DELETE             = 'person_delete';
-    public const DELETE_BATCH       = 'person_delete_batch';
-    public const EDIT_PERSONAL_INFO = 'person_personal_info_edit';
+    public const string LIST               = 'person_list';
+    public const string CREATE             = 'person_create';
+    public const string SHOW               = 'person_show';
+    public const string EDIT               = 'person_edit';
+    public const string DELETE             = 'person_delete';
+    public const string DELETE_BATCH       = 'person_delete_batch';
+    public const string EDIT_PERSONAL_INFO = 'person_personal_info_edit';
 
     protected function supports(string $attribute, $subject): bool
     {

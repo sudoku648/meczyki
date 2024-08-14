@@ -14,13 +14,13 @@ use function in_array;
 
 class ClubVoter extends Voter
 {
-    public const LIST          = 'club_list';
-    public const CREATE        = 'club_create';
-    public const SHOW          = 'club_show';
-    public const EDIT          = 'club_edit';
-    public const DELETE        = 'club_delete';
-    public const DELETE_BATCH  = 'club_delete_batch';
-    public const DELETE_EMBLEM = 'club_delete_emblem';
+    public const string LIST          = 'club_list';
+    public const string CREATE        = 'club_create';
+    public const string SHOW          = 'club_show';
+    public const string EDIT          = 'club_edit';
+    public const string DELETE        = 'club_delete';
+    public const string DELETE_BATCH  = 'club_delete_batch';
+    public const string DELETE_EMBLEM = 'club_delete_emblem';
 
     protected function supports(string $attribute, $subject): bool
     {

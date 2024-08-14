@@ -9,13 +9,13 @@ use Sudoku648\Meczyki\Shared\Frontend\DataTable\DataTableParams;
 
 class DataTableMatchGameCriteriaFactory
 {
-    public const SORT_DATETIME = 'dateTime';
-    public const SORT_DIR_ASC  = 'ASC';
-    public const SORT_DIR_DESC = 'DESC';
+    public const string SORT_DATETIME = 'dateTime';
+    public const string SORT_DIR_ASC  = 'ASC';
+    public const string SORT_DIR_DESC = 'DESC';
 
-    public const SORT_DEFAULT     = self::SORT_DATETIME;
-    public const SORT_DIR_DEFAULT = self::SORT_DIR_DESC;
-    public const PER_PAGE         = 10;
+    public const string SORT_DEFAULT     = self::SORT_DATETIME;
+    public const string SORT_DIR_DEFAULT = self::SORT_DIR_DESC;
+    public const int PER_PAGE            = 10;
 
     public static function fromParams(DataTableParams $params): MatchGamePageView
     {

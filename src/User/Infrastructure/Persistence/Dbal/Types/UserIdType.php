@@ -10,7 +10,7 @@ use Sudoku648\Meczyki\User\Domain\ValueObject\UserId;
 
 class UserIdType extends AbstractIdType
 {
-    public const NAME = 'UserId';
+    public const string NAME = 'UserId';
 
     public function getName(): string
     {

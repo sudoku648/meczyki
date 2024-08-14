@@ -10,7 +10,7 @@ use Sudoku648\Meczyki\Team\Domain\ValueObject\TeamId;
 
 class TeamIdType extends AbstractIdType
 {
-    public const NAME = 'TeamId';
+    public const string NAME = 'TeamId';
 
     public function getName(): string
     {

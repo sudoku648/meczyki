@@ -11,7 +11,7 @@ use Sudoku648\Meczyki\Shared\Infrastructure\Persistence\Dbal\Types\AbstractStrin
 
 class SeasonType extends AbstractStringType
 {
-    public const NAME = 'Season';
+    public const string NAME = 'Season';
 
     public function getName(): string
     {

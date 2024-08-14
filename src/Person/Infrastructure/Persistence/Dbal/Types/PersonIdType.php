@@ -10,7 +10,7 @@ use Sudoku648\Meczyki\Shared\Infrastructure\Persistence\Dbal\Types\AbstractIdTyp
 
 class PersonIdType extends AbstractIdType
 {
-    public const NAME = 'PersonId';
+    public const string NAME = 'PersonId';
 
     public function getName(): string
     {

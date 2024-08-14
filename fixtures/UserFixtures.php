@@ -14,7 +14,7 @@ use function str_replace;
 
 class UserFixtures extends BaseFixture
 {
-    public const USERS_COUNT = 2;
+    public const int USERS_COUNT = 2;
 
     public function __construct(
         private readonly UserPasswordHasherInterface $hasher
@@ -40,7 +40,7 @@ class UserFixtures extends BaseFixture
 
             $manager->persist($newUser);
 
-            $this->addReference('user' . '_' . $index, $newUser);
+            $this->addReference("user_$index", $newUser);
 
             $manager->flush();
         }

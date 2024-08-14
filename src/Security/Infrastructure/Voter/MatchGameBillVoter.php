@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\Security\Infrastructure\Voter;
 
 use LogicException;
-use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGameBill;
+use Sudoku648\Meczyki\MatchGameBill\Domain\Entity\MatchGameBill;
 use Sudoku648\Meczyki\User\Domain\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -17,10 +17,10 @@ use function in_array;
  */
 class MatchGameBillVoter extends Voter
 {
-    public const SHOW     = 'match_game_bill_show';
-    public const EDIT     = 'match_game_bill_edit';
-    public const DELETE   = 'match_game_bill_delete';
-    public const DOWNLOAD = 'match_game_bill_download';
+    public const string SHOW     = 'match_game_bill_show';
+    public const string EDIT     = 'match_game_bill_edit';
+    public const string DELETE   = 'match_game_bill_delete';
+    public const string DOWNLOAD = 'match_game_bill_download';
 
     protected function supports(string $attribute, $subject): bool
     {

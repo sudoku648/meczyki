@@ -16,7 +16,7 @@ use function mt_rand;
 
 class MatchGameFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    private const MATCH_GAMES_COUNT = 22;
+    private const int MATCH_GAMES_COUNT = 22;
 
     #[Override]
     public function loadData(ObjectManager $manager): void
@@ -44,7 +44,7 @@ class MatchGameFixtures extends BaseFixture implements DependentFixtureInterface
 
             $manager->persist($newMatchGame);
 
-            $this->addReference('match_game' . '_' . $index, $newMatchGame);
+            $this->addReference("match_game_$index", $newMatchGame);
 
             $manager->flush();
         }

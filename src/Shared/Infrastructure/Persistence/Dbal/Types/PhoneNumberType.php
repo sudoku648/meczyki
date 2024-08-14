@@ -10,7 +10,7 @@ use Sudoku648\Meczyki\Shared\Domain\ValueObject\PhoneNumber;
 
 class PhoneNumberType extends AbstractStringType
 {
-    public const NAME = 'PhoneNumber';
+    public const string NAME = 'PhoneNumber';
 
     public function getName(): string
     {

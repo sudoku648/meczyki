@@ -13,18 +13,18 @@ use function in_array;
 
 class UserVoter extends Voter
 {
-    public const LIST             = 'user_list';
-    public const CREATE           = 'user_create';
-    public const SHOW             = 'user_show';
-    public const EDIT             = 'user_edit';
-    public const ACTIVATE         = 'user_activate';
-    public const DEACTIVATE       = 'user_deactivate';
-    public const ACTIVATE_BATCH   = 'user_activate_batch';
-    public const DEACTIVATE_BATCH = 'user_deactivate_batch';
-    public const DELETE           = 'user_delete';
-    public const DELETE_BATCH     = 'user_delete_batch';
-    public const IMPERSONATE      = 'user_impersonate';
-    public const BIND_WITH_PERSON = 'user_bind_with_person';
+    public const string LIST             = 'user_list';
+    public const string CREATE           = 'user_create';
+    public const string SHOW             = 'user_show';
+    public const string EDIT             = 'user_edit';
+    public const string ACTIVATE         = 'user_activate';
+    public const string DEACTIVATE       = 'user_deactivate';
+    public const string ACTIVATE_BATCH   = 'user_activate_batch';
+    public const string DEACTIVATE_BATCH = 'user_deactivate_batch';
+    public const string DELETE           = 'user_delete';
+    public const string DELETE_BATCH     = 'user_delete_batch';
+    public const string IMPERSONATE      = 'user_impersonate';
+    public const string BIND_WITH_PERSON = 'user_bind_with_person';
 
     protected function supports(string $attribute, $subject): bool
     {

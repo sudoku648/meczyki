@@ -9,7 +9,7 @@ use Sudoku648\Meczyki\Shared\Domain\ValueObject\Nip;
 
 class NipType extends AbstractStringType
 {
-    public const NAME = 'Nip';
+    public const string NAME = 'Nip';
 
     public function getName(): string
     {

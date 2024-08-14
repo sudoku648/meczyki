@@ -8,7 +8,7 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGame;
-use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGameBill;
+use Sudoku648\Meczyki\MatchGameBill\Domain\Entity\MatchGameBill;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\FirstName;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\LastName;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\MatchGameFunction;
@@ -98,7 +98,7 @@ class Person
 
     public function getFullName(): string
     {
-        return $this->lastName . ' ' . $this->firstName;
+        return "$this->lastName $this->firstName";
     }
 
     public function getMobilePhone(): ?PhoneNumber

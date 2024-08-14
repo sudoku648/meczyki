@@ -90,12 +90,12 @@ class DoctrineClubRepository extends ServiceEntityRepository implements ClubRepo
         if ('' !== $criteria->globalSearch) {
             $qb->andWhere(
                 'club.name LIKE :search'
-            )->setParameter('search', '%' . $criteria->globalSearch . '%');
+            )->setParameter('search', "%$criteria->globalSearch%");
         }
         if ('' !== $criteria->nameLike) {
             $qb->andWhere(
                 'club.name LIKE :name'
-            )->setParameter('name', '%' . $criteria->nameLike . '%');
+            )->setParameter('name', "%$criteria->nameLike%");
         }
 
         switch ($criteria->sortColumn) {

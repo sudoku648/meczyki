@@ -60,15 +60,15 @@ final readonly class Address implements ValueObjectInterface
             $address .= $this->town;
         }
         if ($this->street) {
-            $address .= '' !== $address ? ', ' . $this->street : $this->street;
+            $address .= '' !== $address ? ", $this->street" : $this->street;
         }
         if ($this->postCode) {
-            $address .= '' !== $address ? ', ' . $this->postCode : $this->postCode;
+            $address .= '' !== $address ? ", $this->postCode" : $this->postCode;
         }
         if ($this->postOffice && $this->postCode) {
-            $address .= ' ' . $this->postOffice;
+            $address .= " $this->postOffice";
         } else {
-            $address .= '' !== $address ? ', ' . $this->postOffice : $this->postOffice;
+            $address .= '' !== $address ? ", $this->postOffice" : $this->postOffice;
         }
 
         return $address;

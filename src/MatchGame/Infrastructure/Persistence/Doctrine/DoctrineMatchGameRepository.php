@@ -100,7 +100,7 @@ class DoctrineMatchGameRepository extends ServiceEntityRepository implements Mat
                 'gameType.name LIKE :search' .
                 ' OR ' .
                 'CONCAT(COALESCE(homeTeam.name, \'\'), \' - \', COALESCE(awayTeam.name, \'\')) LIKE :search'
-            )->setParameter('search', '%' . $criteria->globalSearch . '%');
+            )->setParameter('search', "%$criteria->globalSearch%");
         }
         if ($criteria->dateTimeLike) {
             $qb->andWhere(
@@ -108,17 +108,17 @@ class DoctrineMatchGameRepository extends ServiceEntityRepository implements Mat
                     'matchGame.dateTime, ' .
                     '\'%d.%m.%Y, %H:%i\'' .
                 ') LIKE :dateTime'
-            )->setParameter('dateTime', '%' . $criteria->dateTimeLike . '%');
+            )->setParameter('dateTime', "%$criteria->dateTimeLike%");
         }
         if ($criteria->gameTypeLike) {
             $qb->andWhere(
                 'gameType.name LIKE :gameType'
-            )->setParameter('gameType', '%' . $criteria->gameTypeLike . '%');
+            )->setParameter('gameType', "%$criteria->gameTypeLike%");
         }
         if ($criteria->teamsLike) {
             $qb->andWhere(
                 'CONCAT(homeTeam.name, \' - \', awayTeam.name) LIKE :teams'
-            )->setParameter('teams', '%' . $criteria->teamsLike . '%');
+            )->setParameter('teams', "%$criteria->teamsLike%");
         }
 
         switch ($criteria->sortColumn) {

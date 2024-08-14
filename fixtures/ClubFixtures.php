@@ -18,7 +18,7 @@ use function ucfirst;
 
 class ClubFixtures extends BaseFixture
 {
-    public const CLUBS_COUNT = 13;
+    public const int CLUBS_COUNT = 13;
 
     public function __construct(private readonly ImageRepositoryInterface $imageRepository)
     {
@@ -43,7 +43,7 @@ class ClubFixtures extends BaseFixture
 
             $manager->persist($newClub);
 
-            $this->addReference('club' . '_' . $index, $newClub);
+            $this->addReference("club_$index", $newClub);
 
             $manager->flush();
         }

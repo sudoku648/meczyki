@@ -18,7 +18,7 @@ use function ucfirst;
 
 class TeamFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    public const TEAMS_COUNT = 25;
+    public const int TEAMS_COUNT = 25;
 
     #[Override]
     public function loadData(ObjectManager $manager): void
@@ -32,7 +32,7 @@ class TeamFixtures extends BaseFixture implements DependentFixtureInterface
 
             $manager->persist($newTeam);
 
-            $this->addReference('team' . '_' . $index, $newTeam);
+            $this->addReference("team_$index", $newTeam);
 
             $manager->flush();
         }

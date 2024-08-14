@@ -13,7 +13,7 @@ use function in_array;
 
 class UserProfileVoter extends Voter
 {
-    public const PROFILE_SHOW = 'user_profile_show';
+    public const string PROFILE_SHOW = 'user_profile_show';
 
     protected function supports(string $attribute, $subject): bool
     {

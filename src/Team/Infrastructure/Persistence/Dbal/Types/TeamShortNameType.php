@@ -10,7 +10,7 @@ use Sudoku648\Meczyki\Team\Domain\ValueObject\TeamShortName;
 
 class TeamShortNameType extends AbstractStringType
 {
-    public const NAME = 'TeamShortName';
+    public const string NAME = 'TeamShortName';
 
     public function getName(): string
     {

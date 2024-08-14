@@ -13,7 +13,7 @@ use Sudoku648\Meczyki\Shared\Domain\ValueObject\PhoneNumber;
 
 class DelegateFixtures extends BaseFixture
 {
-    public const DELEGATES_COUNT = 8;
+    public const int DELEGATES_COUNT = 8;
 
     #[Override]
     public function loadData(ObjectManager $manager): void
@@ -28,7 +28,7 @@ class DelegateFixtures extends BaseFixture
 
             $manager->persist($newDelegate);
 
-            $this->addReference('delegate' . '_' . $index, $newDelegate);
+            $this->addReference("delegate_$index", $newDelegate);
 
             $manager->flush();
         }

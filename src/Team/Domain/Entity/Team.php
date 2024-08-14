@@ -76,9 +76,4 @@ class Team
 
         return $this;
     }
-
-    public function __sleep()
-    {
-        return [];
-    }
 }

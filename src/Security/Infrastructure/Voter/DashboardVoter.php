@@ -13,7 +13,7 @@ use function in_array;
 
 class DashboardVoter extends Voter
 {
-    public const DASHBOARD = 'dashboard_dashboard';
+    public const string DASHBOARD = 'dashboard_dashboard';
 
     protected function supports(string $attribute, $subject): bool
     {

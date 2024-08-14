@@ -144,12 +144,12 @@ class DoctrineUserRepository extends ServiceEntityRepository implements UserLoad
         if ('' !== $criteria->globalSearch) {
             $qb->andWhere(
                 'user.username LIKE :search'
-            )->setParameter('search', '%' . $criteria->globalSearch . '%');
+            )->setParameter('search', "%$criteria->globalSearch%");
         }
         if ('' !== $criteria->usernameLike) {
             $qb->andWhere(
                 'user.username LIKE :username'
-            )->setParameter('username', '%' . $criteria->usernameLike . '%');
+            )->setParameter('username', "%$criteria->usernameLike%");
         }
 
         switch ($criteria->sortColumn) {

@@ -99,12 +99,12 @@ class DoctrineGameTypeRepository extends ServiceEntityRepository implements Game
         if ('' !== $criteria->globalSearch) {
             $qb->andWhere(
                 'gameType.name LIKE :search'
-            )->setParameter('search', '%' . $criteria->globalSearch . '%');
+            )->setParameter('search', "%$criteria->globalSearch%");
         }
         if ('' !== $criteria->nameLike) {
             $qb->andWhere(
                 'gameType.name LIKE :name'
-            )->setParameter('name', '%' . $criteria->nameLike . '%');
+            )->setParameter('name', "%$criteria->nameLike%");
         }
 
         switch ($criteria->sortColumn) {

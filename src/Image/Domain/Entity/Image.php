@@ -77,9 +77,4 @@ class Image
     {
         return $this->fileName;
     }
-
-    public function __sleep()
-    {
-        return [];
-    }
 }

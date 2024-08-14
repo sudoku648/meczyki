@@ -10,7 +10,7 @@ use Sudoku648\Meczyki\User\Domain\ValueObject\Username;
 
 class UsernameType extends AbstractStringType
 {
-    public const NAME = 'Username';
+    public const string NAME = 'Username';
 
     public function getName(): string
     {

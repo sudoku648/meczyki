@@ -100,28 +100,27 @@ class DoctrineTeamRepository extends ServiceEntityRepository implements TeamRepo
     private function filter(QueryBuilder $qb, TeamPageView $criteria): QueryBuilder
     {
         if ('' !== $criteria->globalSearch) {
-            $qb->andWhere(
-                'team.name LIKE :search' .
-                ' OR ' .
-                'team.shortName LIKE :search' .
-                ' OR ' .
-                'club.name LIKE :search'
-            )->setParameter('search', '%' . $criteria->globalSearch . '%');
+            $qb->andWhere(sprintf(
+                '%s OR %s OR %s',
+                'team.name LIKE :search',
+                'team.shortName LIKE :search',
+                'club.name LIKE :search',
+            ))->setParameter('search', "%$criteria->globalSearch%");
         }
         if ($criteria->club) {
             $qb->andWhere('team.club = :club')
                 ->setParameter('club', $criteria->club);
         }
         if ('' !== $criteria->nameLike) {
-            $qb->andWhere(
-                'team.name LIKE :name' .
-                ' OR ' .
-                'team.shortName LIKE :name'
-            )->setParameter('name', '%' . $criteria->nameLike . '%');
+            $qb->andWhere(sprintf(
+                '%s OR %s',
+                'team.name LIKE :name',
+                'team.shortName LIKE :name',
+            ))->setParameter('name', "%$criteria->nameLike%");
         }
         if ($criteria->clubNameLike) {
             $qb->andWhere('club.name LIKE :clubName')
-                ->setParameter('clubName', '%' . $criteria->clubNameLike . '%');
+                ->setParameter('clubName', "%$criteria->clubNameLike%");
         }
 
         switch ($criteria->sortColumn) {

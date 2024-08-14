@@ -13,12 +13,12 @@ use function in_array;
 
 class TeamVoter extends Voter
 {
-    public const LIST         = 'team_list';
-    public const CREATE       = 'team_create';
-    public const SHOW         = 'team_show';
-    public const EDIT         = 'team_edit';
-    public const DELETE       = 'team_delete';
-    public const DELETE_BATCH = 'team_delete_batch';
+    public const string LIST         = 'team_list';
+    public const string CREATE       = 'team_create';
+    public const string SHOW         = 'team_show';
+    public const string EDIT         = 'team_edit';
+    public const string DELETE       = 'team_delete';
+    public const string DELETE_BATCH = 'team_delete_batch';
 
     protected function supports(string $attribute, $subject): bool
     {

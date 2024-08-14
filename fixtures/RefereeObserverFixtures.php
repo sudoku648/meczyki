@@ -13,7 +13,7 @@ use Sudoku648\Meczyki\Shared\Domain\ValueObject\PhoneNumber;
 
 class RefereeObserverFixtures extends BaseFixture
 {
-    public const REFEREE_OBSERVERS_COUNT = 8;
+    public const int REFEREE_OBSERVERS_COUNT = 8;
 
     #[Override]
     public function loadData(ObjectManager $manager): void
@@ -30,7 +30,7 @@ class RefereeObserverFixtures extends BaseFixture
 
             $manager->persist($newRefereeObserver);
 
-            $this->addReference('referee_observer' . '_' . $index, $newRefereeObserver);
+            $this->addReference("referee_observer_$index", $newRefereeObserver);
 
             $manager->flush();
         }

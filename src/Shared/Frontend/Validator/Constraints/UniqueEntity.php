@@ -14,6 +14,7 @@ use function count;
 use function is_array;
 use function is_string;
 
+// @TODO string etc.
 /**
  * For this to work when editing something, the DTO must hold the ID of the
  * entity being edited, and the ID mapped using `$idFields`.
@@ -24,9 +25,9 @@ use function is_string;
 #[Attribute(Attribute::TARGET_CLASS)]
 class UniqueEntity extends Constraint
 {
-    public const NOT_UNIQUE_ERROR = 'eec1b008-c55b-4d91-b5ad-f0b201eb8ada';
+    public const string NOT_UNIQUE_ERROR = 'eec1b008-c55b-4d91-b5ad-f0b201eb8ada';
 
-    protected const ERROR_NAMES = [
+    protected const array ERROR_NAMES = [
         self::NOT_UNIQUE_ERROR => 'NOT_UNIQUE_ERROR',
     ];
 

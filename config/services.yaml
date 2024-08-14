@@ -33,6 +33,7 @@ imports:
     - { resource: '../src/GameType/Symfony/Resources/config/services.php' }
     - { resource: '../src/Image/Symfony/Resources/config/services.php' }
     - { resource: '../src/MatchGame/Symfony/Resources/config/services.php' }
+    - { resource: '../src/MatchGameBill/Symfony/Resources/config/services.php' }
     - { resource: '../src/Person/Symfony/Resources/config/services.php' }
     - { resource: '../src/Security/Symfony/Resources/config/services.php' }
     - { resource: '../src/Shared/Symfony/Resources/config/services.php' }

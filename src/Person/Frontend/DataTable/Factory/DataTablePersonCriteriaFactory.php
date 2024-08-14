@@ -9,13 +9,13 @@ use Sudoku648\Meczyki\Shared\Frontend\DataTable\DataTableParams;
 
 class DataTablePersonCriteriaFactory
 {
-    public const SORT_FULLNAME = 'fullName';
-    public const SORT_DIR_ASC  = 'ASC';
-    public const SORT_DIR_DESC = 'DESC';
+    public const string SORT_FULLNAME = 'fullName';
+    public const string SORT_DIR_ASC  = 'ASC';
+    public const string SORT_DIR_DESC = 'DESC';
 
-    public const SORT_DEFAULT     = self::SORT_FULLNAME;
-    public const SORT_DIR_DEFAULT = self::SORT_DIR_ASC;
-    public const PER_PAGE         = 10;
+    public const string SORT_DEFAULT     = self::SORT_FULLNAME;
+    public const string SORT_DIR_DEFAULT = self::SORT_DIR_ASC;
+    public const int PER_PAGE            = 10;
 
     public static function fromParams(DataTableParams $params): PersonPageView
     {

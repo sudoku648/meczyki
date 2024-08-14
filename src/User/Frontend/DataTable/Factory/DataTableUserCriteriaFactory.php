@@ -9,13 +9,13 @@ use Sudoku648\Meczyki\User\Infrastructure\Persistence\PageView\UserPageView;
 
 class DataTableUserCriteriaFactory
 {
-    public const SORT_USERNAME = 'username';
-    public const SORT_DIR_ASC  = 'ASC';
-    public const SORT_DIR_DESC = 'DESC';
+    public const string SORT_USERNAME = 'username';
+    public const string SORT_DIR_ASC  = 'ASC';
+    public const string SORT_DIR_DESC = 'DESC';
 
-    public const SORT_DEFAULT     = self::SORT_USERNAME;
-    public const SORT_DIR_DEFAULT = self::SORT_DIR_ASC;
-    public const PER_PAGE         = 10;
+    public const string SORT_DEFAULT     = self::SORT_USERNAME;
+    public const string SORT_DIR_DEFAULT = self::SORT_DIR_ASC;
+    public const int PER_PAGE            = 10;
 
     public static function fromParams(DataTableParams $params): UserPageView
     {

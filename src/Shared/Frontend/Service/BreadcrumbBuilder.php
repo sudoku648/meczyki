@@ -9,7 +9,7 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 readonly class BreadcrumbBuilder
 {
-    private const MAP = [
+    private const array MAP = [
         'clubs_list'                    => 'Clubs',
         'club_create'                   => 'Add club',
         'club_edit'                     => 'Edit club',

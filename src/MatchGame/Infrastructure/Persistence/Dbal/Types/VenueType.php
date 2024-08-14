@@ -10,7 +10,7 @@ use Sudoku648\Meczyki\Shared\Infrastructure\Persistence\Dbal\Types\AbstractStrin
 
 class VenueType extends AbstractStringType
 {
-    public const NAME = 'Venue';
+    public const string NAME = 'Venue';
 
     public function getName(): string
     {

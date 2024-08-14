@@ -84,17 +84,11 @@ class Club
     public function removeTeam(Team $team): self
     {
         if ($this->teams->removeElement($team)) {
-            // set the owning side to null (unless already changed)
             if ($team->getClub() === $this) {
                 $team->setClub(null);
             }
         }
 
         return $this;
-    }
-
-    public function __sleep(): array
-    {
-        return [];
     }
 }

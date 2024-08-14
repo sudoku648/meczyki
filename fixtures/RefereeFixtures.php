@@ -15,7 +15,7 @@ use function mt_rand;
 
 class RefereeFixtures extends BaseFixture
 {
-    public const REFEREES_COUNT = 22;
+    public const int REFEREES_COUNT = 22;
 
     #[Override]
     public function loadData(ObjectManager $manager): void
@@ -30,7 +30,7 @@ class RefereeFixtures extends BaseFixture
 
             $manager->persist($newReferee);
 
-            $this->addReference('referee' . '_' . $index, $newReferee);
+            $this->addReference("referee_$index", $newReferee);
 
             $manager->flush();
         }

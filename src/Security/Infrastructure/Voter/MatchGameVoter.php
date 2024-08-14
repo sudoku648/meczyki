@@ -14,13 +14,13 @@ use function in_array;
 
 class MatchGameVoter extends Voter
 {
-    public const LIST         = 'match_game_list';
-    public const CREATE       = 'match_game_create';
-    public const SHOW         = 'match_game_show';
-    public const EDIT         = 'match_game_edit';
-    public const DELETE       = 'match_game_delete';
-    public const DELETE_BATCH = 'match_game_delete_batch';
-    public const CREATE_BILL  = 'match_game_bill_create';
+    public const string LIST         = 'match_game_list';
+    public const string CREATE       = 'match_game_create';
+    public const string SHOW         = 'match_game_show';
+    public const string EDIT         = 'match_game_edit';
+    public const string DELETE       = 'match_game_delete';
+    public const string DELETE_BATCH = 'match_game_delete_batch';
+    public const string CREATE_BILL  = 'match_game_bill_create';
 
     protected function supports(string $attribute, $subject): bool
     {

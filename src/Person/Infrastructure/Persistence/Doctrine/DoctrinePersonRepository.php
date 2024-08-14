@@ -16,6 +16,8 @@ use Sudoku648\Meczyki\Person\Domain\ValueObject\MatchGameFunction;
 use Sudoku648\Meczyki\Person\Frontend\DataTable\Factory\DataTablePersonCriteriaFactory;
 use Sudoku648\Meczyki\Person\Infrastructure\Persistence\PageView\PersonPageView;
 
+use function sprintf;
+
 /**
  * @method Person|null find($id, $lockMode = null, $lockVersion = null)
  * @method Person|null findOneBy(array $criteria, array $orderBy = null)
@@ -46,7 +48,7 @@ class DoctrinePersonRepository extends ServiceEntityRepository implements Person
         $qb = $this->createQueryBuilder('person');
 
         if ($function) {
-            $qb->andWhere('JSON_CONTAINS(person.functions, \'"' . $function->value . '"\') = :isFunction')
+            $qb->andWhere("JSON_CONTAINS(person.functions, '\"$function->value\"') = :isFunction")
                 ->setParameter('isFunction', true);
         }
 
@@ -109,7 +111,7 @@ class DoctrinePersonRepository extends ServiceEntityRepository implements Person
                 'CONCAT(person.lastName, \' \', person.firstName) LIKE :search' .
                 ' OR ' .
                 'CONCAT(person.firstName, \' \', person.lastName) LIKE :search'
-            )->setParameter('search', '%' . $criteria->globalSearch . '%');
+            )->setParameter('search', "%$criteria->globalSearch%");
         }
         if (true === $criteria->isDelegate) {
             $qb->andWhere('JSON_CONTAINS(person.functions, \'"' . MatchGameFunction::DELEGATE->value . '"\') = :isDelegate')
@@ -124,11 +126,11 @@ class DoctrinePersonRepository extends ServiceEntityRepository implements Person
                 ->setParameter('isRefereeObserver', true);
         }
         if ($criteria->fullNameLike) {
-            $qb->andWhere(
-                'CONCAT(person.lastName, \' \', person.firstName) LIKE :fullName' .
-                ' OR ' .
-                'CONCAT(person.firstName, \' \', person.lastName) LIKE :fullName'
-            )->setParameter('fullName', '%' . $criteria->fullNameLike . '%');
+            $qb->andWhere(sprintf(
+                '%s OR %s',
+                'CONCAT(person.lastName, \' \', person.firstName) LIKE :fullName',
+                'CONCAT(person.firstName, \' \', person.lastName) LIKE :fullName',
+            ))->setParameter('fullName', "%$criteria->fullNameLike%");
         }
 
         switch ($criteria->sortColumn) {

@@ -10,7 +10,7 @@ use Sudoku648\Meczyki\Shared\Infrastructure\Persistence\Dbal\Types\AbstractStrin
 
 class PeselType extends AbstractStringType
 {
-    public const NAME = 'Pesel';
+    public const string NAME = 'Pesel';
 
     public function getName(): string
     {

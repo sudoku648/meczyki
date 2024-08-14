@@ -7,7 +7,7 @@ namespace Sudoku648\Meczyki\Shared\Frontend\Controller\Traits;
 use Sudoku648\Meczyki\Club\Domain\Entity\Club;
 use Sudoku648\Meczyki\GameType\Domain\Entity\GameType;
 use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGame;
-use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGameBill;
+use Sudoku648\Meczyki\MatchGameBill\Domain\Entity\MatchGameBill;
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
 use Sudoku648\Meczyki\Team\Domain\Entity\Team;
 use Sudoku648\Meczyki\User\Domain\Entity\User;

@@ -10,7 +10,7 @@ use Sudoku648\Meczyki\Shared\Infrastructure\Persistence\Dbal\Types\AbstractIdTyp
 
 class MatchGameIdType extends AbstractIdType
 {
-    public const NAME = 'MatchGameId';
+    public const string NAME = 'MatchGameId';
 
     public function getName(): string
     {

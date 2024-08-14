@@ -10,7 +10,7 @@ use Sudoku648\Meczyki\Shared\Infrastructure\Persistence\Dbal\Types\AbstractIntTy
 
 class RoundType extends AbstractIntType
 {
-    public const NAME = 'Round';
+    public const string NAME = 'Round';
 
     public function getName(): string
     {

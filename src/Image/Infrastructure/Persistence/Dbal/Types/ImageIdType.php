@@ -10,7 +10,7 @@ use Sudoku648\Meczyki\Shared\Infrastructure\Persistence\Dbal\Types\AbstractIdTyp
 
 class ImageIdType extends AbstractIdType
 {
-    public const NAME = 'ImageId';
+    public const string NAME = 'ImageId';
 
     public function getName(): string
     {

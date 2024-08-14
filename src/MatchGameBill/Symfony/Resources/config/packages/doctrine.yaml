@@ -1,0 +1,15 @@
+doctrine:
+    dbal:
+        types:
+            BaseEquivalentPercent: Sudoku648\Meczyki\MatchGameBill\Infrastructure\Persistence\Dbal\Types\BaseEquivalentPercentType
+            MatchGameBillId: Sudoku648\Meczyki\MatchGameBill\Infrastructure\Persistence\Dbal\Types\MatchGameBillIdType
+            TaxDeductibleStakePercent: Sudoku648\Meczyki\MatchGameBill\Infrastructure\Persistence\Dbal\Types\TaxDeductibleStakePercentType
+            TaxIncomeStakePercent: Sudoku648\Meczyki\MatchGameBill\Infrastructure\Persistence\Dbal\Types\TaxIncomeStakePercentType
+    orm:
+        mappings:
+            MatchGameBill:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/MatchGameBill/Infrastructure/Persistence/Doctrine/Mapping/Entity'
+                prefix: 'Sudoku648\Meczyki\MatchGameBill\Domain\Entity'
+                alias: MatchGameBill

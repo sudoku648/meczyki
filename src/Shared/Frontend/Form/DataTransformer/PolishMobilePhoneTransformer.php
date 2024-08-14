@@ -11,7 +11,7 @@ use function substr;
 
 class PolishMobilePhoneTransformer implements DataTransformerInterface
 {
-    public const POLISH_DIALLING_CODE = '+48';
+    public const string POLISH_DIALLING_CODE = '+48';
 
     /**
      * Transforms number with country dialling code to number without it.

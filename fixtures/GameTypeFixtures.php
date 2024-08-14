@@ -13,7 +13,7 @@ use function ucfirst;
 
 class GameTypeFixtures extends BaseFixture
 {
-    public const GAME_TYPES_COUNT = 13;
+    public const int GAME_TYPES_COUNT = 13;
 
     #[Override]
     public function loadData(ObjectManager $manager): void
@@ -26,7 +26,7 @@ class GameTypeFixtures extends BaseFixture
 
             $manager->persist($newGameType);
 
-            $this->addReference('game_type' . '_' . $index, $newGameType);
+            $this->addReference("game_type_$index", $newGameType);
 
             $manager->flush();
         }

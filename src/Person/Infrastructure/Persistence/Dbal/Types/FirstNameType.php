@@ -10,7 +10,7 @@ use Sudoku648\Meczyki\Shared\Infrastructure\Persistence\Dbal\Types\AbstractStrin
 
 class FirstNameType extends AbstractStringType
 {
-    public const NAME = 'FirstName';
+    public const string NAME = 'FirstName';
 
     public function getName(): string
     {
