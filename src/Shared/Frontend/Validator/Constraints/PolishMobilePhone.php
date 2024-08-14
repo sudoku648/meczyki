@@ -16,7 +16,7 @@ class PolishMobilePhone extends Regex
         callable $normalizer = null,
         array $groups = null,
         mixed $payload = null,
-        array $options = []
+        array $options = [],
     ) {
         $pattern = '/^\+48((45)|(5[0137])|(6[069])|(7[2389])|(88))\d{7}$/';
 
@@ -24,7 +24,7 @@ class PolishMobilePhone extends Regex
             $pattern,
             $message,
             $htmlPattern,
-            $match = true,
+            true,
             $normalizer,
             $groups,
             $payload,

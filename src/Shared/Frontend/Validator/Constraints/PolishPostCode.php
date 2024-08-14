@@ -16,7 +16,7 @@ class PolishPostCode extends Regex
         callable $normalizer = null,
         array $groups = null,
         mixed $payload = null,
-        array $options = []
+        array $options = [],
     ) {
         $pattern = '/^[0-9]{2}-[0-9]{3}$/Du';
 
@@ -24,7 +24,7 @@ class PolishPostCode extends Regex
             $pattern,
             $message,
             $htmlPattern,
-            $match = true,
+            true,
             $normalizer,
             $groups,
             $payload,

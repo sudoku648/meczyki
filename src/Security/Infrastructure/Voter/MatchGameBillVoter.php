@@ -12,9 +12,6 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 use function in_array;
 
-/**
- * @todo
- */
 class MatchGameBillVoter extends Voter
 {
     public const string SHOW     = 'match_game_bill_show';

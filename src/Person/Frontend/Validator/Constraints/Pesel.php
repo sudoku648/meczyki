@@ -28,13 +28,13 @@ class Pesel extends Constraint
         self::DATE_OF_BIRTH_ERROR      => 'DATE_OF_BIRTH_ERROR',
     ];
 
-    public $message = 'Nieprawidłowy PESEL.'; //@TODO
+    public string $message = 'Invalid PESEL.';
 
     public function __construct(
         array $options = null,
         string $message = null,
         array $groups = null,
-        mixed $payload = null
+        mixed $payload = null,
     ) {
         parent::__construct($options, $groups, $payload);
 

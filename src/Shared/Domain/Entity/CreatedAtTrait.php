@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\Shared\Domain\Entity;
 
-use Carbon\Carbon;
 use DateTimeImmutable;
 
 trait CreatedAtTrait
@@ -19,10 +18,5 @@ trait CreatedAtTrait
     public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
-    }
-
-    public function getCreatedAtAgo(): string
-    {
-        return Carbon::instance($this->createdAt)->diffForHumans();
     }
 }

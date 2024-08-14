@@ -14,7 +14,7 @@ use function count;
 use function is_array;
 use function is_string;
 
-// @TODO string etc.
+// @TODO remove
 /**
  * For this to work when editing something, the DTO must hold the ID of the
  * entity being edited, and the ID mapped using `$idFields`.

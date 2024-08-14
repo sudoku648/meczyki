@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\Shared\Domain\Entity;
 
-use Carbon\Carbon;
 use DateTimeImmutable;
 
 trait UpdatedAtTrait
@@ -21,10 +20,5 @@ trait UpdatedAtTrait
         $this->updatedAt = new DateTimeImmutable();
 
         return $this->updatedAt;
-    }
-
-    public function getUpdatedAtAgo(): ?string
-    {
-        return $this->updatedAt ? Carbon::instance($this->updatedAt)->diffForHumans() : null;
     }
 }
