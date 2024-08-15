@@ -13,6 +13,7 @@ use Pagerfanta\Pagerfanta;
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
 use Sudoku648\Meczyki\Person\Domain\Persistence\PersonRepositoryInterface;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\MatchGameFunction;
+use Sudoku648\Meczyki\Person\Domain\ValueObject\PersonId;
 use Sudoku648\Meczyki\Person\Frontend\DataTable\Factory\DataTablePersonCriteriaFactory;
 use Sudoku648\Meczyki\Person\Infrastructure\Persistence\PageView\PersonPageView;
 
@@ -153,5 +154,20 @@ class DoctrinePersonRepository extends ServiceEntityRepository implements Person
             ->setParameter(1, $person)
             ->getQuery()
             ->getResult();
+    }
+
+    public function existsWithMobilePhoneAndId(string $mobilePhone, ?PersonId $personId): bool
+    {
+        $qb = $this->createQueryBuilder('person')
+            ->where('person.mobilePhone = :mobilePhone')
+            ->setParameter('mobilePhone', $mobilePhone);
+
+        if ($personId) {
+            $qb
+                ->andWhere('person.id <> :id')
+                ->setParameter('id', $personId->getValue());
+        }
+
+        return null !== $qb->getQuery()->getOneOrNullResult();
     }
 }

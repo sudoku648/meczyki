@@ -13,6 +13,8 @@ use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Sudoku648\Meczyki\User\Domain\Entity\User;
 use Sudoku648\Meczyki\User\Domain\Persistence\UserRepositoryInterface;
+use Sudoku648\Meczyki\User\Domain\ValueObject\UserId;
+use Sudoku648\Meczyki\User\Domain\ValueObject\Username;
 use Sudoku648\Meczyki\User\Frontend\DataTable\Factory\DataTableUserCriteriaFactory;
 use Sudoku648\Meczyki\User\Infrastructure\Persistence\PageView\UserPageView;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
@@ -172,5 +174,20 @@ class DoctrineUserRepository extends ServiceEntityRepository implements UserLoad
             ->setParameter(1, $user)
             ->getQuery()
             ->getResult();
+    }
+
+    public function existsWithUsernameAndId(Username $username, ?UserId $userId): bool
+    {
+        $qb = $this->createQueryBuilder('user')
+            ->where('user.username = :username')
+            ->setParameter('username', $username->getValue());
+
+        if ($userId) {
+            $qb
+                ->andWhere('user.id <> :id')
+                ->setParameter('id', $userId->getValue());
+        }
+
+        return null !== $qb->getQuery()->getOneOrNullResult();
     }
 }

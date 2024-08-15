@@ -5,17 +5,11 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\User\Frontend\Dto;
 
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
-use Sudoku648\Meczyki\Shared\Frontend\Validator\Constraints\UniqueEntity;
-use Sudoku648\Meczyki\User\Domain\Entity\User;
 use Sudoku648\Meczyki\User\Domain\ValueObject\UserId;
+use Sudoku648\Meczyki\User\Frontend\Validator\Constraints\UserUnique;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[UniqueEntity(options: [
-    'entityClass' => User::class,
-    'errorPaths'  => 'username',
-    'fields'      => ['username'],
-    'idFields'    => 'id',
-])]
+#[UserUnique]
 class UserDto
 {
     private ?UserId $id = null;

@@ -6,8 +6,8 @@ parameters:
 
 services:
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        autowire: true
+        autoconfigure: true
         bind:
             $html5Validation: '%html5_validation%'
 
@@ -24,8 +24,8 @@ services:
         class: Sudoku648\Meczyki\Shared\Frontend\Service\MenuBuilder
         arguments: [ '@knp_menu.factory' ]
         tags:
-            - { name: knp_menu.menu_builder, method: createMainMenu, alias: main } # The alias is what is used to retrieve the menu
-            - { name: knp_menu.menu_builder, method: createTopMenu, alias: top } # The alias is what is used to retrieve the menu
+            - { name: knp_menu.menu_builder, method: createMainMenu, alias: main }
+            - { name: knp_menu.menu_builder, method: createTopMenu, alias: top }
 
 imports:
     - { resource: '../src/Club/Symfony/Resources/config/services.php' }

@@ -12,6 +12,8 @@ use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Sudoku648\Meczyki\GameType\Domain\Entity\GameType;
 use Sudoku648\Meczyki\GameType\Domain\Persistence\GameTypeRepositoryInterface;
+use Sudoku648\Meczyki\GameType\Domain\ValueObject\GameTypeId;
+use Sudoku648\Meczyki\GameType\Domain\ValueObject\GameTypeName;
 use Sudoku648\Meczyki\GameType\Frontend\DataTable\Factory\DataTableGameTypeCriteriaFactory;
 use Sudoku648\Meczyki\GameType\Infrastructure\Persistence\PageView\GameTypePageView;
 
@@ -127,5 +129,20 @@ class DoctrineGameTypeRepository extends ServiceEntityRepository implements Game
             ->setParameter(1, $gameType)
             ->getQuery()
             ->getResult();
+    }
+
+    public function existsWithNameAndId(GameTypeName $name, ?GameTypeId $gameTypeId): bool
+    {
+        $qb = $this->createQueryBuilder('gameType')
+            ->where('gameType.name = :name')
+            ->setParameter('name', $name->getValue());
+
+        if ($gameTypeId) {
+            $qb
+                ->andWhere('gameType.id <> :id')
+                ->setParameter('id', $gameTypeId->getValue());
+        }
+
+        return null !== $qb->getQuery()->getOneOrNullResult();
     }
 }

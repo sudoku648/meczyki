@@ -6,26 +6,19 @@ namespace Sudoku648\Meczyki\Person\Frontend\Dto;
 
 use DateTime;
 use DateTimeImmutable;
-use Sudoku648\Meczyki\Person\Domain\Entity\Person;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\PersonId;
+use Sudoku648\Meczyki\Person\Frontend\Validator\Constraints\PersonUnique;
 use Sudoku648\Meczyki\Person\Frontend\Validator\Constraints\Pesel;
 use Sudoku648\Meczyki\Shared\Domain\ValueObject\Voivodeship;
 use Sudoku648\Meczyki\Shared\Frontend\Validator\Constraints\Nip;
 use Sudoku648\Meczyki\Shared\Frontend\Validator\Constraints\PolishMobilePhone;
 use Sudoku648\Meczyki\Shared\Frontend\Validator\Constraints\PolishPostCode;
-use Sudoku648\Meczyki\Shared\Frontend\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 use function substr;
 
-#[UniqueEntity(options: [
-    'entityClass' => Person::class,
-    'errorPaths'  => 'mobilePhone',
-    'fields'      => ['mobilePhone'],
-    'idFields'    => 'id',
-    'message'     => 'This value is already used.',
-])]
+#[PersonUnique]
 class PersonDto
 {
     private ?PersonId $id = null;

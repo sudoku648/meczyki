@@ -4,19 +4,12 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\Club\Frontend\Dto;
 
-use Sudoku648\Meczyki\Club\Domain\Entity\Club;
 use Sudoku648\Meczyki\Club\Domain\ValueObject\ClubId;
+use Sudoku648\Meczyki\Club\Frontend\Validator\Constraints\ClubUnique;
 use Sudoku648\Meczyki\Image\Domain\Entity\Image;
-use Sudoku648\Meczyki\Shared\Frontend\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[UniqueEntity(options: [
-    'entityClass' => Club::class,
-    'errorPaths'  => 'name',
-    'fields'      => ['name'],
-    'idFields'    => 'id',
-    'message'     => 'Nazwa jest już wykorzystywana.',
-])]
+#[ClubUnique]
 class ClubDto
 {
     private ?ClubId $id = null;

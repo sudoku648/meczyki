@@ -12,6 +12,8 @@ use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Sudoku648\Meczyki\Club\Domain\Entity\Club;
 use Sudoku648\Meczyki\Club\Domain\Persistence\ClubRepositoryInterface;
+use Sudoku648\Meczyki\Club\Domain\ValueObject\ClubId;
+use Sudoku648\Meczyki\Club\Domain\ValueObject\ClubName;
 use Sudoku648\Meczyki\Club\Frontend\DataTable\Factory\DataTableClubCriteriaFactory;
 use Sudoku648\Meczyki\Club\Infrastructure\Persistence\PageView\ClubPageView;
 
@@ -120,5 +122,20 @@ class DoctrineClubRepository extends ServiceEntityRepository implements ClubRepo
             ->setParameter(1, $club)
             ->getQuery()
             ->getResult();
+    }
+
+    public function existsWithNameAndId(ClubName $name, ?ClubId $clubId): bool
+    {
+        $qb = $this->createQueryBuilder('club')
+            ->where('club.name = :name')
+            ->setParameter('name', $name->getValue());
+
+        if ($clubId) {
+            $qb
+                ->andWhere('club.id <> :id')
+                ->setParameter('id', $clubId->getValue());
+        }
+
+        return null !== $qb->getQuery()->getOneOrNullResult();
     }
 }

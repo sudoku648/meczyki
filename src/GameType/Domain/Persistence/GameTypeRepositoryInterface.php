@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\GameType\Domain\Persistence;
 
 use Sudoku648\Meczyki\GameType\Domain\Entity\GameType;
+use Sudoku648\Meczyki\GameType\Domain\ValueObject\GameTypeId;
+use Sudoku648\Meczyki\GameType\Domain\ValueObject\GameTypeName;
 use Sudoku648\Meczyki\GameType\Infrastructure\Persistence\PageView\GameTypePageView;
 
 interface GameTypeRepositoryInterface
@@ -26,4 +28,6 @@ interface GameTypeRepositoryInterface
      * @return GameType[]
      */
     public function findByCriteria(GameTypePageView $criteria): array;
+
+    public function existsWithNameAndId(GameTypeName $name, ?GameTypeId $gameTypeId): bool;
 }
