@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\Club\Frontend\Form;
 
-use Sudoku648\Meczyki\Club\Frontend\Dto\ClubDto;
 use Sudoku648\Meczyki\Image\Frontend\Form\Constraint\ImageConstraint;
 use Sudoku648\Meczyki\Shared\Frontend\Form\EventListener\ImageListener;
 use Symfony\Component\Form\AbstractType;
@@ -45,7 +44,6 @@ class ClubType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class'         => ClubDto::class,
             'translation_domain' => 'Club',
         ]);
     }

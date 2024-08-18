@@ -6,6 +6,7 @@ namespace Sudoku648\Meczyki\Club\Frontend\Controller;
 
 use Sudoku648\Meczyki\Club\Domain\Entity\Club;
 use Sudoku648\Meczyki\Club\Domain\Service\ClubManagerInterface;
+use Sudoku648\Meczyki\Club\Frontend\Factory\UpdateClubDtoFactory;
 use Sudoku648\Meczyki\Club\Frontend\Form\ClubType;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\ClubVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
@@ -40,7 +41,7 @@ final class ClubEditController extends AbstractController
             ->add('clubs_list')
             ->add('club_edit', ['club_id' => $club->getId()]);
 
-        $dto = $this->manager->createDto($club);
+        $dto = UpdateClubDtoFactory::fromEntity($club);
 
         $form = $this->createForm(ClubType::class, $dto);
         $form->handleRequest($request);
@@ -71,8 +72,8 @@ final class ClubEditController extends AbstractController
             new Response(
                 null,
                 $form->isSubmitted() && !$form->isValid()
-                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK
-            )
+                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK,
+            ),
         );
     }
 }

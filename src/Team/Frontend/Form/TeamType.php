@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\Team\Frontend\Form;
 
-use Sudoku648\Meczyki\Team\Frontend\Dto\TeamDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,7 +24,6 @@ class TeamType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class'         => TeamDto::class,
             'translation_domain' => 'Team',
         ]);
     }

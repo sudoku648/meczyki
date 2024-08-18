@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\User\Frontend\Form;
 
-use Sudoku648\Meczyki\User\Frontend\Dto\UserDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -34,7 +33,6 @@ class UserPasswordType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class'         => UserDto::class,
                 'translation_domain' => 'User',
             ]
         );

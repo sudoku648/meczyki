@@ -11,6 +11,7 @@ use Sudoku648\Meczyki\Shared\Frontend\Controller\Enums\FlashType;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
 use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Sudoku648\Meczyki\Team\Domain\Service\TeamManagerInterface;
+use Sudoku648\Meczyki\Team\Frontend\Dto\CreateTeamDto;
 use Sudoku648\Meczyki\Team\Frontend\Form\TeamType;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\Form\ClickableInterface;
@@ -41,7 +42,7 @@ final class TeamCreateController extends AbstractController
             ->add('club_single', ['club_id' => $club->getId()])
             ->add('team_create', ['club_id' => $club->getId()]);
 
-        $form = $this->createForm(TeamType::class);
+        $form = $this->createForm(TeamType::class, new CreateTeamDto());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -72,8 +73,8 @@ final class TeamCreateController extends AbstractController
             new Response(
                 null,
                 $form->isSubmitted() && !$form->isValid()
-                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK
-            )
+                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK,
+            ),
         );
     }
 }

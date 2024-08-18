@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\MatchGameBill\Frontend\Form;
 
-use Sudoku648\Meczyki\MatchGameBill\Frontend\Dto\MatchGameBillDto;
 use Sudoku648\Meczyki\Shared\Frontend\Form\DataTransformer\PercentageTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -82,8 +81,7 @@ class MatchGameBillType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class'         => MatchGameBillDto::class,
-            'translation_domain' => 'MatchGame',
+            'translation_domain' => 'MatchGameBill',
         ]);
     }
 }

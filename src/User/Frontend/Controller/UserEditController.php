@@ -11,7 +11,8 @@ use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
 use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Sudoku648\Meczyki\User\Domain\Entity\User;
 use Sudoku648\Meczyki\User\Domain\Service\UserManagerInterface;
-use Sudoku648\Meczyki\User\Frontend\Dto\UserDto;
+use Sudoku648\Meczyki\User\Frontend\Dto\UpdateUserDto;
+use Sudoku648\Meczyki\User\Frontend\Factory\UpdateUserDtoFactory;
 use Sudoku648\Meczyki\User\Frontend\Form\UserBasicType;
 use Sudoku648\Meczyki\User\Frontend\Form\UserPasswordType;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
@@ -43,7 +44,7 @@ final class UserEditController extends AbstractController
             ->add('users_list')
             ->add('user_edit', ['user_id' => $user->getId()]);
 
-        $dto = $this->manager->createDto($user);
+        $dto = UpdateUserDtoFactory::fromEntity($user);
 
         $basicForm = $this->handleForm(
             $this->createForm(UserBasicType::class, $dto),
@@ -78,15 +79,15 @@ final class UserEditController extends AbstractController
                 null,
                 $basicForm->isSubmitted() && !$basicForm->isValid()
                 || $passwordForm->isSubmitted() && !$passwordForm->isValid()
-                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK
-            )
+                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK,
+            ),
         );
     }
 
     private function handleForm(
         FormInterface $form,
         User $user,
-        UserDto $dto,
+        UpdateUserDto $dto,
         UserManagerInterface $manager,
         Request $request,
     ): FormInterface|Response {

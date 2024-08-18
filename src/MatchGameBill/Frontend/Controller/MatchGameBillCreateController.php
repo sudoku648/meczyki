@@ -6,6 +6,7 @@ namespace Sudoku648\Meczyki\MatchGameBill\Frontend\Controller;
 
 use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGame;
 use Sudoku648\Meczyki\MatchGameBill\Domain\Service\MatchGameBillManagerInterface;
+use Sudoku648\Meczyki\MatchGameBill\Frontend\Dto\CreateMatchGameBillDto;
 use Sudoku648\Meczyki\MatchGameBill\Frontend\Form\MatchGameBillType;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\MatchGameVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
@@ -37,7 +38,7 @@ final class MatchGameBillCreateController extends AbstractController
             ->add('match_game_single', ['match_game_id' => $matchGame->getId()])
             ->add('match_game_bill_create', ['match_game_id' => $matchGame->getId()]);
 
-        $form = $this->createForm(MatchGameBillType::class);
+        $form = $this->createForm(MatchGameBillType::class, new CreateMatchGameBillDto());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -48,7 +49,7 @@ final class MatchGameBillCreateController extends AbstractController
 
             $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
                 id: 'Match game bill has been added.',
-                domain: 'MatchGame',
+                domain: 'MatchGameBill',
             ));
 
             return $this->redirectToRoute(
@@ -63,13 +64,14 @@ final class MatchGameBillCreateController extends AbstractController
         return $this->render(
             'match_game_bill/new.html.twig',
             [
-                'form' => $form->createView(),
+                'form'      => $form->createView(),
+                'matchGame' => $matchGame,
             ],
             new Response(
                 null,
                 $form->isSubmitted() && !$form->isValid()
-                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK
-            )
+                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK,
+            ),
         );
     }
 }

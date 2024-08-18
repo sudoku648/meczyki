@@ -11,22 +11,39 @@ use Sudoku648\Meczyki\MatchGame\Domain\Service\MatchGameManagerInterface;
 use Sudoku648\Meczyki\MatchGame\Domain\ValueObject\Round;
 use Sudoku648\Meczyki\MatchGame\Domain\ValueObject\Season;
 use Sudoku648\Meczyki\MatchGame\Domain\ValueObject\Venue;
-use Sudoku648\Meczyki\MatchGame\Frontend\Dto\MatchGameDto;
-use Sudoku648\Meczyki\MatchGame\Frontend\Factory\MatchGameFactory;
+use Sudoku648\Meczyki\MatchGame\Frontend\Dto\CreateMatchGameDto;
+use Sudoku648\Meczyki\MatchGame\Frontend\Dto\UpdateMatchGameDto;
 use Sudoku648\Meczyki\User\Domain\Entity\User;
 
 readonly class MatchGameManager implements MatchGameManagerInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private MatchGameFactory $factory,
         private MatchGameRepositoryInterface $repository,
     ) {
     }
 
-    public function create(MatchGameDto $dto, User $user): MatchGame
+    public function create(CreateMatchGameDto $dto, User $user): MatchGame
     {
-        $matchGame = $this->factory->createFromDto($dto, $user);
+        $matchGame = new MatchGame(
+            $user,
+            $dto->homeTeam,
+            $dto->awayTeam,
+            $dto->dateTime,
+            $dto->gameType,
+            $dto->season,
+            $dto->round,
+            Venue::fromString($dto->venue),
+            $dto->referee,
+            $dto->firstAssistantReferee,
+            $dto->isFirstAssistantNonProfitable,
+            $dto->secondAssistantReferee,
+            $dto->isSecondAssistantNonProfitable,
+            $dto->fourthOfficial,
+            $dto->refereeObserver,
+            $dto->delegate,
+            $dto->moreInfo,
+        );
 
         $matchGame = $this->setNonProfitableValues($matchGame);
 
@@ -35,7 +52,7 @@ readonly class MatchGameManager implements MatchGameManagerInterface
         return $matchGame;
     }
 
-    public function edit(MatchGame $matchGame, MatchGameDto $dto): MatchGame
+    public function edit(MatchGame $matchGame, UpdateMatchGameDto $dto): MatchGame
     {
         $matchGame->setHomeTeam($dto->homeTeam);
         $matchGame->setAwayTeam($dto->awayTeam);
@@ -66,11 +83,6 @@ readonly class MatchGameManager implements MatchGameManagerInterface
     public function delete(MatchGame $matchGame): void
     {
         $this->entityManager->remove($matchGame);
-    }
-
-    public function createDto(MatchGame $matchGame): MatchGameDto
-    {
-        return $this->factory->createDto($matchGame);
     }
 
     private function setNonProfitableValues(MatchGame $matchGame): MatchGame

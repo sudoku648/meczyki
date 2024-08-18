@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\Club\Frontend\Controller;
 
 use Sudoku648\Meczyki\Club\Domain\Service\ClubManagerInterface;
+use Sudoku648\Meczyki\Club\Frontend\Dto\CreateClubDto;
 use Sudoku648\Meczyki\Club\Frontend\Form\ClubType;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\ClubVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
@@ -36,7 +37,7 @@ final class ClubCreateController extends AbstractController
             ->add('clubs_list')
             ->add('club_create');
 
-        $form = $this->createForm(ClubType::class);
+        $form = $this->createForm(ClubType::class, new CreateClubDto());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -66,8 +67,8 @@ final class ClubCreateController extends AbstractController
             new Response(
                 null,
                 $form->isSubmitted() && !$form->isValid()
-                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK
-            )
+                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK,
+            ),
         );
     }
 }

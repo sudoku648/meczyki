@@ -6,7 +6,6 @@ namespace Sudoku648\Meczyki\User\Frontend\Form;
 
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
 use Sudoku648\Meczyki\Person\Domain\Persistence\PersonRepositoryInterface;
-use Sudoku648\Meczyki\User\Frontend\Dto\UserDto;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -43,7 +42,6 @@ class UserBindWithPersonType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class'         => UserDto::class,
             'translation_domain' => 'User',
         ]);
     }

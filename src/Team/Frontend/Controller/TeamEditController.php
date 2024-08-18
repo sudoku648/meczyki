@@ -12,6 +12,7 @@ use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
 use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Sudoku648\Meczyki\Team\Domain\Entity\Team;
 use Sudoku648\Meczyki\Team\Domain\Service\TeamManagerInterface;
+use Sudoku648\Meczyki\Team\Frontend\Factory\UpdateTeamDtoFactory;
 use Sudoku648\Meczyki\Team\Frontend\Form\TeamType;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\Form\ClickableInterface;
@@ -45,7 +46,7 @@ final class TeamEditController extends AbstractController
                 'team_id' => $team->getId(),
             ]);
 
-        $dto = $this->manager->createDto($team);
+        $dto = UpdateTeamDtoFactory::fromEntity($team);
 
         $form = $this->createForm(TeamType::class, $dto);
         $form->handleRequest($request);
@@ -76,8 +77,8 @@ final class TeamEditController extends AbstractController
             new Response(
                 null,
                 $form->isSubmitted() && !$form->isValid()
-                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK
-            )
+                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK,
+            ),
         );
     }
 }

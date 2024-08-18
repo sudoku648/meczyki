@@ -6,7 +6,6 @@ namespace Sudoku648\Meczyki\MatchGame\Frontend\Form;
 
 use Sudoku648\Meczyki\GameType\Domain\Entity\GameType;
 use Sudoku648\Meczyki\GameType\Domain\Persistence\GameTypeRepositoryInterface;
-use Sudoku648\Meczyki\MatchGame\Frontend\Dto\MatchGameDto;
 use Sudoku648\Meczyki\Person\Domain\Persistence\PersonRepositoryInterface;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\MatchGameFunction;
 use Sudoku648\Meczyki\Person\Frontend\Form\Option\PersonOption;
@@ -30,7 +29,7 @@ class MatchGameType extends AbstractType
     public function __construct(
         private readonly GameTypeRepositoryInterface $gameTypeRepository,
         private readonly PersonRepositoryInterface $personRepository,
-        private readonly TeamRepositoryInterface $teamRepository
+        private readonly TeamRepositoryInterface $teamRepository,
     ) {
     }
 
@@ -204,7 +203,6 @@ class MatchGameType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class'         => MatchGameDto::class,
             'translation_domain' => 'MatchGame',
         ]);
     }

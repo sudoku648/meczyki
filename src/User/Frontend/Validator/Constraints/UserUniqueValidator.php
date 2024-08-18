@@ -6,10 +6,13 @@ namespace Sudoku648\Meczyki\User\Frontend\Validator\Constraints;
 
 use Sudoku648\Meczyki\User\Domain\Persistence\UserRepositoryInterface;
 use Sudoku648\Meczyki\User\Domain\ValueObject\Username;
-use Sudoku648\Meczyki\User\Frontend\Dto\UserDto;
+use Sudoku648\Meczyki\User\Frontend\Dto\CreateUserDto;
+use Sudoku648\Meczyki\User\Frontend\Dto\UpdateUserDto;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
+
+use function sprintf;
 
 final class UserUniqueValidator extends ConstraintValidator
 {
@@ -28,8 +31,8 @@ final class UserUniqueValidator extends ConstraintValidator
             return;
         }
 
-        if (!$value instanceof UserDto) {
-            throw new UnexpectedTypeException($constraint, UserDto::class);
+        if (!$value instanceof CreateUserDto && !$value instanceof UpdateUserDto) {
+            throw new UnexpectedTypeException($constraint, sprintf('%s or %s', CreateUserDto::class, UpdateUserDto::class));
         }
 
         if (null === $value->username) {
@@ -38,7 +41,7 @@ final class UserUniqueValidator extends ConstraintValidator
 
         $existsUsername = $this->repository->existsWithUsernameAndId(
             Username::fromString($value->username),
-            $value->getId(),
+            $value->userId ?? null,
         );
         if ($existsUsername) {
             $this->context->buildViolation($constraint->usernameExists)->atPath('username')->addViolation();

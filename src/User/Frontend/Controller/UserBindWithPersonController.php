@@ -11,6 +11,7 @@ use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
 use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Sudoku648\Meczyki\User\Domain\Entity\User;
 use Sudoku648\Meczyki\User\Domain\Service\UserManagerInterface;
+use Sudoku648\Meczyki\User\Frontend\Factory\UserBindWithPersonDtoFactory;
 use Sudoku648\Meczyki\User\Frontend\Form\UserBindWithPersonType;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\Form\ClickableInterface;
@@ -41,7 +42,7 @@ final class UserBindWithPersonController extends AbstractController
             ->add('user_single', ['user_id' => $user->getId()])
             ->add('user_bind_with_person', ['user_id' => $user->getId()]);
 
-        $dto = $this->manager->createDto($user);
+        $dto = UserBindWithPersonDtoFactory::fromEntity($user);
 
         $form = $this->createForm(UserBindWithPersonType::class, $dto);
         $form->handleRequest($request);
@@ -79,8 +80,8 @@ final class UserBindWithPersonController extends AbstractController
             new Response(
                 null,
                 $form->isSubmitted() && !$form->isValid()
-                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK
-            )
+                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK,
+            ),
         );
     }
 }

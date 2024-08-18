@@ -36,7 +36,7 @@ final class MatchGameBillDeleteController extends AbstractController
 
         $this->makeFlash(FlashType::SUCCESS, $this->translator->trans(
             id: 'Match game bill has been updated.',
-            domain: 'MatchGame',
+            domain: 'MatchGameBill',
         ));
 
         return $this->redirectToSingleMatchGame($matchGame);

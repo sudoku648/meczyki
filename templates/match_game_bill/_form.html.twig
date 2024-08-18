@@ -1,6 +1,6 @@
 {{ form_start(form) }}
     {{ form_row(form.baseEquivalent, {'label': 'Gross base equivalent'}) }}
-    {{ form_row(form.percentOfBaseEquivalent, {'label': 'Należna część ekwiwalentu bazowego'}) }}
+    {{ form_row(form.percentOfBaseEquivalent, {'label': 'Percent of base equivalent'}) }}
     {{ form_row(form.taxDeductibleStakePercent, {'label': 'Tax deductible stake percent'}) }}
     {{ form_row(form.incomeTaxStakePercent, {'label': 'Income tax stake percent'}) }}
 
@@ -8,7 +8,7 @@
         'label': 'Save',
         'attr': {'class': 'btn-success icon-save loadable-save'}
     }) }}
-    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameVoter::SHOW'), matchGameBill.matchGame) %}
-        {{ include('match_game_bill/_button/back.html.twig', {'matchGameId': matchGameBill.matchGame.id}) }}
+    {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameVoter::SHOW'), matchGame) %}
+        {{ include('match_game_bill/_button/back.html.twig', {'matchGameId': matchGame.id}) }}
     {% endif %}
 {{ form_end(form) }}

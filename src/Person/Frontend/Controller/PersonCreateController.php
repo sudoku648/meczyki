@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\Person\Frontend\Controller;
 
 use Sudoku648\Meczyki\Person\Domain\Service\PersonManagerInterface;
+use Sudoku648\Meczyki\Person\Frontend\Dto\CreatePersonDto;
 use Sudoku648\Meczyki\Person\Frontend\Form\PersonType;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\PersonVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
@@ -36,7 +37,7 @@ final class PersonCreateController extends AbstractController
             ->add('people_list')
             ->add('person_create');
 
-        $form = $this->createForm(PersonType::class);
+        $form = $this->createForm(PersonType::class, new CreatePersonDto());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -66,8 +67,8 @@ final class PersonCreateController extends AbstractController
             new Response(
                 null,
                 $form->isSubmitted() && !$form->isValid()
-                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK
-            )
+                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK,
+            ),
         );
     }
 }

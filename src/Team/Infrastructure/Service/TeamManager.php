@@ -9,21 +9,24 @@ use Sudoku648\Meczyki\Team\Domain\Persistence\TeamRepositoryInterface;
 use Sudoku648\Meczyki\Team\Domain\Service\TeamManagerInterface;
 use Sudoku648\Meczyki\Team\Domain\ValueObject\TeamName;
 use Sudoku648\Meczyki\Team\Domain\ValueObject\TeamShortName;
-use Sudoku648\Meczyki\Team\Frontend\Dto\TeamDto;
-use Sudoku648\Meczyki\Team\Frontend\Factory\TeamFactory;
+use Sudoku648\Meczyki\Team\Frontend\Dto\CreateTeamDto;
+use Sudoku648\Meczyki\Team\Frontend\Dto\UpdateTeamDto;
 use Webmozart\Assert\Assert;
 
 readonly class TeamManager implements TeamManagerInterface
 {
     public function __construct(
-        private TeamFactory $factory,
         private TeamRepositoryInterface $repository,
     ) {
     }
 
-    public function create(TeamDto $dto): Team
+    public function create(CreateTeamDto $dto): Team
     {
-        $team = $this->factory->createFromDto($dto);
+        $team = new Team(
+            TeamName::fromString($dto->name),
+            TeamShortName::fromString($dto->shortName),
+            $dto->club,
+        );
         $team->getClub()->setUpdatedAt();
 
         $this->repository->persist($team);
@@ -31,7 +34,7 @@ readonly class TeamManager implements TeamManagerInterface
         return $team;
     }
 
-    public function edit(Team $team, TeamDto $dto): Team
+    public function edit(Team $team, UpdateTeamDto $dto): Team
     {
         Assert::same($team->getClub()->getId(), $dto->club->getId());
 
@@ -49,10 +52,5 @@ readonly class TeamManager implements TeamManagerInterface
     public function delete(Team $team): void
     {
         $this->repository->remove($team);
-    }
-
-    public function createDto(Team $team): TeamDto
-    {
-        return $this->factory->createDto($team);
     }
 }

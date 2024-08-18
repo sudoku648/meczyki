@@ -2,9 +2,6 @@ Match games: Mecze
 Add match game: Dodaj mecz
 Edit match game: Edytuj mecz
 Match game: Mecz
-Add match game bill: Dodaj rachunek
-Edit match game bill: Edytuj rachunek
-Match game bill: Rachunek za mecz
 Date: Data
 Time: Godzina
 Date and time: Data i godzina
@@ -26,15 +23,6 @@ More info: Dodatkowe informacje
 Bills: Rachunki
 Person: Osoba
 Function: Funkcja
-Gross base equivalent: Bazowy ekwiwalent brutto
-Percent of base equivalent: Należna część ekwiwalentu bazowego
-Gross equivalent: Należny ekwiwalent brutto
-Tax deductible stake percent: Stawka procentowa kosztów uzyskania przychodu
-Tax deductible expenses: Koszty uzyskania przychodu
-Taxation base: Podstawa opodatkowania
-Income tax stake percent: Stawka procentowa podatku dochodowego
-Income tax: Podatek dochodowy
-Equivalent to withdraw: Ekwiwalent do wypłaty
 unknown: nieznany
 Add new: Dodaj nowy
 Save: Zapisz
@@ -46,17 +34,12 @@ Delete: Usuń
 Cancel: Anuluj
 Go back to the list: Wróć do listy
 Go back to the dashboard: Wróć do panelu
-Go back to match game details: Wróć do szczegółów meczu
-Download as XLSX: Pobierz w formacie XLSX
 Match game has been added.: Mecz został dodany.
 Match game has been updated.: Mecz został zaktualizowany.
 Match game has been deleted.: Mecz został usunięty.
 Match games have been deleted.: Mecze zostały usunięte.
 Not all chosen match games have been deleted.: Nie wszystkie wybrane mecze zostały usunięte.
-Match game bill has been added.: Rachunek meczowy został dodany.
-Match game bill has been updated.: Rachunek meczowy został zaktualizowany.
-Match game bill has been deleted.: Rachunek meczowy został usunięty.
-"Chosen season doesn't match with match game date.": Wybrany sezon nie odpowiada dacie meczu.
+"Chosen season doesn't match with date.": Wybrany sezon nie odpowiada dacie meczu.
 "You cannot choose season for unofficial game type.": Dla nieoficjalnych rozgrywek nie można podać sezonu.
 "You cannot choose round for unofficial game type.": Dla nieoficjalnych rozgrywek nie można podać rundy.
 "Same person was chosen more than once.": Tę samą osobę wybrano więcej niż raz.

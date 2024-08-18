@@ -6,7 +6,7 @@ namespace Sudoku648\Meczyki\User\Cli\Command;
 
 use Sudoku648\Meczyki\User\Domain\Persistence\UserRepositoryInterface;
 use Sudoku648\Meczyki\User\Domain\Service\UserManagerInterface;
-use Sudoku648\Meczyki\User\Frontend\Dto\UserDto;
+use Sudoku648\Meczyki\User\Frontend\Dto\CreateUserDto;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -62,10 +62,10 @@ class UserCommand extends Command
 
     private function createUser(InputInterface $input, SymfonyStyle $io): void
     {
-        $dto = new UserDto();
-
-        $dto->username      = $input->getArgument('username');
-        $dto->plainPassword = $input->getArgument('password');
+        $dto = new CreateUserDto(
+            $input->getArgument('username'),
+            $input->getArgument('password'),
+        );
 
         $this->manager->create($dto);
 

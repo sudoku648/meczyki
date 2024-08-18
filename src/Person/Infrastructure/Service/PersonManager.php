@@ -10,8 +10,9 @@ use Sudoku648\Meczyki\Person\Domain\Service\PersonManagerInterface;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\FirstName;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\LastName;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\Pesel;
-use Sudoku648\Meczyki\Person\Frontend\Dto\PersonDto;
-use Sudoku648\Meczyki\Person\Frontend\Factory\PersonFactory;
+use Sudoku648\Meczyki\Person\Frontend\Dto\CreatePersonDto;
+use Sudoku648\Meczyki\Person\Frontend\Dto\EditPersonalInfoDto;
+use Sudoku648\Meczyki\Person\Frontend\Dto\UpdatePersonDto;
 use Sudoku648\Meczyki\Person\Infrastructure\Mapper\MatchGameFunctionMapper;
 use Sudoku648\Meczyki\Shared\Domain\ValueObject\Address;
 use Sudoku648\Meczyki\Shared\Domain\ValueObject\Iban;
@@ -21,22 +22,26 @@ use Sudoku648\Meczyki\Shared\Domain\ValueObject\PhoneNumber;
 readonly class PersonManager implements PersonManagerInterface
 {
     public function __construct(
-        private PersonFactory $factory,
         private PersonRepositoryInterface $repository,
         private MatchGameFunctionMapper $functionMapper,
     ) {
     }
 
-    public function create(PersonDto $dto): Person
+    public function create(CreatePersonDto $dto): Person
     {
-        $person = $this->factory->createFromDto($dto);
+        $person = new Person(
+            FirstName::fromString($dto->firstName),
+            LastName::fromString($dto->lastName),
+            null !== $dto->mobilePhone ? PhoneNumber::fromString($dto->mobilePhone) : null,
+            $this->functionMapper->mapEnumsToValues($dto->functions),
+        );
 
         $this->repository->persist($person);
 
         return $person;
     }
 
-    public function edit(Person $person, PersonDto $dto): Person
+    public function edit(Person $person, UpdatePersonDto $dto): Person
     {
         $person->setFirstName(FirstName::fromString($dto->firstName));
         $person->setLastName(LastName::fromString($dto->lastName));
@@ -49,7 +54,7 @@ readonly class PersonManager implements PersonManagerInterface
         return $person;
     }
 
-    public function editPersonalInfo(Person $person, PersonDto $dto): Person
+    public function editPersonalInfo(Person $person, EditPersonalInfoDto $dto): Person
     {
         $person->setEmail($dto->email);
         $person->setDateOfBirth($dto->dateOfBirth);
@@ -79,10 +84,5 @@ readonly class PersonManager implements PersonManagerInterface
     public function delete(Person $person): void
     {
         $this->repository->remove($person);
-    }
-
-    public function createDto(Person $person): PersonDto
-    {
-        return $this->factory->createDto($person);
     }
 }

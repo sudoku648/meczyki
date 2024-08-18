@@ -6,6 +6,7 @@ namespace Sudoku648\Meczyki\MatchGame\Frontend\Controller;
 
 use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGame;
 use Sudoku648\Meczyki\MatchGame\Domain\Service\MatchGameManagerInterface;
+use Sudoku648\Meczyki\MatchGame\Frontend\Factory\UpdateMatchGameDtoFactory;
 use Sudoku648\Meczyki\MatchGame\Frontend\Form\MatchGameType;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\MatchGameVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
@@ -40,7 +41,7 @@ final class MatchGameEditController extends AbstractController
             ->add('match_games_list')
             ->add('match_game_edit', ['match_game_id' => $matchGame->getId()]);
 
-        $dto = $this->manager->createDto($matchGame);
+        $dto = UpdateMatchGameDtoFactory::fromEntity($matchGame);
 
         $form = $this->createForm(MatchGameType::class, $dto);
         $form->handleRequest($request);
@@ -71,8 +72,8 @@ final class MatchGameEditController extends AbstractController
             new Response(
                 null,
                 $form->isSubmitted() && !$form->isValid()
-                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK
-            )
+                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK,
+            ),
         );
     }
 }

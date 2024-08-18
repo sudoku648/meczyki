@@ -1,48 +1,48 @@
 {% extends 'main.html.twig' %}
 
-{% block title %}{{'Match game bill'|trans({}, 'MatchGame')}}{% endblock %}
+{% block title %}{{'Match game bill'|trans({}, 'MatchGameBill')}}{% endblock %}
 
 {% block mainContent %}
     <table class="table">
         <tbody>
             <tr>
-                <th>{{'Match game'|trans({}, 'MatchGame')}}</th>
+                <th>{{'Match game'|trans({}, 'MatchGameBill')}}</th>
                 <td>{{ matchGameBill.matchGame.competitors }}</td>
             </tr>
             <tr>
-                <th>{{'Person'|trans({}, 'MatchGame')}}</th>
+                <th>{{'Person'|trans({}, 'MatchGameBill')}}</th>
                 <td>{{ matchGameBill.person.fullName }}</td>
             </tr>
             <tr>
-                <th>{{'Function'|trans({}, 'MatchGame')}}</th>
+                <th>{{'Function'|trans({}, 'MatchGameBill')}}</th>
                 <td>{{ matchGameBill.function.getName()|trans({}, 'Person') }}</td>
             </tr>
             <tr>
-                <th>{{'Gross base equivalent'|trans({}, 'MatchGame')}}</th>
+                <th>{{'Gross base equivalent'|trans({}, 'MatchGameBill')}}</th>
                 <td>{{ matchGameBill.baseEquivalent.amount }} zł</td>
             </tr>
             <tr>
-                <th>{{'Percent of base equivalent'|trans({}, 'MatchGame')}}</th>
+                <th>{{'Percent of base equivalent'|trans({}, 'MatchGameBill')}}</th>
                 <td>{{ matchGameBill.percentOfBaseEquivalent.value }}%</td>
             </tr>
             <tr>
-                <th>{{'Gross equivalent'|trans({}, 'MatchGame')}}</th>
+                <th>{{'Gross equivalent'|trans({}, 'MatchGameBill')}}</th>
                 <td>{{ matchGameBill.grossEquivalent.amount }} zł</td>
             </tr>
             <tr>
-                <th>{{'Tax deductible expenses'|trans({}, 'MatchGame')}} ({{ matchGameBill.taxDeductibleStakePercent.value }}%)</th>
+                <th>{{'Tax deductible expenses'|trans({}, 'MatchGameBill')}} ({{ matchGameBill.taxDeductibleStakePercent.value }}%)</th>
                 <td>{{ matchGameBill.taxDeductibleExpenses.amount }} zł</td>
             </tr>
             <tr>
-                <th>{{'Taxation base'|trans({}, 'MatchGame')}}</th>
+                <th>{{'Taxation base'|trans({}, 'MatchGameBill')}}</th>
                 <td>{{ matchGameBill.taxationBase.amount }} zł</td>
             </tr>
             <tr>
-                <th>{{'Income tax'|trans({}, 'MatchGame')}} ({{ matchGameBill.incomeTaxStakePercent.value }}%)</th>
+                <th>{{'Income tax'|trans({}, 'MatchGameBill')}} ({{ matchGameBill.incomeTaxStakePercent.value }}%)</th>
                 <td>{{ matchGameBill.incomeTax.amount }} zł</td>
             </tr>
             <tr>
-                <th>{{'Equivalent to withdraw'|trans({}, 'MatchGame')}}</th>
+                <th>{{'Equivalent to withdraw'|trans({}, 'MatchGameBill')}}</th>
                 <td>{{ matchGameBill.equivalentToWithdraw.amount }} zł</td>
             </tr>
         </tbody>
@@ -57,7 +57,11 @@
     {% endif %}
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameBillVoter::DOWNLOAD'), matchGameBill) %}
-        {{ include('match_game_bill/_button/download_xlsx.html.twig', {'matchGameId': matchGameBill.matchGame.id, 'matchGameBillId': matchGameBill.id}) }}
+        {{ include('match_game_bill/_button/download_xlsx.html.twig', {
+            'path': 'match_game_bill_download',
+            'matchGameId': matchGameBill.matchGame.id,
+            'matchGameBillId': matchGameBill.id,
+        }) }}
     {% endif %}
 
     {% if is_granted(constant('\\Sudoku648\\Meczyki\\Security\\Infrastructure\\Voter\\MatchGameBillVoter::DELETE'), matchGameBill) %}

@@ -6,6 +6,7 @@ namespace Sudoku648\Meczyki\GameType\Frontend\Controller;
 
 use Sudoku648\Meczyki\GameType\Domain\Entity\GameType;
 use Sudoku648\Meczyki\GameType\Domain\Service\GameTypeManagerInterface;
+use Sudoku648\Meczyki\GameType\Frontend\Factory\UpdateGameTypeDtoFactory;
 use Sudoku648\Meczyki\GameType\Frontend\Form\GameTypeType;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\GameTypeVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
@@ -40,7 +41,7 @@ final class GameTypeEditController extends AbstractController
             ->add('game_types_list')
             ->add('game_type_edit', ['game_type_id' => $gameType->getId()]);
 
-        $dto = $this->manager->createDto($gameType);
+        $dto = UpdateGameTypeDtoFactory::fromEntity($gameType);
 
         $form = $this->createForm(GameTypeType::class, $dto);
         $form->handleRequest($request);
@@ -71,8 +72,8 @@ final class GameTypeEditController extends AbstractController
             new Response(
                 null,
                 $form->isSubmitted() && !$form->isValid()
-                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK
-            )
+                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK,
+            ),
         );
     }
 }

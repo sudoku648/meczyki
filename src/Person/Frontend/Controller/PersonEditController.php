@@ -6,6 +6,7 @@ namespace Sudoku648\Meczyki\Person\Frontend\Controller;
 
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
 use Sudoku648\Meczyki\Person\Domain\Service\PersonManagerInterface;
+use Sudoku648\Meczyki\Person\Frontend\Factory\UpdatePersonDtoFactory;
 use Sudoku648\Meczyki\Person\Frontend\Form\PersonType;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\PersonVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
@@ -25,6 +26,7 @@ final class PersonEditController extends AbstractController
     public function __construct(
         private readonly TranslatorInterface $translator,
         private readonly BreadcrumbBuilder $breadcrumbBuilder,
+        private readonly UpdatePersonDtoFactory $factory,
         private readonly PersonManagerInterface $manager,
     ) {
     }
@@ -40,7 +42,7 @@ final class PersonEditController extends AbstractController
             ->add('people_list')
             ->add('person_edit', ['person_id' => $person->getId()]);
 
-        $dto = $this->manager->createDto($person);
+        $dto = $this->factory->fromEntity($person);
 
         $form = $this->createForm(PersonType::class, $dto);
         $form->handleRequest($request);
@@ -71,8 +73,8 @@ final class PersonEditController extends AbstractController
             new Response(
                 null,
                 $form->isSubmitted() && !$form->isValid()
-                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK
-            )
+                    ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK,
+            ),
         );
     }
 }

@@ -10,8 +10,9 @@ use Sudoku648\Meczyki\User\Domain\Entity\User;
 use Sudoku648\Meczyki\User\Domain\Persistence\UserRepositoryInterface;
 use Sudoku648\Meczyki\User\Domain\Service\UserManagerInterface;
 use Sudoku648\Meczyki\User\Domain\ValueObject\Username;
-use Sudoku648\Meczyki\User\Frontend\Dto\UserDto;
-use Sudoku648\Meczyki\User\Frontend\Factory\UserFactory;
+use Sudoku648\Meczyki\User\Frontend\Dto\CreateUserDto;
+use Sudoku648\Meczyki\User\Frontend\Dto\UpdateUserDto;
+use Sudoku648\Meczyki\User\Frontend\Factory\UpdateUserDtoFactory;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -22,12 +23,12 @@ readonly class UserManager implements UserManagerInterface
         private TokenStorageInterface $tokenStorage,
         private RequestStack $requestStack,
         private UserPasswordHasherInterface $passwordHasher,
-        private UserFactory $factory,
+        private UpdateUserDtoFactory $factory,
         private UserRepositoryInterface $repository,
     ) {
     }
 
-    public function create(UserDto $dto, bool $isSuperAdmin = false): User
+    public function create(CreateUserDto $dto, bool $isSuperAdmin = false): User
     {
         $user = new User(Username::fromString($dto->username), '');
         $user->setOrRemoveSuperAdminRole(!$isSuperAdmin);
@@ -39,7 +40,7 @@ readonly class UserManager implements UserManagerInterface
         return $user;
     }
 
-    public function edit(User $user, UserDto $dto): User
+    public function edit(User $user, UpdateUserDto $dto): User
     {
         $user->setUsername(Username::fromString($dto->username));
 
@@ -86,11 +87,6 @@ readonly class UserManager implements UserManagerInterface
         $user->unbindPerson();
 
         $this->repository->persist($user);
-    }
-
-    public function createDto(User $user): UserDto
-    {
-        return $this->factory->createDto($user);
     }
 
     public function logout(): void

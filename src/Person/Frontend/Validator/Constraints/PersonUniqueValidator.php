@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\Person\Frontend\Validator\Constraints;
 
 use Sudoku648\Meczyki\Person\Domain\Persistence\PersonRepositoryInterface;
-use Sudoku648\Meczyki\Person\Frontend\Dto\PersonDto;
+use Sudoku648\Meczyki\Person\Frontend\Dto\CreatePersonDto;
+use Sudoku648\Meczyki\Person\Frontend\Dto\UpdatePersonDto;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
+
+use function sprintf;
 
 final class PersonUniqueValidator extends ConstraintValidator
 {
@@ -27,8 +30,8 @@ final class PersonUniqueValidator extends ConstraintValidator
             return;
         }
 
-        if (!$value instanceof PersonDto) {
-            throw new UnexpectedTypeException($constraint, PersonDto::class);
+        if (!$value instanceof CreatePersonDto && !$value instanceof UpdatePersonDto) {
+            throw new UnexpectedTypeException($constraint, sprintf('%s or %s', CreatePersonDto::class, UpdatePersonDto::class));
         }
 
         if (null === $value->mobilePhone) {
@@ -37,7 +40,7 @@ final class PersonUniqueValidator extends ConstraintValidator
 
         $existsMobilePhone = $this->repository->existsWithMobilePhoneAndId(
             $value->mobilePhone,
-            $value->getId(),
+            $value->personId ?? null,
         );
         if ($existsMobilePhone) {
             $this->context->buildViolation($constraint->mobilePhoneExists)->atPath('mobilePhone')->addViolation();
