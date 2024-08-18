@@ -10,9 +10,8 @@ use Sudoku648\Meczyki\Person\Domain\Service\PersonManagerInterface;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\FirstName;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\LastName;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\Pesel;
-use Sudoku648\Meczyki\Person\Frontend\Dto\CreatePersonDto;
 use Sudoku648\Meczyki\Person\Frontend\Dto\EditPersonalInfoDto;
-use Sudoku648\Meczyki\Person\Frontend\Dto\UpdatePersonDto;
+use Sudoku648\Meczyki\Person\Frontend\Dto\PersonDto;
 use Sudoku648\Meczyki\Person\Infrastructure\Mapper\MatchGameFunctionMapper;
 use Sudoku648\Meczyki\Shared\Domain\ValueObject\Address;
 use Sudoku648\Meczyki\Shared\Domain\ValueObject\Iban;
@@ -27,7 +26,7 @@ readonly class PersonManager implements PersonManagerInterface
     ) {
     }
 
-    public function create(CreatePersonDto $dto): Person
+    public function create(PersonDto $dto): Person
     {
         $person = new Person(
             FirstName::fromString($dto->firstName),
@@ -41,7 +40,7 @@ readonly class PersonManager implements PersonManagerInterface
         return $person;
     }
 
-    public function edit(Person $person, UpdatePersonDto $dto): Person
+    public function edit(Person $person, PersonDto $dto): Person
     {
         $person->setFirstName(FirstName::fromString($dto->firstName));
         $person->setLastName(LastName::fromString($dto->lastName));

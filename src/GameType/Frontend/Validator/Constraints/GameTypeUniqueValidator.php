@@ -6,13 +6,10 @@ namespace Sudoku648\Meczyki\GameType\Frontend\Validator\Constraints;
 
 use Sudoku648\Meczyki\GameType\Domain\Persistence\GameTypeRepositoryInterface;
 use Sudoku648\Meczyki\GameType\Domain\ValueObject\GameTypeName;
-use Sudoku648\Meczyki\GameType\Frontend\Dto\CreateGameTypeDto;
-use Sudoku648\Meczyki\GameType\Frontend\Dto\UpdateGameTypeDto;
+use Sudoku648\Meczyki\GameType\Frontend\Dto\GameTypeDto;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
-
-use function sprintf;
 
 final class GameTypeUniqueValidator extends ConstraintValidator
 {
@@ -31,8 +28,8 @@ final class GameTypeUniqueValidator extends ConstraintValidator
             return;
         }
 
-        if (!$value instanceof CreateGameTypeDto && !$value instanceof UpdateGameTypeDto) {
-            throw new UnexpectedTypeException($constraint, sprintf('%s or %s', CreateGameTypeDto::class, UpdateGameTypeDto::class));
+        if (!$value instanceof GameTypeDto) {
+            throw new UnexpectedTypeException($constraint, GameTypeDto::class);
         }
 
         if (null === $value->name) {
@@ -41,7 +38,7 @@ final class GameTypeUniqueValidator extends ConstraintValidator
 
         $existsName = $this->repository->existsWithNameAndId(
             GameTypeName::fromString($value->name),
-            $value->gameTypeId ?? null,
+            $value->gameTypeId,
         );
         if ($existsName) {
             $this->context->buildViolation($constraint->nameExists)->atPath('name')->addViolation();

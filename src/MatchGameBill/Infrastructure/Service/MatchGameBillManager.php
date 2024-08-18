@@ -13,8 +13,7 @@ use Sudoku648\Meczyki\MatchGameBill\Domain\Service\MatchGameBillManagerInterface
 use Sudoku648\Meczyki\MatchGameBill\Domain\ValueObject\BaseEquivalentPercent;
 use Sudoku648\Meczyki\MatchGameBill\Domain\ValueObject\TaxDeductibleStakePercent;
 use Sudoku648\Meczyki\MatchGameBill\Domain\ValueObject\TaxIncomeStakePercent;
-use Sudoku648\Meczyki\MatchGameBill\Frontend\Dto\CreateMatchGameBillDto;
-use Sudoku648\Meczyki\MatchGameBill\Frontend\Dto\UpdateMatchGameBillDto;
+use Sudoku648\Meczyki\MatchGameBill\Frontend\Dto\MatchGameBillDto;
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
 use Sudoku648\Meczyki\Person\Domain\ValueObject\MatchGameFunction;
 use Sudoku648\Meczyki\Shared\Domain\ValueObject\Money;
@@ -29,7 +28,7 @@ readonly class MatchGameBillManager implements MatchGameBillManagerInterface
     ) {
     }
 
-    public function create(CreateMatchGameBillDto $dto, Person $person): MatchGameBill
+    public function create(MatchGameBillDto $dto, Person $person): MatchGameBill
     {
         $matchGameBill = new MatchGameBill(
             $person,
@@ -48,7 +47,7 @@ readonly class MatchGameBillManager implements MatchGameBillManagerInterface
         return $matchGameBill;
     }
 
-    public function edit(MatchGameBill $matchGameBill, UpdateMatchGameBillDto $dto): MatchGameBill
+    public function edit(MatchGameBill $matchGameBill, MatchGameBillDto $dto): MatchGameBill
     {
         Assert::same($matchGameBill->getMatchGame()->getId(), $dto->matchGame->getId());
 

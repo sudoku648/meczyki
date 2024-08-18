@@ -8,8 +8,7 @@ use Sudoku648\Meczyki\Club\Domain\Entity\Club;
 use Sudoku648\Meczyki\Club\Domain\Persistence\ClubRepositoryInterface;
 use Sudoku648\Meczyki\Club\Domain\Service\ClubManagerInterface;
 use Sudoku648\Meczyki\Club\Domain\ValueObject\ClubName;
-use Sudoku648\Meczyki\Club\Frontend\Dto\CreateClubDto;
-use Sudoku648\Meczyki\Club\Frontend\Dto\UpdateClubDto;
+use Sudoku648\Meczyki\Club\Frontend\Dto\ClubDto;
 use Sudoku648\Meczyki\Image\Domain\Message\DeleteImageMessage;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -21,7 +20,7 @@ readonly class ClubManager implements ClubManagerInterface
     ) {
     }
 
-    public function create(CreateClubDto $dto): Club
+    public function create(ClubDto $dto): Club
     {
         $club = new Club(ClubName::fromString($dto->name));
         $club->setEmblem($dto->emblem);
@@ -31,7 +30,7 @@ readonly class ClubManager implements ClubManagerInterface
         return $club;
     }
 
-    public function edit(Club $club, UpdateClubDto $dto): Club
+    public function edit(Club $club, ClubDto $dto): Club
     {
         $club->setName(ClubName::fromString($dto->name));
         $oldEmblem = $club->getEmblem();

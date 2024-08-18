@@ -15,10 +15,10 @@ use Sudoku648\Meczyki\User\Domain\Entity\User;
 #[MatchGameAssert\MatchGameSeasonAndDate]
 #[MatchGameAssert\MatchGameSeasonAndRound]
 #[MatchGameAssert\MatchGameDuplicatePeople]
-final class UpdateMatchGameDto
+final class MatchGameDto
 {
     public function __construct(
-        public MatchGameId $matchGameId,
+        public ?MatchGameId $matchGameId = null,
         public ?User $user = null,
         #[MatchGameAssert\HomeTeamRequirements]
         public ?Team $homeTeam = null,

@@ -10,7 +10,6 @@ use Sudoku648\Meczyki\Shared\Frontend\Controller\Enums\FlashType;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\Traits\RedirectTrait;
 use Sudoku648\Meczyki\Shared\Frontend\Service\BreadcrumbBuilder;
 use Sudoku648\Meczyki\User\Domain\Service\UserManagerInterface;
-use Sudoku648\Meczyki\User\Frontend\Dto\CreateUserDto;
 use Sudoku648\Meczyki\User\Frontend\Form\UserCreateType;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,7 +36,7 @@ final class UserCreateController extends AbstractController
             ->add('users_list')
             ->add('user_create');
 
-        $form = $this->createForm(UserCreateType::class, new CreateUserDto());
+        $form = $this->createForm(UserCreateType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

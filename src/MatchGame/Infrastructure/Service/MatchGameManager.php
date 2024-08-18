@@ -11,8 +11,7 @@ use Sudoku648\Meczyki\MatchGame\Domain\Service\MatchGameManagerInterface;
 use Sudoku648\Meczyki\MatchGame\Domain\ValueObject\Round;
 use Sudoku648\Meczyki\MatchGame\Domain\ValueObject\Season;
 use Sudoku648\Meczyki\MatchGame\Domain\ValueObject\Venue;
-use Sudoku648\Meczyki\MatchGame\Frontend\Dto\CreateMatchGameDto;
-use Sudoku648\Meczyki\MatchGame\Frontend\Dto\UpdateMatchGameDto;
+use Sudoku648\Meczyki\MatchGame\Frontend\Dto\MatchGameDto;
 use Sudoku648\Meczyki\User\Domain\Entity\User;
 
 readonly class MatchGameManager implements MatchGameManagerInterface
@@ -23,7 +22,7 @@ readonly class MatchGameManager implements MatchGameManagerInterface
     ) {
     }
 
-    public function create(CreateMatchGameDto $dto, User $user): MatchGame
+    public function create(MatchGameDto $dto, User $user): MatchGame
     {
         $matchGame = new MatchGame(
             $user,
@@ -52,7 +51,7 @@ readonly class MatchGameManager implements MatchGameManagerInterface
         return $matchGame;
     }
 
-    public function edit(MatchGame $matchGame, UpdateMatchGameDto $dto): MatchGame
+    public function edit(MatchGame $matchGame, MatchGameDto $dto): MatchGame
     {
         $matchGame->setHomeTeam($dto->homeTeam);
         $matchGame->setAwayTeam($dto->awayTeam);

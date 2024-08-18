@@ -8,10 +8,10 @@ use Sudoku648\Meczyki\Person\Domain\ValueObject\PersonId;
 use Sudoku648\Meczyki\Person\Frontend\Validator\Constraints as PersonAssert;
 
 #[PersonAssert\PersonUnique]
-final class UpdatePersonDto
+final class PersonDto
 {
     public function __construct(
-        public PersonId $personId,
+        public ?PersonId $personId = null,
         #[PersonAssert\FirstNameRequirements]
         public ?string $firstName = null,
         #[PersonAssert\LastNameRequirements]

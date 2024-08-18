@@ -6,7 +6,7 @@ namespace Sudoku648\Meczyki\Person\Frontend\Controller;
 
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
 use Sudoku648\Meczyki\Person\Domain\Service\PersonManagerInterface;
-use Sudoku648\Meczyki\Person\Frontend\Factory\UpdatePersonDtoFactory;
+use Sudoku648\Meczyki\Person\Frontend\Factory\PersonDtoFactory;
 use Sudoku648\Meczyki\Person\Frontend\Form\PersonType;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\PersonVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
@@ -26,7 +26,7 @@ final class PersonEditController extends AbstractController
     public function __construct(
         private readonly TranslatorInterface $translator,
         private readonly BreadcrumbBuilder $breadcrumbBuilder,
-        private readonly UpdatePersonDtoFactory $factory,
+        private readonly PersonDtoFactory $factory,
         private readonly PersonManagerInterface $manager,
     ) {
     }

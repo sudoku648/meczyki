@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\Person\Domain\Service;
 
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
-use Sudoku648\Meczyki\Person\Frontend\Dto\CreatePersonDto;
 use Sudoku648\Meczyki\Person\Frontend\Dto\EditPersonalInfoDto;
-use Sudoku648\Meczyki\Person\Frontend\Dto\UpdatePersonDto;
+use Sudoku648\Meczyki\Person\Frontend\Dto\PersonDto;
 
 interface PersonManagerInterface
 {
-    public function create(CreatePersonDto $dto): Person;
+    public function create(PersonDto $dto): Person;
 
-    public function edit(Person $person, UpdatePersonDto $dto): Person;
+    public function edit(Person $person, PersonDto $dto): Person;
 
     public function editPersonalInfo(Person $person, EditPersonalInfoDto $dto): Person;
 

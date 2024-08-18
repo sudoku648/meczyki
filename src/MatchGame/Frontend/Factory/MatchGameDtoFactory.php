@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\MatchGame\Frontend\Factory;
 
 use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGame;
-use Sudoku648\Meczyki\MatchGame\Frontend\Dto\UpdateMatchGameDto;
+use Sudoku648\Meczyki\MatchGame\Frontend\Dto\MatchGameDto;
 
-class UpdateMatchGameDtoFactory
+class MatchGameDtoFactory
 {
-    public static function fromEntity(MatchGame $matchGame): UpdateMatchGameDto
+    public static function fromEntity(MatchGame $matchGame): MatchGameDto
     {
-        return new UpdateMatchGameDto(
+        return new MatchGameDto(
             $matchGame->getId(),
             $matchGame->getUser(),
             $matchGame->getHomeTeam(),

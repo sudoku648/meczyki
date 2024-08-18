@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\GameType\Frontend\Controller;
 
 use Sudoku648\Meczyki\GameType\Domain\Service\GameTypeManagerInterface;
-use Sudoku648\Meczyki\GameType\Frontend\Dto\CreateGameTypeDto;
 use Sudoku648\Meczyki\GameType\Frontend\Form\GameTypeType;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\GameTypeVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
@@ -37,7 +36,7 @@ final class GameTypeCreateController extends AbstractController
             ->add('game_types_list')
             ->add('game_type_create');
 
-        $form = $this->createForm(GameTypeType::class, new CreateGameTypeDto());
+        $form = $this->createForm(GameTypeType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

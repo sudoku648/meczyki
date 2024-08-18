@@ -9,8 +9,7 @@ use Sudoku648\Meczyki\Team\Domain\Persistence\TeamRepositoryInterface;
 use Sudoku648\Meczyki\Team\Domain\Service\TeamManagerInterface;
 use Sudoku648\Meczyki\Team\Domain\ValueObject\TeamName;
 use Sudoku648\Meczyki\Team\Domain\ValueObject\TeamShortName;
-use Sudoku648\Meczyki\Team\Frontend\Dto\CreateTeamDto;
-use Sudoku648\Meczyki\Team\Frontend\Dto\UpdateTeamDto;
+use Sudoku648\Meczyki\Team\Frontend\Dto\TeamDto;
 use Webmozart\Assert\Assert;
 
 readonly class TeamManager implements TeamManagerInterface
@@ -20,7 +19,7 @@ readonly class TeamManager implements TeamManagerInterface
     ) {
     }
 
-    public function create(CreateTeamDto $dto): Team
+    public function create(TeamDto $dto): Team
     {
         $team = new Team(
             TeamName::fromString($dto->name),
@@ -34,7 +33,7 @@ readonly class TeamManager implements TeamManagerInterface
         return $team;
     }
 
-    public function edit(Team $team, UpdateTeamDto $dto): Team
+    public function edit(Team $team, TeamDto $dto): Team
     {
         Assert::same($team->getClub()->getId(), $dto->club->getId());
 

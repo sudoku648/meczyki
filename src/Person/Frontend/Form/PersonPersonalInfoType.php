@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\Person\Frontend\Form;
 
+use Sudoku648\Meczyki\Person\Frontend\Dto\EditPersonalInfoDto;
 use Sudoku648\Meczyki\Shared\Domain\ValueObject\Voivodeship;
 use Sudoku648\Meczyki\Shared\Frontend\Form\DataTransformer\IbanTransformer;
 use Symfony\Component\Form\AbstractType;
@@ -80,6 +81,7 @@ class PersonPersonalInfoType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
+            'data_class'         => EditPersonalInfoDto::class,
             'translation_domain' => 'Person',
         ]);
     }

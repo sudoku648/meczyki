@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\Person\Frontend\Form;
 
 use Sudoku648\Meczyki\Person\Domain\ValueObject\MatchGameFunction;
+use Sudoku648\Meczyki\Person\Frontend\Dto\PersonDto;
 use Sudoku648\Meczyki\Shared\Frontend\Form\DataTransformer\PolishMobilePhoneTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
@@ -53,6 +54,7 @@ class PersonType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
+            'data_class'         => PersonDto::class,
             'translation_domain' => 'Person',
         ]);
     }

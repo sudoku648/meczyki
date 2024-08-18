@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\Tests\Form;
 
-use Sudoku648\Meczyki\Person\Frontend\Dto\PersonDto;
+use Sudoku648\Meczyki\Person\Frontend\Dto\EditPersonalInfoDto;
 use Sudoku648\Meczyki\Person\Frontend\Form\PersonPersonalInfoType;
 use Sudoku648\Meczyki\Shared\Frontend\Form\DataTransformer\IbanTransformer;
 use Symfony\Component\Form\PreloadedExtension;
@@ -36,10 +36,10 @@ class PersonPersonalInfoTypeTest extends TypeTestCase
             'iban' => '10105000997603123456789123',
         ];
 
-        $model = new PersonDto();
+        $model = new EditPersonalInfoDto();
         $form  = $this->factory->create(PersonPersonalInfoType::class, $model);
 
-        $expected       = new PersonDto();
+        $expected       = new EditPersonalInfoDto();
         $expected->iban = 'PL' . $formData['iban'];
 
         $form->submit($formData);

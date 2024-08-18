@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\User\Frontend\Form;
 
+use Sudoku648\Meczyki\User\Frontend\Dto\UserDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,10 +23,9 @@ class UserBasicType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(
-            [
-                'translation_domain' => 'User',
-            ]
-        );
+        $resolver->setDefaults([
+            'data_class'         => UserDto::class,
+            'translation_domain' => 'User',
+        ]);
     }
 }

@@ -6,13 +6,10 @@ namespace Sudoku648\Meczyki\Club\Frontend\Validator\Constraints;
 
 use Sudoku648\Meczyki\Club\Domain\Persistence\ClubRepositoryInterface;
 use Sudoku648\Meczyki\Club\Domain\ValueObject\ClubName;
-use Sudoku648\Meczyki\Club\Frontend\Dto\CreateClubDto;
-use Sudoku648\Meczyki\Club\Frontend\Dto\UpdateClubDto;
+use Sudoku648\Meczyki\Club\Frontend\Dto\ClubDto;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
-
-use function sprintf;
 
 final class ClubUniqueValidator extends ConstraintValidator
 {
@@ -31,8 +28,8 @@ final class ClubUniqueValidator extends ConstraintValidator
             return;
         }
 
-        if (!$value instanceof CreateClubDto && !$value instanceof UpdateClubDto) {
-            throw new UnexpectedTypeException($constraint, sprintf('%s or %s', CreateClubDto::class, UpdateClubDto::class));
+        if (!$value instanceof ClubDto) {
+            throw new UnexpectedTypeException($constraint, ClubDto::class);
         }
 
         if (null === $value->name) {
@@ -41,7 +38,7 @@ final class ClubUniqueValidator extends ConstraintValidator
 
         $existsName = $this->repository->existsWithNameAndId(
             ClubName::fromString($value->name),
-            $value->clubId ?? null,
+            $value->clubId,
         );
         if ($existsName) {
             $this->context->buildViolation($constraint->nameExists)->atPath('name')->addViolation();

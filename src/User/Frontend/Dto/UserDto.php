@@ -9,10 +9,10 @@ use Sudoku648\Meczyki\User\Frontend\Validator\Constraints as UserAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[UserAssert\UserUnique]
-class UpdateUserDto
+class UserDto
 {
     public function __construct(
-        public UserId $userId,
+        public ?UserId $userId = null,
         #[UserAssert\UsernameRequirements]
         public ?string $username = null,
         #[UserAssert\PlainPasswordRequirements]

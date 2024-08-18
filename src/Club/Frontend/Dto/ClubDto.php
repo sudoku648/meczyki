@@ -10,10 +10,10 @@ use Sudoku648\Meczyki\Club\Frontend\Validator\Constraints\NameRequirements;
 use Sudoku648\Meczyki\Image\Domain\Entity\Image;
 
 #[ClubUnique]
-final class UpdateClubDto
+final class ClubDto
 {
     public function __construct(
-        public ClubId $clubId,
+        public ?ClubId $clubId = null,
         #[NameRequirements]
         public ?string $name = null,
         public ?Image $emblem = null,

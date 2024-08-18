@@ -10,10 +10,10 @@ use Sudoku648\Meczyki\Image\Domain\Entity\Image;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[GameTypeAssert\GameTypeUnique]
-final class UpdateGameTypeDto
+final class GameTypeDto
 {
     public function __construct(
-        public GameTypeId $gameTypeId,
+        public ?GameTypeId $gameTypeId = null,
         #[GameTypeAssert\NameRequirements]
         public ?string $name = null,
         #[Assert\Type('boolean')]

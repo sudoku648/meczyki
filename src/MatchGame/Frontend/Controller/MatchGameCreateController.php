@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\MatchGame\Frontend\Controller;
 
 use Sudoku648\Meczyki\MatchGame\Domain\Service\MatchGameManagerInterface;
-use Sudoku648\Meczyki\MatchGame\Frontend\Dto\CreateMatchGameDto;
 use Sudoku648\Meczyki\MatchGame\Frontend\Form\MatchGameType;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\MatchGameVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
@@ -37,7 +36,7 @@ final class MatchGameCreateController extends AbstractController
             ->add('match_games_list')
             ->add('match_game_create');
 
-        $form = $this->createForm(MatchGameType::class, new CreateMatchGameDto());
+        $form = $this->createForm(MatchGameType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

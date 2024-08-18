@@ -8,8 +8,7 @@ use Sudoku648\Meczyki\GameType\Domain\Entity\GameType;
 use Sudoku648\Meczyki\GameType\Domain\Persistence\GameTypeRepositoryInterface;
 use Sudoku648\Meczyki\GameType\Domain\Service\GameTypeManagerInterface;
 use Sudoku648\Meczyki\GameType\Domain\ValueObject\GameTypeName;
-use Sudoku648\Meczyki\GameType\Frontend\Dto\CreateGameTypeDto;
-use Sudoku648\Meczyki\GameType\Frontend\Dto\UpdateGameTypeDto;
+use Sudoku648\Meczyki\GameType\Frontend\Dto\GameTypeDto;
 use Sudoku648\Meczyki\Image\Domain\Message\DeleteImageMessage;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -21,7 +20,7 @@ readonly class GameTypeManager implements GameTypeManagerInterface
     ) {
     }
 
-    public function create(CreateGameTypeDto $dto): GameType
+    public function create(GameTypeDto $dto): GameType
     {
         $gameType = new GameType(
             GameTypeName::fromString($dto->name),
@@ -33,7 +32,7 @@ readonly class GameTypeManager implements GameTypeManagerInterface
         return $gameType;
     }
 
-    public function edit(GameType $gameType, UpdateGameTypeDto $dto): GameType
+    public function edit(GameType $gameType, GameTypeDto $dto): GameType
     {
         $gameType->setName(GameTypeName::fromString($dto->name));
         $gameType->setIsOfficial(true === $dto->isOfficial);

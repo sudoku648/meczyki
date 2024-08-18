@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\MatchGame\Frontend\Validator\Constraints;
 
-use Sudoku648\Meczyki\MatchGame\Frontend\Dto\CreateMatchGameDto;
-use Sudoku648\Meczyki\MatchGame\Frontend\Dto\UpdateMatchGameDto;
+use Sudoku648\Meczyki\MatchGame\Frontend\Dto\MatchGameDto;
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
-use function sprintf;
+use function array_diff_assoc;
+use function array_intersect;
+use function array_keys;
+use function array_unique;
+use function get_object_vars;
 
 final class MatchGameDuplicatePeopleValidator extends ConstraintValidator
 {
@@ -25,12 +28,12 @@ final class MatchGameDuplicatePeopleValidator extends ConstraintValidator
             return;
         }
 
-        if (!$value instanceof CreateMatchGameDto && !$value instanceof UpdateMatchGameDto) {
-            throw new UnexpectedTypeException($constraint, sprintf('%s or %s', CreateMatchGameDto::class, UpdateMatchGameDto::class));
+        if (!$value instanceof MatchGameDto) {
+            throw new UnexpectedTypeException($constraint, MatchGameDto::class);
         }
 
         $allPeopleIds = [];
-        foreach (\get_object_vars($value) as $prop => $propValue) {
+        foreach (get_object_vars($value) as $prop => $propValue) {
             if (!$propValue instanceof Person) {
                 continue;
             }
@@ -38,12 +41,12 @@ final class MatchGameDuplicatePeopleValidator extends ConstraintValidator
             $allPeopleIds[$prop] = $propValue->getId();
         }
 
-        $duplicates = \array_keys(
-            \array_intersect(
+        $duplicates = array_keys(
+            array_intersect(
                 $allPeopleIds,
-                \array_diff_assoc(
+                array_diff_assoc(
                     $allPeopleIds,
-                    \array_unique($allPeopleIds),
+                    array_unique($allPeopleIds),
                 ),
             ),
         );

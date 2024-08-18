@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sudoku648\Meczyki\GameType\Frontend\Form;
 
+use Sudoku648\Meczyki\GameType\Frontend\Dto\GameTypeDto;
 use Sudoku648\Meczyki\Image\Frontend\Form\Constraint\ImageConstraint;
 use Sudoku648\Meczyki\Shared\Frontend\Form\EventListener\ImageListener;
 use Symfony\Component\Form\AbstractType;
@@ -50,6 +51,7 @@ class GameTypeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
+            'data_class'         => GameTypeDto::class,
             'translation_domain' => 'GameType',
         ]);
     }

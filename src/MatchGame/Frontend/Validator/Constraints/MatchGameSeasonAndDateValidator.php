@@ -5,15 +5,13 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\MatchGame\Frontend\Validator\Constraints;
 
 use InvalidArgumentException;
-use Sudoku648\Meczyki\MatchGame\Frontend\Dto\CreateMatchGameDto;
-use Sudoku648\Meczyki\MatchGame\Frontend\Dto\UpdateMatchGameDto;
+use Sudoku648\Meczyki\MatchGame\Frontend\Dto\MatchGameDto;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 use function count;
 use function explode;
-use function sprintf;
 
 final class MatchGameSeasonAndDateValidator extends ConstraintValidator
 {
@@ -27,8 +25,8 @@ final class MatchGameSeasonAndDateValidator extends ConstraintValidator
             return;
         }
 
-        if (!$value instanceof CreateMatchGameDto && !$value instanceof UpdateMatchGameDto) {
-            throw new UnexpectedTypeException($constraint, sprintf('%s or %s', CreateMatchGameDto::class, UpdateMatchGameDto::class));
+        if (!$value instanceof MatchGameDto) {
+            throw new UnexpectedTypeException($constraint, MatchGameDto::class);
         }
 
         if (null === $value->season || null === $value->dateTime) {

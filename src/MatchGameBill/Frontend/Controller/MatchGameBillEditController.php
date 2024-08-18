@@ -7,7 +7,7 @@ namespace Sudoku648\Meczyki\MatchGameBill\Frontend\Controller;
 use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGame;
 use Sudoku648\Meczyki\MatchGameBill\Domain\Entity\MatchGameBill;
 use Sudoku648\Meczyki\MatchGameBill\Domain\Service\MatchGameBillManagerInterface;
-use Sudoku648\Meczyki\MatchGameBill\Frontend\Factory\UpdateMatchGameBillDtoFactory;
+use Sudoku648\Meczyki\MatchGameBill\Frontend\Factory\MatchGameBillDtoFactory;
 use Sudoku648\Meczyki\MatchGameBill\Frontend\Form\MatchGameBillType;
 use Sudoku648\Meczyki\Security\Infrastructure\Voter\MatchGameBillVoter;
 use Sudoku648\Meczyki\Shared\Frontend\Controller\AbstractController;
@@ -43,7 +43,7 @@ final class MatchGameBillEditController extends AbstractController
                 'match_game_bill_id' => $matchGameBill->getId(),
             ]);
 
-        $dto = UpdateMatchGameBillDtoFactory::fromEntity($matchGameBill);
+        $dto = MatchGameBillDtoFactory::fromEntity($matchGameBill);
 
         $form = $this->createForm(MatchGameBillType::class, $dto);
         $form->handleRequest($request);
