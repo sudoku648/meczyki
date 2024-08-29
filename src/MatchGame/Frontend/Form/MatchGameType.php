@@ -94,9 +94,10 @@ class MatchGameType extends AbstractType
                         '2021/2022' => '2021/2022',
                         '2022/2023' => '2022/2023',
                         '2023/2024' => '2023/2024',
-                        '2024/2025' => '2024/2025', // @TODO translations
+                        '2024/2025' => '2024/2025', // @TODO generate dynamically
                     ],
-                    'required' => false,
+                    'required'                  => false,
+                    'choice_translation_domain' => false,
                 ]
             )
             ->add(

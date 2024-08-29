@@ -15,6 +15,7 @@ class MatchGameBillDtoFactory
             $matchGameBill->getId(),
             $matchGameBill->getPerson(),
             $matchGameBill->getMatchGame(),
+            $matchGameBill->getFunction(),
             $matchGameBill->getBaseEquivalent()->getAmount(),
             (int) $matchGameBill->getPercentOfBaseEquivalent()->getValue(),
             (int) $matchGameBill->getTaxDeductibleStakePercent()->getValue(),

@@ -10,8 +10,10 @@ use Symfony\Component\Validator\Constraint;
 #[Attribute(Attribute::TARGET_CLASS)]
 final class ClubUnique extends Constraint
 {
+    protected const string NAME_EXISTS_MESSAGE = 'Name already exists.';
+
     public function __construct(
-        public string $nameExists = 'Nazwa jest już wykorzystywana.',// @TODO
+        public string $nameExists = self::NAME_EXISTS_MESSAGE,
         mixed $options = null,
         ?array $groups = null,
         mixed $payload = null,

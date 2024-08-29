@@ -1,4 +1,5 @@
 Game types: Typy rozgrywek
+Game type: Typ rozgrywek
 Add game type: Dodaj typ rozgrywek
 Edit game type: Edytuj typ rozgrywek
 Name: Nazwa
@@ -24,3 +25,4 @@ Game types have been deleted.: Typy rozgrywek zostały usunięte.
 Not all chosen game types have been deleted.: Nie wszystkie wybrane typy rozgrywek zostały usunięte.
 Image has been deleted.: Obrazek został usunięty.
 Error loading image: Błąd ładowania obrazu
+Name already exists.: Nazwa jest już wykorzystywana.

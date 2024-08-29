@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Sudoku648\Meczyki\MatchGameBill\Frontend\Form;
 
 use Sudoku648\Meczyki\MatchGameBill\Frontend\Dto\MatchGameBillDto;
+use Sudoku648\Meczyki\Person\Domain\ValueObject\MatchGameFunction;
 use Sudoku648\Meczyki\Shared\Frontend\Form\DataTransformer\PercentageTransformer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -25,6 +27,15 @@ class MatchGameBillType extends AbstractType
         $data = $builder->getData();
 
         $builder
+            ->add(
+                'matchGameFunction',
+                EnumType::class,
+                [
+                    'choice_label'              => fn (MatchGameFunction $function) => $function->getName(),
+                    'choice_translation_domain' => 'Person',
+                    'class'                     => MatchGameFunction::class,
+                ]
+            )
             ->add(
                 'baseEquivalent',
                 MoneyType::class,

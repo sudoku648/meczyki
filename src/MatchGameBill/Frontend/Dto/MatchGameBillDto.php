@@ -8,6 +8,7 @@ use Sudoku648\Meczyki\MatchGame\Domain\Entity\MatchGame;
 use Sudoku648\Meczyki\MatchGameBill\Domain\ValueObject\MatchGameBillId;
 use Sudoku648\Meczyki\MatchGameBill\Frontend\Validator\Constraints as MatchGameBillAssert;
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
+use Sudoku648\Meczyki\Person\Domain\ValueObject\MatchGameFunction;
 
 final class MatchGameBillDto
 {
@@ -15,6 +16,7 @@ final class MatchGameBillDto
         public ?MatchGameBillId $matchGameBillId = null,
         public ?Person $person = null,
         public ?MatchGame $matchGame = null,
+        public ?MatchGameFunction $matchGameFunction = null,
         #[MatchGameBillAssert\BaseEquivalentRequirements]
         public ?int $baseEquivalent = null,
         #[MatchGameBillAssert\PercentOfBaseEquivalentRequirements]

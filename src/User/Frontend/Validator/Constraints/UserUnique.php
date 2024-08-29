@@ -10,8 +10,10 @@ use Symfony\Component\Validator\Constraint;
 #[Attribute(Attribute::TARGET_CLASS)]
 final class UserUnique extends Constraint
 {
+    protected const string USERNAME_EXISTS_MESSAGE = 'Username already exists.';
+
     public function __construct(
-        public string $usernameExists = 'This value is already used.',// @TODO
+        public string $usernameExists = self::USERNAME_EXISTS_MESSAGE,
         mixed $options = null,
         ?array $groups = null,
         mixed $payload = null,

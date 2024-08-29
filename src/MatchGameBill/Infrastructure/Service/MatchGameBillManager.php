@@ -15,7 +15,6 @@ use Sudoku648\Meczyki\MatchGameBill\Domain\ValueObject\TaxDeductibleStakePercent
 use Sudoku648\Meczyki\MatchGameBill\Domain\ValueObject\TaxIncomeStakePercent;
 use Sudoku648\Meczyki\MatchGameBill\Frontend\Dto\MatchGameBillDto;
 use Sudoku648\Meczyki\Person\Domain\Entity\Person;
-use Sudoku648\Meczyki\Person\Domain\ValueObject\MatchGameFunction;
 use Sudoku648\Meczyki\Shared\Domain\ValueObject\Money;
 use Webmozart\Assert\Assert;
 
@@ -33,6 +32,7 @@ readonly class MatchGameBillManager implements MatchGameBillManagerInterface
         $matchGameBill = new MatchGameBill(
             $person,
             $dto->matchGame,
+            $dto->matchGameFunction,
             Money::PLN($dto->baseEquivalent),
             BaseEquivalentPercent::byValue($dto->percentOfBaseEquivalent),
             TaxDeductibleStakePercent::byValue($dto->taxDeductibleStakePercent),
@@ -40,7 +40,6 @@ readonly class MatchGameBillManager implements MatchGameBillManagerInterface
         );
 
         $matchGameBill = $this->calculateValues($matchGameBill);
-        $matchGameBill = $this->resolveFunction($matchGameBill);
 
         $this->repository->persist($matchGameBill);
 
@@ -51,6 +50,7 @@ readonly class MatchGameBillManager implements MatchGameBillManagerInterface
     {
         Assert::same($matchGameBill->getMatchGame()->getId(), $dto->matchGame->getId());
 
+        $matchGameBill->setFunction($dto->matchGameFunction);
         $matchGameBill->setBaseEquivalent(Money::PLN($dto->baseEquivalent));
         $matchGameBill->setPercentOfBaseEquivalent(BaseEquivalentPercent::byValue($dto->percentOfBaseEquivalent));
         $matchGameBill->setTaxDeductibleStakePercent(TaxDeductibleStakePercent::byValue($dto->taxDeductibleStakePercent));
@@ -58,7 +58,6 @@ readonly class MatchGameBillManager implements MatchGameBillManagerInterface
         $matchGameBill->setUpdatedAt();
 
         $matchGameBill = $this->calculateValues($matchGameBill);
-        $matchGameBill = $this->resolveFunction($matchGameBill);
 
         $this->repository->persist($matchGameBill);
 
@@ -86,24 +85,6 @@ readonly class MatchGameBillManager implements MatchGameBillManagerInterface
             ->setIncomeTax($values->incomeTax)
             ->setEquivalentToWithdraw($values->equivalentToWithdraw)
         ;
-
-        return $matchGameBill;
-    }
-
-    private function resolveFunction(MatchGameBill $matchGameBill): MatchGameBill
-    {
-        $matchGame = $matchGameBill->getMatchGame();
-
-        $function = match ($matchGameBill->getPerson()->getId()) {
-            $matchGame->getDelegate()?->getId() => MatchGameFunction::DELEGATE,
-            $matchGame->getReferee()->getId(),
-            $matchGame->getFirstAssistantReferee()?->getId(),
-            $matchGame->getSecondAssistantReferee()?->getId(),
-            $matchGame->getFourthOfficial()?->getId()  => MatchGameFunction::REFEREE,
-            $matchGame->getRefereeObserver()?->getId() => MatchGameFunction::REFEREE_OBSERVER,
-        };
-
-        $matchGameBill->setFunction($function);
 
         return $matchGameBill;
     }

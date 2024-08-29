@@ -25,7 +25,7 @@ class MatchGameBill
     private MatchGameBillId $id;
     private ?Person $person;
     private ?MatchGame $matchGame;
-    private MatchGameFunction $function = MatchGameFunction::REFEREE;
+    private MatchGameFunction $function;
     private Money $baseEquivalent;
     private BaseEquivalentPercent $percentOfBaseEquivalent;
     private Money $grossEquivalent;
@@ -39,6 +39,7 @@ class MatchGameBill
     public function __construct(
         Person $person,
         MatchGame $matchGame,
+        MatchGameFunction $matchGameFunction,
         Money $baseEquivalent,
         BaseEquivalentPercent $percentOfBaseEquivalent,
         TaxDeductibleStakePercent $taxDeductibleStakePercent,
@@ -47,6 +48,7 @@ class MatchGameBill
         $this->id                        = MatchGameBillId::generate();
         $this->person                    = $person;
         $this->matchGame                 = $matchGame;
+        $this->matchGameFunction         = $matchGameFunction;
         $this->baseEquivalent            = $baseEquivalent;
         $this->percentOfBaseEquivalent   = $percentOfBaseEquivalent;
         $this->taxDeductibleStakePercent = $taxDeductibleStakePercent;

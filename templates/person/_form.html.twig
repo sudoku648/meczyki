@@ -10,7 +10,7 @@
     <fieldset class="border p-2 mb-3">
         <legend class="w-auto">{{'Functions'|trans({}, 'Person')}}</legend>
         {% for function in form.functions %}
-            {{ form_row(function, {'label': function.vars.label|trans({}, 'Person')}) }}
+            {{ form_row(function, {'label': function.vars.label}) }}
         {% endfor %}
     </fieldset>
 

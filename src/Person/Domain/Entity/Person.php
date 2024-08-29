@@ -289,7 +289,7 @@ class Person
 
     public function hasBillForMatchGame(MatchGame $matchGame): bool
     {
-        $bills = $this->matchGameBills->filter(function ($element) use ($matchGame) {
+        $bills = $this->matchGameBills->filter(function (MatchGameBill $element) use ($matchGame) {
             return $element->getMatchGame() === $matchGame;
         });
 
