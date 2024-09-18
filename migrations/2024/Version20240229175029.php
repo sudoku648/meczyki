@@ -16,7 +16,7 @@ final class Version20240229175029 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE match_game_bill ADD function VARCHAR(20) DEFAULT NULL AFTER match_game_id');
+        $this->addSql('ALTER TABLE match_game_bill ADD `function` VARCHAR(20) DEFAULT NULL AFTER match_game_id');
         $this->addSql('ALTER TABLE person ADD functions JSON NOT NULL AFTER mobile_phone');
         $this->addSql('UPDATE person SET functions = \'[]\'');
         $this->addSql('UPDATE person

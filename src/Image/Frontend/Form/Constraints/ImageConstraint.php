@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sudoku648\Meczyki\Image\Frontend\Form\Constraint;
+namespace Sudoku648\Meczyki\Image\Frontend\Form\Constraints;
 
 use Sudoku648\Meczyki\Image\Infrastructure\Service\ImageManager;
 use Symfony\Component\Validator\Constraints\Image;
