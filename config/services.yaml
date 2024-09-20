@@ -10,6 +10,7 @@ services:
         autoconfigure: true
         bind:
             $html5Validation: '%html5_validation%'
+            $projectRootDir: '%kernel.project_dir%'
 
     Sudoku648\Meczyki\:
         resource: '../src/'

@@ -6,6 +6,7 @@ namespace Sudoku648\Meczyki\MatchGameBill\Infrastructure\Service;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Sudoku648\Meczyki\MatchGameBill\Domain\Entity\MatchGameBill;
+use Sudoku648\Meczyki\MatchGameBill\Domain\Factory\MatchGameBillXlsxDataFactory;
 use Sudoku648\Meczyki\MatchGameBill\Domain\Persistence\MatchGameBillRepositoryInterface;
 use Sudoku648\Meczyki\MatchGameBill\Domain\Service\MatchGameBillCalculatorInterface;
 use Sudoku648\Meczyki\MatchGameBill\Domain\Service\MatchGameBillGeneratorInterface;
@@ -24,6 +25,7 @@ readonly class MatchGameBillManager implements MatchGameBillManagerInterface
         private MatchGameBillRepositoryInterface $repository,
         private MatchGameBillGeneratorInterface $generator,
         private MatchGameBillCalculatorInterface $calculator,
+        private MatchGameBillXlsxDataFactory $xlsxDataFactory,
     ) {
     }
 
@@ -71,7 +73,7 @@ readonly class MatchGameBillManager implements MatchGameBillManagerInterface
 
     public function generateXlsx(MatchGameBill $matchGameBill): Spreadsheet
     {
-        return $this->generator->generate($matchGameBill);
+        return $this->generator->generate($this->xlsxDataFactory->create($matchGameBill));
     }
 
     private function calculateValues(MatchGameBill $matchGameBill): MatchGameBill
